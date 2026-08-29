@@ -66,6 +66,8 @@ Product video system:
 - Wishlist experience: fixed product-card heart buttons that were missing the JavaScript selector/icon hooks, synchronized `aria-pressed`, icon, label, and header count states after AJAX, and added loading feedback.
 - Wishlist account page: replaced the old/fallback presentation with a refined BajiStyle editorial layout, live saved-product count, responsive product grid, guided empty state, and animated removal without page reload.
 - Wishlist routing: the custom My Account template now recognizes the standard `/my-account/wishlist/` endpoint used by the header and also supports its existing `?tab=wishlist` navigation.
+- Homepage product stories: added an Instagram-inspired product-video story rail directly above the hero. It automatically uses up to 12 newest published products with `_bajistyle_product_video_id` or `_product_video_url`; no duplicate video upload is required.
+- Product story viewer: added an accessible fullscreen 9:16 viewer with segmented progress, automatic advance, previous/next navigation, sound toggle, Escape support, focus restoration, and a direct product link.
 
 ## Current Task
 Test the complete video flow and visually verify the updated product-page video preview:
@@ -101,6 +103,12 @@ Test the complete video flow and visually verify the updated product-page video 
 - Updated `assets/js/main.js`: synchronizes wishlist UI state and removes items from the account grid without reload.
 - Updated `assets/css/custom.css`: added responsive editorial wishlist styling, reduced-motion support, and calm removal transitions.
 - Added `tests/wishlist-experience.test.php`: regression coverage for product-card controls, account rendering, endpoint routing, empty state, and AJAX removal.
+- Added `template-parts/product-stories.php`: queries uploaded product clips and renders the homepage story rail and viewer markup.
+- Added `assets/js/product-stories.js`: controls story playback, progress, navigation, sound, keyboard handling, and modal focus.
+- Updated `assets/css/custom.css`: added the responsive luxury/minimal story rail and fullscreen viewer styling.
+- Updated `front-page.php`: renders product stories directly before `hero-section`.
+- Updated `functions.php`: loads the dedicated story controller only on the homepage when WooCommerce is active.
+- Added `tests/homepage-product-stories.test.php`: regression coverage for placement, video sources, modal accessibility, controller loading, playback advance, and focus behavior.
 
 ## Homepage Category Products
 - Management path: WordPress Admin > Appearance > Customize > `محصولات دسته‌بندی در صفحه اصلی`.
@@ -110,6 +118,7 @@ Test the complete video flow and visually verify the updated product-page video 
 - Coupon management path: WordPress Admin > Appearance > Customize > `پیشنهاد صفحه محصول`. Leaving the coupon field empty hides the offer bar.
 - Current automated status: all four regression tests pass, all 63 PHP files pass syntax checks, and `assets/js/woocommerce.js` passes Node syntax validation.
 - Current automated status: all five regression tests pass, all 64 PHP files pass syntax checks, and `assets/js/main.js` passes Node syntax validation.
+- Current automated status: all six regression tests pass, all 67 PHP files pass syntax checks, and both `assets/js/product-stories.js` and `assets/js/main.js` pass Node syntax validation.
 
 ## Language
 Always communicate with Ebi in Finglish.

@@ -327,6 +327,19 @@ function bajistyle_enqueue_assets() {
 
 	// اسکریپت‌های اختصاصی ووکامرس فقط در صفحات مرتبط
 	if ( class_exists( 'WooCommerce' ) ) {
+		if ( is_front_page() ) {
+			wp_enqueue_script(
+				'bajistyle-product-stories',
+				BAJISTYLE_URI . '/assets/js/product-stories.js',
+				array(),
+				BAJISTYLE_VERSION,
+				array(
+					'in_footer' => true,
+					'strategy'  => 'defer',
+				)
+			);
+		}
+
 		wp_enqueue_script(
 			'bajistyle-woocommerce',
 			BAJISTYLE_URI . '/assets/js/woocommerce.js',
