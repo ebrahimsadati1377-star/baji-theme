@@ -12,152 +12,82 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 	<?php get_template_part( 'template-parts/newsletter' ); ?>
 
-	<footer id="colophon" class="baji-footer bg-baji-black text-baji-white">
-		<!-- نوار طلایی نازک بالای فوتر -->
-		<div class="h-px w-full bg-gradient-to-l from-transparent via-baji-gold/4 to-transparent"></div>
+	<footer id="colophon" class="baji-footer baji-footer-editorial">
+		<div class="baji-footer-shell">
+			<div class="baji-footer-masthead">
+				<div>
+					<span class="baji-footer-eyebrow"><?php esc_html_e( 'BajiStyle / Since 2024', 'bajistyle' ); ?></span>
+					<p><?php esc_html_e( 'برای زنانی که استایل را زندگی می‌کنند.', 'bajistyle' ); ?></p>
+				</div>
+				<a class="baji-footer-wordmark" href="<?php echo esc_url( home_url( '/' ) ); ?>" aria-label="<?php echo esc_attr( get_bloginfo( 'name' ) ); ?>">
+					<?php echo esc_html( get_bloginfo( 'name' ) ); ?>
+				</a>
+			</div>
 
-		<div class="max-w-[1280px] mx-auto px-5 md:px-10 py-16 md:py-20">
-			<div class="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-8">
-
-				<!-- ستون ۱: برند (۵ ستون) -->
-				<div class="baji-footer-brand md:col-span-5">
-					<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="inline-block mb-5">
-						<?php
-						if ( function_exists( 'the_custom_logo' ) && has_custom_logo() ) {
-							the_custom_logo();
-						} else {
-							echo '<span class="text-2xl font-light tracking-[0.2em] uppercase">' . esc_html( get_bloginfo( 'name' ) ) . '</span>';
-						}
-						?>
-					</a>
-					<p class="text-sm text-gray-400 leading-8 max-w-sm font-light">
-						<?php
-						echo esc_html(
-							get_theme_mod(
-								'bajistyle_brand_story_text',
-								__( 'BajiStyle با عشق به زیبایی و توجه به جزئیات متولد شد تا لحظات شما را خاص‌تر کند.', 'bajistyle' )
-							)
-						);
-						?>
-					</p>
-
-					<!-- شبکه‌های اجتماعی -->
-					<div class="baji-social-links flex items-center gap-3 mt-7">
+			<div class="baji-footer-grid">
+				<div class="baji-footer-about">
+					<p><?php echo esc_html( get_theme_mod( 'bajistyle_brand_story_text', __( 'انتخاب‌های زنانه و معاصر با توجه به کیفیت، فرم و جزئیاتی که ماندگار می‌شوند.', 'bajistyle' ) ) ); ?></p>
+					<div class="baji-footer-socials" aria-label="<?php esc_attr_e( 'شبکه‌های اجتماعی باجی‌استایل', 'bajistyle' ); ?>">
 						<?php
 						$socials = array(
-							'instagram' => array( 'icon' => 'fab fa-instagram', 'label' => 'اینستاگرام' ),
-							'telegram'  => array( 'icon' => 'fab fa-telegram-plane', 'label' => 'تلگرام' ),
-							'whatsapp'  => array( 'icon' => 'fab fa-whatsapp', 'label' => 'واتساپ' ),
-							'linkedin'  => array( 'icon' => 'fab fa-linkedin-in', 'label' => 'لینکدین' ),
+							'instagram' => array( 'icon' => 'fa-brands fa-instagram', 'label' => __( 'اینستاگرام', 'bajistyle' ) ),
+							'telegram'  => array( 'icon' => 'fa-brands fa-telegram', 'label' => __( 'تلگرام', 'bajistyle' ) ),
+							'whatsapp'  => array( 'icon' => 'fa-brands fa-whatsapp', 'label' => __( 'واتساپ', 'bajistyle' ) ),
+							'pinterest' => array( 'icon' => 'fa-brands fa-pinterest-p', 'label' => __( 'پینترست', 'bajistyle' ) ),
 						);
 						foreach ( $socials as $key => $social ) :
 							$url = get_theme_mod( 'bajistyle_social_' . $key );
 							if ( $url ) :
-						?>
-							<a href="<?php echo esc_url( $url ); ?>" target="_blank" rel="noopener noreferrer"
-								aria-label="<?php echo esc_attr( $social['label'] ); ?>"
-								class="w-9 h-9 rounded-full border border-gray-700 flex items-center justify-center text-gray-400 hover:border-baji-gold hover:text-baji-gold hover:-translate-y-0.5 transition-all duration-300">
-								<i class="<?php echo esc_attr( $social['icon'] ); ?> text-sm"></i>
-							</a>
-						<?php
+								?>
+								<a href="<?php echo esc_url( $url ); ?>" target="_blank" rel="noopener noreferrer" aria-label="<?php echo esc_attr( $social['label'] ); ?>">
+									<i class="<?php echo esc_attr( $social['icon'] ); ?>" aria-hidden="true"></i>
+								</a>
+								<?php
 							endif;
 						endforeach;
 						?>
 					</div>
 				</div>
 
-				<!-- ستون ۲: لینک‌های راهنما (۳ ستون) -->
-				<div class="md:col-span-3 md:col-start-7">
-					<h4 class="text-baji-gold text-xs font-medium tracking-[0.25em] uppercase mb-6"><?php esc_html_e( 'راهنمای خرید', 'bajistyle' ); ?></h4>
+				<nav class="baji-footer-navigation" aria-label="<?php esc_attr_e( 'راهنمای خرید', 'bajistyle' ); ?>">
+					<h2><?php esc_html_e( 'راهنمای خرید', 'bajistyle' ); ?></h2>
 					<?php if ( has_nav_menu( 'footer-2' ) ) : ?>
-						<?php
-						wp_nav_menu(
-							array(
-								'theme_location' => 'footer-2',
-								'container'      => false,
-								'menu_class'     => 'baji-footer-menu space-y-3 text-sm text-gray-400',
-								'link_before'    => '<span class="hover:text-baji-gold transition-colors duration-300">',
-								'link_after'     => '</span>',
-							)
-						);
-						?>
+						<?php wp_nav_menu( array( 'theme_location' => 'footer-2', 'container' => false, 'menu_class' => 'baji-footer-menu', 'depth' => 1 ) ); ?>
 					<?php else : ?>
-						<ul class="space-y-3 text-sm text-gray-400">
-							<li><a href="#" class="hover:text-baji-gold transition-colors duration-300"><?php esc_html_e( 'راهنمای انتخاب سایز', 'bajistyle' ); ?></a></li>
-							<li><a href="#" class="hover:text-baji-gold transition-colors duration-300"><?php esc_html_e( 'شرایط ارسال و تحویل', 'bajistyle' ); ?></a></li>
-							<li><a href="#" class="hover:text-baji-gold transition-colors duration-300"><?php esc_html_e( 'بازگشت و تعویض کالا', 'bajistyle' ); ?></a></li>
-							<li><a href="#" class="hover:text-baji-gold transition-colors duration-300"><?php esc_html_e( 'سؤالات متداول', 'bajistyle' ); ?></a></li>
+						<ul class="baji-footer-menu">
+							<li><a href="<?php echo esc_url( home_url( '/faq/' ) ); ?>"><?php esc_html_e( 'سؤالات متداول', 'bajistyle' ); ?></a></li>
+							<li><a href="<?php echo esc_url( home_url( '/terms/' ) ); ?>"><?php esc_html_e( 'ارسال و بازگشت کالا', 'bajistyle' ); ?></a></li>
+							<li><a href="<?php echo esc_url( home_url( '/about/' ) ); ?>"><?php esc_html_e( 'درباره باجی‌استایل', 'bajistyle' ); ?></a></li>
+							<li><a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>"><?php esc_html_e( 'تماس با ما', 'bajistyle' ); ?></a></li>
 						</ul>
 					<?php endif; ?>
+				</nav>
+
+				<div class="baji-footer-contact">
+					<h2><?php esc_html_e( 'ارتباط', 'bajistyle' ); ?></h2>
+					<?php $phone = get_theme_mod( 'bajistyle_contact_phone' ); ?>
+					<?php $email = get_theme_mod( 'bajistyle_contact_email' ); ?>
+					<?php $address = get_theme_mod( 'bajistyle_contact_address' ); ?>
+					<?php if ( $phone ) : ?><a class="baji-footer-contact__primary" href="tel:<?php echo esc_attr( preg_replace( '/\s+/', '', $phone ) ); ?>"><?php echo esc_html( $phone ); ?></a><?php endif; ?>
+					<?php if ( $email ) : ?><a href="mailto:<?php echo esc_attr( $email ); ?>"><?php echo esc_html( $email ); ?></a><?php endif; ?>
+					<?php if ( $address ) : ?><address><?php echo esc_html( $address ); ?></address><?php endif; ?>
 				</div>
 
-				<!-- ستون ۳: ارتباط با ما (۴ ستون) -->
-				<div class="md:col-span-4">
-					<h4 class="text-baji-gold text-xs font-medium tracking-[0.25em] uppercase mb-6"><?php esc_html_e( 'ارتباط با ما', 'bajistyle' ); ?></h4>
-					<ul class="space-y-3 text-sm text-gray-400 font-light">
-						<?php $phone = get_theme_mod( 'bajistyle_contact_phone' ); ?>
-						<?php if ( $phone ) : ?>
-							<li class="flex items-center gap-3">
-								<i class="far fa-phone-alt text-baji-gold text-xs w-4"></i>
-								<a href="tel:<?php echo esc_attr( preg_replace( '/\s+/', '', $phone ) ); ?>" class="hover:text-baji-gold transition-colors duration-300">
-									<?php echo esc_html( $phone ); ?>
-								</a>
-							</li>
-						<?php endif; ?>
-
-						<?php $email = get_theme_mod( 'bajistyle_contact_email' ); ?>
-						<?php if ( $email ) : ?>
-							<li class="flex items-center gap-3">
-								<i class="far fa-envelope text-baji-gold text-xs w-4"></i>
-								<a href="mailto:<?php echo esc_attr( $email ); ?>" class="hover:text-baji-gold transition-colors duration-300">
-									<?php echo esc_html( $email ); ?>
-								</a>
-							</li>
-						<?php endif; ?>
-
-						<?php $address = get_theme_mod( 'bajistyle_contact_address' ); ?>
-						<?php if ( $address ) : ?>
-							<li class="flex items-start gap-3 leading-7">
-								<i class="far fa-map-marker-alt text-baji-gold text-xs w-4 mt-1.5"></i>
-								<span><?php echo esc_html( $address ); ?></span>
-							</li>
-						<?php endif; ?>
-					</ul>
-
-					<!-- مجوزهای قانونی -->
-					<div class="baji-trust-logos flex items-center gap-3 mt-7">
-						<a referrerpolicy="origin" target="_blank"
-							href="https://trustseal.enamad.ir/?id=661133&Code=KEQE0AsA3PbAohWIzUEBUZEejYgAGSdn"
-							class="block opacity-80 hover:opacity-100 transition-opacity duration-300">
-							<img referrerpolicy="origin"
-								src="https://trustseal.enamad.ir/logo.aspx?id=661133&Code=KEQE0AsA3PbAohWIzUEBUZEejYgAGSdn"
-								alt="اینماد فروشگاه باجی استایل"
-								class="bg-white rounded-lg p-2" style="max-width:68px; height:auto;" />
-						</a>
-						<a referrerpolicy="origin" target="_blank"
-							href="https://buy-with-digikala.digify.shop/d-namad/store/a64f9bac-752d-4aa3-ab04-d8a5e44ecd00"
-							class="block opacity-80 hover:opacity-100 transition-opacity duration-300">
-							<img referrerpolicy="origin"
-								src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/digilogo.svg' ); ?>"
-								alt="خرید از باجی استایل با دیجی‌کالا"
-								class="bg-white rounded-lg p-2" style="max-width:68px; height:auto;" />
-						</a>
-					</div>
+				<div class="baji-footer-trust" aria-label="<?php esc_attr_e( 'مجوزها و نشان‌های اعتماد', 'bajistyle' ); ?>">
+					<a referrerpolicy="origin" target="_blank" rel="noopener" href="https://trustseal.enamad.ir/?id=661133&Code=KEQE0AsA3PbAohWIzUEBUZEejYgAGSdn" aria-label="<?php esc_attr_e( 'مشاهده اعتبار اینماد', 'bajistyle' ); ?>">
+						<img referrerpolicy="origin" src="https://trustseal.enamad.ir/logo.aspx?id=661133&Code=KEQE0AsA3PbAohWIzUEBUZEejYgAGSdn" loading="lazy" width="72" height="72" alt="<?php esc_attr_e( 'اینماد باجی‌استایل', 'bajistyle' ); ?>">
+					</a>
+					<a target="_blank" rel="noopener" href="https://buy-with-digikala.digify.shop/d-namad/store/a64f9bac-752d-4aa3-ab04-d8a5e44ecd00" aria-label="<?php esc_attr_e( 'مشاهده نشان خرید با دیجی‌کالا', 'bajistyle' ); ?>">
+						<img loading="lazy" width="72" height="72" src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/digilogo.svg' ); ?>" alt="<?php esc_attr_e( 'خرید با دیجی‌کالا', 'bajistyle' ); ?>">
+					</a>
 				</div>
 			</div>
-		</div>
 
-		<!-- نوار کپی رایت -->
-		<div class="baji-footer-bottom border-t border-white/10">
-			<div class="max-w-[1280px] mx-auto px-5 md:px-10 py-6 flex flex-col md:flex-row items-center justify-between gap-3">
-				<p class="text-xs text-gray-500 font-light">
-					&copy; <?php echo esc_html( gmdate( 'Y' ) ); ?>
-					<?php echo esc_html( get_theme_mod( 'bajistyle_footer_copyright', __( 'تمامی حقوق برای BajiStyle محفوظ است.', 'bajistyle' ) ) ); ?>
-				</p>
-				<div class="flex items-center gap-5 text-xs text-gray-600">
-					<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="hover:text-baji-gold transition-colors duration-300"><?php esc_html_e( 'حریم خصوصی', 'bajistyle' ); ?></a>
-					<span class="w-px h-3 bg-gray-700"></span>
-					<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="hover:text-baji-gold transition-colors duration-300"><?php esc_html_e( 'قوانین و مقررات', 'bajistyle' ); ?></a>
+			<div class="baji-footer-bottom">
+				<p>&copy; <?php echo esc_html( gmdate( 'Y' ) ); ?> — <?php echo esc_html( get_theme_mod( 'bajistyle_footer_copyright', __( 'تمامی حقوق برای BajiStyle محفوظ است.', 'bajistyle' ) ) ); ?></p>
+				<div>
+					<a href="<?php echo esc_url( get_privacy_policy_url() ?: home_url( '/privacy-policy/' ) ); ?>"><?php esc_html_e( 'حریم خصوصی', 'bajistyle' ); ?></a>
+					<a href="<?php echo esc_url( home_url( '/terms/' ) ); ?>"><?php esc_html_e( 'قوانین و مقررات', 'bajistyle' ); ?></a>
 				</div>
 			</div>
 		</div>

@@ -68,6 +68,8 @@ Product video system:
 - Wishlist routing: the custom My Account template now recognizes the standard `/my-account/wishlist/` endpoint used by the header and also supports its existing `?tab=wishlist` navigation.
 - Homepage product stories: added an Instagram-inspired product-video story rail directly above the hero. It automatically uses up to 12 newest published products with `_bajistyle_product_video_id` or `_product_video_url`; no duplicate video upload is required.
 - Product story viewer: added an accessible fullscreen 9:16 viewer with segmented progress, automatic advance, previous/next navigation, sound toggle, Escape support, focus restoration, and a direct product link.
+- Footer redesign: replaced the old multi-card-like dark footer with a luxury/minimal editorial composition using a large brand wordmark, restrained brand statement, semantic shopping navigation, configurable contact details, subtle social links, compact trust marks, and a clean legal row.
+- Footer reliability: removed all dead `#` fallback links, added real internal routes, stable lazy-loaded trust-logo dimensions, semantic navigation labels, and responsive/reduced-motion styling.
 
 ## Current Task
 Test the complete video flow and visually verify the updated product-page video preview:
@@ -109,6 +111,9 @@ Test the complete video flow and visually verify the updated product-page video 
 - Updated `front-page.php`: renders product stories directly before `hero-section`.
 - Updated `functions.php`: loads the dedicated story controller only on the homepage when WooCommerce is active.
 - Added `tests/homepage-product-stories.test.php`: regression coverage for placement, video sources, modal accessibility, controller loading, playback advance, and focus behavior.
+- Updated `footer.php`: rebuilt the footer markup while preserving the newsletter, mobile bottom navigation, and mini-cart layers.
+- Updated `assets/css/custom.css`: added responsive editorial footer typography, spacing, contact, social, trust, and legal-row styling.
+- Added `tests/footer-experience.test.php`: regression coverage for footer hierarchy, semantics, configurable contact content, trust image stability, and dead links.
 
 ## Homepage Category Products
 - Management path: WordPress Admin > Appearance > Customize > `محصولات دسته‌بندی در صفحه اصلی`.
@@ -119,6 +124,7 @@ Test the complete video flow and visually verify the updated product-page video 
 - Current automated status: all four regression tests pass, all 63 PHP files pass syntax checks, and `assets/js/woocommerce.js` passes Node syntax validation.
 - Current automated status: all five regression tests pass, all 64 PHP files pass syntax checks, and `assets/js/main.js` passes Node syntax validation.
 - Current automated status: all six regression tests pass, all 67 PHP files pass syntax checks, and both `assets/js/product-stories.js` and `assets/js/main.js` pass Node syntax validation.
+- Current automated status: all seven regression tests pass and all 69 PHP files pass syntax checks.
 
 ## Language
 Always communicate with Ebi in Finglish.
