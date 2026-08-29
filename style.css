@@ -1,0 +1,25 @@
+/*
+Theme Name: BajiStyle
+Theme URI: https://bajistyle.com
+Author: BajiStyle Team
+Author URI: https://bajistyle.com
+Description: قالب وردپرس لوکس و برندمحور برای فروشگاه‌های آنلاین لباس زنانه، طراحی‌شده با الهام از برندهای جهانی مد. این قالب با ووکامرس کاملاً سازگار است و تجربه‌ای مینیمال، شیک و کاملاً راست‌چین (RTL) برای کاربران فارسی‌زبان فراهم می‌کند.
+Version: 1.0.0
+Requires at least: 6.4
+Tested up to: 6.7
+Requires PHP: 8.1
+WC requires at least: 8.0
+WC tested up to: 9.0
+License: GNU General Public License v2 or later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: bajistyle
+Domain Path: /languages
+Tags: e-commerce, custom-colors, custom-menu, custom-logo, featured-images, rtl-language-support, translation-ready, woocommerce
+
+این فایل صرفاً برای شناسایی قالب توسط وردپرس استفاده می‌شود.
+تمام استایل‌های واقعی قالب از طریق Tailwind CSS در فایل
+assets/css/tailwind.css و استایل‌های اختصاصی در
+assets/css/custom.css بارگذاری می‌شوند (به functions.php مراجعه کنید).
+*/
+
+/* جلوگیری از خطای وردپرس در صورت عدم وجود استایل پایه */

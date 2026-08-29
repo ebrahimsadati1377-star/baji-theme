@@ -1,0 +1,72 @@
+/**
+ * فایل منبع Tailwind CSS قالب BajiStyle
+ *
+ * این فایل ورودی build است (به webpack.config.js و package.json
+ * مراجعه کنید). خروجی کامپایل‌شده در assets/css/tailwind.css قرار
+ * می‌گیرد که توسط functions.php بارگذاری می‌شود.
+ *
+ * دستور build: npm run build:css
+ * دستور watch:  npm run watch:css
+ */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* -----------------------------------------------------------------------
+ * لایه پایه: فونت و تنظیمات RTL
+ * -------------------------------------------------------------------- */
+@layer base {
+	html {
+		scroll-behavior: smooth;
+	}
+
+	body {
+		font-feature-settings: 'ss01' on, 'ss02' on;
+		text-rendering: optimizeLegibility;
+	}
+
+	/* اعداد فارسی به‌صورت پیش‌فرض برای تمام عناصر عددی */
+	.baji-body {
+		font-variant-numeric: normal;
+	}
+}
+
+/* -----------------------------------------------------------------------
+ * لایه کامپوننت‌ها: کلاس‌های ترکیبی پرکاربرد قالب
+ * -------------------------------------------------------------------- */
+@layer components {
+	.baji-btn-primary {
+		@apply inline-block px-8 py-3 bg-baji-black text-baji-white text-sm tracking-widest uppercase transition-colors duration-300;
+	}
+
+	.baji-btn-primary:hover {
+		@apply bg-baji-gold text-baji-black;
+	}
+
+	.baji-btn-secondary {
+		@apply inline-block px-8 py-3 border border-baji-black text-sm tracking-widest uppercase transition-colors duration-300;
+	}
+
+	.baji-btn-secondary:hover {
+		@apply border-baji-gold text-baji-gold;
+	}
+}
+
+@layer components {
+    .baji-form-fields input[type="text"],
+    .baji-form-fields input[type="tel"],
+    .baji-form-fields input[type="email"],
+    .baji-form-fields textarea,
+    .baji-form-fields select {
+        @apply w-full px-4 py-3 bg-white border border-gray-200 rounded-lg text-sm focus:border-baji-gold focus:ring-1 focus:ring-baji-gold transition-all duration-300;
+    }
+    
+    .baji-form-fields label {
+        @apply block text-xs uppercase tracking-widest text-gray-500 mb-2;
+    }
+    
+    .baji-form-fields .required {
+        @apply text-baji-gold;
+    }
+}

@@ -1,0 +1,55 @@
+/**
+ * تعریف Font Face فونت فارسی وزیرمتن (Vazirmatn)
+ *
+ * این فایل جدا از custom.css بارگذاری می‌شود (در functions.php با
+ * handle مستقل 'bajistyle-vazirmatn-font') تا بتوان آن را در آینده
+ * با CDN یا نسخه self-hosted دیگری جایگزین کرد بدون دست‌زدن به
+ * custom.css.
+ *
+ * فایل‌های وزن واقعی (Regular/Light/Medium/Bold) باید در همین پوشه
+ * (assets/fonts/vazirmatn/) با فرمت woff2 قرار گیرند. این فایل‌ها از
+ * مخزن رسمی Vazirmatn (پروانه SIL OFL 1.1) قابل دریافت هستند.
+ *
+ * @package BajiStyle
+ * @since 1.0.0
+ */
+
+@font-face {
+	font-family: 'Vazirmatn';
+	src: url('Vazir-Light-FD.woff2') format('woff2');
+	font-weight: 300;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'Vazirmatn';
+	src: url('Vazir-Regular-FD.woff2') format('woff2');
+	font-weight: 400;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'Vazirmatn';
+	src: url('Vazir-Medium-FD.woff2') format('woff2');
+	font-weight: 500;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'Vazirmatn';
+	src: url('Vazir-Black-FD.woff2') format('woff2');
+	font-weight: 600;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'Vazirmatn';
+	src: url('Vazir-Bold-FD.woff2') format('woff2');
+	font-weight: 700;
+	font-style: normal;
+	font-display: swap;
+}

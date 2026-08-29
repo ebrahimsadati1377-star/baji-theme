@@ -1,0 +1,879 @@
+# ترجمه فارسی قالب BajiStyle
+# Copyright (C) 2024 BajiStyle Team
+# این فایل تحت مجوز GNU GPL v2 یا بالاتر توزیع می‌شود.
+# BajiStyle Team <info@bajistyle.com>, 2024.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: BajiStyle 1.0.0\n"
+"Report-Msgid-Bugs-To: info@bajistyle.com\n"
+"POT-Creation-Date: 2024-01-01 00:00+0330\n"
+"PO-Revision-Date: 2024-01-01 00:00+0330\n"
+"Last-Translator: BajiStyle Team <info@bajistyle.com>\n"
+"Language-Team: Persian <info@bajistyle.com>\n"
+"Language: fa_IR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: BajiStyle xgettext 1.0\n"
+
+#: 404.php:26
+msgid "صفحه مورد نظر یافت نشد"
+msgstr "صفحه مورد نظر یافت نشد"
+
+#: 404.php:30
+msgid ""
+"متأسفانه صفحه‌ای که به دنبال آن بودید وجود ندارد یا جابه‌جا شده است. می‌توانید "
+"از طریق جستجو یا لینک‌های زیر، مسیر خود را پیدا کنید."
+msgstr "متأسفانه صفحه‌ای که به دنبال آن بودید وجود ندارد یا جابه‌جا شده است. می‌توانید از طریق جستجو یا لینک‌های زیر، مسیر خود را پیدا کنید."
+
+#: 404.php:46 template-parts/content-none.php:29
+msgid "بازگشت به خانه"
+msgstr "بازگشت به خانه"
+
+#: 404.php:52 template-parts/account/wishlist.php:32
+msgid "مشاهده فروشگاه"
+msgstr "مشاهده فروشگاه"
+
+#: archive.php:27
+msgid "آرشیو"
+msgstr "آرشیو"
+
+#: comments.php:29
+msgid "یک دیدگاه"
+msgstr "یک دیدگاه"
+
+#: comments.php:33
+#, php-format
+msgid "%s دیدگاه"
+msgid_plural "%s دیدگاه"
+msgstr[0] "%s دیدگاه"
+msgstr[1] "%s دیدگاه"
+
+#: comments.php:56 inc/template-tags.php:90
+msgid "« قبلی"
+msgstr "« قبلی"
+
+#: comments.php:57 inc/template-tags.php:91
+msgid "بعدی »"
+msgstr "بعدی »"
+
+#: comments.php:66
+msgid "امکان ارسال دیدگاه جدید برای این مطلب بسته شده است."
+msgstr "امکان ارسال دیدگاه جدید برای این مطلب بسته شده است."
+
+#: comments.php:75
+msgid "دیدگاه خود را بنویسید"
+msgstr "دیدگاه خود را بنویسید"
+
+#: comments.php:76
+msgid "دیدگاه شما"
+msgstr "دیدگاه شما"
+
+#: comments.php:77
+msgid "ارسال دیدگاه"
+msgstr "ارسال دیدگاه"
+
+#: footer.php:27
+msgid "درباره ما"
+msgstr "درباره ما"
+
+#: footer.php:36 inc/customizer.php:217
+msgid ""
+"BajiStyle با عشق به زیبایی و توجه به جزئیات متولد شد تا لحظات شما را خاص‌تر "
+"کند."
+msgstr "BajiStyle با عشق به زیبایی و توجه به جزئیات متولد شد تا لحظات شما را خاص‌تر کند."
+
+#: footer.php:57
+msgid "راهنمای خرید"
+msgstr "راهنمای خرید"
+
+#: footer.php:70
+msgid "راهنمای انتخاب سایز"
+msgstr "راهنمای انتخاب سایز"
+
+#: footer.php:71
+msgid "شرایط ارسال و تحویل"
+msgstr "شرایط ارسال و تحویل"
+
+#: footer.php:72
+msgid "بازگشت و تعویض کالا"
+msgstr "بازگشت و تعویض کالا"
+
+#: footer.php:73
+msgid "سؤالات متداول"
+msgstr "سؤالات متداول"
+
+#: footer.php:80
+msgid "ارتباط با ما"
+msgstr "ارتباط با ما"
+
+#: footer.php:120 inc/customizer.php:254
+msgid "شبکه‌های اجتماعی"
+msgstr "شبکه‌های اجتماعی"
+
+#: footer.php:124 inc/customizer.php:260
+msgid "اینستاگرام"
+msgstr "اینستاگرام"
+
+#: footer.php:125 inc/customizer.php:261 inc/template-tags.php:172
+msgid "تلگرام"
+msgstr "تلگرام"
+
+#: footer.php:126 inc/customizer.php:262 inc/template-tags.php:176
+msgid "واتساپ"
+msgstr "واتساپ"
+
+#: footer.php:127 inc/customizer.php:263
+msgid "پینترست"
+msgstr "پینترست"
+
+#: footer.php:156 inc/customizer.php:346
+msgid "تمامی حقوق برای BajiStyle محفوظ است."
+msgstr "تمامی حقوق برای BajiStyle محفوظ است."
+
+#: front-page.php:30
+msgid "منتخب فروشگاه"
+msgstr "منتخب فروشگاه"
+
+#: front-page.php:33
+msgid "محصولات پرفروش"
+msgstr "محصولات پرفروش"
+
+#: front-page.php:56
+msgid "تازه‌های فروشگاه"
+msgstr "تازه‌های فروشگاه"
+
+#: front-page.php:59
+msgid "جدیدترین محصولات"
+msgstr "جدیدترین محصولات"
+
+#: functions.php:60 header.php:47
+msgid "منوی اصلی"
+msgstr "منوی اصلی"
+
+#: functions.php:61 header.php:124
+msgid "منوی موبایل"
+msgstr "منوی موبایل"
+
+#: functions.php:62
+msgid "فوتر - درباره ما"
+msgstr "فوتر - درباره ما"
+
+#: functions.php:63
+msgid "فوتر - راهنمای خرید"
+msgstr "فوتر - راهنمای خرید"
+
+#: functions.php:64
+msgid "فوتر - ارتباط با ما"
+msgstr "فوتر - ارتباط با ما"
+
+#: functions.php:126
+msgid "طلایی برند"
+msgstr "طلایی برند"
+
+#: functions.php:131
+msgid "مشکی"
+msgstr "مشکی"
+
+#: functions.php:136
+msgid "سفید"
+msgstr "سفید"
+
+#: functions.php:141
+msgid "کرم روشن"
+msgstr "کرم روشن"
+
+#: functions.php:196
+msgid "سایدبار وبلاگ"
+msgstr "سایدبار وبلاگ"
+
+#: functions.php:198
+msgid "این ناحیه در صفحات وبلاگ و آرشیو مقالات نمایش داده می‌شود."
+msgstr "این ناحیه در صفحات وبلاگ و آرشیو مقالات نمایش داده می‌شود."
+
+#: functions.php:208
+msgid "فیلتر فروشگاه (ووکامرس)"
+msgstr "فیلتر فروشگاه (ووکامرس)"
+
+#: functions.php:210
+msgid ""
+"این ناحیه در سایدبار فیلتر صفحه آرشیو فروشگاه نمایش داده می‌شود. در صورت خالی "
+"بودن، فیلترهای پیش‌فرض قالب نمایش داده می‌شوند."
+msgstr "این ناحیه در سایدبار فیلتر صفحه آرشیو فروشگاه نمایش داده می‌شود. در صورت خالی بودن، فیلترهای پیش‌فرض قالب نمایش داده می‌شوند."
+
+#: functions.php:220
+msgid "فوتر - ستون درباره ما"
+msgstr "فوتر - ستون درباره ما"
+
+#: functions.php:222
+msgid "ستون اول فوتر."
+msgstr "ستون اول فوتر."
+
+#: functions.php:232
+msgid "فوتر - شبکه‌های اجتماعی"
+msgstr "فوتر - شبکه‌های اجتماعی"
+
+#: functions.php:234
+msgid "ستون چهارم فوتر برای آیکون‌های شبکه‌های اجتماعی."
+msgstr "ستون چهارم فوتر برای آیکون‌های شبکه‌های اجتماعی."
+
+#: functions.php:367
+msgid "به سبد خرید اضافه شد"
+msgstr "به سبد خرید اضافه شد"
+
+#: functions.php:368 woocommerce/content-product.php:58
+#: woocommerce/single-product.php:63
+msgid "افزودن به علاقه‌مندی‌ها"
+msgstr "افزودن به علاقه‌مندی‌ها"
+
+#: functions.php:369 woocommerce/single-product.php:63
+msgid "حذف از علاقه‌مندی‌ها"
+msgstr "حذف از علاقه‌مندی‌ها"
+
+#: functions.php:370 woocommerce/loop/add-to-cart.php:52
+msgid "ناموجود"
+msgstr "ناموجود"
+
+#: functions.php:371
+msgid "خطایی رخ داد. لطفاً دوباره تلاش کنید."
+msgstr "خطایی رخ داد. لطفاً دوباره تلاش کنید."
+
+#: functions.php:439
+msgid "حاشیه طلایی"
+msgstr "حاشیه طلایی"
+
+#: functions.php:447
+msgid "پس‌زمینه کرم"
+msgstr "پس‌زمینه کرم"
+
+#: header.php:30
+msgid "رفتن به محتوای اصلی"
+msgstr "رفتن به محتوای اصلی"
+
+#: header.php:40
+msgid "باز کردن منو"
+msgstr "باز کردن منو"
+
+#: header.php:78
+msgid "باز کردن جستجو"
+msgstr "باز کردن جستجو"
+
+#: header.php:84 inc/woocommerce-hooks.php:274
+#: template-parts/account/wishlist.php:22
+#: woocommerce/myaccount/dashboard.php:69
+msgid "علاقه‌مندی‌های من"
+msgstr "علاقه‌مندی‌های من"
+
+#: header.php:92
+msgid "حساب کاربری"
+msgstr "حساب کاربری"
+
+#: header.php:97
+msgid "باز کردن سبد خرید"
+msgstr "باز کردن سبد خرید"
+
+#: header.php:120
+msgid "بستن منو"
+msgstr "بستن منو"
+
+#: header.php:152
+msgid "سبد خرید شما"
+msgstr "سبد خرید شما"
+
+#: header.php:153
+msgid "بستن سبد خرید"
+msgstr "بستن سبد خرید"
+
+#: inc/custom-post-types.php:23
+msgid "اسلایدرها"
+msgstr "اسلایدرها"
+
+#: inc/custom-post-types.php:24
+msgid "اسلایدر"
+msgstr "اسلایدر"
+
+#: inc/custom-post-types.php:25
+msgid "اسلایدر هیرو"
+msgstr "اسلایدر هیرو"
+
+#: inc/custom-post-types.php:26 inc/custom-post-types.php:27
+msgid "افزودن اسلاید جدید"
+msgstr "افزودن اسلاید جدید"
+
+#: inc/custom-post-types.php:28
+msgid "ویرایش اسلاید"
+msgstr "ویرایش اسلاید"
+
+#: inc/custom-post-types.php:29
+msgid "اسلاید جدید"
+msgstr "اسلاید جدید"
+
+#: inc/custom-post-types.php:30
+msgid "مشاهده اسلاید"
+msgstr "مشاهده اسلاید"
+
+#: inc/custom-post-types.php:31
+msgid "جستجوی اسلایدها"
+msgstr "جستجوی اسلایدها"
+
+#: inc/custom-post-types.php:32
+msgid "اسلایدی یافت نشد"
+msgstr "اسلایدی یافت نشد"
+
+#: inc/custom-post-types.php:33
+msgid "اسلایدی در زباله‌دان یافت نشد"
+msgstr "اسلایدی در زباله‌دان یافت نشد"
+
+#: inc/custom-post-types.php:64 inc/custom-post-types.php:66
+msgid "بخش‌های ویژه"
+msgstr "بخش‌های ویژه"
+
+#: inc/custom-post-types.php:65
+msgid "بخش ویژه"
+msgstr "بخش ویژه"
+
+#: inc/custom-post-types.php:67
+msgid "افزودن بخش ویژه"
+msgstr "افزودن بخش ویژه"
+
+#: inc/custom-post-types.php:68
+msgid "افزودن بخش ویژه جدید"
+msgstr "افزودن بخش ویژه جدید"
+
+#: inc/custom-post-types.php:69
+msgid "ویرایش بخش ویژه"
+msgstr "ویرایش بخش ویژه"
+
+#: inc/custom-post-types.php:70
+msgid "بخش ویژه جدید"
+msgstr "بخش ویژه جدید"
+
+#: inc/custom-post-types.php:71
+msgid "مشاهده بخش ویژه"
+msgstr "مشاهده بخش ویژه"
+
+#: inc/custom-post-types.php:72
+msgid "جستجوی بخش‌های ویژه"
+msgstr "جستجوی بخش‌های ویژه"
+
+#: inc/custom-post-types.php:73
+msgid "بخش ویژه‌ای یافت نشد"
+msgstr "بخش ویژه‌ای یافت نشد"
+
+#: inc/custom-post-types.php:74
+msgid "بخش ویژه‌ای در زباله‌دان یافت نشد"
+msgstr "بخش ویژه‌ای در زباله‌دان یافت نشد"
+
+#: inc/custom-post-types.php:106
+msgid "جزئیات اسلاید"
+msgstr "جزئیات اسلاید"
+
+#: inc/custom-post-types.php:128
+msgid "متن دکمه:"
+msgstr "متن دکمه:"
+
+#: inc/custom-post-types.php:133
+msgid "لینک دکمه:"
+msgstr "لینک دکمه:"
+
+#: inc/customizer.php:30
+msgid "رنگ‌های برند BajiStyle"
+msgstr "رنگ‌های برند BajiStyle"
+
+#: inc/customizer.php:48
+msgid "رنگ طلایی (اصلی)"
+msgstr "رنگ طلایی (اصلی)"
+
+#: inc/customizer.php:67
+msgid "رنگ مشکی (متن/پس‌زمینه)"
+msgstr "رنگ مشکی (متن/پس‌زمینه)"
+
+#: inc/customizer.php:86
+msgid "رنگ کرم روشن (پس‌زمینه ثانویه)"
+msgstr "رنگ کرم روشن (پس‌زمینه ثانویه)"
+
+#: inc/customizer.php:98
+msgid "بخش هیرو صفحه اصلی"
+msgstr "بخش هیرو صفحه اصلی"
+
+#: inc/customizer.php:106 template-parts/hero-section.php:97
+msgid "مجموعه جدید بهار و تابستان"
+msgstr "مجموعه جدید بهار و تابستان"
+
+#: inc/customizer.php:114
+msgid "عنوان هیرو"
+msgstr "عنوان هیرو"
+
+#: inc/customizer.php:123 template-parts/hero-section.php:98
+msgid "ظرافت در هر جزئیات"
+msgstr "ظرافت در هر جزئیات"
+
+#: inc/customizer.php:131
+msgid "زیرعنوان هیرو"
+msgstr "زیرعنوان هیرو"
+
+#: inc/customizer.php:140 template-parts/hero-section.php:99
+msgid "مشاهده مجموعه"
+msgstr "مشاهده مجموعه"
+
+#: inc/customizer.php:147
+msgid "متن دکمه هیرو"
+msgstr "متن دکمه هیرو"
+
+#: inc/customizer.php:163
+msgid "لینک دکمه هیرو"
+msgstr "لینک دکمه هیرو"
+
+#: inc/customizer.php:181
+msgid "تصویر پس‌زمینه هیرو"
+msgstr "تصویر پس‌زمینه هیرو"
+
+#: inc/customizer.php:193 template-parts/brand-story.php:21
+msgid "داستان برند"
+msgstr "داستان برند"
+
+#: inc/customizer.php:201 template-parts/brand-story.php:16
+msgid "داستان BajiStyle"
+msgstr "داستان BajiStyle"
+
+#: inc/customizer.php:208
+msgid "عنوان داستان برند"
+msgstr "عنوان داستان برند"
+
+#: inc/customizer.php:224
+msgid "متن داستان برند"
+msgstr "متن داستان برند"
+
+#: inc/customizer.php:242
+msgid "تصویر داستان برند"
+msgstr "تصویر داستان برند"
+
+#: inc/customizer.php:290
+msgid "اطلاعات تماس"
+msgstr "اطلاعات تماس"
+
+#: inc/customizer.php:305
+msgid "شماره تماس"
+msgstr "شماره تماس"
+
+#: inc/customizer.php:321
+msgid "ایمیل"
+msgstr "ایمیل"
+
+#: inc/customizer.php:337
+msgid "آدرس"
+msgstr "آدرس"
+
+#: inc/customizer.php:353
+msgid "متن کپی‌رایت فوتر"
+msgstr "متن کپی‌رایت فوتر"
+
+#: inc/newsletter.php:27
+msgid "لطفاً آدرس ایمیل خود را وارد کنید."
+msgstr "لطفاً آدرس ایمیل خود را وارد کنید."
+
+#: inc/newsletter.php:33
+msgid "آدرس ایمیل واردشده معتبر نیست."
+msgstr "آدرس ایمیل واردشده معتبر نیست."
+
+#: inc/newsletter.php:43
+msgid "شما قبلاً در خبرنامه عضو شده‌اید."
+msgstr "شما قبلاً در خبرنامه عضو شده‌اید."
+
+#: inc/newsletter.php:57
+msgid "با موفقیت در خبرنامه عضو شدید. سپاسگزاریم!"
+msgstr "با موفقیت در خبرنامه عضو شدید. سپاسگزاریم!"
+
+#: inc/security.php:75
+msgid "نام کاربری یا رمز عبور نادرست است."
+msgstr "نام کاربری یا رمز عبور نادرست است."
+
+#: inc/template-tags.php:43
+msgid "نویسنده:"
+msgstr "نویسنده:"
+
+#: inc/template-tags.php:62 inc/template-tags.php:70
+#: template-parts/content-single.php:18
+msgid "، "
+msgstr "، "
+
+#: inc/template-tags.php:92
+msgid "صفحه‌بندی نوشته‌ها"
+msgstr "صفحه‌بندی نوشته‌ها"
+
+#: inc/template-tags.php:93
+msgid "صفحه"
+msgstr "صفحه"
+
+#: inc/template-tags.php:118
+#, php-format
+msgid "امتیاز %s از ۵"
+msgstr "امتیاز %s از ۵"
+
+#: inc/template-tags.php:171
+msgid "اشتراک‌گذاری در تلگرام"
+msgstr "اشتراک‌گذاری در تلگرام"
+
+#: inc/template-tags.php:175
+msgid "اشتراک‌گذاری در واتساپ"
+msgstr "اشتراک‌گذاری در واتساپ"
+
+#: inc/template-tags.php:231
+msgid "دیدگاه شما پس از تأیید نمایش داده خواهد شد."
+msgstr "دیدگاه شما پس از تأیید نمایش داده خواهد شد."
+
+#: inc/template-tags.php:246
+msgid "پاسخ"
+msgstr "پاسخ"
+
+#: inc/template-tags.php:269
+msgid "مسیر دسترسی"
+msgstr "مسیر دسترسی"
+
+#: inc/template-tags.php:270 inc/woocommerce-hooks.php:80
+msgid "خانه"
+msgstr "خانه"
+
+#: inc/template-tags.php:273 search.php:24
+msgid "نتایج جستجو"
+msgstr "نتایج جستجو"
+
+#: inc/template-tags.php:275
+msgid "صفحه یافت نشد"
+msgstr "صفحه یافت نشد"
+
+#: inc/wishlist.php:58
+msgid "شناسه محصول ارسال نشده است."
+msgstr "شناسه محصول ارسال نشده است."
+
+#: inc/wishlist.php:64
+msgid "محصول معتبر نیست."
+msgstr "محصول معتبر نیست."
+
+#: inc/woocommerce-hooks.php:94
+msgid "افزودن به سبد"
+msgstr "افزودن به سبد"
+
+#: inc/woocommerce-hooks.php:104
+msgid "افزودن به سبد خرید"
+msgstr "افزودن به سبد خرید"
+
+#: inc/woocommerce-hooks.php:124 woocommerce/loop/sale-flash.php:45
+msgid "تخفیف"
+msgstr "تخفیف"
+
+#: index.php:31
+msgid "وبلاگ BajiStyle"
+msgstr "وبلاگ BajiStyle"
+
+#: index.php:32
+msgid "تازه‌ترین مطالب درباره مد، استایل و دنیای پوشاک"
+msgstr "تازه‌ترین مطالب درباره مد، استایل و دنیای پوشاک"
+
+#: page.php:58 template-parts/content-single.php:58
+msgid "صفحات:"
+msgstr "صفحات:"
+
+#: search.php:30
+#, php-format
+msgid "نتایج برای: «%s»"
+msgstr "نتایج برای: «%s»"
+
+#: search.php:40
+#, php-format
+msgid "%s نتیجه یافت شد"
+msgid_plural "%s نتیجه یافت شد"
+msgstr[0] "%s نتیجه یافت شد"
+msgstr[1] "%s نتیجه یافت شد"
+
+#: searchform.php:21
+msgid "جستجو برای:"
+msgstr "جستجو برای:"
+
+#: searchform.php:24
+msgctxt "placeholder"
+msgid "جستجو در سایت..."
+msgstr "جستجو در سایت..."
+
+#: searchform.php:28 woocommerce/product-searchform.php:29
+msgid "جستجو"
+msgstr "جستجو"
+
+#: sidebar.php:23
+msgid "سایدبار"
+msgstr "سایدبار"
+
+#: single.php:49
+msgid "مطالب مرتبط"
+msgstr "مطالب مرتبط"
+
+#: template-parts/account/wishlist.php:28
+msgid "هنوز محصولی به لیست علاقه‌مندی‌های خود اضافه نکرده‌اید."
+msgstr "هنوز محصولی به لیست علاقه‌مندی‌های خود اضافه نکرده‌اید."
+
+#: template-parts/author-bio.php:27
+#, php-format
+msgid "درباره %s"
+msgstr "درباره %s"
+
+#: template-parts/brand-story.php:17
+msgid ""
+"BajiStyle با عشق به زیبایی و توجه به جزئیات متولد شد تا لحظات شما را خاص‌تر "
+"کند. هر قطعه از مجموعه ما با دقت و وسواس طراحان ما خلق می‌شود؛ ترکیبی از "
+"پارچه‌های باکیفیت، دوخت ظریف و الهام از مد روز جهان. ما باور داریم که استایل "
+"شخصی هر زن، روایتی از هویت اوست و BajiStyle همراه این روایت است."
+msgstr "BajiStyle با عشق به زیبایی و توجه به جزئیات متولد شد تا لحظات شما را خاص‌تر کند. هر قطعه از مجموعه ما با دقت و وسواس طراحان ما خلق می‌شود؛ ترکیبی از پارچه‌های باکیفیت، دوخت ظریف و الهام از مد روز جهان. ما باور داریم که استایل شخصی هر زن، روایتی از هویت اوست و BajiStyle همراه این روایت است."
+
+#: template-parts/brand-story.php:38
+msgid "درباره برند"
+msgstr "درباره برند"
+
+#: template-parts/brand-story.php:52
+msgid "بیشتر بدانید"
+msgstr "بیشتر بدانید"
+
+#: template-parts/category-showcase.php:35
+msgid "دسته‌بندی محصولات"
+msgstr "دسته‌بندی محصولات"
+
+#: template-parts/category-showcase.php:40
+msgid "دسته‌بندی‌ها"
+msgstr "دسته‌بندی‌ها"
+
+#: template-parts/category-showcase.php:43
+msgid "مجموعه‌های ما"
+msgstr "مجموعه‌های ما"
+
+#: template-parts/category-showcase.php:73
+msgid "مشاهده محصولات"
+msgstr "مشاهده محصولات"
+
+#: template-parts/content-none.php:16
+msgid "محتوایی یافت نشد"
+msgstr "محتوایی یافت نشد"
+
+#: template-parts/content-none.php:21
+msgid ""
+"متأسفانه نتیجه‌ای برای عبارت جستجوی شما پیدا نشد. لطفاً عبارت دیگری را امتحان "
+"کنید."
+msgstr "متأسفانه نتیجه‌ای برای عبارت جستجوی شما پیدا نشد. لطفاً عبارت دیگری را امتحان کنید."
+
+#: template-parts/content-none.php:26
+msgid "در حال حاضر محتوایی برای نمایش وجود ندارد."
+msgstr "در حال حاضر محتوایی برای نمایش وجود ندارد."
+
+#: template-parts/hero-section.php:29
+msgid "بخش معرفی اصلی"
+msgstr "بخش معرفی اصلی"
+
+#: template-parts/hero-section.php:85
+#, php-format
+msgid "رفتن به اسلاید %d"
+msgstr "رفتن به اسلاید %d"
+
+#: template-parts/newsletter.php:19
+msgid "عضویت در خبرنامه"
+msgstr "عضویت در خبرنامه"
+
+#: template-parts/newsletter.php:23
+msgid "عضو خانواده BajiStyle شوید"
+msgstr "عضو خانواده BajiStyle شوید"
+
+#: template-parts/newsletter.php:26
+msgid "از جدیدترین مجموعه‌ها، تخفیف‌های ویژه و اخبار برند باخبر شوید."
+msgstr "از جدیدترین مجموعه‌ها، تخفیف‌های ویژه و اخبار برند باخبر شوید."
+
+#: template-parts/newsletter.php:32
+msgid "آدرس ایمیل شما"
+msgstr "آدرس ایمیل شما"
+
+#: template-parts/newsletter.php:36
+msgctxt "placeholder"
+msgid "آدرس ایمیل شما"
+msgstr "آدرس ایمیل شما"
+
+#: template-parts/newsletter.php:39
+msgid "عضویت"
+msgstr "عضویت"
+
+#: template-parts/testimonial.php:47
+msgid "نگار احمدی"
+msgstr "نگار احمدی"
+
+#: template-parts/testimonial.php:48
+msgid ""
+"کیفیت پارچه و دوخت محصولات فوق‌العاده بود. حس می‌کنم یک تکه از یک برند لوکس "
+"واقعی را خریده‌ام."
+msgstr "کیفیت پارچه و دوخت محصولات فوق‌العاده بود. حس می‌کنم یک تکه از یک برند لوکس واقعی را خریده‌ام."
+
+#: template-parts/testimonial.php:52
+msgid "سارا محمدی"
+msgstr "سارا محمدی"
+
+#: template-parts/testimonial.php:53
+msgid ""
+"بسته‌بندی شیک، ارسال سریع و پشتیبانی عالی. تجربه خرید آنلاینم تا به حال "
+"این‌قدر دلنشین نبود."
+msgstr "بسته‌بندی شیک، ارسال سریع و پشتیبانی عالی. تجربه خرید آنلاینم تا به حال این‌قدر دلنشین نبود."
+
+#: template-parts/testimonial.php:57
+msgid "مریم رضایی"
+msgstr "مریم رضایی"
+
+#: template-parts/testimonial.php:58
+msgid ""
+"طراحی‌ها واقعاً خاص و متفاوت از فروشگاه‌های دیگر هستند. حتماً دوباره خرید می‌کنم."
+msgstr "طراحی‌ها واقعاً خاص و متفاوت از فروشگاه‌های دیگر هستند. حتماً دوباره خرید می‌کنم."
+
+#: template-parts/testimonial.php:65 template-parts/testimonial.php:69
+msgid "نظرات مشتریان"
+msgstr "نظرات مشتریان"
+
+#: template-parts/testimonial.php:72
+msgid "تجربه خرید مشتریان ما"
+msgstr "تجربه خرید مشتریان ما"
+
+#: template-parts/testimonial.php:103
+#, php-format
+msgid "نمایش نظر %d"
+msgstr "نمایش نظر %d"
+
+#: woocommerce/archive-product.php:28
+msgid "فروشگاه"
+msgstr "فروشگاه"
+
+#: woocommerce/archive-product.php:49
+msgid "فیلتر محصولات"
+msgstr "فیلتر محصولات"
+
+#: woocommerce/archive-product.php:52
+msgid "فیلترها"
+msgstr "فیلترها"
+
+#: woocommerce/archive-product.php:63
+msgid "دسته‌بندی"
+msgstr "دسته‌بندی"
+
+#: woocommerce/archive-product.php:89
+msgid "محدوده قیمت"
+msgstr "محدوده قیمت"
+
+#: woocommerce/archive-product.php:96
+msgid "رنگ"
+msgstr "رنگ"
+
+#: woocommerce/archive-product.php:112
+msgid "سایز"
+msgstr "سایز"
+
+#: woocommerce/cart/cart.php:99
+msgid "حذف این محصول از سبد خرید"
+msgstr "حذف این محصول از سبد خرید"
+
+#: woocommerce/cart/cart.php:103
+msgid "حذف"
+msgstr "حذف"
+
+#: woocommerce/cart/cart.php:125
+msgid "کد تخفیف"
+msgstr "کد تخفیف"
+
+#: woocommerce/cart/cart.php:126 woocommerce/cart/cart.php:127
+msgid "اعمال کد"
+msgstr "اعمال کد"
+
+#: woocommerce/cart/cart.php:132 woocommerce/cart/cart.php:133
+msgid "به‌روزرسانی سبد خرید"
+msgstr "به‌روزرسانی سبد خرید"
+
+#: woocommerce/cart/cart.php:143
+msgid "سبد خرید شما در حال حاضر خالی است."
+msgstr "سبد خرید شما در حال حاضر خالی است."
+
+#: woocommerce/cart/cart.php:147
+msgid "بازگشت به فروشگاه"
+msgstr "بازگشت به فروشگاه"
+
+#: woocommerce/checkout/form-checkout.php:17
+msgid "برای ادامه فرایند خرید باید وارد حساب کاربری خود شوید."
+msgstr "برای ادامه فرایند خرید باید وارد حساب کاربری خود شوید."
+
+#: woocommerce/checkout/form-checkout.php:30
+msgid "برای تکمیل خرید، ابتدا باید وارد حساب کاربری خود شوید."
+msgstr "برای تکمیل خرید، ابتدا باید وارد حساب کاربری خود شوید."
+
+#: woocommerce/checkout/form-checkout.php:45
+msgid "خلاصه سفارش"
+msgstr "خلاصه سفارش"
+
+#: woocommerce/checkout/form-checkout.php:63
+msgid "اطلاعات صورت‌حساب"
+msgstr "اطلاعات صورت‌حساب"
+
+#: woocommerce/checkout/form-checkout.php:76
+msgid "اطلاعات ارسال"
+msgstr "اطلاعات ارسال"
+
+#: woocommerce/loop/sale-flash.php:41
+#, php-format
+msgid "٪%s تخفیف"
+msgstr "٪%s تخفیف"
+
+#: woocommerce/myaccount/dashboard.php:26
+#, php-format
+msgid "خوش آمدید، %s"
+msgstr "خوش آمدید، %s"
+
+#: woocommerce/myaccount/dashboard.php:37
+#, php-format
+msgid ""
+"از این بخش می‌توانید سفارش‌ها، آدرس‌ها و اطلاعات حساب کاربری خود (%1$s) را "
+"مدیریت کنید. برای خروج از حساب کاربری %2$s."
+msgstr "از این بخش می‌توانید سفارش‌ها، آدرس‌ها و اطلاعات حساب کاربری خود (%1$s) را مدیریت کنید. برای خروج از حساب کاربری %2$s."
+
+#: woocommerce/myaccount/dashboard.php:39
+msgid "اینجا کلیک کنید"
+msgstr "اینجا کلیک کنید"
+
+#: woocommerce/myaccount/dashboard.php:57
+msgid "سفارش‌های من"
+msgstr "سفارش‌های من"
+
+#: woocommerce/myaccount/dashboard.php:58
+msgid "مشاهده تاریخچه و وضعیت سفارش‌ها"
+msgstr "مشاهده تاریخچه و وضعیت سفارش‌ها"
+
+#: woocommerce/myaccount/dashboard.php:63
+msgid "آدرس‌ها"
+msgstr "آدرس‌ها"
+
+#: woocommerce/myaccount/dashboard.php:64
+msgid "مدیریت آدرس‌های صورت‌حساب و ارسال"
+msgstr "مدیریت آدرس‌های صورت‌حساب و ارسال"
+
+#: woocommerce/myaccount/dashboard.php:70
+msgid "محصولاتی که ذخیره کرده‌اید"
+msgstr "محصولاتی که ذخیره کرده‌اید"
+
+#: woocommerce/myaccount/dashboard.php:75
+msgid "اطلاعات حساب"
+msgstr "اطلاعات حساب"
+
+#: woocommerce/myaccount/dashboard.php:76
+msgid "ویرایش نام، ایمیل و رمز عبور"
+msgstr "ویرایش نام، ایمیل و رمز عبور"
+
+#: woocommerce/product-searchform.php:21
+msgid "جستجو در محصولات:"
+msgstr "جستجو در محصولات:"
+
+#: woocommerce/product-searchform.php:24
+msgctxt "placeholder"
+msgid "دنبال چه چیزی می‌گردید؟"
+msgstr "دنبال چه چیزی می‌گردید؟"
+
+#: woocommerce/single-product.php:89
+msgid "آخرین محصولات بازدید شده"
+msgstr "آخرین محصولات بازدید شده"

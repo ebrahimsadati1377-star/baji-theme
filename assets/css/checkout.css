@@ -1,0 +1,241 @@
+/* ==========================================================================
+   BajiStyle — تسویه‌حساب ووکامرس (checkout.css)
+   برای لود: این فایل را در قالب enqueue کنید. (دستورات انتهای فایل)
+   ========================================================================== */
+
+:root{
+  --bj-cream:#faf7f2;
+  --bj-surface:#ffffff;
+  --bj-ink:#1f2937;
+  --bj-ink-soft:#6b7280;
+  --bj-accent:#111827;
+  --bj-accent-hover:#000000;
+  --bj-gold:#b8860b;
+  --bj-border:#e7e3db;
+  --bj-border-strong:#d6d0c4;
+  --bj-success:#15803d;
+  --bj-radius:16px;
+  --bj-radius-sm:10px;
+  --bj-shadow:0 1px 2px rgba(16,24,40,.06), 0 10px 30px -12px rgba(16,24,40,.12);
+  --bj-shadow-sm:0 1px 2px rgba(16,24,40,.05);
+  --bj-ring:0 0 0 4px rgba(184,134,11,.14);
+}
+
+.baji-checkout{
+  max-width:1180px;
+  margin:0 auto;
+  padding:10px 0 40px;
+  font-family:"Vazirmatn","Vazir","IRANSans","Tahoma",sans-serif;
+  color:var(--bj-ink);
+  line-height:1.75;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* پیام ورود */
+.baji-login-required{
+  text-align:center;color:var(--bj-ink-soft);padding:48px 0;margin:0;
+}
+
+/* اعلان‌ها */
+.baji-notices .woocommerce-message,
+.baji-notices .woocommerce-info,
+.baji-notices .woocommerce-error{
+  border-radius:var(--bj-radius-sm);
+  margin-bottom:18px !important;
+}
+.baji-notices .woocommerce-message{background:#ecfdf3;border-color:#c6f6d9;color:#14532d}
+.baji-notices .woocommerce-info{background:#eff6ff;border-color:#bfdbfe;color:#1e3a8a}
+.baji-notices .woocommerce-error{background:#fef2f2;border-color:#fecaca;color:#7f1d1d}
+
+/* شبکه دوستونه */
+.baji-grid{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 400px;
+  gap:26px;
+  align-items:start;
+}
+@media (max-width:920px){
+  .baji-grid{grid-template-columns:minmax(0,1fr)}
+}
+
+.baji-main{min-width:0}
+.baji-stack{display:flex;flex-direction:column;gap:22px}
+
+/* کارت */
+.baji-card{
+  background:var(--bj-surface);
+  border:1px solid var(--bj-border);
+  border-radius:var(--bj-radius);
+  padding:24px;
+  box-shadow:var(--bj-shadow-sm);
+}
+.baji-card-head{
+  display:flex;align-items:center;gap:12px;margin-bottom:16px;
+}
+.baji-ico{
+  width:38px;height:38px;border-radius:11px;flex:none;
+  background:var(--bj-cream);border:1px solid var(--bj-border);
+  display:grid;place-items:center;color:var(--bj-ink);
+}
+.baji-ico svg{width:20px;height:20px;display:block}
+.baji-card-head h2{font-size:16px;font-weight:800;margin:0;line-height:1.4}
+.baji-card-head p{font-size:12.5px;color:var(--bj-ink-soft);margin:0;line-height:1.5}
+
+/* چیدمان فیلدها */
+.baji-grid-1{display:grid;grid-template-columns:minmax(0,1fr);gap:14px}
+.baji-grid-2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.baji-grid-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+@media (max-width:560px){
+  .baji-grid-2,.baji-grid-3{grid-template-columns:minmax(0,1fr)}
+}
+
+/* ---------- فیلدهای تولیدشده توسط ووکامرس ---------- */
+.woocommerce form .form-row{display:block;margin:0;padding:0}
+.baji-card .form-row{float:none !important;width:100% !important}
+
+.baji-card label{
+  display:block;font-size:13px;font-weight:600;color:var(--bj-ink);
+  margin-bottom:6px;line-height:1.5;
+}
+.baji-card label .required{color:#dc2626;border:none;text-decoration:none}
+
+.baji-card input.input-text,
+.baji-card input[type="text"],
+.baji-card input[type="email"],
+.baji-card input[type="tel"],
+.baji-card input[type="tel"]::placeholder,
+.baji-card textarea,
+.baji-card select{
+  width:100%;
+  padding:12px 14px;
+  font-family:inherit;font-size:14px;color:var(--bj-ink);
+  background:#fff;
+  border:1.5px solid var(--bj-border-strong);
+  border-radius:var(--bj-radius-sm);
+  box-sizing:border-box;
+  transition:border-color .15s, box-shadow .15s;
+  line-height:1.5;
+}
+.baji-card textarea{min-height:88px;resize:vertical}
+.baji-card input::placeholder,.baji-card textarea::placeholder{color:#9ca3af}
+.baji-card input:hover,.baji-card textarea:hover,.baji-card select:hover{border-color:#b8b1a2}
+.baji-card input:focus,.baji-card textarea:focus,.baji-card select:focus{
+  outline:none;border-color:var(--bj-gold);box-shadow:var(--bj-ring);
+}
+.baji-card select{appearance:none;-webkit-appearance:none}
+
+/* پیام‌های اعتبارسنجی ووکامرس */
+.baji-card .woocommerce-invalid input.input-text,
+.baji-card .woocommerce-invalid .input-text{border-color:#dc2626}
+.baji-card .woocommerce-invalid label{color:#dc2626}
+.baji-card .woocommerce-input-wrapper{display:block}
+.woocommerce form .form-row .select2-container{width:100% !important}
+
+/* ---------- ستون خلاصه سفارش ---------- */
+.baji-sidebar{position:sticky;top:24px;min-width:0}
+.baji-order-review{
+  background:var(--bj-surface);
+  border:1px solid var(--bj-border);
+  border-radius:var(--bj-radius);
+  padding:24px;
+  box-shadow:var(--bj-shadow);
+}
+
+/* جدول سفارش */
+.woocommerce-checkout-review-order-table{
+  width:100%;border-collapse:collapse;margin:0 0 16px;font-size:14px;
+}
+.woocommerce-checkout-review-order-table thead th{
+  text-align:right;font-size:13px;color:var(--bj-ink-soft);font-weight:700;
+  border-bottom:1px solid var(--bj-border);padding:0 0 10px;
+}
+.woocommerce-checkout-review-order-table thead .product-total{text-align:left}
+.woocommerce-checkout-review-order-table td{
+  padding:12px 0;border-bottom:1px dashed var(--bj-border);vertical-align:top;
+}
+.woocommerce-checkout-review-order-table .product-name .product-quantity{color:var(--bj-ink-soft);font-size:12px}
+.woocommerce-checkout-review-order-table .product-total{text-align:left;font-weight:800;color:var(--bj-accent);white-space:nowrap}
+.woocommerce-checkout-review-order-table tfoot .cart-subtotal td,
+.woocommerce-checkout-review-order-table tfoot .shipping td,
+.woocommerce-checkout-review-order-table tfoot .order-total td,
+.woocommerce-checkout-review-order-table tfoot .tax-total td,
+.woocommerce-checkout-review-order-table tfoot .fee td{
+  font-weight:700;color:var(--bj-ink);
+}
+.woocommerce-checkout-review-order-table tfoot th{
+  text-align:right;font-weight:600;color:var(--bj-ink-soft);padding:8px 0;font-size:13.5px;
+}
+.woocommerce-checkout-review-order-table .woocommerce-Price-amount{font-weight:700}
+.woocommerce-checkout-review-order-table .order-total th,
+.woocommerce-checkout-review-order-table .order-total td{
+  border-top:1.5px solid var(--bj-border);padding-top:14px;font-size:16px;
+}
+.woocommerce-checkout-review-order-table .order-total .woocommerce-Price-amount{
+  font-size:20px;color:var(--bj-accent);font-weight:800;
+}
+/* درگاه‌ها/کد تخفیف منفی */
+.woocommerce-checkout-review-order-table .cart-discount .woocommerce-Price-amount{color:var(--bj-success)}
+
+/* ---------- کد تخفیف ---------- */
+.baji-promo{display:flex;gap:8px;margin-top:16px}
+.baji-promo-input{
+  flex:1;min-width:0;padding:10px 12px;font-family:inherit;font-size:13px;
+  border:1.5px solid var(--bj-border-strong);border-radius:var(--bj-radius-sm);background:#fff;color:var(--bj-ink);
+}
+.baji-promo-input:focus{outline:none;border-color:var(--bj-gold);box-shadow:var(--bj-ring)}
+.baji-btn-ghost{
+  white-space:nowrap;padding:0 16px;border:1.5px solid var(--bj-accent);border-radius:var(--bj-radius-sm);
+  background:var(--bj-accent);color:#fff;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;
+}
+.baji-btn-ghost:hover{background:var(--bj-accent-hover)}
+
+/* ---------- پرداخت ---------- */
+.woocommerce-checkout-payment{
+  margin-top:18px;border-top:1px solid var(--bj-border);padding-top:18px;
+}
+.wc_payment_methods{list-style:none;margin:0;padding:0}
+.wc_payment_method{
+  border:1.5px solid var(--bj-border-strong);
+  border-radius:var(--bj-radius-sm);padding:13px 14px;margin-bottom:10px;
+  cursor:pointer;transition:border-color .15s, box-shadow .15s, background .15s;
+}
+.wc_payment_method:hover{border-color:#b8b1a2}
+.wc_payment_method:has(input:checked),
+.wc_payment_method.payment_method_selected{
+  border-color:var(--bj-accent);background:#fbfaf6;box-shadow:var(--bj-ring);
+}
+.wc_payment_method input[type="radio"]{accent-color:var(--bj-accent);width:16px;height:16px;cursor:pointer;vertical-align:middle}
+.wc_payment_method label{
+  font-weight:700;font-size:14px;cursor:pointer;
+}
+.wc_payment_method label img{max-height:22px;vertical-align:middle;margin-inline-start:8px}
+.wc_payment_method .payment_box{
+  background:#f7f4ee;border:1px solid var(--bj-border);border-radius:var(--bj-radius-sm);
+  padding:10px 12px;margin-top:10px;font-size:13px;color:var(--bj-ink-soft);
+}
+
+/* ---------- شرایط و دکمه ثبت سفارش ---------- */
+.woocommerce-terms-and-conditions-wrapper{margin:14px 0}
+.woocommerce-terms-and-conditions-wrapper input[type="checkbox"]{accent-color:var(--bj-accent);width:16px;height:16px;vertical-align:middle}
+.woocommerce-terms-and-conditions-wrapper span, .woocommerce-terms-and-conditions-wrapper a{font-size:13px;color:var(--bj-ink-soft)}
+
+.place-order{margin:0}
+#place_order{
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  width:100%;padding:15px 22px;margin:0;
+  font-family:inherit;font-size:15px;font-weight:800;color:#fff;cursor:pointer;
+  background:var(--bj-accent);border:none;border-radius:var(--bj-radius-sm);
+  box-shadow:0 12px 24px -12px rgba(0,0,0,.4);
+  transition:background .15s, box-shadow .15s, transform .08s;
+}
+#place_order:hover{background:var(--bj-accent-hover);box-shadow:0 16px 28px -12px rgba(0,0,0,.45)}
+#place_order:active{transform:translateY(1px)}
+.place-order .woocommerce-privacy-policy-text{font-size:12px;color:var(--bj-ink-soft);margin-top:10px}
+
+/* پیام‌های ریز */
+.woocommerce-checkout-review-order .blockUI.blockOverlay{opacity:.6 !important}
+
+/* حالت موبایل: unsticky سایدبار */
+@media (max-width:920px){
+  .baji-sidebar{position:static}
+}
