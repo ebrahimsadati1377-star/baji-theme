@@ -123,9 +123,7 @@ get_header();
 					<p class="hidden md:block text-sm md:text-base text-gray-500 leading-relaxed"><?php esc_html_e( 'راهنمای انتخاب، ست‌کردن و شناخت ترندها برای خریدی مطمئن‌تر و استایلی شخصی‌تر.', 'bajistyle' ); ?></p>
 				</div>
 
-				<?php
-				$blog_page_url = get_option( 'page_for_posts' ) ? get_permalink( get_option( 'page_for_posts' ) ) : home_url( '/blog/' );
-				?>
+				<?php $blog_page_url = home_url( '/mag/' ); ?>
 				<a href="<?php echo esc_url( $blog_page_url ); ?>" class="group flex items-center gap-2 text-xs md:text-sm font-bold text-gray-700 hover:text-baji-gold transition-colors duration-300 shrink-0">
 					<span><?php esc_html_e( 'مشاهده همه', 'bajistyle' ); ?></span>
 					<span class="w-8 h-8 md:w-10 md:h-10 rounded-full border border-gray-200 bg-white flex items-center justify-center group-hover:border-baji-gold transition-colors duration-300">
