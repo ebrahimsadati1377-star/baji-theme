@@ -57,6 +57,7 @@ get_header();
 
 	<?php get_template_part( 'template-parts/home-category-products' ); ?>
 	<?php get_template_part( 'template-parts/brand-story' ); ?>
+	<?php get_template_part( 'template-parts/sale-products' ); ?>
 
 	<!-- =================== بنرهای شبکه اجتماعی (اینستاگرام و بله) =================== -->
 	<section class="baji-social-banners py-6 bg-baji-cream">
@@ -186,32 +187,29 @@ get_header();
 										<p class="text-xs md:text-sm text-gray-500 line-clamp-2 leading-relaxed mb-5"><?php echo esc_html( wp_trim_words( get_the_excerpt(), 20, '...' ) ); ?></p>
 										<a href="<?php the_permalink(); ?>" class="mt-auto pt-3 border-t border-gray-100 flex items-center justify-between text-xs font-bold text-gray-700 group-hover:text-baji-gold transition-colors duration-300">
 											<span><?php esc_html_e( 'مطالعه مقاله', 'bajistyle' ); ?></span>
-											<span class="w-7 h-7 rounded-full bg-gray-50 flex items-center justify-center group-hover:bg-baji-gold group-hover:text-white transition-all duration-300">
-												<i class="fa-solid fa-arrow-left text-[9px] transform group-hover:-translate-x-0.5 transition-transform duration-300"></i>
+											<span class="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center group-hover:bg-baji-gold group-hover:text-white transition-colors duration-300">
+												<i class="fa-solid fa-arrow-left text-[10px]"></i>
 											</span>
 										</a>
 									</div>
 								</article>
 							</div>
-						<?php
-						endwhile;
-						wp_reset_postdata();
-					else :
-						?>
-						<div class="w-full text-center text-gray-500 py-10">
-							<i class="fa-regular fa-file-lines text-2xl mb-3"></i>
-							<p><?php esc_html_e( 'هنوز مقاله‌ای منتشر نشده است.', 'bajistyle' ); ?></p>
+						<?php endwhile; ?>
+					<?php else : ?>
+						<div class="swiper-slide">
+							<div class="bg-white rounded-2xl border border-gray-100 p-8 text-center text-sm text-gray-500">
+								<?php esc_html_e( 'هنوز مقاله‌ای منتشر نشده است.', 'bajistyle' ); ?>
+							</div>
 						</div>
 					<?php endif; ?>
+					<?php wp_reset_postdata(); ?>
 				</div>
 				<div class="swiper-pagination !bottom-0"></div>
 			</div>
 		</div>
 	</section>
 
-	<?php get_template_part( 'template-parts/testimonial' ); ?>
-
-</div><!-- .baji-front-page -->
+</div>
 
 <?php
 get_footer();
