@@ -7,6 +7,7 @@
 
 /**
  * باز و بسته کردن منوی موبایل با کنترل overlay و دسترسی‌پذیری.
+ * Overlay اختیاری است تا نبودن آن مانع کارکرد دکمه همبرگری نشود.
  *
  * @since 1.0.0
  */
@@ -16,13 +17,15 @@ function initMobileMenu() {
 	const menu = document.getElementById( 'baji-mobile-menu' );
 	const overlay = document.getElementById( 'baji-mobile-overlay' );
 
-	if ( ! toggleButton || ! menu || ! overlay ) {
+	if ( ! toggleButton || ! menu ) {
 		return;
 	}
 
 	const openMenu = () => {
 		menu.classList.remove( 'translate-x-full' );
-		overlay.classList.remove( 'opacity-0', 'pointer-events-none' );
+		if ( overlay ) {
+			overlay.classList.remove( 'opacity-0', 'pointer-events-none' );
+		}
 		menu.setAttribute( 'aria-hidden', 'false' );
 		toggleButton.setAttribute( 'aria-expanded', 'true' );
 		document.body.style.overflow = 'hidden';
@@ -30,7 +33,9 @@ function initMobileMenu() {
 
 	const closeMenu = () => {
 		menu.classList.add( 'translate-x-full' );
-		overlay.classList.add( 'opacity-0', 'pointer-events-none' );
+		if ( overlay ) {
+			overlay.classList.add( 'opacity-0', 'pointer-events-none' );
+		}
 		menu.setAttribute( 'aria-hidden', 'true' );
 		toggleButton.setAttribute( 'aria-expanded', 'false' );
 		document.body.style.overflow = '';
@@ -42,7 +47,9 @@ function initMobileMenu() {
 		closeButton.addEventListener( 'click', closeMenu );
 	}
 
-	overlay.addEventListener( 'click', closeMenu );
+	if ( overlay ) {
+		overlay.addEventListener( 'click', closeMenu );
+	}
 
 	document.addEventListener( 'keydown', ( event ) => {
 		if ( event.key === 'Escape' && menu.getAttribute( 'aria-hidden' ) === 'false' ) {
@@ -92,7 +99,6 @@ function initMegaMenu() {
 		item.addEventListener( 'mouseleave', closePanel );
 		item.addEventListener( 'focusin', openPanel );
 		item.addEventListener( 'focusout', ( event ) => {
-			// در صورتی که فوکوس همچنان داخل همان آیتم منو باشد، پنل بسته نمی‌شود.
 			if ( ! item.contains( event.relatedTarget ) ) {
 				closePanel();
 			}
@@ -113,7 +119,6 @@ function initShopFiltersToggle() {
 		return;
 	}
 
-	// در دسکتاپ همیشه نمایش داده می‌شود؛ در موبایل به‌صورت پیش‌فرض بسته است.
 	const isDesktop = () => window.matchMedia( '(min-width: 1024px)' ).matches;
 
 	if ( ! isDesktop() ) {
