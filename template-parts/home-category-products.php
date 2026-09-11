@@ -9,6 +9,9 @@ if ( ! defined( 'ABSPATH' ) || ! class_exists( 'WooCommerce' ) ) {
 	return;
 }
 
+// بنر خرید اقساطی بلافاصله بعد از بخش جدیدترین محصولات.
+get_template_part( 'template-parts/installment-banner' );
+
 for ( $slot = 1; $slot <= 3; $slot++ ) :
 	$term_id = absint( get_theme_mod( 'bajistyle_home_category_' . $slot, 0 ) );
 
