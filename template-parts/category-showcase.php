@@ -21,7 +21,7 @@ $image_url=$thumbnail_id?wp_get_attachment_image_url($thumbnail_id,'large'):wc_p
 if(107===(int)$category->term_id || 'tshirt'===$category->slug || 'تیشرت'===$category->name){$image_url='https://bajistyle.ir/wp-content/uploads/2026/09/baji-category-tshirt.png?v=2645';}
 if(27===(int)$category->term_id || 'کراپ'===$category->name){$image_url='https://bajistyle.ir/wp-content/uploads/2026/09/baji-category-crop-1.png?v=2648';}
 if(19===(int)$category->term_id || 'دامن'===$category->name){$image_url='https://bajistyle.ir/wp-content/uploads/2026/09/baji-category-skirt.png?v=2652';}
-if(23===(int)$category->term_id || 'اورال'===$category->name){$image_url='https://bajistyle.ir/wp-content/uploads/2026/09/baji-category-overall-reference.png?v=2667';}
+if(23===(int)$category->term_id || 'اورال'===$category->name){$image_url='https://bajistyle.ir/wp-content/uploads/2026/09/baji-category-overall-exact-reference.png?v=2676';}
 if(22===(int)$category->term_id || 'سِت'===$category->name){$image_url='https://bajistyle.ir/wp-content/uploads/2026/09/baji-category-set.png?v=2661';}
 $category_link=get_term_link($category);if(is_wp_error($category_link)){continue;}
 ?>
