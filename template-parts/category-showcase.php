@@ -35,6 +35,10 @@ if ( is_wp_error($categories) || empty($categories) ) { return; }
 <?php foreach($categories as $category):
     $thumbnail_id = get_term_meta($category->term_id,'thumbnail_id',true);
     $image_url = $thumbnail_id ? wp_get_attachment_image_url($thumbnail_id,'large') : wc_placeholder_img_src('woocommerce_thumbnail');
+    // Homepage fallback/override: keep the approved BAJI T-shirt artwork visible even when term/meta caches are stale.
+    if ( 107 === (int) $category->term_id || 'tshirt' === $category->slug || 'تیشرت' === $category->name ) {
+        $image_url = 'https://bajistyle.ir/wp-content/uploads/2026/09/baji-category-tshirt.png?v=2645';
+    }
     $category_link = get_term_link($category);
     if ( is_wp_error($category_link) ) { continue; }
 ?>
