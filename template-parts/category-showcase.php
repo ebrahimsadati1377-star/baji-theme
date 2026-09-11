@@ -5,7 +5,6 @@ $categories = get_terms(array(
     'taxonomy'   => 'product_cat',
     'hide_empty' => true,
     'parent'     => 0,
-    'number'     => 8,
     'exclude'    => array(get_option('default_product_cat',0)),
     'orderby'    => 'menu_order',
     'order'      => 'ASC',
@@ -27,7 +26,8 @@ if ( is_wp_error($categories) || empty($categories) ) { return; }
 .baji-category-card__content{position:absolute;z-index:2;inset:0;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:13px 14px;color:#fff}
 .baji-category-card__name{font-size:16px;font-weight:900;line-height:1.35;text-shadow:0 1px 5px rgba(0,0,0,.22)}
 .baji-category-card__arrow{width:27px;height:27px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.94);color:#8f3f55;font-size:11px;box-shadow:0 2px 8px rgba(0,0,0,.12);flex:0 0 auto}
-@media(min-width:768px){.baji-category-showcase{padding:30px 0 38px}.baji-category-showcase__head{margin-bottom:20px}.baji-category-showcase__title{font-size:25px}.baji-category-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}.baji-category-card{border-radius:20px;aspect-ratio:1.75/1}.baji-category-card__content{padding:18px 20px}.baji-category-card__name{font-size:20px}.baji-category-card__arrow{width:34px;height:34px;font-size:13px}}
+.baji-category-card:last-child:nth-child(odd){grid-column:1/-1;aspect-ratio:3.8/1}
+@media(min-width:768px){.baji-category-showcase{padding:30px 0 38px}.baji-category-showcase__head{margin-bottom:20px}.baji-category-showcase__title{font-size:25px}.baji-category-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}.baji-category-card{border-radius:20px;aspect-ratio:1.75/1}.baji-category-card:last-child:nth-child(odd){grid-column:auto;aspect-ratio:1.75/1}.baji-category-card__content{padding:18px 20px}.baji-category-card__name{font-size:20px}.baji-category-card__arrow{width:34px;height:34px;font-size:13px}}
 </style>
 <div class="max-w-[1400px] mx-auto px-4 md:px-8">
 <div class="baji-category-showcase__head"><h2 id="baji-category-title" class="baji-category-showcase__title"><?php esc_html_e('دسته‌بندی محصولات','bajistyle'); ?></h2><span class="baji-category-showcase__hint"><?php esc_html_e('سریع‌تر انتخاب کن','bajistyle'); ?></span></div>
