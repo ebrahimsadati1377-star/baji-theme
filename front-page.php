@@ -47,6 +47,9 @@ get_header();
   .baji-front-page .baji-category-showcase .baji-category-card--blouse {
     aspect-ratio: 969 / 155 !important;
   }
+  .baji-front-page .baji-category-showcase .baji-category-card--crop {
+    aspect-ratio: 969 / 152 !important;
+  }
   .baji-front-page .baji-category-showcase .baji-category-card--overall .baji-category-card__image,
   .baji-front-page .baji-category-showcase .baji-category-card--overshirt .baji-category-card__image,
   .baji-front-page .baji-category-showcase .baji-category-card--set .baji-category-card__image,
