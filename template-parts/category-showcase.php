@@ -34,7 +34,7 @@ if($is_skirt){$image_url='https://bajistyle.ir/wp-content/uploads/2026/09/baji-c
 if(23===(int)$category->term_id || 'اورال'===$category->name){$image_url='https://bajistyle.ir/wp-content/uploads/2026/09/baji-category-overall-exact-reference-v2-1.png?v=2733';}
 if($is_set){$image_url='https://bajistyle.ir/wp-content/uploads/2026/09/baji-set-reference-exact-final.png?v=2742';}
 if($is_pants){$image_url='https://bajistyle.ir/wp-content/uploads/2026/09/baji-pants-reference-exact-site.png?v=2749';}
-if($is_manto){$image_url='https://bajistyle.ir/wp-content/uploads/2026/09/baji-manto-reference-exact-site-v2.png?v=2760';}
+if($is_manto){$image_url='https://bajistyle.ir/wp-content/uploads/2026/09/baji-manto-photo-final-cropped.png?v=2727-correct';}
 $category_link=get_term_link($category);if(is_wp_error($category_link)){continue;}
 ?>
 <a href="<?php echo esc_url($category_link); ?>" class="baji-category-card<?php echo $is_manto?' baji-category-card--manto':''; ?><?php echo $is_overshirt?' baji-category-card--overshirt':''; ?><?php echo $is_overall?' baji-category-card--overall':''; ?><?php echo $is_skirt?' baji-category-card--skirt':''; ?><?php echo $is_set?' baji-category-card--set':''; ?><?php echo $is_pants?' baji-category-card--pants':''; ?><?php echo $is_blouse?' baji-category-card--blouse':''; ?><?php echo $is_crop?' baji-category-card--crop':''; ?><?php echo $is_tshirt?' baji-category-card--tshirt':''; ?>" role="listitem" aria-label="<?php echo esc_attr(sprintf(__('مشاهده دسته %s','bajistyle'),$category->name)); ?>">
@@ -42,7 +42,7 @@ $category_link=get_term_link($category);if(is_wp_error($category_link)){continue
 <img class="baji-category-card__image" style="position:absolute!important;inset:0!important;width:100%!important;height:100%!important;object-fit:cover!important;object-position:center!important;transform:none!important;border-radius:inherit!important" src="https://bajistyle.ir/wp-content/uploads/2026/09/baji-tshirt-reference-exact-site-v2.png?v=2759" alt="تیشرت" loading="eager" decoding="sync">
 <span class="baji-category-card__content"><strong class="baji-category-card__name"><?php echo esc_html($category->name); ?></strong></span>
 <?php elseif($is_manto): ?>
-<img class="baji-category-card__image" style="position:absolute!important;inset:0!important;width:100%!important;height:100%!important;object-fit:fill!important;object-position:center!important;transform:none!important;border-radius:inherit!important" src="https://bajistyle.ir/wp-content/uploads/2026/09/baji-manto-reference-exact-site-v2.png?v=2760-exact" alt="مانتو" loading="eager" decoding="sync">
+<img class="baji-category-card__image" style="position:absolute!important;inset:0!important;width:100%!important;height:100%!important;object-fit:fill!important;object-position:center!important;transform:none!important;border-radius:inherit!important" src="https://bajistyle.ir/wp-content/uploads/2026/09/baji-manto-photo-final-cropped.png?v=2727-correct" alt="مانتو" loading="eager" decoding="sync">
 <?php elseif($is_pants): ?>
 <img class="baji-category-card__image" style="position:absolute!important;inset:0!important;width:100%!important;height:100%!important;object-fit:fill!important;object-position:center!important;transform:none!important" src="https://bajistyle.ir/wp-content/uploads/2026/09/baji-pants-reference-exact-site.png?v=2749-final-2" alt="شلوار" loading="eager" decoding="sync">
 <?php elseif($is_blouse): ?>
