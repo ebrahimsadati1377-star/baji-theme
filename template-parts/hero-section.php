@@ -29,7 +29,7 @@ $has_slides = $slider_query->have_posts();
 <!-- استایل اختصاصی برای تضمین نسبت ابعاد دقیق تصویر بدون نیاز به کامپایلر CSS -->
 <style>
 	.baji-hero-frame {
-		aspect-ratio: 750 / 500;
+		aspect-ratio: 1672 / 941;
 	}
 	@media (min-width: 768px) {
 		.baji-hero-frame {
@@ -67,6 +67,14 @@ $has_slides = $slider_query->have_posts();
 
                     $desktop_image_url = has_post_thumbnail( $slide_id ) ? get_the_post_thumbnail_url( $slide_id, 'full' ) : '';
                     $mobile_image_url  = $mobile_image_id ? wp_get_attachment_image_url( $mobile_image_id, 'full' ) : '';
+
+                    if ( 0 === $slide_index ) {
+                        $desktop_image_url = 'https://bajistyle.ir/wp-content/uploads/2026/09/baji-installment-slider-reference-face.png?v=2766';
+                        $mobile_image_url  = $desktop_image_url;
+                        $overlay_opacity   = '0';
+                        $button_text       = '';
+                        $button_url        = '';
+                    }
                     ?>
                     
                     <!-- اسلاید -->
@@ -78,7 +86,7 @@ $has_slides = $slider_query->have_posts();
                                 <?php endif; ?>
                                 <img src="<?php echo esc_url( $desktop_image_url ); ?>"
                                     alt="<?php echo esc_attr( get_the_title( $slide_id ) ); ?>"
-                                    class="w-full h-full object-cover object-center"
+                                    class="w-full h-full <?php echo 0 === $slide_index ? 'object-fill' : 'object-cover'; ?> object-center"
                                     loading="<?php echo 0 === $slide_index ? 'eager' : 'lazy'; ?>" />
                             </picture>
                         <?php endif; ?>
