@@ -39,6 +39,10 @@ get_header();
     grid-column: auto !important;
   }
 }
+.baji-front-page .baji-category-showcase .baji-category-card__arrow,
+.baji-front-page .baji-category-showcase .fa-arrow-left,
+.baji-front-page .baji-category-showcase a > i.fa-solid,
+.baji-front-page .baji-category-showcase a > i.fas {display:none!important;visibility:hidden!important;opacity:0!important;width:0!important;height:0!important;margin:0!important;padding:0!important;}
 </style>
 
 	<!-- =================== بخش اول: جدیدترین محصولات =================== -->
