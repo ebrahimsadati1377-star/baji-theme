@@ -20,6 +20,26 @@ get_header();
 	<?php get_template_part( 'template-parts/hero-section' ); ?>
 
 	<?php get_template_part( 'template-parts/category-showcase' ); ?>
+<style id="baji-force-mobile-category-layout">
+@media (max-width: 767px) {
+  .baji-front-page .baji-category-showcase .baji-category-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    grid-template-columns: none !important;
+    gap: 12px !important;
+  }
+  .baji-front-page .baji-category-showcase .baji-category-card {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    flex: 0 0 auto !important;
+    aspect-ratio: 3.8 / 1 !important;
+    height: auto !important;
+    grid-column: auto !important;
+  }
+}
+</style>
 
 	<!-- =================== بخش اول: جدیدترین محصولات =================== -->
 	<section class="baji-new-arrivals py-12 md:py-16 bg-baji-cream">
