@@ -43,13 +43,15 @@ get_header();
     aspect-ratio: 969 / 153 !important;
   }
   .baji-front-page .baji-category-showcase .baji-category-card--set,
-  .baji-front-page .baji-category-showcase .baji-category-card--pants {
+  .baji-front-page .baji-category-showcase .baji-category-card--pants,
+  .baji-front-page .baji-category-showcase .baji-category-card--blouse {
     aspect-ratio: 969 / 155 !important;
   }
   .baji-front-page .baji-category-showcase .baji-category-card--overall .baji-category-card__image,
   .baji-front-page .baji-category-showcase .baji-category-card--overshirt .baji-category-card__image,
   .baji-front-page .baji-category-showcase .baji-category-card--set .baji-category-card__image,
-  .baji-front-page .baji-category-showcase .baji-category-card--pants .baji-category-card__image {
+  .baji-front-page .baji-category-showcase .baji-category-card--pants .baji-category-card__image,
+  .baji-front-page .baji-category-showcase .baji-category-card--blouse .baji-category-card__image {
     width: 100% !important;
     height: 100% !important;
     object-fit: fill !important;
@@ -63,7 +65,9 @@ get_header();
   .baji-front-page .baji-category-showcase .baji-category-card--set .baji-category-card__shade,
   .baji-front-page .baji-category-showcase .baji-category-card--set .baji-category-card__content,
   .baji-front-page .baji-category-showcase .baji-category-card--pants .baji-category-card__shade,
-  .baji-front-page .baji-category-showcase .baji-category-card--pants .baji-category-card__content {
+  .baji-front-page .baji-category-showcase .baji-category-card--pants .baji-category-card__content,
+  .baji-front-page .baji-category-showcase .baji-category-card--blouse .baji-category-card__shade,
+  .baji-front-page .baji-category-showcase .baji-category-card--blouse .baji-category-card__content {
     display: none !important;
   }
   .baji-front-page .baji-category-showcase .baji-category-card--skirt {
