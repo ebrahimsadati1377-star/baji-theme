@@ -41,6 +41,8 @@ $category_link=get_term_link($category);if(is_wp_error($category_link)){continue
 <img class="baji-category-card__image" style="position:absolute!important;inset:0!important;width:100%!important;height:100%!important;object-fit:fill!important;object-position:center!important;transform:none!important" src="https://bajistyle.ir/wp-content/uploads/2026/09/baji-pants-reference-exact-site.png?v=2749-final-2" alt="شلوار" loading="eager" decoding="sync">
 <?php elseif($is_blouse): ?>
 <img class="baji-category-card__image" style="position:absolute!important;inset:0!important;width:100%!important;height:100%!important;object-fit:fill!important;object-position:center!important;transform:none!important;border-radius:inherit!important" src="https://bajistyle.ir/wp-content/uploads/2026/09/baji-blouse-reference-exact-site.png?v=2750-sizefix1" alt="شومیز" loading="eager" decoding="sync">
+<?php elseif($is_crop): ?>
+<img class="baji-category-card__image" style="position:absolute!important;width:105.676%!important;height:auto!important;max-width:none!important;left:-2.89%!important;top:-718.421%!important;transform:none!important" src="https://bajistyle.ir/wp-content/uploads/2026/09/baji-reference-categories-master.jpg?v=2751-crop" alt="کراپ" loading="eager" decoding="sync">
 <?php else: ?>
 <img class="baji-category-card__image" src="<?php echo esc_url($image_url); ?>" alt="<?php echo esc_attr($category->name); ?>" loading="lazy" decoding="async">
 <span class="baji-category-card__shade" aria-hidden="true"></span><span class="baji-category-card__content"><strong class="baji-category-card__name"><?php echo esc_html($category->name); ?></strong></span>
