@@ -51,7 +51,7 @@ get_header();
     aspect-ratio: 969 / 152 !important;
   }
   .baji-front-page .baji-category-showcase .baji-category-card--tshirt {
-    aspect-ratio: 893 / 167 !important;
+    aspect-ratio: 969 / 155 !important;
   }
   .baji-front-page .baji-category-showcase .baji-category-card--crop {
     aspect-ratio: 969 / 152 !important;
@@ -61,6 +61,13 @@ get_header();
   .baji-front-page .baji-category-showcase .baji-category-card--set .baji-category-card__image,
   .baji-front-page .baji-category-showcase .baji-category-card--pants .baji-category-card__image,
   .baji-front-page .baji-category-showcase .baji-category-card--blouse .baji-category-card__image {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: fill !important;
+    object-position: center !important;
+    transform: none !important;
+  }
+  .baji-front-page .baji-category-showcase .baji-category-card--tshirt .baji-category-card__image {
     width: 100% !important;
     height: 100% !important;
     object-fit: fill !important;
