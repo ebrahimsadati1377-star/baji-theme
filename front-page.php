@@ -50,6 +50,9 @@ get_header();
   .baji-front-page .baji-category-showcase .baji-category-card--crop {
     aspect-ratio: 969 / 152 !important;
   }
+  .baji-front-page .baji-category-showcase .baji-category-card--tshirt {
+    aspect-ratio: 893 / 167 !important;
+  }
   .baji-front-page .baji-category-showcase .baji-category-card--crop {
     aspect-ratio: 969 / 152 !important;
   }
