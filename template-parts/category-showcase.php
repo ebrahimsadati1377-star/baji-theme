@@ -26,6 +26,7 @@ $is_skirt=(19===(int)$category->term_id || 'دامن'===$category->name);
 $is_set=(22===(int)$category->term_id || 'سِت'===$category->name || 'ست'===$category->name);
 $is_pants=(20===(int)$category->term_id || 'شلوار'===$category->name);
 $is_blouse=(17===(int)$category->term_id || 'شومیز'===$category->name);
+$is_crop=(27===(int)$category->term_id || 'کراپ'===$category->name);
 if(107===(int)$category->term_id || 'tshirt'===$category->slug || 'تیشرت'===$category->name){$image_url='https://bajistyle.ir/wp-content/uploads/2026/09/baji-category-tshirt.png?v=2645';}
 if(27===(int)$category->term_id || 'کراپ'===$category->name){$image_url='https://bajistyle.ir/wp-content/uploads/2026/09/baji-category-crop-1.png?v=2648';}
 if($is_skirt){$image_url='https://bajistyle.ir/wp-content/uploads/2026/09/baji-category-skirt-exact-reference.png?v=2734';}
@@ -35,7 +36,7 @@ if($is_pants){$image_url='https://bajistyle.ir/wp-content/uploads/2026/09/baji-p
 if($is_manto){$image_url='https://bajistyle.ir/wp-content/uploads/2026/09/baji-manto-photo-final-cropped.png?v=2727';}
 $category_link=get_term_link($category);if(is_wp_error($category_link)){continue;}
 ?>
-<a href="<?php echo esc_url($category_link); ?>" class="baji-category-card<?php echo $is_manto?' baji-category-card--manto':''; ?><?php echo $is_overshirt?' baji-category-card--overshirt':''; ?><?php echo $is_overall?' baji-category-card--overall':''; ?><?php echo $is_skirt?' baji-category-card--skirt':''; ?><?php echo $is_set?' baji-category-card--set':''; ?><?php echo $is_pants?' baji-category-card--pants':''; ?><?php echo $is_blouse?' baji-category-card--blouse':''; ?>" role="listitem" aria-label="<?php echo esc_attr(sprintf(__('مشاهده دسته %s','bajistyle'),$category->name)); ?>">
+<a href="<?php echo esc_url($category_link); ?>" class="baji-category-card<?php echo $is_manto?' baji-category-card--manto':''; ?><?php echo $is_overshirt?' baji-category-card--overshirt':''; ?><?php echo $is_overall?' baji-category-card--overall':''; ?><?php echo $is_skirt?' baji-category-card--skirt':''; ?><?php echo $is_set?' baji-category-card--set':''; ?><?php echo $is_pants?' baji-category-card--pants':''; ?><?php echo $is_blouse?' baji-category-card--blouse':''; ?><?php echo $is_crop?' baji-category-card--crop':''; ?>" role="listitem" aria-label="<?php echo esc_attr(sprintf(__('مشاهده دسته %s','bajistyle'),$category->name)); ?>">
 <?php if($is_pants): ?>
 <img class="baji-category-card__image" style="position:absolute!important;inset:0!important;width:100%!important;height:100%!important;object-fit:fill!important;object-position:center!important;transform:none!important" src="https://bajistyle.ir/wp-content/uploads/2026/09/baji-pants-reference-exact-site.png?v=2749-final-2" alt="شلوار" loading="eager" decoding="sync">
 <?php elseif($is_blouse): ?>
