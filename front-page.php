@@ -38,6 +38,20 @@ get_header();
     height: auto !important;
     grid-column: auto !important;
   }
+  .baji-front-page .baji-category-showcase .baji-category-card--overall {
+    aspect-ratio: 969 / 153 !important;
+  }
+  .baji-front-page .baji-category-showcase .baji-category-card--overall .baji-category-card__image {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: fill !important;
+    object-position: center !important;
+    transform: none !important;
+  }
+  .baji-front-page .baji-category-showcase .baji-category-card--overall .baji-category-card__shade,
+  .baji-front-page .baji-category-showcase .baji-category-card--overall .baji-category-card__content {
+    display: none !important;
+  }
 }
 .baji-front-page .baji-category-showcase .baji-category-card__arrow,
 .baji-front-page .baji-category-showcase .fa-arrow-left,
