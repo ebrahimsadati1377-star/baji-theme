@@ -30,7 +30,7 @@ if(27===(int)$category->term_id || 'کراپ'===$category->name){$image_url='htt
 if($is_skirt){$image_url='https://bajistyle.ir/wp-content/uploads/2026/09/baji-category-skirt-exact-reference.png?v=2734';}
 if(23===(int)$category->term_id || 'اورال'===$category->name){$image_url='https://bajistyle.ir/wp-content/uploads/2026/09/baji-category-overall-exact-reference-v2-1.png?v=2733';}
 if($is_set){$image_url='https://bajistyle.ir/wp-content/uploads/2026/09/baji-set-reference-exact-final.png?v=2742';}
-if($is_pants){$image_url='https://bajistyle.ir/wp-content/uploads/2026/09/baji-category-pants-reference-exact.png?v=2687';}
+if($is_pants){$image_url='https://bajistyle.ir/wp-content/uploads/2026/09/baji-pants-reference-exact-site.png?v=2749';}
 if($is_manto){$image_url='https://bajistyle.ir/wp-content/uploads/2026/09/baji-manto-photo-final-cropped.png?v=2727';}
 $category_link=get_term_link($category);if(is_wp_error($category_link)){continue;}
 ?>
