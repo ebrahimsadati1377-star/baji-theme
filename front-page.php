@@ -278,7 +278,7 @@ get_header();
             <div class="w-full h-full flex items-center justify-center text-[#b7a69d]"><i class="fa-regular fa-image text-3xl"></i></div>
           <?php endif; ?>
           <?php if(!empty($categories)): ?>
-          <span class="absolute top-3 right-3 bg-[#fff8f4]/95 backdrop-blur px-3 py-1 rounded-full text-[9px] md:text-xs font-bold text-[#4b302d] border border-[#e1cfc6]"><?php echo esc_html($categories[0]->name); ?></span>
+          <span class="absolute top-2 right-2 bg-white/85 backdrop-blur-sm px-2 py-0.5 rounded-md text-[8px] md:text-[10px] font-bold text-[#5d4c45]"><?php echo esc_html($categories[0]->name); ?></span>
           <?php endif; ?>
         </a>
         <div class="p-3.5 md:p-5 flex flex-col flex-1">
