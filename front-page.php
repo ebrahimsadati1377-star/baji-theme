@@ -270,7 +270,7 @@ get_header();
         while($blog_query->have_posts()): $blog_query->the_post();
           $categories=get_the_category();
       ?>
-      <article class="group bg-[#fffaf8] rounded-[22px] overflow-hidden border border-[#eaded8] shadow-[0_8px_24px_rgba(79,47,42,.07)] flex flex-col">
+      <article class="group bg-white rounded-[22px] overflow-hidden border border-[#eee4de] shadow-[0_8px_24px_rgba(85,60,48,.07)] flex flex-col">
         <a href="<?php the_permalink(); ?>" class="block relative aspect-[4/3] md:aspect-[16/9] overflow-hidden bg-[#efe3dc]">
           <?php if(has_post_thumbnail()): ?>
             <?php the_post_thumbnail('medium_large',array('class'=>'w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03]','loading'=>'lazy')); ?>
