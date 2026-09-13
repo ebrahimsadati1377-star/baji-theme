@@ -534,7 +534,7 @@ function bajistyle_remove_version_query_string( $src ) {
 	return $src;
 }
 add_filter( 'style_loader_src', 'bajistyle_remove_version_query_string', 9999 );
-add_filter( 'script_loader_src', 'bajistyle_remove_version_query_string', 9999 );
+
 
 /**
  * غیرفعال‌سازی Emoji های پیش‌فرض وردپرس برای افزایش سرعت بارگذاری.
