@@ -20,6 +20,45 @@ get_header();
 	<?php get_template_part( 'template-parts/hero-section' ); ?>
 
 	<?php get_template_part( 'template-parts/category-showcase' ); ?>
+
+	<!-- =================== اعتمادسازی خرید =================== -->
+	<section class="baji-trust-strip py-5 md:py-7 bg-[#fffaf7]">
+		<div class="max-w-[1400px] mx-auto px-4 md:px-8">
+			<div class="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-5">
+
+				<div class="bg-white border border-[#eadfd8] rounded-2xl px-4 py-4 md:px-5 md:py-5 flex items-center gap-3 shadow-[0_6px_20px_rgba(80,55,45,.06)]">
+					<div class="w-11 h-11 md:w-12 md:h-12 rounded-full bg-[#f7e7ea] text-[#7b1327] flex items-center justify-center shrink-0">
+						<i class="fa-regular fa-credit-card text-lg"></i>
+					</div>
+					<div>
+						<div class="text-sm md:text-base font-black text-[#2d211e] mb-1">خرید اقساطی</div>
+						<div class="text-[11px] md:text-sm text-[#7c6f69] leading-6">با دیجی‌پی، اسنپ‌پی و ترب‌پی</div>
+					</div>
+				</div>
+
+				<div class="bg-white border border-[#eadfd8] rounded-2xl px-4 py-4 md:px-5 md:py-5 flex items-center gap-3 shadow-[0_6px_20px_rgba(80,55,45,.06)]">
+					<div class="w-11 h-11 md:w-12 md:h-12 rounded-full bg-[#f5eee8] text-[#9b6b52] flex items-center justify-center shrink-0">
+						<i class="fa-solid fa-truck-fast text-lg"></i>
+					</div>
+					<div>
+						<div class="text-sm md:text-base font-black text-[#2d211e] mb-1">ارسال رایگان</div>
+						<div class="text-[11px] md:text-sm text-[#7c6f69] leading-6">برای سفارش‌های بالای ۳ میلیون تومان</div>
+					</div>
+				</div>
+
+				<div class="bg-white border border-[#eadfd8] rounded-2xl px-4 py-4 md:px-5 md:py-5 flex items-center gap-3 shadow-[0_6px_20px_rgba(80,55,45,.06)]">
+					<div class="w-11 h-11 md:w-12 md:h-12 rounded-full bg-[#f7e7ea] text-[#7b1327] flex items-center justify-center shrink-0">
+						<i class="fa-solid fa-shield-heart text-lg"></i>
+					</div>
+					<div>
+						<div class="text-sm md:text-base font-black text-[#2d211e] mb-1">تضمین کیفیت BAJI</div>
+						<div class="text-[11px] md:text-sm text-[#7c6f69] leading-6">کیفیتی که با اولین پوشیدن حسش می‌کنی</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</section>
 <style id="baji-force-mobile-category-layout">
 @media (max-width: 767px) {
   .baji-front-page .baji-category-showcase .baji-category-grid {
