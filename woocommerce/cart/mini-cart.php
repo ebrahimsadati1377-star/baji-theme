@@ -80,6 +80,14 @@ $baji_free_pct    = min( 100, ( $baji_cart_amount / $baji_free_target ) * 100 );
         ?>
     </ul>
 
+<form class="baji-mini-coupon-form" method="post" action="<?php echo esc_url( wc_get_cart_url() ); ?>">
+  <div class="baji-mini-coupon__field">
+    <i class="far fa-gift"></i>
+    <input type="text" name="coupon_code" placeholder="کد تخفیف را وارد کنید" autocomplete="off">
+    <button type="submit" name="apply_coupon" value="1">اعمال</button>
+  </div>
+</form>
+
 <div class="pt-6 border-t border-gray-100 mt-2">
         <div class="flex justify-between items-center mb-6 text-sm font-bold">
             <?php do_action( 'woocommerce_widget_shopping_cart_total' ); ?>
