@@ -270,7 +270,7 @@ get_header();
         while($blog_query->have_posts()): $blog_query->the_post();
           $categories=get_the_category();
       ?>
-      <article class="group bg-white rounded-[22px] overflow-hidden border border-[#eee4de] shadow-[0_8px_24px_rgba(85,60,48,.07)] flex flex-col">
+      <article class="group bg-[#fff7f8] rounded-[22px] overflow-hidden border border-[#efd1d7] shadow-[0_10px_28px_rgba(123,19,39,.08)] flex flex-col">
         <a href="<?php the_permalink(); ?>" class="block relative aspect-[4/3] md:aspect-[16/9] overflow-hidden bg-[#f4eee9]">
           <?php if(has_post_thumbnail()): ?>
             <?php the_post_thumbnail('medium_large',array('class'=>'w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03]','loading'=>'lazy')); ?>
@@ -282,8 +282,8 @@ get_header();
           <?php endif; ?>
         </a>
         <div class="p-3.5 md:p-5 flex flex-col flex-1">
-          <h3 class="text-sm md:text-xl font-black text-[#2f2521] leading-[1.75] md:leading-[1.6] line-clamp-2 mb-2"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
-          <p class="hidden md:block text-sm text-[#80736d] leading-7 line-clamp-2 mb-4"><?php echo esc_html(wp_trim_words(get_the_excerpt(),24,'...')); ?></p>
+          <h3 class="text-sm md:text-xl font-black text-[#6f1830] leading-[1.75] md:leading-[1.6] line-clamp-2 mb-2"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
+          <p class="hidden md:block text-sm text-[#7d666c] leading-7 line-clamp-2 mb-4"><?php echo esc_html(wp_trim_words(get_the_excerpt(),24,'...')); ?></p>
           <div class="mt-auto flex items-center justify-between pt-3 border-t border-[#f1e8e3] text-[10px] md:text-xs text-[#756860]">
             <span class="flex items-center gap-1"><i class="fa-regular fa-calendar"></i><?php echo esc_html(get_the_date('Y/m/d')); ?></span>
             <a href="<?php the_permalink(); ?>" class="font-bold text-[#7b1327] flex items-center gap-1">مطالعه مقاله <i class="fa-solid fa-arrow-left text-[9px]"></i></a>
