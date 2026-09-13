@@ -1558,3 +1558,20 @@ form.cart button.single_add_to_cart_button {
 #baji-cart-panel .baji-mini-coupon__message{min-height:16px;padding:4px 3px 0;font-size:9px}
 #baji-cart-panel .baji-mini-coupon__message.is-success{color:#169447}
 #baji-cart-panel .baji-mini-coupon__message.is-error{color:#c13d4c}
+
+
+/* BAJI mini-cart shipping progress */
+#baji-cart-panel .baji-mini-shipping-progress{margin:10px 0 14px;padding:14px;border-radius:16px;background:linear-gradient(135deg,#fff7f5,#fbefed);border:1px solid #f1dfdc}
+#baji-cart-panel .baji-mini-shipping-progress__top{display:flex;align-items:center;gap:10px}
+#baji-cart-panel .baji-mini-shipping-progress__top i{font-size:22px;color:#7b1327}
+#baji-cart-panel .baji-mini-shipping-progress__top b{display:block;font-size:12px;line-height:1.8;color:#2f2521}
+#baji-cart-panel .baji-mini-shipping-progress__top b.is-free{color:#169447}
+#baji-cart-panel .baji-mini-shipping-progress__top span{display:block;margin-top:2px;font-size:10px;color:#8b7a73}
+#baji-cart-panel .baji-mini-shipping-progress__bar{height:9px;border-radius:999px;background:#e8e4e2;overflow:hidden;margin-top:11px}
+#baji-cart-panel .baji-mini-shipping-progress__bar span{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,#d8737e,#c64f61)}
+#baji-cart-panel .baji-mini-shipping-progress__meta{display:flex;justify-content:space-between;gap:8px;margin-top:8px;font-size:9px;color:#7d6f69}
+#baji-cart-panel .baji-mini-coupon-form{margin:10px 0 12px}
+#baji-cart-panel .baji-mini-coupon__field{display:grid;grid-template-columns:36px 1fr 64px;align-items:center;min-height:48px;border:1px solid #e8ddd8;border-radius:14px;background:#fff;overflow:hidden}
+#baji-cart-panel .baji-mini-coupon__field i{text-align:center;font-size:18px;color:#66534c}
+#baji-cart-panel .baji-mini-coupon__field input{width:100%;height:46px;border:0;outline:0;box-shadow:none;background:transparent;font-size:11px;color:#2f2521;padding:0 7px}
+#baji-cart-panel .baji-mini-coupon__field button{align-self:stretch;border:0;background:#cf6773;color:#fff;font-size:12px;font-weight:900;padding:0 12px}
