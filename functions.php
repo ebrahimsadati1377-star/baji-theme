@@ -963,3 +963,40 @@ header_register_callback(function() {
         }
     }
 });
+
+
+/**
+ * Apply mini-cart coupon via AJAX.
+ */
+function baji_apply_cart_coupon_ajax() {
+    check_ajax_referer( 'baji_cart_coupon', 'nonce' );
+
+    if ( ! function_exists( 'WC' ) || ! WC()->cart ) {
+        wp_send_json_error( array( 'message' => 'سبد خرید در دسترس نیست.' ) );
+    }
+
+    $code = isset( $_POST['coupon_code'] ) ? wc_format_coupon_code( wp_unslash( $_POST['coupon_code'] ) ) : '';
+
+    if ( '' === $code ) {
+        wp_send_json_error( array( 'message' => 'کد تخفیف را وارد کنید.' ) );
+    }
+
+    wc_clear_notices();
+    $applied = WC()->cart->apply_coupon( $code );
+    WC()->cart->calculate_totals();
+
+    if ( $applied ) {
+        wc_clear_notices();
+        wp_send_json_success( array( 'message' => 'کد تخفیف با موفقیت اعمال شد.' ) );
+    }
+
+    $notices = wc_get_notices( 'error' );
+    $message = ! empty( $notices ) && ! empty( $notices[0]['notice'] )
+        ? wp_strip_all_tags( $notices[0]['notice'] )
+        : 'این کد تخفیف معتبر نیست یا قابل استفاده نیست.';
+
+    wc_clear_notices();
+    wp_send_json_error( array( 'message' => $message ) );
+}
+add_action( 'wp_ajax_baji_apply_cart_coupon', 'baji_apply_cart_coupon_ajax' );
+add_action( 'wp_ajax_nopriv_baji_apply_cart_coupon', 'baji_apply_cart_coupon_ajax' );
