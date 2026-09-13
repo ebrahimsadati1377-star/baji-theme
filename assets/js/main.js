@@ -45,60 +45,110 @@ function initSearchPanel() {
 	const searchPanel = document.getElementById( 'baji-search-panel' );
 	const closeButton = document.getElementById( 'baji-search-close' );
 	const backdrop = document.getElementById( 'baji-search-backdrop' );
+	const input = document.getElementById( 'baji-pro-search-input' );
+	const results = document.getElementById( 'baji-live-search-results' );
+	const status = document.getElementById( 'baji-live-search-status' );
+	const chips = document.querySelectorAll( '.baji-search-chip' );
+	let timer = null;
+	let controller = null;
 
-	if ( ! toggleButton || ! searchPanel ) {
-		return;
-	}
+	if ( ! toggleButton || ! searchPanel ) return;
 
 	const openPanel = () => {
 		searchPanel.classList.remove( '-translate-y-full' );
 		searchPanel.setAttribute( 'aria-hidden', 'false' );
 		toggleButton.setAttribute( 'aria-expanded', 'true' );
-		if ( backdrop ) {
-			backdrop.classList.remove( 'hidden' );
-			backdrop.setAttribute( 'aria-hidden', 'false' );
-		}
-
-		const input = searchPanel.querySelector( 'input[type="search"]' );
-		if ( input ) {
-			window.setTimeout( () => input.focus(), 300 );
-		}
+		if ( backdrop ) backdrop.classList.remove( 'hidden' );
+		window.setTimeout( () => input && input.focus(), 220 );
 	};
 
 	const closePanel = () => {
 		searchPanel.classList.add( '-translate-y-full' );
 		searchPanel.setAttribute( 'aria-hidden', 'true' );
 		toggleButton.setAttribute( 'aria-expanded', 'false' );
-		if ( backdrop ) {
-			backdrop.classList.add( 'hidden' );
-			backdrop.setAttribute( 'aria-hidden', 'true' );
+		if ( backdrop ) backdrop.classList.add( 'hidden' );
+	};
+
+	const money = ( price ) => {
+		if ( ! price ) return '';
+		const raw = Number( price );
+		if ( ! Number.isFinite( raw ) ) return '';
+		return new Intl.NumberFormat( 'fa-IR' ).format( raw ) + ' تومان';
+	};
+
+	const render = ( items ) => {
+		if ( ! results ) return;
+		results.innerHTML = '';
+		if ( ! items.length ) {
+			if ( status ) { status.textContent = 'محصولی پیدا نشد.'; status.classList.remove('hidden'); }
+			return;
+		}
+		if ( status ) status.classList.add('hidden');
+		items.forEach( ( p ) => {
+			const img = p.images && p.images[0] ? p.images[0].thumbnail || p.images[0].src : '';
+			const price = p.prices && p.prices.price ? Number(p.prices.price) / Math.pow(10, p.prices.currency_minor_unit || 0) : null;
+			const regular = p.prices && p.prices.regular_price ? Number(p.prices.regular_price) / Math.pow(10, p.prices.currency_minor_unit || 0) : null;
+			const sale = regular && price && price < regular;
+			const card = document.createElement('a');
+			card.href = p.permalink || '#';
+			card.className = 'baji-live-result';
+			card.innerHTML =
+				'<div class="baji-live-result__img">' +
+					( img ? '<img src="' + img + '" alt="" loading="lazy">' : '<span>BAJI</span>' ) +
+				'</div>' +
+				'<div class="baji-live-result__body">' +
+					'<div class="baji-live-result__name">' + (p.name || '') + '</div>' +
+					'<div class="baji-live-result__price">' +
+						( sale ? '<del>' + money(regular) + '</del>' : '' ) +
+						'<strong>' + money(price) + '</strong>' +
+					'</div>' +
+				'</div>';
+			results.appendChild(card);
+		});
+	};
+
+	const searchProducts = async ( q ) => {
+		if ( ! q || q.trim().length < 2 ) {
+			if ( results ) results.innerHTML = '';
+			if ( status ) status.classList.add('hidden');
+			return;
+		}
+		if ( controller ) controller.abort();
+		controller = new AbortController();
+		if ( status ) { status.textContent = 'در حال جستجو...'; status.classList.remove('hidden'); }
+		try {
+			const url = '/wp-json/wc/store/v1/products?per_page=6&search=' + encodeURIComponent(q.trim());
+			const res = await fetch(url,{signal:controller.signal});
+			if(!res.ok) throw new Error('search failed');
+			const data = await res.json();
+			render(Array.isArray(data)?data:[]);
+		} catch(e) {
+			if(e.name==='AbortError') return;
+			if ( status ) { status.textContent = 'جستجو موقتاً در دسترس نیست.'; status.classList.remove('hidden'); }
 		}
 	};
 
 	toggleButton.addEventListener( 'click', () => {
 		const isOpen = toggleButton.getAttribute( 'aria-expanded' ) === 'true';
-		if ( isOpen ) {
-			closePanel();
-		} else {
-			openPanel();
-		}
+		isOpen ? closePanel() : openPanel();
 	} );
+	if ( closeButton ) closeButton.addEventListener( 'click', closePanel );
+	if ( backdrop ) backdrop.addEventListener( 'click', closePanel );
+	document.addEventListener( 'keydown', ( event ) => { if ( event.key === 'Escape' ) closePanel(); } );
 
-	if ( closeButton ) {
-		closeButton.addEventListener( 'click', closePanel );
+	if ( input ) {
+		input.addEventListener('input',() => {
+			clearTimeout(timer);
+			timer = setTimeout(() => searchProducts(input.value), 260);
+		});
 	}
-
-	if ( backdrop ) {
-		backdrop.addEventListener( 'click', closePanel );
-	}
-
-	document.addEventListener( 'keydown', ( event ) => {
-		if ( event.key === 'Escape' ) {
-			closePanel();
-		}
-	} );
+	chips.forEach(chip => chip.addEventListener('click',() => {
+		if(!input) return;
+		input.value = chip.textContent.trim();
+		searchProducts(input.value);
+		input.focus();
+	}));
 }
-
 /**
  * مدیریت ارسال فرم خبرنامه با AJAX.
  *
