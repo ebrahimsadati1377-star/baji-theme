@@ -116,10 +116,12 @@ $list_classes = $is_slider
 		add_filter( 'woocommerce_post_class', $baji_swiper_class_filter );
 	}
 
+	$GLOBALS['baji_product_card_context'] = $query_type;
 	while ( $products_query->have_posts() ) :
 		$products_query->the_post();
 		wc_get_template_part( 'content', 'product' );
 	endwhile;
+	unset( $GLOBALS['baji_product_card_context'] );
 
 	// بعد از اتمام حلقه، فیلتر را برمی‌داریم تا بقیه بخش‌های فروشگاه تحت تأثیر قرار نگیرند
 	if ( $is_slider ) {
