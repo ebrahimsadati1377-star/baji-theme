@@ -5,30 +5,6 @@ do_action( 'woocommerce_before_mini_cart' ); ?>
 
 <?php if ( WC()->cart && ! WC()->cart->is_empty() ) : ?>
 
-<?php
-$baji_free_target = 3000000;
-$baji_cart_amount = (float) WC()->cart->get_subtotal();
-$baji_free_left   = max( 0, $baji_free_target - $baji_cart_amount );
-$baji_free_pct    = min( 100, ( $baji_cart_amount / $baji_free_target ) * 100 );
-?>
-<div class="baji-mini-shipping-progress">
-  <div class="baji-mini-shipping-progress__top">
-    <i class="far fa-truck"></i>
-    <div>
-      <?php if ( $baji_free_left > 0 ) : ?>
-        <b>برای ارسال رایگان، <?php echo wc_price( $baji_free_left ); ?> دیگر خرید کنید</b>
-      <?php else : ?>
-        <b class="is-free">تبریک! ارسال سفارش شما رایگان شد</b>
-      <?php endif; ?>
-      <span>حد ارسال رایگان: ۳ میلیون تومان</span>
-    </div>
-  </div>
-  <div class="baji-mini-shipping-progress__bar"><span style="width:<?php echo esc_attr( $baji_free_pct ); ?>%"></span></div>
-  <div class="baji-mini-shipping-progress__meta">
-    <span>فعلی: <?php echo wc_price( $baji_cart_amount ); ?></span>
-    <span>هدف: <?php echo wc_price( $baji_free_target ); ?></span>
-  </div>
-</div>
 
     <ul class="woocommerce-mini-cart cart_list product_list_widget divide-y divide-gray-100">
         <?php
@@ -80,13 +56,6 @@ $baji_free_pct    = min( 100, ( $baji_cart_amount / $baji_free_target ) * 100 );
         ?>
     </ul>
 
-<form class="baji-mini-coupon-form" method="post" action="<?php echo esc_url( wc_get_cart_url() ); ?>">
-  <div class="baji-mini-coupon__field">
-    <i class="far fa-gift"></i>
-    <input type="text" name="coupon_code" placeholder="کد تخفیف را وارد کنید" autocomplete="off">
-    <button type="submit" name="apply_coupon" value="1">اعمال</button>
-  </div>
-</form>
 
 <div class="pt-6 border-t border-gray-100 mt-2">
         <div class="flex justify-between items-center mb-6 text-sm font-bold">
