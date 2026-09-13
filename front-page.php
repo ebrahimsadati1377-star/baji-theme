@@ -15,6 +15,60 @@ get_header();
 
 <div class="baji-front-page">
 
+	<!-- =================== پاپ‌آپ اولین خرید BAJI =================== -->
+	<div id="baji-first-order-popup" class="baji-first-order-popup" aria-hidden="true">
+		<div class="baji-first-order-backdrop" data-baji-popup-close></div>
+		<div class="baji-first-order-dialog" role="dialog" aria-modal="true" aria-labelledby="baji-first-order-title">
+			<button type="button" class="baji-first-order-close" data-baji-popup-close aria-label="بستن">
+				<i class="fa-solid fa-xmark"></i>
+			</button>
+
+			<div class="baji-first-order-visual">
+				<div class="baji-first-order-gift"><i class="fa-solid fa-gift"></i></div>
+				<div class="baji-first-order-brand">BAJI</div>
+			</div>
+
+			<div class="baji-first-order-content">
+				<div class="baji-first-order-kicker">اولین خریدت از باجی؟</div>
+				<h2 id="baji-first-order-title">ارسال مهمون ما 🤍</h2>
+				<p>اولین سفارشت رو از BAJI ثبت کن و از تجربه خرید راحت‌تر و شیرین‌تر لذت ببر.</p>
+				<a href="<?php echo esc_url( wc_get_page_permalink( 'shop' ) ); ?>" class="baji-first-order-cta">مشاهده محصولات</a>
+			</div>
+		</div>
+	</div>
+
+	<style id="baji-first-order-popup-style">
+	.baji-first-order-popup{position:fixed;inset:0;z-index:99999;display:none;align-items:center;justify-content:center;padding:18px}
+	.baji-first-order-popup.is-open{display:flex}
+	.baji-first-order-backdrop{position:absolute;inset:0;background:rgba(18,18,18,.62);backdrop-filter:blur(2px)}
+	.baji-first-order-dialog{position:relative;z-index:1;width:min(92vw,430px);background:#fff9f7;border-radius:24px;overflow:hidden;box-shadow:0 24px 70px rgba(0,0,0,.28);border:1px solid rgba(123,19,39,.08);direction:rtl}
+	.baji-first-order-close{position:absolute;top:12px;left:12px;width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.92);display:flex;align-items:center;justify-content:center;color:#3f2b2a;font-size:18px;z-index:2;box-shadow:0 4px 14px rgba(0,0,0,.09)}
+	.baji-first-order-visual{height:180px;background:linear-gradient(135deg,#f6d9dd 0%,#f8eee8 100%);display:flex;align-items:center;justify-content:center;position:relative}
+	.baji-first-order-visual:before,.baji-first-order-visual:after{content:"";position:absolute;border-radius:50%;background:rgba(255,255,255,.45)}
+	.baji-first-order-visual:before{width:120px;height:120px;right:-35px;top:-25px}.baji-first-order-visual:after{width:95px;height:95px;left:-20px;bottom:-20px}
+	.baji-first-order-gift{width:84px;height:84px;border-radius:24px;background:#7b1327;color:#fff;display:flex;align-items:center;justify-content:center;font-size:38px;box-shadow:0 12px 30px rgba(123,19,39,.24);transform:rotate(-4deg)}
+	.baji-first-order-brand{position:absolute;bottom:14px;right:18px;font-family:serif;font-size:20px;letter-spacing:.22em;color:#6a4c49}
+	.baji-first-order-content{padding:22px 24px 24px;text-align:center}
+	.baji-first-order-kicker{font-size:12px;font-weight:800;color:#9c6f68;margin-bottom:6px}
+	.baji-first-order-content h2{font-size:28px;line-height:1.35;font-weight:900;color:#2d1e1d;margin:0 0 10px}
+	.baji-first-order-content p{font-size:13px;line-height:2;color:#71615d;margin:0 auto 18px;max-width:320px}
+	.baji-first-order-cta{display:flex;align-items:center;justify-content:center;width:100%;min-height:48px;border-radius:14px;background:#7b1327;color:#fff!important;font-size:14px;font-weight:900;text-decoration:none;box-shadow:0 8px 20px rgba(123,19,39,.16)}
+	@media(max-width:767px){.baji-first-order-dialog{width:min(92vw,390px);border-radius:22px}.baji-first-order-visual{height:160px}.baji-first-order-content h2{font-size:25px}.baji-first-order-content{padding:20px}}
+	</style>
+
+	<script>
+	document.addEventListener('DOMContentLoaded',function(){
+		const popup=document.getElementById('baji-first-order-popup');
+		if(!popup) return;
+		const key='baji_first_order_popup_seen_v1';
+		const open=()=>{popup.classList.add('is-open');popup.setAttribute('aria-hidden','false');document.body.style.overflow='hidden';};
+		const close=()=>{popup.classList.remove('is-open');popup.setAttribute('aria-hidden','true');document.body.style.overflow='';localStorage.setItem(key,'1');};
+		if(!localStorage.getItem(key)){setTimeout(open,1200);}
+		popup.querySelectorAll('[data-baji-popup-close]').forEach(el=>el.addEventListener('click',close));
+		document.addEventListener('keydown',e=>{if(e.key==='Escape'&&popup.classList.contains('is-open')) close();});
+	});
+	</script>
+
 	<?php get_template_part( 'template-parts/product-stories' ); ?>
 
 	<?php get_template_part( 'template-parts/hero-section' ); ?>
