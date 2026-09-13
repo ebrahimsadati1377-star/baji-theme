@@ -308,34 +308,30 @@ if ( document.readyState === 'loading' ) {
 
 
 document.addEventListener('DOMContentLoaded', function () {
-    const productsSlider = new Swiper('.baji-products-slider', {
-        // تنظیمات پیش‌فرض (برای موبایل)
-        slidesPerView: 1.6,      
-        spaceBetween: 12,      // فاصله بین محصولات در موبایل (کمی کمتر کردم تا جا بشوند)
-        
-        // تنظیمات ریسپانسیو برای تبلت و دسکتاپ
-        breakpoints: {
-            768: { // معادل md در تیلوند
-                slidesPerView: 4,
-                spaceBetween: 20,
+    document.querySelectorAll('.baji-products-slider').forEach(function (sliderEl) {
+        const paginationEl = sliderEl.querySelector('.swiper-pagination');
+
+        new Swiper(sliderEl, {
+            slidesPerView: 1.6,
+            spaceBetween: 12,
+            watchOverflow: true,
+            observer: true,
+            observeParents: true,
+            breakpoints: {
+                768: {
+                    slidesPerView: 4,
+                    spaceBetween: 20,
+                },
+                1024: {
+                    slidesPerView: 6,
+                    spaceBetween: 24,
+                }
             },
-            1024: { // معادل lg در تیلوند
-                slidesPerView: 6,
-                spaceBetween: 24,
-            }
-        },
-
-        // فعال‌سازی نقاط پایین
-        pagination: {
-            el: '.swiper-pagination',
-            clickable: true,
-        },
-
-        // فعال‌سازی دکمه‌های ناوبری
-        navigation: {
-            nextEl: '.swiper-button-next',
-            prevEl: '.swiper-button-prev',
-        },
+            pagination: paginationEl ? {
+                el: paginationEl,
+                clickable: true,
+            } : undefined,
+        });
     });
 });
 
