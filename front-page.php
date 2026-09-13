@@ -146,7 +146,7 @@ get_header();
 .baji-front-page .baji-category-showcase a > i.fas {display:none!important;visibility:hidden!important;opacity:0!important;width:0!important;height:0!important;margin:0!important;padding:0!important;}
 </style>
 
-	<!-- =================== بخش اول: جدیدترین محصولات =================== -->
+	<!-- =================== بخش اول: جدیدترین محصولات — BAJI refreshed =================== -->
 	<section class="baji-new-arrivals py-12 md:py-16 bg-baji-cream">
 		<div class="max-w-[1400px] mx-auto px-4 md:px-8">
 			<div class="flex flex-row items-center justify-between gap-4 mb-8 md:mb-12">
