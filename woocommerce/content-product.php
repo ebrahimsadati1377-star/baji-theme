@@ -14,10 +14,11 @@ if ( empty( $product ) || ! $product->is_visible() ) {
 }
 
 $product_id = $product->get_id();
+$is_latest_card = isset( $GLOBALS['baji_product_card_context'] ) && 'latest' === $GLOBALS['baji_product_card_context'];
 $in_wishlist = function_exists( 'bajistyle_is_in_wishlist' ) && bajistyle_is_in_wishlist( $product_id );
 ?>
 
-<li <?php wc_product_class( 'group', $product ); ?>>
+<li <?php wc_product_class( $is_latest_card ? 'group baji-latest-card' : 'group', $product ); ?>>
 
 	<!-- تصویر محصول -->
 	<div class="relative overflow-hidden bg-gray-100 rounded-lg aspect-[3/4]">
@@ -128,25 +129,43 @@ $in_wishlist = function_exists( 'bajistyle_is_in_wishlist' ) && bajistyle_is_in_
 
 
 	<!-- اطلاعات محصول -->
-	<div class="mt-3 space-y-1 text-center">
-
-		<a
-			href="<?php echo esc_url( $product->get_permalink() ); ?>"
-			class="block"
-		>
-
-			<h3 class="text-sm font-medium text-gray-800 hover:text-black transition-colors">
+	<?php if ( $is_latest_card ) :
+		$regular_price = $product->is_type( 'variable' ) ? (float) $product->get_variation_regular_price( 'max' ) : (float) $product->get_regular_price();
+		$sale_price    = $product->is_type( 'variable' ) ? (float) $product->get_variation_sale_price( 'min' ) : (float) $product->get_sale_price();
+		$has_discount  = $product->is_on_sale() && $regular_price > 0 && $sale_price > 0 && $sale_price < $regular_price;
+		$discount_pct  = $has_discount ? round( ( ( $regular_price - $sale_price ) / $regular_price ) * 100 ) : 0;
+	?>
+	<div class="baji-latest-card__body mt-3 text-right">
+		<a href="<?php echo esc_url( $product->get_permalink() ); ?>" class="block">
+			<h3 class="baji-latest-card__title text-sm font-black text-[#2e2522] line-clamp-2 min-h-[42px]">
 				<?php echo esc_html( $product->get_name() ); ?>
 			</h3>
-
-            <div class="mt-2 flex items-center justify-center">
-                <div class="baji-product-price">
-                    <?php echo wp_kses_post( $product->get_price_html() ); ?>
-                </div>
-            </div>
-
 		</a>
 
+		<div class="baji-latest-card__pricing mt-2.5">
+			<?php if ( $has_discount ) : ?>
+				<div class="flex items-center justify-between gap-2 mb-1">
+					<span class="baji-latest-card__discount"><?php echo esc_html( $discount_pct ); ?>٪ تخفیف</span>
+					<del class="text-[11px] md:text-xs text-gray-400"><?php echo wp_kses_post( wc_price( $regular_price ) ); ?></del>
+				</div>
+				<div class="text-sm md:text-base font-black text-[#7b1327]"><?php echo wp_kses_post( wc_price( $sale_price ) ); ?></div>
+			<?php else : ?>
+				<div class="text-sm md:text-base font-black text-[#2e2522]"><?php echo wp_kses_post( $product->get_price_html() ); ?></div>
+			<?php endif; ?>
+		</div>
+
+		<a href="<?php echo esc_url( $product->get_permalink() ); ?>" class="baji-latest-card__buy mt-3 flex items-center justify-center gap-2 w-full rounded-xl bg-[#7b1327] text-white py-2.5 px-3 text-xs md:text-sm font-black transition hover:bg-[#651020]">
+			<span><?php esc_html_e( 'مشاهده و خرید', 'bajistyle' ); ?></span>
+			<i class="fa-solid fa-arrow-left text-[10px]"></i>
+		</a>
 	</div>
+	<?php else : ?>
+	<div class="mt-3 space-y-1 text-center">
+		<a href="<?php echo esc_url( $product->get_permalink() ); ?>" class="block">
+			<h3 class="text-sm font-medium text-gray-800 hover:text-black transition-colors"><?php echo esc_html( $product->get_name() ); ?></h3>
+			<div class="mt-2 flex items-center justify-center"><div class="baji-product-price"><?php echo wp_kses_post( $product->get_price_html() ); ?></div></div>
+		</a>
+	</div>
+	<?php endif; ?>
 
 </li>
