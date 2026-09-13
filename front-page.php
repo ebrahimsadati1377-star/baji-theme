@@ -200,7 +200,7 @@ get_header();
 	</section>
 
 	<!-- =================== بخش سوم: مجله باجی =================== -->
-<section class="baji-blog-posts baji-mag-home py-10 md:py-16 bg-[#fffaf7]">
+<section class="baji-blog-posts baji-mag-home py-10 md:py-16 bg-[#fbe4e6]">
   <div class="max-w-[1400px] mx-auto px-4 md:px-8">
 
     <div class="baji-mag-head flex items-center justify-between gap-4 mb-6 md:mb-8">
