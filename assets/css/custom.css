@@ -1547,3 +1547,14 @@ form.cart button.single_add_to_cart_button {
 		transition: none;
 	}
 }
+
+
+/* BAJI mini cart discount field */
+#baji-cart-panel .baji-mini-coupon{margin:10px 0 12px}
+#baji-cart-panel .baji-mini-coupon__field{display:grid;grid-template-columns:36px 1fr 64px;align-items:center;min-height:48px;border:1px solid #e8ddd8;border-radius:14px;background:#fff;overflow:hidden}
+#baji-cart-panel .baji-mini-coupon__field i{text-align:center;font-size:18px;color:#66534c}
+#baji-cart-panel .baji-mini-coupon__field input{width:100%;height:46px;border:0;outline:0;box-shadow:none;background:transparent;font-size:11px;color:#2f2521;padding:0 7px}
+#baji-cart-panel .baji-mini-coupon__field button{align-self:stretch;border:0;background:#cf6773;color:#fff;font-size:12px;font-weight:900;padding:0 12px}
+#baji-cart-panel .baji-mini-coupon__message{min-height:16px;padding:4px 3px 0;font-size:9px}
+#baji-cart-panel .baji-mini-coupon__message.is-success{color:#169447}
+#baji-cart-panel .baji-mini-coupon__message.is-error{color:#c13d4c}
