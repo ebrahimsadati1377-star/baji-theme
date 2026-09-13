@@ -239,70 +239,70 @@ get_header();
 	</section>
 
 	<!-- =================== بخش سوم: مجله باجی =================== -->
-<section class="baji-blog-posts baji-mag-home py-10 md:py-16">
+<section class="baji-blog-posts baji-mag-home py-10 md:py-16 bg-[#fbe4e6]">
   <div class="max-w-[1400px] mx-auto px-4 md:px-8">
-    <div class="baji-mag-head text-center mb-7 md:mb-10">
-      <div class="text-[11px] md:text-sm font-bold tracking-[.32em] text-[#a9826e] mb-2">BAJI MAG</div>
-      <h2 class="text-3xl md:text-5xl font-black text-[#2b1717] leading-tight">مجله باجی</h2>
-      <p class="text-sm md:text-lg text-[#706663] mt-2">مقالات، راهنمای استایل و نکات کاربردی برای داشتن استایلی بهتر</p>
+
+    <div class="baji-mag-head flex items-center justify-between gap-4 mb-6 md:mb-8">
+      <div>
+        <div class="text-[11px] md:text-sm font-bold text-[#b28a72] tracking-[.18em] mb-1">BAJI MAG</div>
+        <h2 class="text-2xl md:text-4xl font-black text-[#2d211e] leading-tight">مجله باجی</h2>
+        <p class="text-xs md:text-base text-[#7f716b] mt-1">قصه‌ی استایل، کیفیت و الهام برای تو</p>
+      </div>
+      <a href="<?php echo esc_url( home_url( '/mag/' ) ); ?>" class="inline-flex items-center gap-2 border border-[#dfd4ce] rounded-full px-4 py-2.5 bg-white text-xs md:text-sm font-bold text-[#3f3531] hover:border-[#7b1327] hover:text-[#7b1327] transition-colors">
+        <span>مشاهده همه مقالات</span><i class="fa-solid fa-arrow-left text-[10px]"></i>
+      </a>
     </div>
 
-    <div class="baji-mag-strip grid grid-cols-4 gap-2 md:gap-8 mb-7 md:mb-10 max-w-[900px] mx-auto">
-      <a href="<?php echo esc_url(home_url('/category/%d8%b1%d8%a7%d9%87%d9%86%d9%85%d8%a7%db%8c-%d8%a7%d8%b3%d8%aa%d8%a7%db%8c%d9%84/')); ?>" class="baji-mag-topic"><span><i class="fa-solid fa-shirt"></i></span>راهنمای استایل</a>
-      <a href="<?php echo esc_url(home_url('/mag/')); ?>" class="baji-mag-topic"><span><i class="fa-regular fa-gem"></i></span>معرفی ترندها</a>
-      <a href="<?php echo esc_url(home_url('/mag/')); ?>" class="baji-mag-topic"><span><i class="fa-regular fa-lightbulb"></i></span>نکات کاربردی</a>
-      <a href="<?php echo esc_url(home_url('/mag/')); ?>" class="baji-mag-topic"><span><i class="fa-solid fa-book-open"></i></span>راهنمای خرید</a>
+    <div class="baji-mag-strip grid grid-cols-4 gap-2 md:gap-4 mb-6 md:mb-8">
+      <a href="<?php echo esc_url( home_url('/category/%d8%b1%d8%a7%d9%87%d9%86%d9%85%d8%a7%db%8c-%d8%a7%d8%b3%d8%aa%d8%a7%db%8c%d9%84/') ); ?>" class="bg-[#f7eee8] rounded-2xl py-3 px-2 text-center text-[10px] md:text-sm font-bold text-[#65534c]"><i class="fa-solid fa-shirt block text-lg mb-1"></i>راهنمای استایل</a>
+      <a href="<?php echo esc_url( home_url('/mag/') ); ?>" class="bg-[#f7eee8] rounded-2xl py-3 px-2 text-center text-[10px] md:text-sm font-bold text-[#65534c]"><i class="fa-regular fa-lightbulb block text-lg mb-1"></i>نکات کاربردی</a>
+      <a href="<?php echo esc_url( home_url('/mag/') ); ?>" class="bg-[#f7eee8] rounded-2xl py-3 px-2 text-center text-[10px] md:text-sm font-bold text-[#65534c]"><i class="fa-regular fa-gem block text-lg mb-1"></i>ترندها</a>
+      <a href="<?php echo esc_url( home_url('/mag/') ); ?>" class="bg-[#f7eee8] rounded-2xl py-3 px-2 text-center text-[10px] md:text-sm font-bold text-[#65534c]"><i class="fa-solid fa-book-open block text-lg mb-1"></i>راهنمای خرید</a>
     </div>
 
-    <div class="baji-mag-grid grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-7">
+    <div class="baji-mag-grid grid grid-cols-2 gap-3 md:gap-6">
       <?php
-      $blog_query=new WP_Query(array('post_type'=>'post','posts_per_page'=>2,'post_status'=>'publish','orderby'=>'date','order'=>'DESC','ignore_sticky_posts'=>true,'no_found_rows'=>true));
+      $blog_query = new WP_Query(array(
+        'post_type'=>'post','posts_per_page'=>2,'post_status'=>'publish',
+        'orderby'=>'date','order'=>'DESC','ignore_sticky_posts'=>true,'no_found_rows'=>true,
+      ));
       if($blog_query->have_posts()):
         while($blog_query->have_posts()): $blog_query->the_post();
           $categories=get_the_category();
       ?>
-      <article class="baji-mag-card group flex flex-col">
-        <a href="<?php the_permalink(); ?>" class="baji-mag-image block relative aspect-[16/9] overflow-hidden">
+      <article class="group bg-[#fffaf8] rounded-[22px] overflow-hidden border border-[#eaded8] shadow-[0_8px_24px_rgba(79,47,42,.07)] flex flex-col">
+        <a href="<?php the_permalink(); ?>" class="block relative aspect-[4/3] md:aspect-[16/9] overflow-hidden bg-[#efe3dc]">
           <?php if(has_post_thumbnail()): ?>
             <?php the_post_thumbnail('medium_large',array('class'=>'w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03]','loading'=>'lazy')); ?>
           <?php else: ?>
             <div class="w-full h-full flex items-center justify-center text-[#b7a69d]"><i class="fa-regular fa-image text-3xl"></i></div>
           <?php endif; ?>
-          <?php if(!empty($categories)): ?><span class="baji-mag-tag"><?php echo esc_html($categories[0]->name); ?></span><?php endif; ?>
+          <?php if(!empty($categories)): ?>
+          <span class="absolute top-3 right-3 bg-[#fff8f4]/95 backdrop-blur px-3 py-1 rounded-full text-[9px] md:text-xs font-bold text-[#4b302d] border border-[#e1cfc6]"><?php echo esc_html($categories[0]->name); ?></span>
+          <?php endif; ?>
         </a>
-        <div class="baji-mag-body p-4 md:p-6 flex flex-col flex-1">
-          <h3 class="text-base md:text-xl font-black leading-[1.8] md:leading-[1.7] mb-2"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
-          <p class="text-xs md:text-sm leading-7 md:leading-8 line-clamp-2 mb-4"><?php echo esc_html(wp_trim_words(get_the_excerpt(),28,'...')); ?></p>
-          <div class="baji-mag-meta mt-auto flex items-center justify-between pt-3 text-[10px] md:text-xs">
-            <a href="<?php the_permalink(); ?>" class="font-black flex items-center gap-2"><i class="fa-solid fa-arrow-left text-[9px]"></i>مطالعه مقاله</a>
-            <span class="flex items-center gap-2"><?php echo esc_html(get_the_date('Y/m/d')); ?><i class="fa-regular fa-calendar text-sm"></i></span>
+        <div class="p-3.5 md:p-5 flex flex-col flex-1">
+          <h3 class="text-sm md:text-xl font-black text-[#321d1c] leading-[1.75] md:leading-[1.6] line-clamp-2 mb-2"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
+          <p class="hidden md:block text-sm text-[#756a66] leading-7 line-clamp-2 mb-4"><?php echo esc_html(wp_trim_words(get_the_excerpt(),24,'...')); ?></p>
+          <div class="mt-auto flex items-center justify-between pt-3 border-t border-[#eee1dc] text-[10px] md:text-xs text-[#76645f]">
+            <span class="flex items-center gap-1"><i class="fa-regular fa-calendar"></i><?php echo esc_html(get_the_date('Y/m/d')); ?></span>
+            <a href="<?php the_permalink(); ?>" class="font-bold text-[#7b1327] flex items-center gap-1">مطالعه مقاله <i class="fa-solid fa-arrow-left text-[9px]"></i></a>
           </div>
         </div>
       </article>
       <?php endwhile; else: ?>
-        <div class="md:col-span-2 rounded-2xl p-8 text-center text-sm">هنوز مقاله‌ای منتشر نشده است.</div>
+        <div class="col-span-2 bg-white rounded-2xl p-8 text-center text-sm text-gray-500">هنوز مقاله‌ای منتشر نشده است.</div>
       <?php endif; wp_reset_postdata(); ?>
     </div>
 
-    <div class="mt-7 md:mt-10 text-center">
-      <a href="<?php echo esc_url(home_url('/mag/')); ?>" class="baji-mag-all inline-flex items-center justify-center gap-5 rounded-full px-8 md:px-12 py-3.5 md:py-4 text-sm md:text-base font-black">مشاهده همه مقالات <i class="fa-solid fa-arrow-left text-xs"></i></a>
+    <div class="mt-6 md:mt-8">
+      <a href="<?php echo esc_url(home_url('/mag/')); ?>" class="w-full md:w-auto md:min-w-[340px] mx-auto flex items-center justify-between gap-5 rounded-full bg-[#c79494] hover:bg-[#b98282] text-white px-6 py-4 text-sm md:text-base font-black transition-colors">
+        <span>باجی مگ</span><span>مشاهده همه ←</span>
+      </a>
     </div>
   </div>
 </section>
 
-<style id="baji-mag-reference-theme">
-.baji-mag-home{background:#fbf3ee!important;position:relative;overflow:hidden}
-.baji-mag-home:before,.baji-mag-home:after{content:"";position:absolute;border-radius:50%;background:rgba(211,166,166,.10);filter:blur(2px);pointer-events:none}
-.baji-mag-home:before{width:300px;height:300px;right:-150px;top:-120px}.baji-mag-home:after{width:340px;height:180px;left:-100px;bottom:-100px}
-.baji-mag-home>div{position:relative;z-index:1}
-.baji-mag-topic{display:flex;flex-direction:column;align-items:center;gap:8px;color:#625654;font-weight:700;font-size:12px}
-.baji-mag-topic span{width:58px;height:58px;border-radius:50%;background:#f4e8e1;color:#9b725e;display:flex;align-items:center;justify-content:center;font-size:23px}
-.baji-mag-card{background:#fffaf8!important;border:1px solid #eaded8!important;border-radius:20px!important;overflow:hidden!important;box-shadow:0 8px 24px rgba(79,47,42,.07)!important}
-.baji-mag-image{background:#efe3dc!important}.baji-mag-tag{position:absolute;top:14px;right:14px;background:rgba(255,248,244,.94);color:#4b302d;border:1px solid rgba(225,207,198,.8);border-radius:999px;padding:7px 14px;font-size:11px;font-weight:800}
-.baji-mag-body{background:#fffaf8!important}.baji-mag-body h3{color:#321d1c!important}.baji-mag-body p{color:#756a66!important}.baji-mag-meta{border-top:1px solid #eee1dc!important;color:#76645f!important}.baji-mag-meta a{color:#4d2928!important}
-.baji-mag-all{background:#d1a09d!important;color:#432522!important;box-shadow:0 7px 18px rgba(122,72,68,.10)}.baji-mag-all:hover{background:#c58f8d!important}
-@media(max-width:767px){.baji-mag-home{padding-top:34px!important;padding-bottom:38px!important}.baji-mag-topic{font-size:9px;gap:6px}.baji-mag-topic span{width:45px;height:45px;font-size:18px}.baji-mag-card{border-radius:17px!important}.baji-mag-tag{top:10px;right:10px;padding:5px 10px;font-size:9px}.baji-mag-body p{display:none}.baji-mag-meta{padding-top:10px}.baji-mag-all{width:80%;max-width:330px}}
-</style>
 </div>
 
 <?php
