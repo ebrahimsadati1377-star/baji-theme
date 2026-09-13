@@ -533,7 +533,7 @@ function bajistyle_remove_version_query_string( $src ) {
 	}
 	return $src;
 }
-add_filter( 'style_loader_src', 'bajistyle_remove_version_query_string', 9999 );
+
 
 
 /**
