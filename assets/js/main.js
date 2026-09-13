@@ -308,33 +308,29 @@ if ( document.readyState === 'loading' ) {
 
 
 document.addEventListener('DOMContentLoaded', function () {
-    document.querySelectorAll('.baji-products-slider').forEach(function (sliderEl) {
-        const paginationEl = sliderEl.querySelector('.swiper-pagination');
-
-        new Swiper(sliderEl, {
-            slidesPerView: 1.6,
-            spaceBetween: 12,
-            watchOverflow: true,
-            observer: true,
-            observeParents: true,
-            breakpoints: {
-                768: {
-                    slidesPerView: 4,
-                    spaceBetween: 20,
-                },
-                1024: {
-                    slidesPerView: 6,
-                    spaceBetween: 24,
-                }
+    const productsSlider = new Swiper('.baji-products-slider', {
+        slidesPerView: 1.6,
+        spaceBetween: 12,
+        breakpoints: {
+            768: {
+                slidesPerView: 4,
+                spaceBetween: 20,
             },
-            pagination: paginationEl ? {
-                el: paginationEl,
-                clickable: true,
-            } : undefined,
-        });
+            1024: {
+                slidesPerView: 6,
+                spaceBetween: 24,
+            }
+        },
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+        },
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
     });
 });
-
 
 
 
