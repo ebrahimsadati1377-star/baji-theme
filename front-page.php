@@ -60,10 +60,9 @@ get_header();
 	document.addEventListener('DOMContentLoaded',function(){
 		const popup=document.getElementById('baji-first-order-popup');
 		if(!popup) return;
-		const key='baji_first_order_popup_seen_v1';
 		const open=()=>{popup.classList.add('is-open');popup.setAttribute('aria-hidden','false');document.body.style.overflow='hidden';};
-		const close=()=>{popup.classList.remove('is-open');popup.setAttribute('aria-hidden','true');document.body.style.overflow='';localStorage.setItem(key,'1');};
-		if(!localStorage.getItem(key)){setTimeout(open,1200);}
+		const close=()=>{popup.classList.remove('is-open');popup.setAttribute('aria-hidden','true');document.body.style.overflow='';};
+		setTimeout(open,500);
 		popup.querySelectorAll('[data-baji-popup-close]').forEach(el=>el.addEventListener('click',close));
 		document.addEventListener('keydown',e=>{if(e.key==='Escape'&&popup.classList.contains('is-open')) close();});
 	});
