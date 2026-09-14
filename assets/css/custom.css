@@ -1650,3 +1650,26 @@ form.cart button.single_add_to_cart_button {
 	background:#b34858!important;
 	color:#fff!important;
 }
+
+
+/* BAJI mini cart qty controls — larger mobile tap targets */
+#baji-cart-panel .baji-mini-cart-qty{
+	height:42px!important;
+	border-radius:999px!important;
+}
+#baji-cart-panel .baji-mini-cart-qty__btn{
+	width:42px!important;
+	height:42px!important;
+	font-size:24px!important;
+	font-weight:900!important;
+}
+#baji-cart-panel .baji-mini-cart-qty__value{
+	min-width:38px!important;
+	font-size:15px!important;
+	font-weight:900!important;
+}
+@media(max-width:480px){
+	#baji-cart-panel .baji-mini-cart-qty{height:44px!important}
+	#baji-cart-panel .baji-mini-cart-qty__btn{width:44px!important;height:44px!important;font-size:25px!important}
+	#baji-cart-panel .baji-mini-cart-qty__value{min-width:40px!important;font-size:15px!important}
+}
