@@ -26,7 +26,7 @@ do_action( 'woocommerce_before_mini_cart' ); ?>
                     <?php
                     // اضافه شدن کلاس‌های پیش‌فرض ووکامرس و Data Attributeها برای کارکرد صحیح AJAX
                     echo apply_filters( 'woocommerce_cart_item_remove_link', sprintf(
-                        '<a href="%s" class="remove remove_from_cart_button baji-cart-item-remove absolute -top-1 -right-2 bg-gray-100 hover:bg-red-500 hover:text-white transition-colors rounded-full w-5 h-5 flex items-center justify-center text-xs text-gray-400 z-10" aria-label="%s" data-product_id="%s" data-cart_item_key="%s" data-product_sku="%s">&times;</a>',
+                        '<a href="%s" class="remove remove_from_cart_button baji-cart-item-remove" aria-label="%s" title="حذف محصول" data-product_id="%s" data-cart_item_key="%s" data-product_sku="%s"><i class="far fa-trash-alt"></i></a>',
                         esc_url( wc_get_cart_remove_url( $cart_item_key ) ),
                         esc_attr__( 'Remove this item', 'woocommerce' ),
                         esc_attr( $product_id ),
@@ -45,7 +45,14 @@ do_action( 'woocommerce_before_mini_cart' ); ?>
                         </a>
                         <div class="text-xs text-gray-500 mt-1">
                             <?php echo wc_get_formatted_cart_item_data( $cart_item ); ?>
-                            <?php echo apply_filters( 'woocommerce_widget_cart_item_quantity', '<span class="block">' . sprintf( '%s × %s', $cart_item['quantity'], $product_price ) . '</span>', $cart_item, $cart_item_key ); ?>
+                            <div class="baji-mini-cart-controls" data-cart-item-key="<?php echo esc_attr( $cart_item_key ); ?>">
+                                <div class="baji-mini-cart-qty" aria-label="تعداد محصول">
+                                    <button type="button" class="baji-mini-cart-qty__btn baji-mini-cart-qty__minus" aria-label="کم کردن تعداد">−</button>
+                                    <span class="baji-mini-cart-qty__value"><?php echo esc_html( $cart_item['quantity'] ); ?></span>
+                                    <button type="button" class="baji-mini-cart-qty__btn baji-mini-cart-qty__plus" aria-label="اضافه کردن تعداد">+</button>
+                                </div>
+                                <span class="baji-mini-cart-price"><?php echo wp_kses_post( $product_price ); ?></span>
+                            </div>
                         </div>
                     </div>
                 </li>
