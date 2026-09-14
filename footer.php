@@ -37,17 +37,31 @@ document.addEventListener('DOMContentLoaded',function(){
  function formatMoney(n){return new Intl.NumberFormat('fa-IR').format(Math.max(0,Math.round(n)))+' تومان';}
 
  function refreshShipping(){
-   var totalBox=panel.querySelector('.woocommerce-mini-cart__total');
    var box=panel.querySelector('.baji-cart-shipping');
    if(!box)return;
    var target=3000000;
-   var current=totalBox?numberFromText(totalBox.textContent):0;
+   var current=0;
+
+   panel.querySelectorAll('.baji-cart-item').forEach(function(item){
+     var qtyEl=item.querySelector('.baji-mini-cart-qty__value');
+     var priceEl=item.querySelector('.baji-mini-cart-price');
+     var qty=qtyEl?parseInt(latin(qtyEl.textContent),10)||1:1;
+     var unit=priceEl?numberFromText(priceEl.textContent):0;
+     current += unit*qty;
+   });
+
+   if(current===0){
+     var totalBox=panel.querySelector('.woocommerce-mini-cart__total, .woocommerce-mini-cart__total.total');
+     if(totalBox) current=numberFromText(totalBox.textContent);
+   }
+
    var left=Math.max(0,target-current);
    var pct=Math.max(0,Math.min(100,(current/target)*100));
    var title=box.querySelector('.baji-cart-shipping__title');
    var text=box.querySelector('.baji-cart-shipping__text');
    var bar=box.querySelector('.baji-cart-shipping__bar span');
    var currentEl=box.querySelector('.baji-cart-shipping__current');
+
    if(title) title.textContent=left>0?'فقط '+formatMoney(left)+' تا ارسال رایگان':'ارسال سفارش شما رایگان شد';
    if(text) text.textContent=left>0?'حد ارسال رایگان: ۳ میلیون تومان':'تبریک! هزینه ارسال این سفارش رایگان شد.';
    if(title) title.classList.toggle('is-free',left===0);
