@@ -65,20 +65,77 @@ function initCartFragmentsRefresh() {
  * مدیریت حذف آیتم از سبد خرید.
  */
 function initCartItemRemoval() {
-	document.addEventListener( 'click', ( event ) => {
-		const removeLink = event.target.closest( '.baji-cart-item-remove' );
-		if ( ! removeLink ) {
+	if ( typeof window.jQuery === 'undefined' ) {
+		return;
+	}
+
+	const $ = window.jQuery;
+
+	$( document ).off( 'click.bajiCartRemove', '.baji-cart-item-remove' );
+	$( document ).on( 'click.bajiCartRemove', '.baji-cart-item-remove', function ( event ) {
+		event.preventDefault();
+		event.stopPropagation();
+
+		const $link = $( this );
+		const $item = $link.closest( '.baji-cart-item' );
+		const cartItemKey = $link.data( 'cart_item_key' );
+
+		if ( ! cartItemKey ) {
+			window.location.href = $link.attr( 'href' );
 			return;
 		}
 
-		const cartItem = removeLink.closest( '.baji-cart-item' );
-		if ( cartItem ) {
-			cartItem.style.opacity = '0.4';
-			cartItem.style.pointerEvents = 'none';
+		$item.css( { opacity: '0.45', pointerEvents: 'none' } );
+
+		let ajaxUrl = '';
+		if ( window.wc_add_to_cart_params && window.wc_add_to_cart_params.wc_ajax_url ) {
+			ajaxUrl = window.wc_add_to_cart_params.wc_ajax_url.replace( '%%endpoint%%', 'remove_from_cart' );
+		} else if ( window.bajistyleWC && window.bajistyleWC.ajaxUrl ) {
+			ajaxUrl = window.location.origin + '/?wc-ajax=remove_from_cart';
+		} else {
+			ajaxUrl = window.location.origin + '/?wc-ajax=remove_from_cart';
 		}
+
+		$.ajax( {
+			type: 'POST',
+			url: ajaxUrl,
+			data: { cart_item_key: cartItemKey },
+			dataType: 'json',
+			success( response ) {
+				if ( response && response.fragments ) {
+					$.each( response.fragments, function ( selector, html ) {
+						$( selector ).replaceWith( html );
+					} );
+
+					try {
+						if ( window.sessionStorage ) {
+							sessionStorage.setItem( 'wc_fragments_refreshed', Date.now() );
+							if ( response.cart_hash ) {
+								sessionStorage.setItem( 'wc_cart_hash_' + window.location.host, response.cart_hash );
+							}
+						}
+					} catch ( error ) {}
+
+					$( document.body ).trigger( 'removed_from_cart', [ response.fragments, response.cart_hash, $link ] );
+					$( document.body ).trigger( 'wc_fragment_refresh' );
+
+					const panel = document.getElementById( 'baji-cart-panel' );
+					if ( panel ) {
+						panel.classList.add( 'is-open' );
+						panel.setAttribute( 'aria-hidden', 'false' );
+					}
+					return;
+				}
+
+				window.location.reload();
+			},
+			error() {
+				$item.css( { opacity: '', pointerEvents: '' } );
+				window.location.href = $link.attr( 'href' );
+			},
+		} );
 	} );
 }
-
 /**
  * مدیریت دکمه‌های افزایش/کاهش تعداد.
  */
