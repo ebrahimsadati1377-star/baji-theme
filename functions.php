@@ -1026,11 +1026,21 @@ function baji_update_mini_cart_quantity_ajax() {
 	woocommerce_mini_cart();
 	$mini_cart = ob_get_clean();
 
+	$shipping_target    = 3000000;
+	$shipping_current   = (float) WC()->cart->get_subtotal();
+	$shipping_remaining = max( 0, $shipping_target - $shipping_current );
+	$shipping_percent   = min( 100, ( $shipping_current / $shipping_target ) * 100 );
+
 	wp_send_json_success(
 		array(
-			'mini_cart'  => $mini_cart,
-			'cart_count' => WC()->cart->get_cart_contents_count(),
-			'cart_hash'  => WC()->cart->get_cart_hash(),
+			'mini_cart'           => $mini_cart,
+			'cart_count'          => WC()->cart->get_cart_contents_count(),
+			'cart_hash'           => WC()->cart->get_cart_hash(),
+			'cart_subtotal'       => $shipping_current,
+			'cart_subtotal_html'  => wc_price( $shipping_current ),
+			'shipping_remaining'  => $shipping_remaining,
+			'shipping_percent'    => $shipping_percent,
+			'shipping_is_free'    => $shipping_remaining <= 0,
 		)
 	);
 }
