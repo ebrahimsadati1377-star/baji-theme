@@ -29,7 +29,7 @@ $has_slides = $slider_query->have_posts();
 <!-- استایل اختصاصی برای تضمین نسبت ابعاد دقیق تصویر بدون نیاز به کامپایلر CSS -->
 <style>
 	.baji-hero-frame {
-		aspect-ratio: 1672 / 941;
+		aspect-ratio: 2 / 1;
 	}
 	@media (min-width: 768px) {
 		.baji-hero-frame {
