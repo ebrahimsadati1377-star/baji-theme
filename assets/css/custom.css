@@ -1581,3 +1581,72 @@ form.cart button.single_add_to_cart_button {
 #baji-cart-panel .baji-cart-coupon-static .baji-mini-coupon__field{display:grid!important;grid-template-columns:38px 1fr 70px!important;align-items:center!important;min-height:50px!important;border:1px solid #eadbd7!important;border-radius:15px!important;background:#fff!important;overflow:hidden!important}
 #baji-cart-panel .baji-cart-coupon-static input{width:100%!important;height:48px!important;border:0!important;outline:0!important;box-shadow:none!important;background:transparent!important;padding:0 8px!important}
 #baji-cart-panel .baji-cart-coupon-static button{height:50px!important;border:0!important;background:#d36876!important;color:#fff!important;font-weight:800!important}
+
+
+/* BAJI mini cart quantity + remove controls */
+#baji-cart-panel .baji-mini-cart-controls{
+	display:flex;
+	align-items:center;
+	justify-content:space-between;
+	gap:10px;
+	margin-top:8px;
+}
+#baji-cart-panel .baji-mini-cart-qty{
+	display:inline-flex;
+	align-items:center;
+	justify-content:center;
+	gap:0;
+	height:34px;
+	border:1px solid #eadbd6;
+	border-radius:999px;
+	background:#fff;
+	overflow:hidden;
+}
+#baji-cart-panel .baji-mini-cart-qty__btn{
+	width:34px;
+	height:34px;
+	border:0;
+	background:#fff;
+	color:#5d4942;
+	font-size:18px;
+	font-weight:800;
+	line-height:1;
+}
+#baji-cart-panel .baji-mini-cart-qty__btn:active{background:#f7efec}
+#baji-cart-panel .baji-mini-cart-qty__value{
+	min-width:30px;
+	text-align:center;
+	font-size:12px;
+	font-weight:900;
+	color:#2f2420;
+}
+#baji-cart-panel .baji-mini-cart-controls.is-loading{
+	opacity:.55;
+	pointer-events:none;
+}
+#baji-cart-panel .baji-mini-cart-price{
+	font-size:11px;
+	font-weight:800;
+	color:#7b1327;
+}
+#baji-cart-panel .baji-cart-item-remove{
+	position:absolute!important;
+	top:10px!important;
+	left:10px!important;
+	right:auto!important;
+	width:32px!important;
+	height:32px!important;
+	border-radius:50%!important;
+	background:#fff1f0!important;
+	color:#b34858!important;
+	display:flex!important;
+	align-items:center!important;
+	justify-content:center!important;
+	border:1px solid #f1d9d6!important;
+	font-size:14px!important;
+	box-shadow:none!important;
+}
+#baji-cart-panel .baji-cart-item-remove:hover{
+	background:#b34858!important;
+	color:#fff!important;
+}
