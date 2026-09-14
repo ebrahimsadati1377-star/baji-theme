@@ -290,16 +290,45 @@ function initMiniCartQuantityControls() {
 			success( response ) {
 				if ( response && response.success && response.data && response.data.mini_cart ) {
 					$( '#baji-cart-panel .widget_shopping_cart_content' ).html( response.data.mini_cart );
-
 					$( '.baji-cart-count' ).text( response.data.cart_count || 0 );
-					$( document.body ).trigger( 'wc_fragment_refresh' );
-					$( document.body ).trigger( 'updated_cart_totals' );
 
 					const panel = document.getElementById( 'baji-cart-panel' );
 					if ( panel ) {
+						const shippingBox = panel.querySelector( '.baji-cart-shipping' );
+						if ( shippingBox ) {
+							const title = shippingBox.querySelector( '.baji-cart-shipping__title' );
+							const text = shippingBox.querySelector( '.baji-cart-shipping__text' );
+							const bar = shippingBox.querySelector( '.baji-cart-shipping__bar span' );
+							const currentEl = shippingBox.querySelector( '.baji-cart-shipping__current' );
+							const remaining = Number( response.data.shipping_remaining || 0 );
+							const percent = Number( response.data.shipping_percent || 0 );
+							const isFree = Boolean( response.data.shipping_is_free );
+							const fmt = ( n ) => new Intl.NumberFormat( 'fa-IR' ).format( Math.max( 0, Math.round( Number( n ) || 0 ) ) ) + ' تومان';
+
+							if ( title ) {
+								title.textContent = isFree
+									? 'ارسال سفارش شما رایگان شد'
+									: 'فقط ' + fmt( remaining ) + ' تا ارسال رایگان';
+								title.classList.toggle( 'is-free', isFree );
+							}
+							if ( text ) {
+								text.textContent = isFree
+									? 'تبریک! هزینه ارسال این سفارش رایگان شد.'
+									: 'حد ارسال رایگان: ۳ میلیون تومان';
+							}
+							if ( bar ) {
+								bar.style.width = Math.max( 0, Math.min( 100, percent ) ) + '%';
+							}
+							if ( currentEl ) {
+								currentEl.textContent = 'فعلی: ' + fmt( response.data.cart_subtotal || 0 );
+							}
+						}
+
 						panel.classList.add( 'is-open' );
 						panel.setAttribute( 'aria-hidden', 'false' );
 					}
+
+					$( document.body ).trigger( 'updated_cart_totals', [ response.data ] );
 				} else {
 					window.location.reload();
 				}
