@@ -1673,3 +1673,14 @@ form.cart button.single_add_to_cart_button {
 	#baji-cart-panel .baji-mini-cart-qty__btn{width:44px!important;height:44px!important;font-size:25px!important}
 	#baji-cart-panel .baji-mini-cart-qty__value{min-width:40px!important;font-size:15px!important}
 }
+
+/* BAJI wishlist shortcut */
+.baji-header-wishlist{width:38px;height:38px;border-radius:50%;transition:.2s ease;color:#3b302c;text-decoration:none}
+.baji-header-wishlist:hover{background:#f8eeee;color:#b34858}
+.baji-header-wishlist i{font-size:20px}
+@media(max-width:767px){
+ .baji-header-actions{gap:10px!important}
+ .baji-header-wishlist{display:flex!important;width:36px;height:36px}
+ .baji-header-wishlist i{font-size:19px}
+ .baji-mm-account{grid-template-columns:1fr!important}
+}
