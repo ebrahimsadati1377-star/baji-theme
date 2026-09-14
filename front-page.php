@@ -72,6 +72,31 @@ get_header();
 
 	<?php get_template_part( 'template-parts/hero-section' ); ?>
 
+	<section class="baji-quick-products py-5 md:py-8 bg-[#fffaf8]">
+		<div class="max-w-[1400px] mx-auto px-4 md:px-8">
+			<div class="flex items-center justify-between gap-4 mb-4">
+				<div>
+					<div class="text-[10px] md:text-xs font-bold tracking-[.16em] text-[#b28a72] mb-1">BAJI PICKS</div>
+					<h2 class="text-lg md:text-2xl font-black text-[#2d211e]">پرفروش‌های باجی</h2>
+				</div>
+				<a href="<?php echo esc_url( add_query_arg( 'orderby', 'popularity', wc_get_page_permalink( 'shop' ) ) ); ?>" class="text-[11px] md:text-sm font-bold text-[#7b1327]">مشاهده همه ←</a>
+			</div>
+			<div class="baji-quick-products-grid">
+				<?php
+				get_template_part(
+					'template-parts/product-grid',
+					null,
+					array(
+						'query_type' => 'best_selling',
+						'limit'      => 4,
+						'is_slider'  => false,
+					)
+				);
+				?>
+			</div>
+		</div>
+	</section>
+
 	<?php get_template_part( 'template-parts/category-showcase' ); ?>
 
 	<!-- =================== اعتمادسازی خرید =================== -->
