@@ -377,20 +377,51 @@ function initWishlistShortcut() {
 }
 
 function initSmartPromoRotation() {
-	const track = document.querySelector('.baji-smart-promo-track');
-	if ( ! track ) return;
-	const items = Array.from(track.querySelectorAll('span'));
-	if ( items.length < 2 ) return;
+	const promo = document.querySelector('.baji-smart-promo');
+	if ( ! promo ) return;
+
+	const slides = Array.from(promo.querySelectorAll('.baji-smart-promo-slide'));
+	const dots = Array.from(promo.querySelectorAll('.baji-smart-promo-dots i'));
+	if ( slides.length < 2 ) return;
+
 	let index = 0;
-	const show = (i) => {
-		items.forEach((el, n) => { el.style.display = n === i ? 'block' : 'none'; });
+	let timer = null;
+
+	const show = (nextIndex) => {
+		const prev = index;
+		index = (nextIndex + slides.length) % slides.length;
+
+		slides.forEach((slide, n) => {
+			slide.classList.remove('is-active','is-leaving');
+			if ( n === index ) {
+				slide.classList.add('is-active');
+			} else if ( n === prev ) {
+				slide.classList.add('is-leaving');
+			}
+		});
+
+		dots.forEach((dot, n) => dot.classList.toggle('is-active', n === index));
 	};
-	show(index);
-	window.setInterval(() => {
-		index = (index + 1) % items.length;
-		show(index);
-	}, 3200);
+
+	const restart = () => {
+		if ( timer ) window.clearInterval(timer);
+		timer = window.setInterval(() => show(index + 1), 3400);
+	};
+
+	show(0);
+	restart();
+
+	promo.addEventListener('mouseenter', () => timer && window.clearInterval(timer));
+	promo.addEventListener('mouseleave', restart);
+	document.addEventListener('visibilitychange', () => {
+		if ( document.hidden ) {
+			if ( timer ) window.clearInterval(timer);
+		} else {
+			restart();
+		}
+	});
 }
+
 
 function initMobileNavActiveState() {
 	const nav = document.querySelector('.baji-mobile-bottom-nav');
