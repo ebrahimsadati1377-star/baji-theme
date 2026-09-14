@@ -376,12 +376,48 @@ function initWishlistShortcut() {
 	}
 }
 
+function initSmartPromoRotation() {
+	const track = document.querySelector('.baji-smart-promo-track');
+	if ( ! track ) return;
+	const items = Array.from(track.querySelectorAll('span'));
+	if ( items.length < 2 ) return;
+	let index = 0;
+	const show = (i) => {
+		items.forEach((el, n) => { el.style.display = n === i ? 'block' : 'none'; });
+	};
+	show(index);
+	window.setInterval(() => {
+		index = (index + 1) % items.length;
+		show(index);
+	}, 3200);
+}
+
+function initMobileNavActiveState() {
+	const nav = document.querySelector('.baji-mobile-bottom-nav');
+	if ( ! nav ) return;
+	const path = window.location.pathname.replace(/\/+$/, '') || '/';
+	nav.querySelectorAll('a,button').forEach(el => el.classList.remove('is-active'));
+	let target = null;
+	if ( path === '/' ) {
+		target = nav.querySelector('a[href="/"]');
+	} else if ( path.includes('wishlist') ) {
+		target = nav.querySelector('.baji-mobile-wishlist');
+	} else if ( path.includes('cart') || path.includes('سبد') ) {
+		target = nav.querySelector('.baji-cart-toggle');
+	} else if ( path.includes('my-account') || path.includes('login') ) {
+		target = nav.querySelector('a[href*="my-account"],a[href*="login"]');
+	}
+	if ( target ) target.classList.add('is-active');
+}
+
 function initBajiStyle() {
 	initHeaderScrollEffect();
 	initSearchPanel();
 	initNewsletterForm();
 	initWishlistButtons();
 	initWishlistShortcut();
+	initSmartPromoRotation();
+	initMobileNavActiveState();
 }
 
 if ( document.readyState === 'loading' ) {
