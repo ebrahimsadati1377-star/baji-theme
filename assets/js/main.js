@@ -274,7 +274,7 @@ function initWishlistButtons() {
 
 				// به‌روزرسانی تمام دکمه‌های مرتبط با همین محصول در صفحه (گرید + صفحه تکی).
 				document
-					.querySelectorAll( `${ selectors }[data-product-id="${ productId }"]` )
+					.querySelectorAll( '.baji-quick-wishlist[data-product-id="' + productId + '"], .baji-wishlist-toggle-btn[data-product-id="' + productId + '"]' )
 					.forEach( ( relatedButton ) => {
 						relatedButton.dataset.inWishlist = isAdded ? '1' : '0';
 						relatedButton.setAttribute( 'aria-pressed', isAdded ? 'true' : 'false' );
