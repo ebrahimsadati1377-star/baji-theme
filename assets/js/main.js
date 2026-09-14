@@ -431,7 +431,7 @@ document.addEventListener('DOMContentLoaded',function(){
  function fmt(n){return new Intl.NumberFormat('fa-IR').format(Math.max(0,Math.round(n)))+' تومان';}
  function shipping(){
   var box=panel.querySelector('.baji-cart-shipping');
-  var totalEl=panel.querySelector('.woocommerce-mini-cart__total .amount, .woocommerce-mini-cart__total .woocommerce-Price-amount');
+  var totalEl=panel.querySelector('.woocommerce-mini-cart__total .woocommerce-Price-amount, .woocommerce-mini-cart__total .amount, .baji-cart-drawer__body .woocommerce-Price-amount');
   if(!box||!totalEl)return;
   var target=3000000,current=num(totalEl.textContent),left=Math.max(0,target-current),pct=Math.max(0,Math.min(100,(current/target)*100));
   box.innerHTML='<div class="baji-cart-shipping__row"><i class="far fa-truck"></i><div>'+(left>0?'<b>برای ارسال رایگان، <strong>'+fmt(left)+'</strong> دیگر خرید کنید</b><span>حد ارسال رایگان: ۳ میلیون تومان</span>':'<b class="is-free">تبریک! ارسال سفارش شما رایگان شد</b><span>مبلغ سبد به حد ارسال رایگان رسیده است.</span>')+'</div></div><div class="baji-cart-shipping__bar"><span style="width:'+pct+'%"></span></div><div class="baji-cart-shipping__meta"><span>فعلی: '+fmt(current)+'</span><span>هدف: '+fmt(target)+'</span></div>';
