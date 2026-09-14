@@ -343,11 +343,45 @@ function initWishlistButtons() {
  *
  * @since 1.0.0
  */
+function initWishlistShortcut() {
+	const bottomNav = document.querySelector('.baji-mobile-bottom-nav');
+	if ( bottomNav && ! bottomNav.querySelector('.baji-mobile-wishlist') ) {
+		const link = document.createElement('a');
+		link.href = '/my-account/wishlist/';
+		link.className = 'baji-mobile-wishlist flex flex-col items-center justify-center gap-1 text-gray-500 flex-1';
+		link.setAttribute('aria-label','علاقه‌مندی‌ها');
+		link.innerHTML = '<i class="far fa-heart text-xl"></i><span class="text-[10px]">علاقه‌مندی‌ها</span>';
+		const cart = bottomNav.querySelector('.baji-cart-toggle');
+		if ( cart ) {
+			bottomNav.insertBefore(link, cart);
+		} else {
+			bottomNav.appendChild(link);
+		}
+	}
+
+	const actions = document.querySelector('.baji-header-actions');
+	if ( actions && ! actions.querySelector('.baji-header-wishlist') ) {
+		const link = document.createElement('a');
+		link.href = '/my-account/wishlist/';
+		link.className = 'baji-header-wishlist relative flex items-center justify-center';
+		link.setAttribute('aria-label','علاقه‌مندی‌ها');
+		link.title = 'علاقه‌مندی‌ها';
+		link.innerHTML = '<i class="far fa-heart"></i>';
+		const cart = actions.querySelector('.baji-cart-toggle');
+		if ( cart ) {
+			actions.insertBefore(link, cart);
+		} else {
+			actions.appendChild(link);
+		}
+	}
+}
+
 function initBajiStyle() {
 	initHeaderScrollEffect();
 	initSearchPanel();
 	initNewsletterForm();
 	initWishlistButtons();
+	initWishlistShortcut();
 }
 
 if ( document.readyState === 'loading' ) {
