@@ -30,8 +30,8 @@ get_header();
 
 			<div class="baji-first-order-content">
 				<div class="baji-first-order-kicker">اولین خریدت از باجی؟</div>
-				<h2 id="baji-first-order-title">ارسال مهمون ما 🤍</h2>
-				<p>اولین سفارشت رو از BAJI ثبت کن و از تجربه خرید راحت‌تر و شیرین‌تر لذت ببر.</p>
+				<h2 id="baji-first-order-title">۱۰٪ تخفیف اولین خرید 🤍</h2>
+				<p>برای اولین خریدت از BAJI کد <strong>OFF10</strong> رو موقع تسویه حساب وارد کن و ۱۰٪ تخفیف بگیر.</p>
 				<a href="<?php echo esc_url( wc_get_page_permalink( 'shop' ) ); ?>" class="baji-first-order-cta">مشاهده محصولات</a>
 			</div>
 		</div>
