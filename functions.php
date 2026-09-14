@@ -1000,3 +1000,39 @@ function baji_apply_cart_coupon_ajax() {
 }
 add_action( 'wp_ajax_baji_apply_cart_coupon', 'baji_apply_cart_coupon_ajax' );
 add_action( 'wp_ajax_nopriv_baji_apply_cart_coupon', 'baji_apply_cart_coupon_ajax' );
+
+
+/**
+ * Update mini-cart item quantity via AJAX.
+ */
+function baji_update_mini_cart_quantity_ajax() {
+	check_ajax_referer( 'bajistyle_wc_nonce', 'nonce' );
+
+	if ( ! function_exists( 'WC' ) || ! WC()->cart ) {
+		wp_send_json_error( array( 'message' => 'سبد خرید در دسترس نیست.' ) );
+	}
+
+	$cart_item_key = isset( $_POST['cart_item_key'] ) ? wc_clean( wp_unslash( $_POST['cart_item_key'] ) ) : '';
+	$quantity      = isset( $_POST['quantity'] ) ? max( 0, wc_stock_amount( wp_unslash( $_POST['quantity'] ) ) ) : 0;
+
+	if ( ! $cart_item_key || ! isset( WC()->cart->cart_contents[ $cart_item_key ] ) ) {
+		wp_send_json_error( array( 'message' => 'محصول در سبد پیدا نشد.' ) );
+	}
+
+	WC()->cart->set_quantity( $cart_item_key, $quantity, true );
+	WC()->cart->calculate_totals();
+
+	ob_start();
+	woocommerce_mini_cart();
+	$mini_cart = ob_get_clean();
+
+	wp_send_json_success(
+		array(
+			'mini_cart'  => $mini_cart,
+			'cart_count' => WC()->cart->get_cart_contents_count(),
+			'cart_hash'  => WC()->cart->get_cart_hash(),
+		)
+	);
+}
+add_action( 'wp_ajax_baji_update_mini_cart_quantity', 'baji_update_mini_cart_quantity_ajax' );
+add_action( 'wp_ajax_nopriv_baji_update_mini_cart_quantity', 'baji_update_mini_cart_quantity_ajax' );
