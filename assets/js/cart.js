@@ -236,6 +236,85 @@ function initPremiumCartAjaxUpdate() {
 }
 
 /**
+ * کنترل تعداد داخل مینی‌کارت.
+ */
+function initMiniCartQuantityControls() {
+	if ( typeof window.jQuery === 'undefined' ) {
+		return;
+	}
+
+	const $ = window.jQuery;
+	let busy = false;
+
+	$( document ).off( 'click.bajiMiniQty', '.baji-mini-cart-qty__btn' );
+	$( document ).on( 'click.bajiMiniQty', '.baji-mini-cart-qty__btn', function ( event ) {
+		event.preventDefault();
+
+		if ( busy ) return;
+
+		const $button = $( this );
+		const $controls = $button.closest( '.baji-mini-cart-controls' );
+		const $value = $controls.find( '.baji-mini-cart-qty__value' );
+		const cartItemKey = $controls.data( 'cart_item_key' );
+		let quantity = parseInt( $value.text(), 10 ) || 1;
+
+		if ( $button.hasClass( 'baji-mini-cart-qty__plus' ) ) {
+			quantity += 1;
+		} else {
+			quantity -= 1;
+		}
+
+		if ( quantity < 1 ) {
+			const $remove = $controls.closest( '.baji-cart-item' ).find( '.baji-cart-item-remove' );
+			if ( $remove.length ) {
+				$remove.trigger( 'click' );
+			}
+			return;
+		}
+
+		if ( ! window.bajistyleWC || ! window.bajistyleWC.ajaxUrl ) return;
+
+		busy = true;
+		$controls.addClass( 'is-loading' );
+
+		$.ajax( {
+			type: 'POST',
+			url: window.bajistyleWC.ajaxUrl,
+			dataType: 'json',
+			data: {
+				action: 'baji_update_mini_cart_quantity',
+				nonce: window.bajistyleWC.nonce,
+				cart_item_key: cartItemKey,
+				quantity: quantity,
+			},
+			success( response ) {
+				if ( response && response.success && response.data && response.data.mini_cart ) {
+					$( '#baji-cart-panel .widget_shopping_cart_content' ).html( response.data.mini_cart );
+
+					$( '.baji-cart-count' ).text( response.data.cart_count || 0 );
+					$( document.body ).trigger( 'wc_fragment_refresh' );
+					$( document.body ).trigger( 'updated_cart_totals' );
+
+					const panel = document.getElementById( 'baji-cart-panel' );
+					if ( panel ) {
+						panel.classList.add( 'is-open' );
+						panel.setAttribute( 'aria-hidden', 'false' );
+					}
+				} else {
+					window.location.reload();
+				}
+			},
+			error() {
+				window.location.reload();
+			},
+			complete() {
+				busy = false;
+			},
+		} );
+	} );
+}
+
+/**
  * مقداردهی اولیه نهایی پس از لود شدن DOM
  */
 document.addEventListener('DOMContentLoaded', function() {
@@ -244,4 +323,5 @@ document.addEventListener('DOMContentLoaded', function() {
     initCartItemRemoval();
     initPremiumQtyButtons();
     initPremiumCartAjaxUpdate();
+    initMiniCartQuantityControls();
 });
