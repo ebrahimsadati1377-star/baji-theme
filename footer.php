@@ -1,95 +1,60 @@
 <?php
-/** BAJI reference-locked footer */
+/** BAJI approved pink footer */
 if ( ! defined( 'ABSPATH' ) ) exit;
-$phone = get_theme_mod('bajistyle_contact_phone', '0912 123 4567');
-$phone_clean = preg_replace('/[^0-9+]/', '', $phone);
 ?>
 </main><!-- #main-content -->
-<footer id="colophon" class="baji-footer-ref" dir="rtl"><div class="brf-canvas">
-<div class="brf-top">
-<section class="brf-brand"><a class="brf-logo" href="<?php echo esc_url(home_url('/')); ?>">BAJI</a><div class="brf-tag">Be your best</div><h3>باجی کیفیتی که با اولین پوشیدن حسش می‌کنی 🤍</h3><p>باجی، همراه شما در انتخاب لباس‌هایی که<br>ترکیبی از کیفیت، راحتی و استایل روز هستند.<br>ما به لباس فقط به عنوان پوشش نگاه نمی‌کنیم؛<br>بلکه به عنوان بخشی از سبک زندگی شما.</p><div class="brf-social"><?php foreach(array('instagram'=>'instagram','telegram'=>'telegram','whatsapp'=>'whatsapp','pinterest'=>'pinterest-p') as $k=>$i){$u=get_theme_mod('bajistyle_social_'.$k); if($u) echo '<a href="'.esc_url($u).'" target="_blank" rel="noopener"><i class="fa-brands fa-'.$i.'"></i></a>'; } ?></div></section>
-<nav class="brf-links"><h3>لینک‌های سریع</h3><a href="<?php echo esc_url(home_url('/')); ?>">صفحه اصلی</a><a href="<?php echo esc_url(wc_get_page_permalink('shop')); ?>">فروشگاه</a><a href="<?php echo esc_url(home_url('/shop/?orderby=date')); ?>">جدیدترین محصولات</a><a href="<?php echo esc_url(home_url('/blog/')); ?>">مقالات و مجله باجی</a><a href="<?php echo esc_url(home_url('/about/')); ?>">درباره ما</a><a href="<?php echo esc_url(home_url('/contact/')); ?>">تماس با ما</a></nav>
-<nav class="brf-service"><h3>خدمات مشتریان</h3><a href="<?php echo esc_url(home_url('/faq/')); ?>">پاسخ به پرسش‌های متداول</a><a href="<?php echo esc_url(home_url('/terms/')); ?>">شرایط خرید و ارسال</a><a href="<?php echo esc_url(home_url('/terms/')); ?>">رویه بازگشت کالا</a><a href="<?php echo esc_url(home_url('/size-guide/')); ?>">راهنمای سایز</a><a href="<?php echo esc_url(get_privacy_policy_url() ?: home_url('/privacy-policy/')); ?>">حریم خصوصی</a><a href="<?php echo esc_url(home_url('/terms/')); ?>">قوانین و مقررات</a></nav>
-<section class="brf-news"><h3>عضویت در خبرنامه</h3><p>با عضویت در خبرنامه، از تخفیف‌ها<br>و جدیدترین محصولات باخبر شوید.</p><form id="baji-newsletter-form" class="baji-newsletter-form" novalidate><?php wp_nonce_field('bajistyle_general_nonce','baji_newsletter_nonce'); ?><div class="brf-input"><input id="baji-newsletter-email" name="newsletter_email" type="email" required placeholder="ایمیل شما"><i class="far fa-envelope"></i></div><button type="submit">عضویت</button></form><p class="baji-newsletter-message" role="status"></p><h3 class="brf-contact">تماس با ما</h3><p class="brf-contact-copy">برای مشاوره و ثبت سفارش، با ما در ارتباط باشید.</p><a class="brf-phone" href="tel:<?php echo esc_attr($phone_clean); ?>"><span><?php echo esc_html($phone); ?></span><i class="fas fa-phone"></i></a><a class="brf-message" href="https://wa.me/<?php echo esc_attr(ltrim($phone_clean,'+')); ?>" target="_blank" rel="noopener">ارسال پیام <i class="fas fa-paper-plane"></i></a></section>
-</div>
-<div class="brf-features"><div><i class="far fa-headset"></i><b>پشتیبانی پاسخگو</b><span>همیشه کنار شما هستیم</span></div><div><i class="far fa-shield-check"></i><b>پرداخت امن</b><span>با درگاه‌های معتبر</span></div><div><i class="far fa-truck"></i><b>ارسال سریع</b><span>به سراسر ایران</span></div><div><i class="far fa-gift"></i><b>خرید مطمئن</b><span>ضمانت کیفیت کالا</span></div></div>
-<div class="brf-trust"><div class="brf-badge"><strong>دیجی‌پی</strong><span>پرداخت مطمئن</span></div><div class="brf-badge"><strong>توروپی</strong><span>خرید اقساطی</span></div><a class="brf-badge brf-enamad" target="_blank" rel="noopener" href="https://trustseal.enamad.ir/?id=661133&Code=KEQE0AsA3PbAohWIzUEBUZEejYgAGSdn"><img src="https://trustseal.enamad.ir/logo.aspx?id=661133&Code=KEQE0AsA3PbAohWIzUEBUZEejYgAGSdn" alt="نماد اعتماد الکترونیکی"><b>نماد</b><span>نماد اعتماد الکترونیکی</span></a><div class="brf-badge"><strong>samandehi.ir</strong><span>رسانه‌های دیجیتال</span></div><div class="brf-badge"><strong>دارای</strong><span>کد اقتصادی</span></div></div>
-<div class="brf-bottom"><span>تمامی حقوق این وب‌سایت متعلق به برند باجی است © <?php echo esc_html(gmdate('Y')); ?></span><span>BAJI — Be your best</span></div>
-</div></footer>
-<style id="baji-footer-reference-css">
-.baji-footer-ref,.baji-footer-ref *{box-sizing:border-box}.baji-footer-ref{background:#080a09!important;color:#f4f1eb!important;font-family:inherit!important;overflow:hidden}.brf-canvas{width:1200px!important;max-width:none!important;margin:0 auto!important;padding:48px 0 24px!important}.brf-top{height:390px!important;display:grid!important;grid-template-columns:380px 220px 240px 360px!important;direction:ltr!important;align-items:start!important}.brf-top>section,.brf-top>nav{direction:rtl!important;height:390px!important;margin:0!important;padding:0 30px!important;border-right:1px solid rgba(255,255,255,.17)!important}.brf-top>*:first-child{border-right:0!important;padding-left:42px!important;padding-right:0!important}.brf-top>*:last-child{padding-right:34px!important;padding-left:0!important}.brf-logo{display:block!important;font:58px/58px Georgia,serif!important;letter-spacing:.055em!important;color:#fff!important;text-decoration:none!important;text-align:left!important;direction:ltr!important;margin:0!important}.brf-tag{font:15px/20px Georgia,serif!important;color:#ddd0c2!important;text-align:left!important;direction:ltr!important;margin:5px 0 24px!important}.brf-brand h3,.brf-links h3,.brf-service h3,.brf-news h3{font-size:16px!important;line-height:24px!important;font-weight:700!important;color:#fff!important;margin:0 0 20px!important;padding:0!important}.brf-brand h3{font-size:14px!important;line-height:26px!important;margin-bottom:12px!important}.brf-brand p,.brf-news p{font-size:13px!important;line-height:28px!important;color:#d0cfca!important;margin:0!important;padding:0!important}.brf-social{height:42px!important;display:flex!important;gap:12px!important;direction:ltr!important;justify-content:flex-start!important;margin-top:20px!important}.brf-social a{width:40px!important;height:40px!important;border:1px solid #696969!important;border-radius:50%!important;display:grid!important;place-items:center!important;color:#fff!important;text-decoration:none!important;margin:0!important;padding:0!important}.brf-links,.brf-service{display:flex!important;flex-direction:column!important;align-items:center!important;gap:14px!important;text-align:center!important}.brf-links h3,.brf-service h3{margin-bottom:7px!important}.brf-links a,.brf-service a{font-size:13px!important;line-height:26px!important;color:#e2e0db!important;text-decoration:none!important;margin:0!important;padding:0!important;white-space:nowrap!important}.brf-news{text-align:center!important}.brf-news>p{line-height:24px!important}.brf-input{width:100%!important;height:46px!important;border:1px solid #67635d!important;border-radius:9px!important;display:flex!important;align-items:center!important;padding:0 13px!important;margin:13px 0 9px!important}.brf-input input{width:100%!important;height:44px!important;background:transparent!important;border:0!important;outline:0!important;box-shadow:none!important;color:#fff!important;padding:0!important;margin:0!important;text-align:right!important;font-size:12px!important}.brf-input i{color:#eee!important}.brf-news button,.brf-message{width:100%!important;height:45px!important;background:#ead8c3!important;color:#111!important;border:0!important;border-radius:8px!important;font-weight:700!important;font-size:13px!important;display:flex!important;align-items:center!important;justify-content:center!important;gap:7px!important;margin:0!important;padding:0!important;text-decoration:none!important}.brf-contact{margin:18px 0 3px!important}.brf-contact-copy{font-size:11px!important;line-height:20px!important}.brf-phone{width:100%!important;height:42px!important;border:1px solid #67635d!important;border-radius:8px!important;display:flex!important;align-items:center!important;justify-content:space-between!important;padding:0 13px!important;margin:9px 0 8px!important;color:#ddd!important;text-decoration:none!important;direction:ltr!important;font-size:12px!important}.brf-message{height:42px!important}.baji-newsletter-message{height:0!important;overflow:hidden!important;margin:0!important}.brf-features{height:164px!important;border-top:1px solid #555!important;border-bottom:1px solid #555!important;display:grid!important;grid-template-columns:repeat(4,300px)!important;direction:ltr!important;align-items:center!important;margin:0!important;padding:0!important}.brf-features div{height:116px!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:6px!important;border-right:1px solid rgba(255,255,255,.14)!important;direction:rtl!important}.brf-features div:first-child{border-right:0!important}.brf-features i{font-size:31px!important;line-height:34px!important;color:#ead8c3!important;margin:0 0 4px!important}.brf-features b{font-size:16px!important;line-height:24px!important}.brf-features span{font-size:12px!important;line-height:20px!important;color:#c2c0bb!important}.brf-trust{height:156px!important;border-bottom:1px solid #555!important;display:grid!important;grid-template-columns:repeat(5,240px)!important;direction:ltr!important;align-items:center!important;margin:0!important;padding:0!important}.brf-badge{height:132px!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:5px!important;text-align:center!important;color:#fff!important;text-decoration:none!important;direction:rtl!important;margin:0!important;padding:0!important}.brf-badge strong,.brf-badge b{font-size:16px!important;line-height:22px!important}.brf-badge span{font-size:12px!important;line-height:19px!important;color:#ccc!important}.brf-enamad img{width:56px!important;height:56px!important;object-fit:contain!important;background:#fff!important;border-radius:6px!important;padding:2px!important;margin:0!important}.brf-bottom{height:56px!important;display:flex!important;align-items:center!important;justify-content:space-between!important;direction:rtl!important;color:#c9c7c2!important;font-size:11px!important;line-height:20px!important;margin:0!important;padding:0 8px!important}.brf-bottom span:last-child{font:14px/20px Georgia,serif!important;direction:ltr!important;color:#eee!important}
-@media(min-width:901px) and (max-width:1255px){.baji-footer-ref{overflow-x:auto!important}.brf-canvas{margin-left:auto!important;margin-right:auto!important}}
-@media(max-width:900px){.brf-canvas{width:100%!important;max-width:100%!important;padding:38px 20px 90px!important}.brf-top{height:auto!important;display:grid!important;grid-template-columns:1fr!important;direction:rtl!important}.brf-top>section,.brf-top>nav{height:auto!important;border-right:0!important;border-bottom:1px solid rgba(255,255,255,.13)!important;padding:26px 0!important}.brf-logo,.brf-tag{text-align:right!important}.brf-social{justify-content:flex-end!important}.brf-features{height:auto!important;grid-template-columns:1fr 1fr!important;padding:24px 0!important}.brf-features div{height:110px!important;border:0!important}.brf-trust{height:auto!important;grid-template-columns:1fr 1fr!important;padding:20px 0!important}.brf-badge{height:120px!important}.brf-bottom{height:auto!important;min-height:75px!important;flex-direction:column!important;align-items:flex-start!important;justify-content:center!important;gap:8px!important}}
+<footer id="colophon" class="baji-footer-pink" dir="rtl">
+ <div class="bfp-wrap">
+  <section class="bfp-brand">
+   <a class="bfp-logo" href="<?php echo esc_url(home_url('/')); ?>">BAJI</a><div class="bfp-tag">BE YOUR BEST</div>
+   <h2><span>♥</span> استایلی برای نسخه بهتر تو <span>♥</span></h2>
+   <div class="bfp-social">
+    <?php $ig=get_theme_mod('bajistyle_social_instagram'); if($ig): ?><a href="<?php echo esc_url($ig); ?>" target="_blank" rel="noopener" aria-label="اینستاگرام"><i class="fa-brands fa-instagram"></i></a><?php endif; ?>
+    <a href="https://ble.ir/" target="_blank" rel="noopener" aria-label="بله" class="bfp-bale">بله</a>
+   </div>
+  </section>
+  <div class="bfp-divider"><span>♥</span></div>
+  <div class="bfp-links-grid">
+   <nav><h3><i class="far fa-headset"></i> راهنمای مشتریان</h3>
+    <a href="<?php echo esc_url(wc_get_page_permalink('shop')); ?>">خرید از باجی</a>
+    <a href="<?php echo esc_url(home_url('/contact/')); ?>">ارتباط با ما</a>
+    <a href="<?php echo esc_url(home_url('/size-guide/')); ?>">چطور اندازه مناسب انتخاب کنیم؟</a>
+    <a href="<?php echo esc_url(home_url('/contact/')); ?>">بگو چی شده، درستش می‌کنیم.</a>
+    <a href="<?php echo esc_url(home_url('/terms/')); ?>">قوانین ساده ما</a>
+    <a href="<?php echo esc_url(home_url('/faq/')); ?>">سوالات متداول</a>
+   </nav>
+   <nav><h3><i class="far fa-link"></i> لینک‌های کاربردی</h3>
+    <a href="<?php echo esc_url(wc_get_page_permalink('shop')); ?>">ارسال رایگان باجی</a>
+    <a href="<?php echo esc_url(home_url('/faq/')); ?>">پرداخت‌های متداول</a>
+    <a href="<?php echo esc_url(home_url('/about/')); ?>">درباره ما</a>
+    <a href="<?php echo esc_url(home_url('/contact/')); ?>">تماس با ما</a>
+    <a href="<?php echo esc_url(get_permalink(get_option('woocommerce_myaccount_page_id'))); ?>">ثبت نام / ورود</a>
+    <a href="<?php echo esc_url(get_permalink(get_option('woocommerce_myaccount_page_id'))); ?>">باشگاه مشتریان</a>
+   </nav>
+  </div>
+  <div class="bfp-features">
+   <div><i class="far fa-truck"></i><b>ارسال سریع</b><span>به سراسر کشور</span></div>
+   <div><i class="far fa-shield-check"></i><b>ضمانت اصالت</b><span>و کیفیت کالا</span></div>
+   <div><i class="far fa-headset"></i><b>پشتیبانی</b><span>پاسخگو و همراه</span></div>
+  </div>
+  <div class="bfp-trust">
+   <a class="bfp-enamad" target="_blank" rel="noopener" href="https://trustseal.enamad.ir/?id=661133&Code=KEQE0AsA3PbAohWIzUEBUZEejYgAGSdn"><img src="https://trustseal.enamad.ir/logo.aspx?id=661133&Code=KEQE0AsA3PbAohWIzUEBUZEejYgAGSdn" alt="نماد اعتماد الکترونیکی"></a>
+   <div class="bfp-partner bfp-digikala"><b>دیجی‌کالا</b><small>digikala</small></div>
+   <div class="bfp-partner bfp-snapp"><b>Snapp! Pay</b><small>اسنپ‌پی</small></div>
+   <div class="bfp-partner bfp-torob"><b>ترب‌پی</b><small>خرید الآن، پرداخت بعداً</small></div>
+  </div>
+  <div class="bfp-owner">محسن باقریان | مالک برند باجی</div>
+  <div class="bfp-copy">© فروشگاه اینترنتی باجی. تمامی حقوق محفوظ است.</div>
+ </div>
+</footer>
+<style id="baji-footer-pink-css">
+.baji-footer-pink,.baji-footer-pink *{box-sizing:border-box}.baji-footer-pink{background:linear-gradient(180deg,#fffafa 0%,#fff3f4 100%)!important;color:#20252b!important;font-family:inherit!important}.bfp-wrap{max-width:1120px;margin:auto;padding:48px 28px 100px}.bfp-brand{text-align:center}.bfp-logo{display:block;font:68px/1 Georgia,serif;letter-spacing:.08em;color:#050505!important;text-decoration:none}.bfp-tag{font:10px/1.6 Georgia,serif;letter-spacing:.52em;margin:4px 0 24px}.bfp-brand h2{font-size:26px;font-weight:800;margin:0 0 26px}.bfp-brand h2 span{color:#e84d6d;margin:0 10px}.bfp-social{display:flex;justify-content:center;gap:18px}.bfp-social a{width:58px;height:58px;border-radius:50%;background:#f9dfe3;color:#9a4552!important;display:grid;place-items:center;text-decoration:none;font-size:27px}.bfp-social .bfp-bale{font-size:14px;font-weight:900;color:#fff!important;background:#1fa7a8}.bfp-divider{height:50px;display:flex;align-items:center;gap:14px;color:#e84d6d}.bfp-divider:before,.bfp-divider:after{content:'';height:1px;background:#ef9aaa;flex:1}.bfp-links-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;border-bottom:0}.bfp-links-grid nav{padding:20px 56px;text-align:right}.bfp-links-grid nav+nav{border-right:1px solid #f1b9c2}.bfp-links-grid h3{font-size:25px;margin:0 0 24px;font-weight:900}.bfp-links-grid h3 i{color:#e84d6d;margin-left:8px}.bfp-links-grid a{display:block;color:#27313a!important;text-decoration:none;font-size:17px;line-height:2.65}.bfp-features{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:18px}.bfp-features>div{background:#fde9ec;border-radius:10px;min-height:116px;display:grid;grid-template-columns:56px auto;grid-template-rows:auto auto;align-content:center;padding:18px 22px}.bfp-features i{grid-row:1/3;font-size:35px;color:#e83f65;align-self:center}.bfp-features b{font-size:16px}.bfp-features span{font-size:14px}.bfp-trust{margin-top:18px;background:#fff;border:14px solid #fde9ec;border-radius:10px;display:grid;grid-template-columns:repeat(4,1fr);align-items:center;min-height:145px}.bfp-trust>*{min-height:92px;display:flex;flex-direction:column;align-items:center;justify-content:center;border-left:1px solid #f3b6c0;text-decoration:none}.bfp-trust>*:last-child{border-left:0}.bfp-enamad img{width:78px;height:78px;object-fit:contain}.bfp-partner b{font-size:24px}.bfp-partner small{font-size:11px;margin-top:4px}.bfp-digikala b,.bfp-digikala small{color:#e62f59}.bfp-snapp b{color:#00d88a;font-family:Arial,sans-serif}.bfp-torob b{color:#6334e8}.bfp-owner{text-align:center;font-size:15px;font-weight:700;margin:32px 0 5px}.bfp-copy{text-align:center;font-size:13px;color:#4f555a}
+@media(max-width:900px){.bfp-wrap{padding:34px 18px 95px}.bfp-logo{font-size:58px}.bfp-brand h2{font-size:21px}.bfp-links-grid nav{padding:15px 18px}.bfp-links-grid h3{font-size:21px}.bfp-links-grid a{font-size:14px;line-height:2.75}.bfp-features{grid-template-columns:repeat(3,1fr)}.bfp-features>div{min-height:100px;grid-template-columns:40px auto;padding:12px 8px}.bfp-features i{font-size:27px}.bfp-features b{font-size:12px}.bfp-features span{font-size:10px}.bfp-trust{border-width:10px;min-height:120px}.bfp-trust>*{min-height:85px}.bfp-enamad img{width:62px;height:62px}.bfp-partner b{font-size:16px}.bfp-partner small{font-size:8px}.bfp-owner{font-size:13px}}
+@media(max-width:520px){.bfp-links-grid{grid-template-columns:1fr 1fr}.bfp-links-grid nav{padding:12px 10px}.bfp-links-grid h3{font-size:18px}.bfp-links-grid a{font-size:12px}.bfp-features{gap:6px}.bfp-trust{grid-template-columns:repeat(4,1fr)}.bfp-partner b{font-size:13px}}
 </style>
-<div class="baji-mobile-bottom-nav md:hidden fixed bottom-0 inset-x-0 z-50 border-t border-gray-100 shadow-[0_-5px_15px_rgba(0,0,0,0.05)] flex items-center justify-around h-16 px-1" style="background-color:#fff!important;"><a href="<?php echo esc_url(home_url('/')); ?>" class="flex flex-col items-center justify-center gap-1 text-gray-500 flex-1"><i class="far fa-home text-xl"></i><span class="text-[10px]">خانه</span></a><a href="<?php echo esc_url( home_url('/my-account/wishlist/') ); ?>" class="baji-mobile-wishlist relative flex flex-col items-center justify-center gap-1 text-gray-500 flex-1"><span class="relative"><i class="far fa-heart text-xl"></i><?php if(function_exists('bajistyle_get_wishlist_count') && bajistyle_get_wishlist_count()>0): ?><span class="baji-wishlist-count absolute -top-2 -left-2 text-[9px] bg-[#cf6f78] text-white rounded-full min-w-4 h-4 px-1 flex items-center justify-center"><?php echo absint(bajistyle_get_wishlist_count()); ?></span><?php endif; ?></span><span class="text-[10px]">علاقه‌مندی‌ها</span></a><button type="button" class="baji-cart-toggle flex flex-col items-center justify-center gap-1 text-gray-500 flex-1" aria-controls="baji-cart-panel"><i class="far fa-shopping-bag text-xl"></i><span class="text-[10px]">سبد خرید</span></button><a href="<?php echo esc_url(get_permalink(get_option('woocommerce_myaccount_page_id'))); ?>" class="flex flex-col items-center justify-center gap-1 text-gray-500 flex-1"><i class="far fa-user text-xl"></i><span class="text-[10px]">حساب من</span></a></div>
+<div class="baji-mobile-bottom-nav md:hidden fixed bottom-0 inset-x-0 z-50 flex items-center justify-around h-16 px-1" style="background:#cf536a!important;color:#fff!important"><a href="<?php echo esc_url(home_url('/')); ?>" class="flex flex-col items-center justify-center gap-1 flex-1" style="color:#fff"><i class="far fa-home text-xl"></i><span class="text-[10px]">خانه</span></a><a href="<?php echo esc_url(wc_get_page_permalink('shop')); ?>" class="flex flex-col items-center justify-center gap-1 flex-1" style="color:#fff"><i class="far fa-grid-2 text-xl"></i><span class="text-[10px]">دسته بندی</span></a><button type="button" class="baji-cart-toggle flex flex-col items-center justify-center gap-1 flex-1" style="color:#fff" aria-controls="baji-cart-panel"><i class="far fa-shopping-cart text-xl"></i><span class="text-[10px]">سبد خرید</span></button><a href="<?php echo esc_url(get_permalink(get_option('woocommerce_myaccount_page_id'))); ?>" class="flex flex-col items-center justify-center gap-1 flex-1" style="color:#fff"><i class="far fa-user text-xl"></i><span class="text-[10px]">ورود / عضویت</span></a><a href="<?php echo esc_url(home_url('/contact/')); ?>" class="flex flex-col items-center justify-center gap-1 flex-1" style="color:#fff"><i class="far fa-headset text-xl"></i><span class="text-[10px]">پشتیبانی</span></a></div>
 </div><!-- #page -->
 <div id="baji-cart-panel" class="baji-cart-drawer" aria-hidden="true" data-coupon-nonce="<?php echo esc_attr( wp_create_nonce( 'baji_cart_coupon' ) ); ?>" data-ajax-url="<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>"><div class="baji-cart-drawer__head"><button id="baji-cart-close" type="button" class="baji-cart-drawer__close" aria-label="بستن"><i class="fa-solid fa-xmark"></i></button><div class="baji-cart-drawer__title"><span class="baji-cart-drawer__bag"><i class="far fa-shopping-bag"></i><span class="baji-cart-count"><?php echo absint(WC()->cart?WC()->cart->get_cart_contents_count():0); ?></span></span><div><b>سبد خرید شما</b><small>خرید امن و سریع از BAJI</small></div></div></div><div class="baji-cart-shipping" data-free-shipping-target="3000000"><div class="baji-cart-shipping__row"><i class="far fa-truck"></i><div><b class="baji-cart-shipping__title">ارسال رایگان</b><span class="baji-cart-shipping__text">برای سفارش‌های بالای ۳ میلیون تومان</span></div></div><div class="baji-cart-shipping__bar"><span style="width:0%"></span></div><div class="baji-cart-shipping__meta"><span class="baji-cart-shipping__current"></span><span>هدف: ۳,۰۰۰,۰۰۰ تومان</span></div></div><div class="baji-cart-drawer__body widget_shopping_cart_content"><?php woocommerce_mini_cart(); ?></div><div class="baji-cart-coupon-static"><form method="post" action="<?php echo esc_url( wc_get_cart_url() ); ?>"><div class="baji-mini-coupon__field"><i class="far fa-gift"></i><input type="text" name="coupon_code" placeholder="کد تخفیف را وارد کنید" autocomplete="off"><button type="submit" name="apply_coupon" value="1">اعمال</button></div><?php wp_nonce_field( 'woocommerce-cart', 'woocommerce-cart-nonce' ); ?></form></div><div class="baji-cart-trust"><div><i class="far fa-shield-check"></i><b>پرداخت امن</b></div><div><i class="far fa-truck"></i><b>ارسال سریع</b></div><div><i class="far fa-headset"></i><b>پشتیبانی</b></div></div></div><div id="baji-cart-overlay" class="baji-cart-overlay"></div>
-<script id="baji-cart-drawer-js">
-document.addEventListener('DOMContentLoaded',function(){
- const panel=document.getElementById('baji-cart-panel');
- const overlay=document.getElementById('baji-cart-overlay');
- const close=document.getElementById('baji-cart-close');
- const toggles=document.querySelectorAll('.baji-cart-toggle');
- if(!panel||!overlay||!toggles.length)return;
-
- function latin(s){return String(s||'').replace(/[۰-۹]/g,function(d){return '۰۱۲۳۴۵۶۷۸۹'.indexOf(d);}).replace(/[٠-٩]/g,function(d){return '٠١٢٣٤٥٦٧٨٩'.indexOf(d);});}
- function numberFromText(s){var n=latin(s).replace(/[^0-9]/g,'');return n?parseInt(n,10):0;}
- function formatMoney(n){return new Intl.NumberFormat('fa-IR').format(Math.max(0,Math.round(n)))+' تومان';}
-
- function refreshShipping(){
-   var box=panel.querySelector('.baji-cart-shipping');
-   if(!box)return;
-   var target=3000000;
-   var current=0;
-
-   panel.querySelectorAll('.baji-cart-item').forEach(function(item){
-     var qtyEl=item.querySelector('.baji-mini-cart-qty__value');
-     var priceEl=item.querySelector('.baji-mini-cart-price');
-     var qty=qtyEl?parseInt(latin(qtyEl.textContent),10)||1:1;
-     var unit=priceEl?numberFromText(priceEl.textContent):0;
-     current += unit*qty;
-   });
-
-   if(current===0){
-     var totalBox=panel.querySelector('.woocommerce-mini-cart__total, .woocommerce-mini-cart__total.total');
-     if(totalBox) current=numberFromText(totalBox.textContent);
-   }
-
-   var left=Math.max(0,target-current);
-   var pct=Math.max(0,Math.min(100,(current/target)*100));
-   var title=box.querySelector('.baji-cart-shipping__title');
-   var text=box.querySelector('.baji-cart-shipping__text');
-   var bar=box.querySelector('.baji-cart-shipping__bar span');
-   var currentEl=box.querySelector('.baji-cart-shipping__current');
-
-   if(title) title.textContent=left>0?'فقط '+formatMoney(left)+' تا ارسال رایگان':'ارسال سفارش شما رایگان شد';
-   if(text) text.textContent=left>0?'حد ارسال رایگان: ۳ میلیون تومان':'تبریک! هزینه ارسال این سفارش رایگان شد.';
-   if(title) title.classList.toggle('is-free',left===0);
-   if(bar) bar.style.width=pct+'%';
-   if(currentEl) currentEl.textContent='فعلی: '+formatMoney(current);
- }
-
- function placeCoupon(){
-   var coupon=panel.querySelector('.baji-cart-coupon-static');
-   var body=panel.querySelector('.baji-cart-drawer__body');
-   var total=body&&body.querySelector('.woocommerce-mini-cart__total');
-   if(coupon&&total&&total.parentElement){
-     total.parentElement.insertBefore(coupon,total);
-     coupon.style.padding='0 0 12px';
-   }
- }
-
- function refreshExtras(){setTimeout(function(){refreshShipping();placeCoupon();},60);}
- function openCart(){panel.classList.add('is-open');overlay.classList.add('is-open');panel.setAttribute('aria-hidden','false');document.body.style.overflow='hidden';refreshExtras();}
- function closeCart(){panel.classList.remove('is-open');overlay.classList.remove('is-open');panel.setAttribute('aria-hidden','true');document.body.style.overflow='';}
-
- toggles.forEach(function(btn){btn.addEventListener('click',openCart);});
- if(close)close.addEventListener('click',closeCart);
- overlay.addEventListener('click',closeCart);
- document.addEventListener('keydown',function(e){if(e.key==='Escape')closeCart();});
- refreshExtras();
- if(window.jQuery){window.jQuery(document.body).on('wc_fragments_refreshed added_to_cart removed_from_cart updated_wc_div',refreshExtras);}
-});
-</script>
+<script id="baji-cart-drawer-js">document.addEventListener('DOMContentLoaded',function(){const panel=document.getElementById('baji-cart-panel'),overlay=document.getElementById('baji-cart-overlay'),close=document.getElementById('baji-cart-close'),toggles=document.querySelectorAll('.baji-cart-toggle');if(!panel||!overlay||!toggles.length)return;function openCart(){panel.classList.add('is-open');overlay.classList.add('is-open');panel.setAttribute('aria-hidden','false');document.body.style.overflow='hidden'}function closeCart(){panel.classList.remove('is-open');overlay.classList.remove('is-open');panel.setAttribute('aria-hidden','true');document.body.style.overflow=''}toggles.forEach(function(btn){btn.addEventListener('click',openCart)});if(close)close.addEventListener('click',closeCart);overlay.addEventListener('click',closeCart);document.addEventListener('keydown',function(e){if(e.key==='Escape')closeCart()})});</script>
 <?php wp_footer(); ?>
 </body></html>
