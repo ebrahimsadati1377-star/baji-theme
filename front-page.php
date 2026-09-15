@@ -72,7 +72,7 @@ get_header();
 
 	<?php get_template_part( 'template-parts/hero-section' ); ?>
 
-	<!-- BAJI Basalam credit banner -->
+	<!-- BAJI Basalam credit banner | deploy trigger 2026-09-15 -->
 	<section class="baji-basalam-credit py-3 md:py-5 bg-[#fffaf8]" aria-label="خرید با اعتبار باسلام">
 		<div class="max-w-[1400px] mx-auto px-4 md:px-8">
 			<a href="https://basalam.com/user/xYZL2l?utm_source=share&utm_medium=copy&user_hash_id=xYZL2l&from_component=profile-app" target="_blank" rel="noopener noreferrer sponsored" class="baji-basalam-credit__link block overflow-hidden rounded-[22px] md:rounded-[30px] shadow-[0_10px_30px_rgba(77,45,39,.10)] border border-[#efd8d1] no-underline">
