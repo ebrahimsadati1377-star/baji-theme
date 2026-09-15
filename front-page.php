@@ -72,6 +72,27 @@ get_header();
 
 	<?php get_template_part( 'template-parts/hero-section' ); ?>
 
+	<!-- BAJI Basalam credit banner -->
+	<section class="baji-basalam-credit py-3 md:py-5 bg-[#fffaf8]" aria-label="خرید با اعتبار باسلام">
+		<div class="max-w-[1400px] mx-auto px-4 md:px-8">
+			<a href="https://basalam.com/user/xYZL2l?utm_source=share&utm_medium=copy&user_hash_id=xYZL2l&from_component=profile-app" target="_blank" rel="noopener noreferrer sponsored" class="baji-basalam-credit__link block overflow-hidden rounded-[22px] md:rounded-[30px] shadow-[0_10px_30px_rgba(77,45,39,.10)] border border-[#efd8d1] no-underline">
+				<div class="relative min-h-[118px] md:min-h-[168px] flex items-center justify-between gap-3 md:gap-8 px-5 md:px-12 py-5 md:py-7 bg-[linear-gradient(110deg,#fff8f5_0%,#fbe7e1_58%,#f6d9d1_100%)] overflow-hidden">
+					<div class="absolute -right-10 -top-16 w-44 h-44 md:w-64 md:h-64 rounded-full bg-white/40"></div>
+					<div class="absolute left-[28%] -bottom-20 w-40 h-40 rounded-full bg-[#e8bfb5]/25"></div>
+					<div class="relative z-10 flex-1 text-right">
+						<div class="text-[18px] md:text-[34px] font-black text-[#4b2925] leading-[1.45]">اعتبار باسلام داری؟</div>
+						<div class="mt-1 text-[12px] md:text-[19px] font-bold text-[#7d554e] leading-7">با اعتبارت از <span class="text-[#7b1327]">BAJI</span> خرید کن</div>
+						<span class="inline-flex mt-3 md:mt-4 items-center justify-center rounded-full bg-[#8b172f] text-white px-4 md:px-6 py-2 md:py-2.5 text-[10px] md:text-sm font-black">خرید از غرفه باجی در باسلام ←</span>
+					</div>
+					<div class="relative z-10 shrink-0 w-[82px] h-[82px] md:w-[128px] md:h-[128px] rounded-full bg-white/80 border border-white flex flex-col items-center justify-center shadow-[0_8px_22px_rgba(80,45,38,.10)]">
+						<div class="text-[23px] md:text-[37px] font-black tracking-[.08em] text-[#2f2521]">BAJI</div>
+						<div class="mt-1 text-[8px] md:text-[11px] font-bold text-[#c65c4c]">در باسلام</div>
+					</div>
+				</div>
+			</a>
+		</div>
+	</section>
+
 	<section class="baji-quick-products py-5 md:py-8 bg-[#fffaf8]">
 		<div class="max-w-[1400px] mx-auto px-4 md:px-8">
 			<div class="flex items-center justify-between gap-4 mb-4">
