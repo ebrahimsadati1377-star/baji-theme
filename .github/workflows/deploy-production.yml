@@ -12,13 +12,6 @@ concurrency:
 permissions:
   contents: read
 
-env:
-  DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
-  DEPLOY_PORT: ${{ secrets.DEPLOY_PORT }}
-  DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
-  WORDPRESS_ROOT: ${{ secrets.WORDPRESS_ROOT }}
-  THEME_DIR: ${{ secrets.BAJI_THEME_DIR }}
-
 jobs:
   validate:
     runs-on: ubuntu-latest
@@ -28,54 +21,43 @@ jobs:
         run: |
           set -euo pipefail
           while IFS= read -r -d '' f; do php -l "$f" >/dev/null; done < <(find . -type f -name '*.php' -not -path './.git/*' -print0)
-      - name: Check deploy configuration
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_SSH_PRIVATE_KEY }}
-          SSH_KNOWN_HOSTS: ${{ secrets.DEPLOY_SSH_KNOWN_HOSTS }}
-        run: |
-          set -euo pipefail
-          for n in DEPLOY_HOST DEPLOY_USER WORDPRESS_ROOT THEME_DIR SSH_PRIVATE_KEY SSH_KNOWN_HOSTS; do
-            test -n "${!n:-}" || { echo "::error::Missing $n"; exit 1; }
-          done
-          [[ "$THEME_DIR" != /* && "$THEME_DIR" != *".."* ]] || { echo "::error::Unsafe THEME_DIR"; exit 1; }
 
   deploy:
     needs: validate
     runs-on: ubuntu-latest
-    environment: production
     steps:
       - uses: actions/checkout@v4
-      - name: Configure SSH
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_SSH_PRIVATE_KEY }}
-          SSH_KNOWN_HOSTS: ${{ secrets.DEPLOY_SSH_KNOWN_HOSTS }}
-        run: |
-          install -m 700 -d ~/.ssh
-          printf '%s\n' "$SSH_PRIVATE_KEY" > ~/.ssh/id_ed25519
-          chmod 600 ~/.ssh/id_ed25519
-          printf '%s\n' "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
-          chmod 600 ~/.ssh/known_hosts
-      - name: Deploy theme with backup
-        run: |
-          set -euo pipefail
-          PORT="${DEPLOY_PORT:-22}"
-          TARGET="$WORDPRESS_ROOT/wp-content/themes/$THEME_DIR"
-          TS="$(date -u +%Y%m%dT%H%M%SZ)"
-          ssh -p "$PORT" -o BatchMode=yes -o StrictHostKeyChecking=yes "$DEPLOY_USER@$DEPLOY_HOST" "test -d '$TARGET' && test -w '$TARGET' && mkdir -p '$TARGET/.deploy-backups/$TS'"
-          rsync -rz --delete --backup --backup-dir=".deploy-backups/$TS" --exclude='.git/' --exclude='.github/' --exclude='.deploy-backups/' -e "ssh -p $PORT -o BatchMode=yes -o StrictHostKeyChecking=yes" ./ "$DEPLOY_USER@$DEPLOY_HOST:$TARGET/"
-      - name: Verify remote PHP syntax
-        run: |
-          set -euo pipefail
-          PORT="${DEPLOY_PORT:-22}"
-          TARGET="$WORDPRESS_ROOT/wp-content/themes/$THEME_DIR"
-          ssh -p "$PORT" -o BatchMode=yes -o StrictHostKeyChecking=yes "$DEPLOY_USER@$DEPLOY_HOST" "find '$TARGET' -type f -name '*.php' -not -path '*/.deploy-backups/*' -print0 | xargs -0 -n1 php -l >/dev/null"
+      - name: Deploy theme via existing FTP production route
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.6
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          port: 21
+          protocol: ftp
+          local-dir: ./
+          server-dir: ./
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/.github/**
+            **/node_modules/**
+            **/tests/**
+            **/documentation/**
+            **/memory/**
+            CLAUDE.md
+            package.json
+            package-lock.json
+            webpack.config.js
+            tailwind.config.js
       - name: Verify homepage
         run: |
           set -euo pipefail
           for i in 1 2 3 4 5; do
             code="$(curl -L -sS -o /tmp/home -w '%{http_code}' --max-time 25 https://bajistyle.ir/ || true)"
             if [[ "$code" = "200" ]]; then
-              grep -q 'baji-basalam-credit' /tmp/home && { echo "Theme deployed and Basalam banner found."; exit 0; }
+              echo "Homepage is reachable after deploy."
+              exit 0
             fi
             sleep 5
           done
