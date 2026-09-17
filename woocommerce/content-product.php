@@ -147,6 +147,15 @@ $in_wishlist = function_exists( 'bajistyle_is_in_wishlist' ) && bajistyle_is_in_
 
 		</a>
 
+		<a
+			href="<?php echo esc_url( $product->get_permalink() ); ?>"
+			class="baji-product-buy-cta"
+			aria-label="<?php echo esc_attr( sprintf( __( 'مشاهده و خرید %s', 'bajistyle' ), $product->get_name() ) ); ?>"
+		>
+			<span>مشاهده و خرید</span>
+			<i class="fa-solid fa-bag-shopping" aria-hidden="true"></i>
+		</a>
+
 	</div>
 
 </li>
