@@ -11,7 +11,7 @@ $autumn_banner_url = 'https://bajistyle.ir/wp-content/uploads/2026/09/baji-autum
 ?>
 <style>
 .baji-hero-frame{aspect-ratio:2/1;touch-action:pan-y}
-.baji-hero-next-fixed,.baji-hero-prev-fixed{pointer-events:auto!important;touch-action:manipulation!important;-webkit-tap-highlight-color:transparent}
+.baji-hero-next,.baji-hero-prev{pointer-events:auto!important;touch-action:manipulation!important;-webkit-tap-highlight-color:transparent}
 @media(min-width:768px){.baji-hero-frame{aspect-ratio:3488/921}}
 </style>
 <section class="baji-hero relative w-full max-w-[1400px] mx-auto my-4" aria-label="<?php esc_attr_e('بخش معرفی اصلی','bajistyle'); ?>">
@@ -50,30 +50,9 @@ while($slider_query->have_posts()):
 <?php ++$slide_index; endwhile; if($slide_index<=3){$render_autumn_slide();} wp_reset_postdata(); $total_slides=$slide_index+1; ?>
 </div>
 <?php if($total_slides>1): ?>
-<button type="button" class="baji-hero-next-fixed absolute left-3 md:left-5 top-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center bg-white/20 hover:bg-white/40 text-white backdrop-blur-md rounded-full shadow-lg z-30 transition-all duration-300 cursor-pointer hover:scale-110" style="color:#fff" aria-label="اسلاید بعدی"><svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 drop-shadow-md" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7" /></svg></button>
-<button type="button" class="baji-hero-prev-fixed absolute right-3 md:right-5 top-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center bg-white/20 hover:bg-white/40 text-white backdrop-blur-md rounded-full shadow-lg z-30 transition-all duration-300 cursor-pointer hover:scale-110" style="color:#fff" aria-label="اسلاید قبلی"><svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 drop-shadow-md" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" /></svg></button>
+<button type="button" class="baji-hero-next absolute left-3 md:left-5 top-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center bg-white/20 hover:bg-white/40 text-white backdrop-blur-md rounded-full shadow-lg z-30 transition-all duration-300 cursor-pointer hover:scale-110" style="color:#fff" aria-label="اسلاید بعدی"><svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 drop-shadow-md" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7" /></svg></button>
+<button type="button" class="baji-hero-prev absolute right-3 md:right-5 top-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center bg-white/20 hover:bg-white/40 text-white backdrop-blur-md rounded-full shadow-lg z-30 transition-all duration-300 cursor-pointer hover:scale-110" style="color:#fff" aria-label="اسلاید قبلی"><svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 drop-shadow-md" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" /></svg></button>
 <?php endif; ?><div class="swiper-pagination baji-hero-pagination !bottom-3 z-30"></div>
 </div>
 <?php endif; ?>
 </section>
-<script>
-(function(){
- function bindBajiHeroControls(){
-  var hero=document.querySelector('.baji-hero-swiper');
-  if(!hero)return;
-  var next=document.querySelector('.baji-hero-next-fixed');
-  var prev=document.querySelector('.baji-hero-prev-fixed');
-  function act(direction,e){
-   if(e){e.preventDefault();e.stopPropagation();}
-   var sw=hero.swiper;
-   if(!sw)return;
-   if(sw.autoplay&&sw.autoplay.stop)sw.autoplay.stop();
-   direction==='next'?sw.slideNext():sw.slidePrev();
-   if(sw.autoplay&&sw.autoplay.start)window.setTimeout(function(){sw.autoplay.start();},700);
-  }
-  if(next)next.addEventListener('click',function(e){act('next',e);},{passive:false});
-  if(prev)prev.addEventListener('click',function(e){act('prev',e);},{passive:false});
- }
- if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',function(){window.setTimeout(bindBajiHeroControls,80);});}else{window.setTimeout(bindBajiHeroControls,80);}
-})();
-</script>
