@@ -56,11 +56,13 @@ while($slider_query->have_posts()):
 </section>
 <script>
 (function(){
+ var forcedTimer=null;
  function enableBajiHeroFade(){
   var el=document.querySelector('.baji-hero-swiper');
   if(!el||typeof Swiper==='undefined')return;
+  if(forcedTimer){clearInterval(forcedTimer);forcedTimer=null;}
   if(el.swiper){el.swiper.destroy(true,true);}
-  new Swiper(el,{
+  var hero=new Swiper(el,{
    slidesPerView:1,
    spaceBetween:0,
    loop:true,
@@ -68,12 +70,19 @@ while($slider_query->have_posts()):
    fadeEffect:{crossFade:true},
    speed:850,
    grabCursor:true,
-   autoplay:{delay:5000,disableOnInteraction:false,pauseOnMouseEnter:true},
-   pagination:{el:'.baji-hero-pagination',clickable:true}
+   autoplay:false,
+   pagination:{el:el.querySelector('.baji-hero-pagination'),clickable:true}
   });
+  forcedTimer=setInterval(function(){
+   if(hero && !hero.destroyed){hero.slideNext(850);}
+  },5000);
+  el.addEventListener('pointerdown',function(){if(forcedTimer){clearInterval(forcedTimer);forcedTimer=null;}},{passive:true});
+  el.addEventListener('pointerup',function(){
+   if(!forcedTimer){forcedTimer=setInterval(function(){if(hero&&!hero.destroyed){hero.slideNext(850);}},5000);}
+  },{passive:true});
  }
  if(document.readyState==='loading'){
-  document.addEventListener('DOMContentLoaded',function(){setTimeout(enableBajiHeroFade,120);});
- }else{setTimeout(enableBajiHeroFade,120);}
+  document.addEventListener('DOMContentLoaded',function(){setTimeout(enableBajiHeroFade,180);});
+ }else{setTimeout(enableBajiHeroFade,180);}
 })();
 </script>
