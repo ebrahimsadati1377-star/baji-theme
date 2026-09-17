@@ -11,6 +11,8 @@ $autumn_banner_url = 'https://bajistyle.ir/wp-content/uploads/2026/09/baji-autum
 ?>
 <style>
 .baji-hero-frame{aspect-ratio:2/1;touch-action:pan-y}
+.baji-hero-swiper.swiper-fade .swiper-slide{pointer-events:none;transition-property:opacity!important}
+.baji-hero-swiper.swiper-fade .swiper-slide-active{pointer-events:auto}
 @media(min-width:768px){.baji-hero-frame{aspect-ratio:3488/921}}
 </style>
 <section class="baji-hero relative w-full max-w-[1400px] mx-auto my-4" aria-label="<?php esc_attr_e('بخش معرفی اصلی','bajistyle'); ?>">
@@ -52,3 +54,26 @@ while($slider_query->have_posts()):
 </div>
 <?php endif; ?>
 </section>
+<script>
+(function(){
+ function enableBajiHeroFade(){
+  var el=document.querySelector('.baji-hero-swiper');
+  if(!el||typeof Swiper==='undefined')return;
+  if(el.swiper){el.swiper.destroy(true,true);}
+  new Swiper(el,{
+   slidesPerView:1,
+   spaceBetween:0,
+   loop:true,
+   effect:'fade',
+   fadeEffect:{crossFade:true},
+   speed:850,
+   grabCursor:true,
+   autoplay:{delay:5000,disableOnInteraction:false,pauseOnMouseEnter:true},
+   pagination:{el:'.baji-hero-pagination',clickable:true}
+  });
+ }
+ if(document.readyState==='loading'){
+  document.addEventListener('DOMContentLoaded',function(){setTimeout(enableBajiHeroFade,120);});
+ }else{setTimeout(enableBajiHeroFade,120);}
+})();
+</script>
