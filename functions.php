@@ -1052,3 +1052,26 @@ add_action( 'wp_ajax_nopriv_baji_update_mini_cart_quantity', 'baji_update_mini_c
 
 /** Secure SMS relay fallback for IPPanel network failures. */
 require_once BAJISTYLE_DIR . '/inc/sms-proxy.php';
+
+
+/**
+ * When free shipping is available for a package, hide every paid/other method.
+ * This keeps Checkout simple and prevents customers from selecting a paid option
+ * after qualifying for free shipping.
+ */
+function baji_only_free_shipping_when_available( $rates, $package ) {
+	if ( empty( $rates ) || ! is_array( $rates ) ) {
+		return $rates;
+	}
+
+	$free_rates = array();
+
+	foreach ( $rates as $rate_id => $rate ) {
+		if ( is_object( $rate ) && isset( $rate->method_id ) && 'free_shipping' === $rate->method_id ) {
+			$free_rates[ $rate_id ] = $rate;
+		}
+	}
+
+	return ! empty( $free_rates ) ? $free_rates : $rates;
+}
+add_filter( 'woocommerce_package_rates', 'baji_only_free_shipping_when_available', 100, 2 );
