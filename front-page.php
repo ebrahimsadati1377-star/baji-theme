@@ -317,42 +317,60 @@ get_header();
 		</div>
 	</section>
 
-	<!-- =================== استایل باجی — Shop the look =================== -->
-<section class="baji-style-shop" aria-labelledby="baji-style-shop-title">
+	<!-- =================== استایل باجی — Editorial Shop the Look V2 =================== -->
+<section class="baji-style-shop baji-style-shop--v2" aria-labelledby="baji-style-shop-title">
   <div class="baji-style-shop__shell">
-    <div class="baji-style-shop__visual">
+
+    <article class="baji-style-shop__visual">
       <img
         src="<?php echo esc_url( wp_get_attachment_image_url( 3128, 'large' ) ); ?>"
-        alt="استایل شهری با مانتو کلاه‌دار کتان ضد آب کرم باجی"
+        alt="استایل شهری زنانه با مانتو کلاه‌دار کتان ضد آب کرم باجی"
         loading="lazy"
         class="baji-style-shop__hero-img"
       >
       <div class="baji-style-shop__overlay">
-        <span class="baji-style-shop__kicker">BAJI STYLE</span>
+        <span class="baji-style-shop__kicker">BAJI EDIT</span>
         <h2 id="baji-style-shop-title">استایل باجی</h2>
-        <p>یک انتخاب کاربردی برای روزهای شهری و خنک؛ ساده، راحت و قابل خرید.</p>
-        <a href="<?php echo esc_url( get_permalink( 3114 ) ); ?>">مشاهده این استایل <i class="fa-solid fa-arrow-left"></i></a>
+        <p>یک انتخاب مینیمال و کاربردی برای استایل روزمره؛ راحت، شیک و قابل خرید.</p>
+        <a href="<?php echo esc_url( get_permalink( 3114 ) ); ?>" class="baji-style-shop__hero-cta">
+          <span>مشاهده این استایل</span>
+          <i class="fa-solid fa-arrow-left"></i>
+        </a>
       </div>
-    </div>
+    </article>
 
     <div class="baji-style-shop__products">
       <div class="baji-style-shop__head">
         <div>
-          <span>SHOP THE LOOK</span>
-          <h3>این استایل را بساز</h3>
+          <span>SHOP THE EDIT</span>
+          <h3>پیشنهادهای مکمل</h3>
+          <p>سه انتخاب هماهنگ برای کامل‌تر کردن استایل روزمره.</p>
         </div>
-        <a href="<?php echo esc_url( get_term_link( 21, 'product_cat' ) ); ?>">همه مانتوها</a>
+        <a href="<?php echo esc_url( wc_get_page_permalink( 'shop' ) ); ?>" class="baji-style-shop__all">
+          مشاهده همه محصولات <i class="fa-solid fa-arrow-left"></i>
+        </a>
       </div>
 
       <div class="baji-style-shop__cards">
         <?php
-        $baji_style_product_ids = array( 3114, 3138, 3093 );
+        $baji_style_product_ids = array( 3138, 1225, 2316 );
         foreach ( $baji_style_product_ids as $baji_style_product_id ) :
           $baji_style_product = wc_get_product( $baji_style_product_id );
-          if ( ! $baji_style_product || 'publish' !== get_post_status( $baji_style_product_id ) ) {
+          if ( ! $baji_style_product || 'publish' !== get_post_status( $baji_style_product_id ) || ! $baji_style_product->is_in_stock() ) {
             continue;
           }
+
           $baji_style_image_id = $baji_style_product->get_image_id();
+          $baji_regular = (float) $baji_style_product->get_regular_price();
+          $baji_sale    = (float) $baji_style_product->get_sale_price();
+          $baji_discount = ( $baji_regular > 0 && $baji_sale > 0 && $baji_sale < $baji_regular )
+            ? (int) round( ( ( $baji_regular - $baji_sale ) / $baji_regular ) * 100 )
+            : 0;
+
+          $baji_terms = get_the_terms( $baji_style_product_id, 'product_cat' );
+          $baji_cat_name = ( ! is_wp_error( $baji_terms ) && ! empty( $baji_terms ) )
+            ? $baji_terms[0]->name
+            : '';
         ?>
           <article class="baji-style-shop__card">
             <a class="baji-style-shop__card-image" href="<?php echo esc_url( get_permalink( $baji_style_product_id ) ); ?>">
@@ -367,13 +385,28 @@ get_header();
                 )
               );
               ?>
+              <?php if ( $baji_discount > 0 ) : ?>
+                <span class="baji-style-shop__discount"><?php echo esc_html( $baji_discount ); ?>٪ تخفیف</span>
+              <?php endif; ?>
             </a>
+
             <div class="baji-style-shop__card-body">
+              <?php if ( $baji_cat_name ) : ?>
+                <span class="baji-style-shop__category"><?php echo esc_html( $baji_cat_name ); ?></span>
+              <?php endif; ?>
+
               <a class="baji-style-shop__name" href="<?php echo esc_url( get_permalink( $baji_style_product_id ) ); ?>">
                 <?php echo esc_html( $baji_style_product->get_name() ); ?>
               </a>
-              <div class="baji-style-shop__price"><?php echo wp_kses_post( $baji_style_product->get_price_html() ); ?></div>
-              <a class="baji-style-shop__buy" href="<?php echo esc_url( get_permalink( $baji_style_product_id ) ); ?>">مشاهده و خرید</a>
+
+              <div class="baji-style-shop__price">
+                <?php echo wp_kses_post( $baji_style_product->get_price_html() ); ?>
+              </div>
+
+              <a class="baji-style-shop__buy" href="<?php echo esc_url( get_permalink( $baji_style_product_id ) ); ?>">
+                <span>مشاهده و خرید</span>
+                <i class="fa-solid fa-arrow-left"></i>
+              </a>
             </div>
           </article>
         <?php endforeach; ?>
@@ -382,55 +415,372 @@ get_header();
   </div>
 </section>
 
-<style id="baji-style-shop-style">
-.baji-style-shop{background:#f8f4ef;padding:34px 0 42px;direction:rtl}
-.baji-style-shop__shell{width:min(calc(100% - 28px),1400px);margin:0 auto;display:grid;grid-template-columns:1.05fr .95fr;gap:18px;align-items:stretch}
-.baji-style-shop__visual{position:relative;overflow:hidden;border-radius:24px;min-height:560px;background:#e9dfd8;box-shadow:0 14px 36px rgba(56,43,37,.10)}
-.baji-style-shop__hero-img{display:block;width:100%;height:100%;object-fit:cover;object-position:center}
-.baji-style-shop__visual:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,14,12,.02) 32%,rgba(20,14,12,.76) 100%);pointer-events:none}
-.baji-style-shop__overlay{position:absolute;z-index:2;right:24px;left:24px;bottom:24px;color:#fff}
-.baji-style-shop__kicker{display:block;font-size:11px;font-weight:900;letter-spacing:.2em;margin-bottom:5px;color:#eaded5}
-.baji-style-shop__overlay h2{margin:0 0 5px;color:#fff!important;font-size:34px;line-height:1.3;font-weight:950}
-.baji-style-shop__overlay p{margin:0 0 14px;max-width:560px;font-size:13px;line-height:1.9;color:#f8f0eb}
-.baji-style-shop__overlay a{display:inline-flex;align-items:center;gap:8px;min-height:42px;padding:0 17px;border-radius:999px;background:#fff;color:#392925!important;text-decoration:none!important;font-size:11px;font-weight:900}
-.baji-style-shop__products{background:#fff;border:1px solid #ebe0da;border-radius:24px;padding:20px;box-shadow:0 10px 28px rgba(56,43,37,.06)}
-.baji-style-shop__head{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:16px}
-.baji-style-shop__head span{display:block;color:#b28876;font-size:10px;font-weight:900;letter-spacing:.17em;margin-bottom:3px}
-.baji-style-shop__head h3{margin:0;color:#30231f;font-size:22px;line-height:1.4;font-weight:950}
-.baji-style-shop__head>a{color:#7b1327!important;text-decoration:none!important;font-size:11px;font-weight:900}
-.baji-style-shop__cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
-.baji-style-shop__card{min-width:0;border:1px solid #eee4df;border-radius:17px;overflow:hidden;background:#fff;display:flex;flex-direction:column}
-.baji-style-shop__card-image{display:block;aspect-ratio:3/4;overflow:hidden;background:#f3ece7}
-.baji-style-shop__card-image img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .3s ease}
-.baji-style-shop__card:hover .baji-style-shop__card-image img{transform:scale(1.025)}
-.baji-style-shop__card-body{padding:10px;display:flex;flex-direction:column;flex:1}
-.baji-style-shop__name{color:#332520!important;text-decoration:none!important;font-size:11.5px;font-weight:900;line-height:1.75;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:41px}
-.baji-style-shop__price{margin-top:6px;color:#e83f5b;font-size:11px;font-weight:900;line-height:1.6}
-.baji-style-shop__price del{color:#999;font-size:9px;font-weight:500;opacity:.75}
-.baji-style-shop__price ins{text-decoration:none}
-.baji-style-shop__buy{margin-top:auto;min-height:36px;border-radius:10px;background:#7b1327;color:#fff!important;text-decoration:none!important;display:flex;align-items:center;justify-content:center;padding:7px 8px;font-size:10px;font-weight:900}
-@media(max-width:900px){
-  .baji-style-shop__shell{grid-template-columns:1fr}
-  .baji-style-shop__visual{min-height:460px}
+<style id="baji-style-shop-v2-style">
+.baji-style-shop--v2{
+  --bss-ink:#2f2420;
+  --bss-muted:#7b6d66;
+  --bss-line:#eadfd9;
+  --bss-wine:#7b1327;
+  --bss-blush:#fff8f5;
+  background:linear-gradient(180deg,#fbf8f4 0%,#f7f1eb 100%);
+  padding:48px 0;
+  direction:rtl;
+}
+.baji-style-shop--v2 .baji-style-shop__shell{
+  width:min(calc(100% - 40px),1400px);
+  margin:0 auto;
+  display:grid;
+  grid-template-columns:minmax(0,1.16fr) minmax(420px,.84fr);
+  gap:22px;
+  align-items:stretch;
+}
+.baji-style-shop--v2 .baji-style-shop__visual{
+  position:relative;
+  min-height:520px;
+  overflow:hidden;
+  border-radius:28px;
+  background:#e8dfd8;
+  box-shadow:0 18px 44px rgba(59,44,37,.11);
+}
+.baji-style-shop--v2 .baji-style-shop__hero-img{
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center 43%;
+  transition:transform .55s ease;
+}
+.baji-style-shop--v2 .baji-style-shop__visual:hover .baji-style-shop__hero-img{transform:scale(1.018)}
+.baji-style-shop--v2 .baji-style-shop__visual:after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(180deg,rgba(24,18,15,.02) 26%,rgba(24,18,15,.14) 55%,rgba(24,18,15,.82) 100%);
+  pointer-events:none;
+}
+.baji-style-shop--v2 .baji-style-shop__overlay{
+  position:absolute;
+  z-index:2;
+  right:30px;
+  left:30px;
+  bottom:28px;
+  color:#fff;
+}
+.baji-style-shop--v2 .baji-style-shop__kicker{
+  display:inline-flex;
+  align-items:center;
+  min-height:28px;
+  padding:0 10px;
+  margin-bottom:8px;
+  border:1px solid rgba(255,255,255,.28);
+  border-radius:999px;
+  background:rgba(255,255,255,.11);
+  backdrop-filter:blur(8px);
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:.18em;
+  color:#fff;
+}
+.baji-style-shop--v2 .baji-style-shop__overlay h2{
+  margin:0 0 7px;
+  color:#fff!important;
+  font-size:38px;
+  line-height:1.2;
+  font-weight:950;
+}
+.baji-style-shop--v2 .baji-style-shop__overlay p{
+  max-width:580px;
+  margin:0 0 17px;
+  color:#f7efeb;
+  font-size:13px;
+  line-height:1.95;
+}
+.baji-style-shop--v2 .baji-style-shop__hero-cta{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:9px;
+  min-height:44px;
+  padding:0 18px;
+  border-radius:999px;
+  background:#fff;
+  color:#30231f!important;
+  text-decoration:none!important;
+  font-size:11.5px;
+  font-weight:950;
+  box-shadow:0 8px 20px rgba(0,0,0,.12);
+}
+.baji-style-shop--v2 .baji-style-shop__hero-cta i{font-size:9px}
+
+.baji-style-shop--v2 .baji-style-shop__products{
+  display:flex;
+  flex-direction:column;
+  min-width:0;
+  padding:22px;
+  border:1px solid var(--bss-line);
+  border-radius:28px;
+  background:rgba(255,255,255,.92);
+  box-shadow:0 13px 34px rgba(62,47,40,.07);
+}
+.baji-style-shop--v2 .baji-style-shop__head{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:16px;
+  margin-bottom:18px;
+}
+.baji-style-shop--v2 .baji-style-shop__head>div>span{
+  display:block;
+  margin-bottom:4px;
+  color:#ad8576;
+  font-size:10px;
+  font-weight:950;
+  letter-spacing:.18em;
+}
+.baji-style-shop--v2 .baji-style-shop__head h3{
+  margin:0;
+  color:var(--bss-ink);
+  font-size:25px;
+  line-height:1.35;
+  font-weight:950;
+}
+.baji-style-shop--v2 .baji-style-shop__head p{
+  margin:5px 0 0;
+  color:var(--bss-muted);
+  font-size:11px;
+  line-height:1.8;
+}
+.baji-style-shop--v2 .baji-style-shop__all{
+  flex:0 0 auto;
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  color:var(--bss-wine)!important;
+  text-decoration:none!important;
+  font-size:10.5px;
+  font-weight:900;
+}
+.baji-style-shop--v2 .baji-style-shop__all i{font-size:8px}
+
+.baji-style-shop--v2 .baji-style-shop__cards{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:11px;
+  min-width:0;
+  margin-top:auto;
+}
+.baji-style-shop--v2 .baji-style-shop__card{
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  min-width:0;
+  overflow:hidden;
+  border:1px solid #eee4df;
+  border-radius:19px;
+  background:#fff;
+  box-shadow:0 7px 20px rgba(57,43,36,.045);
+}
+.baji-style-shop--v2 .baji-style-shop__card-image{
+  position:relative;
+  display:block;
+  aspect-ratio:3/4;
+  overflow:hidden;
+  background:#f2ebe7;
+}
+.baji-style-shop--v2 .baji-style-shop__card-image img{
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  transition:transform .35s ease;
+}
+.baji-style-shop--v2 .baji-style-shop__card:hover .baji-style-shop__card-image img{transform:scale(1.025)}
+.baji-style-shop--v2 .baji-style-shop__discount{
+  position:absolute;
+  top:9px;
+  right:9px;
+  z-index:2;
+  min-height:25px;
+  display:inline-flex;
+  align-items:center;
+  padding:0 8px;
+  border-radius:999px;
+  background:#fff;
+  color:var(--bss-wine);
+  box-shadow:0 4px 12px rgba(54,37,31,.10);
+  font-size:8.5px;
+  font-weight:950;
+}
+.baji-style-shop--v2 .baji-style-shop__card-body{
+  display:flex;
+  flex-direction:column;
+  flex:1;
+  padding:11px;
+}
+.baji-style-shop--v2 .baji-style-shop__category{
+  display:block;
+  margin-bottom:4px;
+  color:#a18e85;
+  font-size:8.5px;
+  font-weight:800;
+}
+.baji-style-shop--v2 .baji-style-shop__name{
+  min-height:42px;
+  color:var(--bss-ink)!important;
+  text-decoration:none!important;
+  font-size:11.5px;
+  font-weight:950;
+  line-height:1.75;
+  display:-webkit-box;
+  -webkit-line-clamp:2;
+  -webkit-box-orient:vertical;
+  overflow:hidden;
+}
+.baji-style-shop--v2 .baji-style-shop__price{
+  min-height:38px;
+  display:flex;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:3px 5px;
+  margin-top:6px;
+  color:#e83f5b;
+  font-size:11px;
+  line-height:1.6;
+  font-weight:950;
+}
+.baji-style-shop--v2 .baji-style-shop__price del{
+  color:#a19a96;
+  font-size:8.5px;
+  font-weight:500;
+  opacity:.78;
+}
+.baji-style-shop--v2 .baji-style-shop__price ins{text-decoration:none}
+.baji-style-shop--v2 .baji-style-shop__buy{
+  min-height:38px;
+  margin-top:auto;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+  padding:8px;
+  border-radius:11px;
+  background:#f9f1ee;
+  color:var(--bss-wine)!important;
+  border:1px solid #eeddda;
+  text-decoration:none!important;
+  font-size:10px;
+  font-weight:950;
+}
+.baji-style-shop--v2 .baji-style-shop__buy i{font-size:8px}
+
+@media(max-width:980px){
+  .baji-style-shop--v2 .baji-style-shop__shell{grid-template-columns:1fr}
+  .baji-style-shop--v2 .baji-style-shop__visual{min-height:440px}
 }
 @media(max-width:767px){
-  .baji-style-shop{padding:26px 0 30px}
-  .baji-style-shop__shell{width:calc(100% - 28px);gap:12px}
-  .baji-style-shop__visual{min-height:0;aspect-ratio:4/5;border-radius:20px}
-  .baji-style-shop__overlay{right:16px;left:16px;bottom:16px}
-  .baji-style-shop__overlay h2{font-size:27px}
-  .baji-style-shop__overlay p{font-size:11.5px;line-height:1.8;margin-bottom:10px;max-width:90%}
-  .baji-style-shop__overlay a{min-height:38px;padding:0 14px;font-size:10.5px}
-  .baji-style-shop__products{border-radius:20px;padding:14px}
-  .baji-style-shop__head{margin-bottom:12px}
-  .baji-style-shop__head h3{font-size:18px}
-  .baji-style-shop__head>a{font-size:10px}
-  .baji-style-shop__cards{display:flex;gap:9px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:4px;scrollbar-width:none}
-  .baji-style-shop__cards::-webkit-scrollbar{display:none}
-  .baji-style-shop__card{flex:0 0 72%;scroll-snap-align:start;border-radius:15px}
-  .baji-style-shop__name{font-size:12px}
-  .baji-style-shop__price{font-size:11.5px}
-  .baji-style-shop__buy{min-height:38px;font-size:10.5px}
+  .baji-style-shop--v2{
+    padding:26px 0 32px;
+  }
+  .baji-style-shop--v2 .baji-style-shop__shell{
+    width:calc(100% - 28px);
+    gap:13px;
+  }
+  .baji-style-shop--v2 .baji-style-shop__visual{
+    min-height:0;
+    aspect-ratio:4/3;
+    border-radius:21px;
+    box-shadow:0 11px 28px rgba(59,44,37,.10);
+  }
+  .baji-style-shop--v2 .baji-style-shop__hero-img{
+    object-position:center 38%;
+  }
+  .baji-style-shop--v2 .baji-style-shop__overlay{
+    right:16px;
+    left:16px;
+    bottom:15px;
+  }
+  .baji-style-shop--v2 .baji-style-shop__kicker{
+    min-height:24px;
+    padding:0 8px;
+    margin-bottom:5px;
+    font-size:8px;
+  }
+  .baji-style-shop--v2 .baji-style-shop__overlay h2{
+    margin-bottom:4px;
+    font-size:27px;
+  }
+  .baji-style-shop--v2 .baji-style-shop__overlay p{
+    max-width:92%;
+    margin-bottom:10px;
+    font-size:10.5px;
+    line-height:1.75;
+  }
+  .baji-style-shop--v2 .baji-style-shop__hero-cta{
+    min-height:37px;
+    padding:0 14px;
+    font-size:10px;
+  }
+
+  .baji-style-shop--v2 .baji-style-shop__products{
+    padding:15px;
+    border-radius:21px;
+  }
+  .baji-style-shop--v2 .baji-style-shop__head{
+    align-items:flex-start;
+    margin-bottom:13px;
+  }
+  .baji-style-shop--v2 .baji-style-shop__head h3{
+    font-size:19px;
+  }
+  .baji-style-shop--v2 .baji-style-shop__head p{
+    max-width:230px;
+    margin-top:3px;
+    font-size:9.5px;
+  }
+  .baji-style-shop--v2 .baji-style-shop__all{
+    padding-top:20px;
+    font-size:9px;
+    white-space:nowrap;
+  }
+
+  .baji-style-shop--v2 .baji-style-shop__cards{
+    display:flex;
+    gap:10px;
+    overflow-x:auto;
+    max-width:100%;
+    padding:1px 2px 5px;
+    scroll-snap-type:x mandatory;
+    overscroll-behavior-x:contain;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:none;
+  }
+  .baji-style-shop--v2 .baji-style-shop__cards::-webkit-scrollbar{display:none}
+  .baji-style-shop--v2 .baji-style-shop__card{
+    flex:0 0 82%;
+    width:82%;
+    scroll-snap-align:start;
+    border-radius:17px;
+  }
+  .baji-style-shop--v2 .baji-style-shop__card-image{
+    aspect-ratio:4/4.7;
+  }
+  .baji-style-shop--v2 .baji-style-shop__card-body{
+    padding:12px;
+  }
+  .baji-style-shop--v2 .baji-style-shop__name{
+    min-height:0;
+    font-size:13px;
+  }
+  .baji-style-shop--v2 .baji-style-shop__price{
+    min-height:34px;
+    font-size:12px;
+  }
+  .baji-style-shop--v2 .baji-style-shop__buy{
+    min-height:40px;
+    margin-top:8px;
+    font-size:10.5px;
+  }
 }
 </style>
 
