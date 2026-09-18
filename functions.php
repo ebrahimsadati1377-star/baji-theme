@@ -1065,91 +1065,9 @@ function baji_only_free_shipping_when_available( $rates, $package ) {
 add_filter( 'woocommerce_package_rates', 'baji_only_free_shipping_when_available', 100, 2 );
 
 
-/**
- * Register DigiPay from ParsiGate so WooCommerce can expose/configure it.
- */
-function baji_enable_parsigate_digipay( $enabled, $gateway_id ) {
-    if ( 'digipay' === strtolower( (string) $gateway_id ) ) {
-        return true;
-    }
-    return $enabled;
-}
-add_filter( 'parsigate_enable_gateway', 'baji_enable_parsigate_digipay', 10, 2 );
 
 
-/**
- * Persist DigiPay as enabled in ParsiGate before WooCommerce builds its gateway list.
- */
-$baji_parsigate_options = get_option( 'wp_parsidate_parsigate', array() );
-$baji_parsigate_options = is_array( $baji_parsigate_options ) ? $baji_parsigate_options : array();
-if ( 1 !== (int) ( $baji_parsigate_options['digipay'] ?? 0 ) ) {
-    $baji_parsigate_options['digipay'] = 1;
-    update_option( 'wp_parsidate_parsigate', $baji_parsigate_options, false );
-}
-unset( $baji_parsigate_options );
 
 
-/** Temporary DigiPay runtime diagnostic. */
-function baji_digipay_runtime_diag() {
-    if ( ! isset( $_GET['baji_digipay_runtime_diag'] ) ) {
-        return;
-    }
-    nocache_headers();
-    global $wpdb;
-    $option_names = $wpdb->get_col(
-        "SELECT option_name FROM {$wpdb->options} WHERE option_name LIKE '%digipay%' OR option_name LIKE '%digi_pay%'"
-    );
-    $option_state = array();
-    foreach ( (array) $option_names as $option_name ) {
-        $value = get_option( $option_name );
-        if ( is_array( $value ) ) {
-            $option_state[ $option_name ] = array_map(
-                static function( $item ) {
-                    return '' !== (string) $item;
-                },
-                $value
-            );
-        } else {
-            $option_state[ $option_name ] = ! empty( $value );
-        }
-    }
-
-    wp_send_json( array(
-        'parsigate_class' => class_exists( 'ParsiGate' ),
-        'parsigate_gateways_class' => class_exists( '\\ParsiGate\\Gateways' ),
-        'parsidate_class' => class_exists( '\\WPParsidate\\WP_Parsidate' ),
-        'addons_hook_fired' => did_action( 'wp_parsidate_addons_load' ),
-        'digipay_filter' => apply_filters( 'parsigate_enable_gateway', false, 'digipay' ),
-        'digipay_option' => (int) ( ( get_option( 'wp_parsidate_parsigate', array() )['digipay'] ?? 0 ) ),
-        'digipay_defined' => class_exists( '\\ParsiGate\\Gateways' ) ? (bool) \ParsiGate\Gateways::get( 'digipay' ) : false,
-        'gateway_keys' => class_exists( '\\ParsiGate\\Gateways' ) ? array_keys( \ParsiGate\Gateways::list() ) : array(),
-        'digipay_options' => $option_state,
-    ) );
-}
-add_action( 'template_redirect', 'baji_digipay_runtime_diag', 0 );
 
 
-/**
- * Ensure DigiPay is registered as a WooCommerce payment gateway.
- */
-function baji_register_parsigate_digipay_gateway( $methods ) {
-    if ( ! class_exists( '\\ParsiGate\\WC_Gateway' ) || ! class_exists( '\\ParsiGate\\Gateways' ) ) {
-        return $methods;
-    }
-
-    foreach ( (array) $methods as $method ) {
-        if ( is_object( $method ) && isset( $method->id ) && 'digipay' === strtolower( (string) $method->id ) ) {
-            return $methods;
-        }
-        if ( is_string( $method ) && 'digipay' === strtolower( $method ) ) {
-            return $methods;
-        }
-    }
-
-    $gateway = new \ParsiGate\WC_Gateway();
-    $gateway->setup_gateway( 'digipay' );
-    $methods[] = $gateway;
-
-    return $methods;
-}
-add_filter( 'woocommerce_payment_gateways', 'baji_register_parsigate_digipay_gateway', 99 );
