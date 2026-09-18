@@ -55,5 +55,25 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 </div><!-- #page -->
 <div id="baji-cart-panel" class="baji-cart-drawer" aria-hidden="true" data-coupon-nonce="<?php echo esc_attr(wp_create_nonce('baji_cart_coupon')); ?>" data-ajax-url="<?php echo esc_url(admin_url('admin-ajax.php')); ?>"><div class="baji-cart-drawer__head"><button id="baji-cart-close" type="button" class="baji-cart-drawer__close" aria-label="بستن"><i class="fa-solid fa-xmark"></i></button><div class="baji-cart-drawer__title"><span class="baji-cart-drawer__bag"><i class="far fa-shopping-bag"></i><span class="baji-cart-count"><?php echo absint(WC()->cart?WC()->cart->get_cart_contents_count():0); ?></span></span><div><b>سبد خرید شما</b><small>خرید امن و سریع از BAJI</small></div></div></div><div class="baji-cart-shipping" data-free-shipping-target="3000000"><div class="baji-cart-shipping__row"><i class="far fa-truck"></i><div><b class="baji-cart-shipping__title">ارسال رایگان</b><span class="baji-cart-shipping__text">برای سفارش‌های بالای ۳ میلیون تومان</span></div></div><div class="baji-cart-shipping__bar"><span style="width:0%"></span></div><div class="baji-cart-shipping__meta"><span class="baji-cart-shipping__current"></span><span>هدف: ۳,۰۰۰,۰۰۰ تومان</span></div></div><div class="baji-cart-drawer__body widget_shopping_cart_content"><?php woocommerce_mini_cart(); ?></div><div class="baji-cart-coupon-static"><form method="post" action="<?php echo esc_url(wc_get_cart_url()); ?>"><div class="baji-mini-coupon__field"><i class="far fa-gift"></i><input type="text" name="coupon_code" placeholder="کد تخفیف را وارد کنید" autocomplete="off"><button type="submit" name="apply_coupon" value="1">اعمال</button></div><?php wp_nonce_field('woocommerce-cart','woocommerce-cart-nonce'); ?></form></div><div class="baji-cart-trust"><div><i class="far fa-shield-check"></i><b>پرداخت امن</b></div><div><i class="far fa-truck"></i><b>ارسال سریع</b></div><div><i class="far fa-headset"></i><b>پشتیبانی</b></div></div></div><div id="baji-cart-overlay" class="baji-cart-overlay"></div>
 <script id="baji-cart-drawer-js">document.addEventListener('DOMContentLoaded',function(){const panel=document.getElementById('baji-cart-panel'),overlay=document.getElementById('baji-cart-overlay'),close=document.getElementById('baji-cart-close'),toggles=document.querySelectorAll('.baji-cart-toggle');if(!panel||!overlay||!toggles.length)return;function openCart(){panel.classList.add('is-open');overlay.classList.add('is-open');panel.setAttribute('aria-hidden','false');document.body.style.overflow='hidden'}function closeCart(){panel.classList.remove('is-open');overlay.classList.remove('is-open');panel.setAttribute('aria-hidden','true');document.body.style.overflow=''}toggles.forEach(function(btn){btn.addEventListener('click',openCart)});if(close)close.addEventListener('click',closeCart);overlay.addEventListener('click',closeCart);document.addEventListener('keydown',function(e){if(e.key==='Escape')closeCart()})});</script>
+<script id="baji-mobile-horizontal-lock">
+document.addEventListener('DOMContentLoaded',function(){
+  if(!window.matchMedia('(max-width: 767px)').matches) return;
+
+  const resetX=function(){
+    if(window.scrollX!==0){
+      window.scrollTo(0,window.scrollY);
+    }
+  };
+
+  resetX();
+  window.setTimeout(resetX,60);
+  window.setTimeout(resetX,250);
+  window.addEventListener('resize',resetX,{passive:true});
+  window.addEventListener('orientationchange',function(){window.setTimeout(resetX,120);},{passive:true});
+  window.addEventListener('scroll',function(){
+    if(window.scrollX!==0) resetX();
+  },{passive:true});
+});
+</script>
 <?php wp_footer(); ?>
 </body></html>
