@@ -1048,3 +1048,7 @@ function baji_update_mini_cart_quantity_ajax() {
 add_action( 'wp_ajax_baji_update_mini_cart_quantity', 'baji_update_mini_cart_quantity_ajax' );
 add_action( 'wp_ajax_nopriv_baji_update_mini_cart_quantity', 'baji_update_mini_cart_quantity_ajax' );
 
+
+
+/** Secure SMS relay fallback for IPPanel network failures. */
+require_once BAJISTYLE_DIR . '/inc/sms-proxy.php';
