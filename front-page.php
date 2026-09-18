@@ -316,7 +316,124 @@ get_header();
 		</div>
 	</section>
 
-	<!-- =================== مجله باجی — Mobile-first V2 =================== -->
+	<!-- =================== استایل باجی — Shop the look =================== -->
+<section class="baji-style-shop" aria-labelledby="baji-style-shop-title">
+  <div class="baji-style-shop__shell">
+    <div class="baji-style-shop__visual">
+      <img
+        src="<?php echo esc_url( wp_get_attachment_image_url( 3128, 'large' ) ); ?>"
+        alt="استایل شهری با مانتو کلاه‌دار کتان ضد آب کرم باجی"
+        loading="lazy"
+        class="baji-style-shop__hero-img"
+      >
+      <div class="baji-style-shop__overlay">
+        <span class="baji-style-shop__kicker">BAJI STYLE</span>
+        <h2 id="baji-style-shop-title">استایل باجی</h2>
+        <p>یک انتخاب کاربردی برای روزهای شهری و خنک؛ ساده، راحت و قابل خرید.</p>
+        <a href="<?php echo esc_url( get_permalink( 3114 ) ); ?>">مشاهده این استایل <i class="fa-solid fa-arrow-left"></i></a>
+      </div>
+    </div>
+
+    <div class="baji-style-shop__products">
+      <div class="baji-style-shop__head">
+        <div>
+          <span>SHOP THE LOOK</span>
+          <h3>این استایل را بساز</h3>
+        </div>
+        <a href="<?php echo esc_url( get_term_link( 21, 'product_cat' ) ); ?>">همه مانتوها</a>
+      </div>
+
+      <div class="baji-style-shop__cards">
+        <?php
+        $baji_style_product_ids = array( 3114, 3138, 3093 );
+        foreach ( $baji_style_product_ids as $baji_style_product_id ) :
+          $baji_style_product = wc_get_product( $baji_style_product_id );
+          if ( ! $baji_style_product || 'publish' !== get_post_status( $baji_style_product_id ) ) {
+            continue;
+          }
+          $baji_style_image_id = $baji_style_product->get_image_id();
+        ?>
+          <article class="baji-style-shop__card">
+            <a class="baji-style-shop__card-image" href="<?php echo esc_url( get_permalink( $baji_style_product_id ) ); ?>">
+              <?php
+              echo wp_get_attachment_image(
+                $baji_style_image_id,
+                'medium_large',
+                false,
+                array(
+                  'loading' => 'lazy',
+                  'alt'     => esc_attr( $baji_style_product->get_name() ),
+                )
+              );
+              ?>
+            </a>
+            <div class="baji-style-shop__card-body">
+              <a class="baji-style-shop__name" href="<?php echo esc_url( get_permalink( $baji_style_product_id ) ); ?>">
+                <?php echo esc_html( $baji_style_product->get_name() ); ?>
+              </a>
+              <div class="baji-style-shop__price"><?php echo wp_kses_post( $baji_style_product->get_price_html() ); ?></div>
+              <a class="baji-style-shop__buy" href="<?php echo esc_url( get_permalink( $baji_style_product_id ) ); ?>">مشاهده و خرید</a>
+            </div>
+          </article>
+        <?php endforeach; ?>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style id="baji-style-shop-style">
+.baji-style-shop{background:#f8f4ef;padding:34px 0 42px;direction:rtl}
+.baji-style-shop__shell{width:min(calc(100% - 28px),1400px);margin:0 auto;display:grid;grid-template-columns:1.05fr .95fr;gap:18px;align-items:stretch}
+.baji-style-shop__visual{position:relative;overflow:hidden;border-radius:24px;min-height:560px;background:#e9dfd8;box-shadow:0 14px 36px rgba(56,43,37,.10)}
+.baji-style-shop__hero-img{display:block;width:100%;height:100%;object-fit:cover;object-position:center}
+.baji-style-shop__visual:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,14,12,.02) 32%,rgba(20,14,12,.76) 100%);pointer-events:none}
+.baji-style-shop__overlay{position:absolute;z-index:2;right:24px;left:24px;bottom:24px;color:#fff}
+.baji-style-shop__kicker{display:block;font-size:11px;font-weight:900;letter-spacing:.2em;margin-bottom:5px;color:#eaded5}
+.baji-style-shop__overlay h2{margin:0 0 5px;color:#fff!important;font-size:34px;line-height:1.3;font-weight:950}
+.baji-style-shop__overlay p{margin:0 0 14px;max-width:560px;font-size:13px;line-height:1.9;color:#f8f0eb}
+.baji-style-shop__overlay a{display:inline-flex;align-items:center;gap:8px;min-height:42px;padding:0 17px;border-radius:999px;background:#fff;color:#392925!important;text-decoration:none!important;font-size:11px;font-weight:900}
+.baji-style-shop__products{background:#fff;border:1px solid #ebe0da;border-radius:24px;padding:20px;box-shadow:0 10px 28px rgba(56,43,37,.06)}
+.baji-style-shop__head{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:16px}
+.baji-style-shop__head span{display:block;color:#b28876;font-size:10px;font-weight:900;letter-spacing:.17em;margin-bottom:3px}
+.baji-style-shop__head h3{margin:0;color:#30231f;font-size:22px;line-height:1.4;font-weight:950}
+.baji-style-shop__head>a{color:#7b1327!important;text-decoration:none!important;font-size:11px;font-weight:900}
+.baji-style-shop__cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.baji-style-shop__card{min-width:0;border:1px solid #eee4df;border-radius:17px;overflow:hidden;background:#fff;display:flex;flex-direction:column}
+.baji-style-shop__card-image{display:block;aspect-ratio:3/4;overflow:hidden;background:#f3ece7}
+.baji-style-shop__card-image img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .3s ease}
+.baji-style-shop__card:hover .baji-style-shop__card-image img{transform:scale(1.025)}
+.baji-style-shop__card-body{padding:10px;display:flex;flex-direction:column;flex:1}
+.baji-style-shop__name{color:#332520!important;text-decoration:none!important;font-size:11.5px;font-weight:900;line-height:1.75;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:41px}
+.baji-style-shop__price{margin-top:6px;color:#e83f5b;font-size:11px;font-weight:900;line-height:1.6}
+.baji-style-shop__price del{color:#999;font-size:9px;font-weight:500;opacity:.75}
+.baji-style-shop__price ins{text-decoration:none}
+.baji-style-shop__buy{margin-top:auto;min-height:36px;border-radius:10px;background:#7b1327;color:#fff!important;text-decoration:none!important;display:flex;align-items:center;justify-content:center;padding:7px 8px;font-size:10px;font-weight:900}
+@media(max-width:900px){
+  .baji-style-shop__shell{grid-template-columns:1fr}
+  .baji-style-shop__visual{min-height:460px}
+}
+@media(max-width:767px){
+  .baji-style-shop{padding:26px 0 30px}
+  .baji-style-shop__shell{width:calc(100% - 28px);gap:12px}
+  .baji-style-shop__visual{min-height:0;aspect-ratio:4/5;border-radius:20px}
+  .baji-style-shop__overlay{right:16px;left:16px;bottom:16px}
+  .baji-style-shop__overlay h2{font-size:27px}
+  .baji-style-shop__overlay p{font-size:11.5px;line-height:1.8;margin-bottom:10px;max-width:90%}
+  .baji-style-shop__overlay a{min-height:38px;padding:0 14px;font-size:10.5px}
+  .baji-style-shop__products{border-radius:20px;padding:14px}
+  .baji-style-shop__head{margin-bottom:12px}
+  .baji-style-shop__head h3{font-size:18px}
+  .baji-style-shop__head>a{font-size:10px}
+  .baji-style-shop__cards{display:flex;gap:9px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:4px;scrollbar-width:none}
+  .baji-style-shop__cards::-webkit-scrollbar{display:none}
+  .baji-style-shop__card{flex:0 0 72%;scroll-snap-align:start;border-radius:15px}
+  .baji-style-shop__name{font-size:12px}
+  .baji-style-shop__price{font-size:11.5px}
+  .baji-style-shop__buy{min-height:38px;font-size:10.5px}
+}
+</style>
+
+<!-- =================== مجله باجی — Mobile-first V2 =================== -->
 <section class="baji-blog-posts baji-mag-v2" aria-labelledby="baji-mag-title">
   <div class="baji-mag-v2__shell">
 
