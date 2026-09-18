@@ -469,7 +469,8 @@ require BAJISTYLE_DIR . '/inc/recently-viewed.php';
 require BAJISTYLE_DIR . '/inc/newsletter.php';
 require BAJISTYLE_DIR . '/inc/template-tags.php';
 require BAJISTYLE_DIR . '/inc/security.php';
-require BAJISTYLE_DIR . '/inc/seo.php';\nrequire BAJISTYLE_DIR . '/inc/order-attribution.php';
+require BAJISTYLE_DIR . '/inc/seo.php';
+require BAJISTYLE_DIR . '/inc/order-attribution.php';
 require BAJISTYLE_DIR . '/inc/product-video.php';
 
 /* -------------------------------------------------------------------------
