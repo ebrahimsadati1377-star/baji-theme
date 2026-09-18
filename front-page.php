@@ -13,9 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 get_header();
 ?>
 
-<div class="baji-front-page">
-
-	<!-- =================== پاپ‌آپ اولین خرید BAJI =================== -->
+<!-- =================== پاپ‌آپ اولین خرید BAJI =================== -->
 	<div id="baji-first-order-popup" class="baji-first-order-popup" aria-hidden="true">
 		<div class="baji-first-order-backdrop" data-baji-popup-close></div>
 		<div class="baji-first-order-dialog" role="dialog" aria-modal="true" aria-labelledby="baji-first-order-title">
@@ -60,6 +58,7 @@ get_header();
 	document.addEventListener('DOMContentLoaded',function(){
 		const popup=document.getElementById('baji-first-order-popup');
 		if(!popup) return;
+		if(popup.parentElement!==document.body){document.body.appendChild(popup);}
 		const open=()=>{popup.classList.add('is-open');popup.setAttribute('aria-hidden','false');document.body.style.overflow='hidden';};
 		const close=()=>{popup.classList.remove('is-open');popup.setAttribute('aria-hidden','true');document.body.style.overflow='';};
 		setTimeout(open,500);
@@ -67,6 +66,8 @@ get_header();
 		document.addEventListener('keydown',e=>{if(e.key==='Escape'&&popup.classList.contains('is-open')) close();});
 	});
 	</script>
+
+<div class="baji-front-page">
 
 	<?php get_template_part( 'template-parts/product-stories' ); ?>
 
