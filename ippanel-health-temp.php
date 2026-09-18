@@ -1,27 +1,18 @@
 <?php
 header('Content-Type: application/json; charset=utf-8');
-$root = dirname(__FILE__, 4) . '/wp-load.php';
-if (!is_file($root)) {
-    http_response_code(500);
-    echo json_encode(['ok'=>false,'stage'=>'bootstrap']);
-    exit;
-}
-require_once $root;
-$key = (string) get_option('custom_otp_apikey', '');
-if ($key === '') {
-    echo json_encode(['ok'=>false,'stage'=>'config','configured'=>false]);
-    exit;
-}
-$response = wp_remote_get('https://edge.ippanel.com/v1/api/send/banks/provinces', [
-    'timeout' => 12,
-    'headers' => [
-        'Accept' => 'application/json',
-        'Authorization' => $key,
-    ],
+$ch = curl_init('https://edge.ippanel.com/v1/api/send/banks/provinces');
+curl_setopt_array($ch, [
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_CONNECTTIMEOUT => 5,
+    CURLOPT_TIMEOUT => 12,
+    CURLOPT_HTTPHEADER => ['Accept: application/json'],
 ]);
-if (is_wp_error($response)) {
-    echo json_encode(['ok'=>false,'stage'=>'transport','error_code'=>$response->get_error_code()]);
-    exit;
-}
-$status = (int) wp_remote_retrieve_response_code($response);
-echo json_encode(['ok'=>$status >= 200 && $status < 300,'stage'=>'provider','http'=>$status]);
+curl_exec($ch);
+$status = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
+$errno = curl_errno($ch);
+curl_close($ch);
+echo json_encode([
+    'ok' => $status >= 200 && $status < 500 && $status !== 0,
+    'http' => $status,
+    'curl_errno' => $errno,
+]);
