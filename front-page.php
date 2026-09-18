@@ -374,9 +374,7 @@ get_header();
         <div class="baji-mag-v2__content">
           <h3><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
 
-          <?php if ($is_featured): ?>
-            <p class="baji-mag-v2__excerpt"><?php echo esc_html(wp_trim_words(get_the_excerpt(), 20, '...')); ?></p>
-          <?php endif; ?>
+          <p class="baji-mag-v2__excerpt"><?php echo esc_html(wp_trim_words(get_the_excerpt(), $is_featured ? 20 : 14, '...')); ?></p>
 
           <div class="baji-mag-v2__meta">
             <span><i class="fa-regular fa-calendar"></i><?php echo esc_html(get_the_date('Y/m/d')); ?></span>
@@ -425,7 +423,8 @@ get_header();
 .baji-mag-v2__card.is-compact{display:grid;grid-template-columns:40% 1fr;min-height:132px}
 .baji-mag-v2__card.is-compact .baji-mag-v2__image{height:100%;min-height:132px}
 .baji-mag-v2__card.is-compact .baji-mag-v2__content{padding:12px;display:flex;flex-direction:column;justify-content:center}
-.baji-mag-v2__card.is-compact .baji-mag-v2__content h3{font-size:13px;line-height:1.8;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.baji-mag-v2__card.is-compact .baji-mag-v2__content h3{font-size:13px;line-height:1.75;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.baji-mag-v2__card.is-compact .baji-mag-v2__excerpt{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin:5px 0 0;font-size:10.5px;line-height:1.8;color:#81716a}
 .baji-mag-v2__card.is-compact .baji-mag-v2__meta{margin-top:auto;padding-top:8px;font-size:9px}
 .baji-mag-v2__card.is-compact .baji-mag-v2__category{font-size:8px;padding:4px 7px;top:7px;right:7px}
 .baji-mag-v2__all{margin-top:16px;min-height:48px;border-radius:14px;background:#7b1327;color:#fff!important;display:flex;align-items:center;justify-content:center;gap:10px;text-decoration:none!important;font-size:12px;font-weight:950;box-shadow:0 8px 18px rgba(123,19,39,.14)}
