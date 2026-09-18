@@ -323,7 +323,7 @@ get_header();
 
     <article class="baji-style-shop__visual">
       <img
-        src="<?php echo esc_url( wp_get_attachment_image_url( 3128, 'large' ) ); ?>"
+        src="<?php echo esc_url( wp_get_attachment_image_url( 3238, 'large' ) ); ?>"
         alt="استایل شهری زنانه با مانتو کلاه‌دار کتان ضد آب کرم باجی"
         loading="lazy"
         class="baji-style-shop__hero-img"
