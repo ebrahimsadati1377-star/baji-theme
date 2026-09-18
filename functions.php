@@ -1102,8 +1102,8 @@ function baji_digipay_runtime_diag() {
         'addons_hook_fired' => did_action( 'wp_parsidate_addons_load' ),
         'digipay_filter' => apply_filters( 'parsigate_enable_gateway', false, 'digipay' ),
         'digipay_option' => (int) ( ( get_option( 'wp_parsidate_parsigate', array() )['digipay'] ?? 0 ) ),
-        'digipay_defined' => class_exists( '\\ParsiGate\\Gateways' ) ? (bool) \\ParsiGate\\Gateways::get( 'digipay' ) : false,
-        'gateway_keys' => class_exists( '\\ParsiGate\\Gateways' ) ? array_keys( \\ParsiGate\\Gateways::list() ) : array(),
+        'digipay_defined' => class_exists( '\\ParsiGate\\Gateways' ) ? (bool) \ParsiGate\Gateways::get( 'digipay' ) : false,
+        'gateway_keys' => class_exists( '\\ParsiGate\\Gateways' ) ? array_keys( \ParsiGate\Gateways::list() ) : array(),
     ) );
 }
 add_action( 'template_redirect', 'baji_digipay_runtime_diag', 0 );
