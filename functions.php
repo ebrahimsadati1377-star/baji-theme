@@ -1078,12 +1078,12 @@ add_filter( 'parsigate_enable_gateway', 'baji_enable_parsigate_digipay', 10, 2 )
 
 
 /**
- * Persist DigiPay as enabled in ParsiGate's own gateway registry.
- * Safe to run repeatedly; it only updates the single DigiPay toggle.
+ * Persist DigiPay as enabled in ParsiGate before WooCommerce builds its gateway list.
  */
-function baji_seed_parsigate_digipay_option() {
-    if ( class_exists( '\\WPParsidate\\Settings\\Settings' ) ) {
-        \WPParsidate\Settings\Settings::save( 'digipay', 1, 'parsigate' );
-    }
+$baji_parsigate_options = get_option( 'wp_parsidate_parsigate', array() );
+$baji_parsigate_options = is_array( $baji_parsigate_options ) ? $baji_parsigate_options : array();
+if ( 1 !== (int) ( $baji_parsigate_options['digipay'] ?? 0 ) ) {
+    $baji_parsigate_options['digipay'] = 1;
+    update_option( 'wp_parsidate_parsigate', $baji_parsigate_options, false );
 }
-add_action( 'init', 'baji_seed_parsigate_digipay_option', 1 );
+unset( $baji_parsigate_options );
