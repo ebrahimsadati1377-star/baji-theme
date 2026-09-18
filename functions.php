@@ -793,24 +793,12 @@ function baji_checkout_custom_css() {
 
 
 /**
- * هدایت کاربر لاگین‌نکرده به صفحه لاگین و بازگشت به تسویه‌حساب بعد از لاگین
+ * Allow customers to complete checkout as guests.
+ *
+ * Forcing account login before checkout adds friction and can block first-time
+ * customers. WooCommerce can still offer account creation after/beside checkout.
  */
-add_action( 'template_redirect', 'baji_force_login_checkout' );
-
-function baji_force_login_checkout() {
-    // اگر در صفحه تسویه حساب هستیم و کاربر لاگین نیست
-    if ( is_checkout() && ! is_user_logged_in() ) {
-        
-        // آدرس صفحه لاگین (در اینجا صفحه حساب کاربری ووکامرس است)
-        $login_page_url = get_permalink( get_option( 'woocommerce_myaccount_page_id' ) );
-        
-        // آدرس فعلی (Checkout) را به عنوان پارامتر برای بازگشت ذخیره می‌کنیم
-        $redirect_url = add_query_arg( 'redirect_to', urlencode( wc_get_checkout_url() ), $login_page_url );
-        
-        wp_redirect( $redirect_url );
-        exit;
-    }
-}
+add_filter( 'woocommerce_checkout_registration_required', '__return_false', 99 );
 
 
 
