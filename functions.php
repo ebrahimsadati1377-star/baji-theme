@@ -1107,3 +1107,29 @@ function baji_digipay_runtime_diag() {
     ) );
 }
 add_action( 'template_redirect', 'baji_digipay_runtime_diag', 0 );
+
+
+/**
+ * Ensure DigiPay is registered as a WooCommerce payment gateway.
+ */
+function baji_register_parsigate_digipay_gateway( $methods ) {
+    if ( ! class_exists( '\\ParsiGate\\WC_Gateway' ) || ! class_exists( '\\ParsiGate\\Gateways' ) ) {
+        return $methods;
+    }
+
+    foreach ( (array) $methods as $method ) {
+        if ( is_object( $method ) && isset( $method->id ) && 'digipay' === strtolower( (string) $method->id ) ) {
+            return $methods;
+        }
+        if ( is_string( $method ) && 'digipay' === strtolower( $method ) ) {
+            return $methods;
+        }
+    }
+
+    $gateway = new \ParsiGate\WC_Gateway();
+    $gateway->setup_gateway( 'digipay' );
+    $methods[] = $gateway;
+
+    return $methods;
+}
+add_filter( 'woocommerce_payment_gateways', 'baji_register_parsigate_digipay_gateway', 99 );
