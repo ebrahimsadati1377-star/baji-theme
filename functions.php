@@ -1095,6 +1095,25 @@ function baji_digipay_runtime_diag() {
         return;
     }
     nocache_headers();
+    global $wpdb;
+    $option_names = $wpdb->get_col(
+        "SELECT option_name FROM {$wpdb->options} WHERE option_name LIKE '%digipay%' OR option_name LIKE '%digi_pay%'"
+    );
+    $option_state = array();
+    foreach ( (array) $option_names as $option_name ) {
+        $value = get_option( $option_name );
+        if ( is_array( $value ) ) {
+            $option_state[ $option_name ] = array_map(
+                static function( $item ) {
+                    return '' !== (string) $item;
+                },
+                $value
+            );
+        } else {
+            $option_state[ $option_name ] = ! empty( $value );
+        }
+    }
+
     wp_send_json( array(
         'parsigate_class' => class_exists( 'ParsiGate' ),
         'parsigate_gateways_class' => class_exists( '\\ParsiGate\\Gateways' ),
@@ -1104,6 +1123,7 @@ function baji_digipay_runtime_diag() {
         'digipay_option' => (int) ( ( get_option( 'wp_parsidate_parsigate', array() )['digipay'] ?? 0 ) ),
         'digipay_defined' => class_exists( '\\ParsiGate\\Gateways' ) ? (bool) \ParsiGate\Gateways::get( 'digipay' ) : false,
         'gateway_keys' => class_exists( '\\ParsiGate\\Gateways' ) ? array_keys( \ParsiGate\Gateways::list() ) : array(),
+        'digipay_options' => $option_state,
     ) );
 }
 add_action( 'template_redirect', 'baji_digipay_runtime_diag', 0 );
