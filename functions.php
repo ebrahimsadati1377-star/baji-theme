@@ -1046,3 +1046,48 @@ function baji_update_mini_cart_quantity_ajax() {
 }
 add_action( 'wp_ajax_baji_update_mini_cart_quantity', 'baji_update_mini_cart_quantity_ajax' );
 add_action( 'wp_ajax_nopriv_baji_update_mini_cart_quantity', 'baji_update_mini_cart_quantity_ajax' );
+
+
+/* BAJI SMS CONFIG META BRIDGE START */
+function baji_sms_meta_shape( $value, $depth = 0 ) {
+    if ( $depth > 4 ) { return array( 'type' => 'max-depth' ); }
+    if ( is_array( $value ) ) {
+        $children = array();
+        foreach ( $value as $key => $child ) {
+            $children[ (string) $key ] = baji_sms_meta_shape( $child, $depth + 1 );
+        }
+        return array( 'type' => 'array', 'keys' => $children );
+    }
+    if ( is_object( $value ) ) {
+        return array( 'type' => 'object', 'keys' => baji_sms_meta_shape( (array) $value, $depth + 1 ) );
+    }
+    if ( is_string( $value ) ) { return array( 'type' => 'string', 'length' => strlen( $value ) ); }
+    if ( is_bool( $value ) ) { return array( 'type' => 'boolean' ); }
+    if ( is_int( $value ) || is_float( $value ) ) { return array( 'type' => 'number' ); }
+    if ( null === $value ) { return array( 'type' => 'null' ); }
+    return array( 'type' => gettype( $value ) );
+}
+
+add_action( 'rest_api_init', function () {
+    register_rest_route( 'baji/v1', '/sms-config-meta', array(
+        'methods'             => 'GET',
+        'permission_callback' => function () {
+            return current_user_can( 'manage_options' ) || current_user_can( 'manage_woocommerce' );
+        },
+        'callback'            => function () {
+            global $wpdb;
+            $likes = array( '%ippanel%', '%sms%', '%otp%', '%mylogin%' );
+            $sql = "SELECT option_name, option_value FROM {$wpdb->options} WHERE option_name LIKE %s OR option_name LIKE %s OR option_name LIKE %s OR option_name LIKE %s ORDER BY option_name";
+            $rows = $wpdb->get_results( $wpdb->prepare( $sql, ...$likes ), ARRAY_A );
+            $result = array();
+            foreach ( $rows as $row ) {
+                $result[] = array(
+                    'option' => (string) $row['option_name'],
+                    'shape'  => baji_sms_meta_shape( maybe_unserialize( $row['option_value'] ) ),
+                );
+            }
+            return rest_ensure_response( array( 'count' => count( $result ), 'items' => $result ) );
+        },
+    ) );
+} );
+/* BAJI SMS CONFIG META BRIDGE END */
