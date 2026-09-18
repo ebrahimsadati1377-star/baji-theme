@@ -72,39 +72,6 @@ get_header();
 
 	<?php get_template_part( 'template-parts/hero-section' ); ?>
 
-	<!-- BAJI Basalam credit banner -->
-	<section class="baji-basalam-credit" aria-label="خرید با اعتبار باسلام">
-		<div class="baji-basalam-credit__wrap">
-			<a class="baji-basalam-credit__card" href="https://basalam.com/user/xYZL2l?utm_source=share&utm_medium=copy&user_hash_id=xYZL2l&from_component=profile-app" target="_blank" rel="noopener noreferrer sponsored">
-				<div class="baji-basalam-credit__brand">
-					<strong>BAJI</strong>
-					<span>WOMEN'S FASHION</span>
-				</div>
-				<div class="baji-basalam-credit__copy">
-					<strong>اعتبار باسلام داری؟</strong>
-					<span>با اعتبارت از باجی خرید کن!</span>
-				</div>
-				<span class="baji-basalam-credit__cta">مشاهده غرفه در باسلام</span>
-			</a>
-		</div>
-	</section>
-	<style id="baji-basalam-credit-style">
-	.baji-basalam-credit{background:#fffaf8;padding:14px 0 18px;direction:rtl}
-	.baji-basalam-credit__wrap{width:min(100% - 32px,1400px);margin:0 auto}
-	.baji-basalam-credit__card{position:relative;min-height:118px;display:grid;grid-template-columns:150px 1fr auto;align-items:center;gap:22px;padding:22px 30px;border-radius:18px;overflow:hidden;background:linear-gradient(110deg,#174b3d 0%,#24614f 54%,#2d6b58 100%);box-shadow:0 10px 28px rgba(23,75,61,.18);text-decoration:none!important;color:#fff!important}
-	.baji-basalam-credit__card:before,.baji-basalam-credit__card:after{content:"";position:absolute;border-radius:50%;background:rgba(255,255,255,.06);pointer-events:none}
-	.baji-basalam-credit__card:before{width:180px;height:180px;right:-65px;top:-85px}.baji-basalam-credit__card:after{width:150px;height:150px;left:18%;bottom:-110px}
-	.baji-basalam-credit__brand,.baji-basalam-credit__copy,.baji-basalam-credit__cta{position:relative;z-index:1}
-	.baji-basalam-credit__brand{direction:ltr;text-align:center;border-left:1px solid rgba(255,255,255,.25);padding-left:22px}
-	.baji-basalam-credit__brand strong{display:block;font-family:serif;font-size:31px;letter-spacing:.16em;line-height:1;color:#fff}
-	.baji-basalam-credit__brand span{display:block;margin-top:7px;font-size:7px;letter-spacing:.17em;color:#e9d9c5}
-	.baji-basalam-credit__copy{text-align:right}
-	.baji-basalam-credit__copy strong{display:block;font-size:25px;font-weight:900;line-height:1.45;color:#fff}
-	.baji-basalam-credit__copy span{display:block;margin-top:4px;font-size:15px;font-weight:800;color:#f5e7d5}
-	.baji-basalam-credit__cta{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 22px;border-radius:999px;background:#fff;color:#1c5545;font-size:12px;font-weight:900;white-space:nowrap;box-shadow:0 7px 18px rgba(0,0,0,.12)}
-	@media(max-width:767px){.baji-basalam-credit{padding:10px 0 14px}.baji-basalam-credit__wrap{width:calc(100% - 24px)}.baji-basalam-credit__card{min-height:102px;grid-template-columns:78px 1fr;gap:12px;padding:14px 14px;border-radius:14px}.baji-basalam-credit__brand{padding-left:12px}.baji-basalam-credit__brand strong{font-size:20px}.baji-basalam-credit__brand span{font-size:5px;margin-top:4px}.baji-basalam-credit__copy strong{font-size:17px}.baji-basalam-credit__copy span{font-size:11px;margin-top:2px}.baji-basalam-credit__cta{grid-column:1/-1;min-height:34px;padding:0 15px;font-size:10px;justify-self:center;margin-top:-2px}}
-	</style>
-
 	<section class="baji-quick-products py-5 md:py-8 bg-[#fffaf8]">
 		<div class="max-w-[1400px] mx-auto px-4 md:px-8">
 			<div class="flex items-center justify-between gap-4 mb-4">
@@ -413,6 +380,40 @@ get_header();
     </div>
   </div>
 </section>
+
+
+	<!-- BAJI Basalam credit banner -->
+	<section class="baji-basalam-credit" aria-label="خرید با اعتبار باسلام">
+		<div class="baji-basalam-credit__wrap">
+			<a class="baji-basalam-credit__card" href="https://basalam.com/user/xYZL2l?utm_source=share&utm_medium=copy&user_hash_id=xYZL2l&from_component=profile-app" target="_blank" rel="noopener noreferrer sponsored">
+				<div class="baji-basalam-credit__brand">
+					<strong>BAJI</strong>
+					<span>WOMEN'S FASHION</span>
+				</div>
+				<div class="baji-basalam-credit__copy">
+					<strong>اعتبار باسلام داری؟</strong>
+					<span>با اعتبارت از باجی خرید کن!</span>
+				</div>
+				<span class="baji-basalam-credit__cta">مشاهده غرفه در باسلام</span>
+			</a>
+		</div>
+	</section>
+	<style id="baji-basalam-credit-style">
+	.baji-basalam-credit{background:#fffaf8;padding:14px 0 18px;direction:rtl}
+	.baji-basalam-credit__wrap{width:min(100% - 32px,1400px);margin:0 auto}
+	.baji-basalam-credit__card{position:relative;min-height:118px;display:grid;grid-template-columns:150px 1fr auto;align-items:center;gap:22px;padding:22px 30px;border-radius:18px;overflow:hidden;background:linear-gradient(110deg,#174b3d 0%,#24614f 54%,#2d6b58 100%);box-shadow:0 10px 28px rgba(23,75,61,.18);text-decoration:none!important;color:#fff!important}
+	.baji-basalam-credit__card:before,.baji-basalam-credit__card:after{content:"";position:absolute;border-radius:50%;background:rgba(255,255,255,.06);pointer-events:none}
+	.baji-basalam-credit__card:before{width:180px;height:180px;right:-65px;top:-85px}.baji-basalam-credit__card:after{width:150px;height:150px;left:18%;bottom:-110px}
+	.baji-basalam-credit__brand,.baji-basalam-credit__copy,.baji-basalam-credit__cta{position:relative;z-index:1}
+	.baji-basalam-credit__brand{direction:ltr;text-align:center;border-left:1px solid rgba(255,255,255,.25);padding-left:22px}
+	.baji-basalam-credit__brand strong{display:block;font-family:serif;font-size:31px;letter-spacing:.16em;line-height:1;color:#fff}
+	.baji-basalam-credit__brand span{display:block;margin-top:7px;font-size:7px;letter-spacing:.17em;color:#e9d9c5}
+	.baji-basalam-credit__copy{text-align:right}
+	.baji-basalam-credit__copy strong{display:block;font-size:25px;font-weight:900;line-height:1.45;color:#fff}
+	.baji-basalam-credit__copy span{display:block;margin-top:4px;font-size:15px;font-weight:800;color:#f5e7d5}
+	.baji-basalam-credit__cta{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 22px;border-radius:999px;background:#fff;color:#1c5545;font-size:12px;font-weight:900;white-space:nowrap;box-shadow:0 7px 18px rgba(0,0,0,.12)}
+	@media(max-width:767px){.baji-basalam-credit{padding:10px 0 14px}.baji-basalam-credit__wrap{width:calc(100% - 24px)}.baji-basalam-credit__card{min-height:102px;grid-template-columns:78px 1fr;gap:12px;padding:14px 14px;border-radius:14px}.baji-basalam-credit__brand{padding-left:12px}.baji-basalam-credit__brand strong{font-size:20px}.baji-basalam-credit__brand span{font-size:5px;margin-top:4px}.baji-basalam-credit__copy strong{font-size:17px}.baji-basalam-credit__copy span{font-size:11px;margin-top:2px}.baji-basalam-credit__cta{grid-column:1/-1;min-height:34px;padding:0 15px;font-size:10px;justify-self:center;margin-top:-2px}}
+	</style>
 
 </div>
 
