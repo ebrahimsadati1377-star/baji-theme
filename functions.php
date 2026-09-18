@@ -1083,7 +1083,7 @@ add_filter( 'parsigate_enable_gateway', 'baji_enable_parsigate_digipay', 10, 2 )
  */
 function baji_seed_parsigate_digipay_option() {
     if ( class_exists( '\\WPParsidate\\Settings\\Settings' ) ) {
-        \\WPParsidate\\Settings\\Settings::save( 'digipay', 1, 'parsigate' );
+        \WPParsidate\Settings\Settings::save( 'digipay', 1, 'parsigate' );
     }
 }
 add_action( 'init', 'baji_seed_parsigate_digipay_option', 1 );
