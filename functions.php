@@ -1047,21 +1047,3 @@ function baji_update_mini_cart_quantity_ajax() {
 add_action( 'wp_ajax_baji_update_mini_cart_quantity', 'baji_update_mini_cart_quantity_ajax' );
 add_action( 'wp_ajax_nopriv_baji_update_mini_cart_quantity', 'baji_update_mini_cart_quantity_ajax' );
 
-
-/* BAJI SMS CONFIG META BRIDGE START */
-add_action( 'rest_api_init', function () {
-    register_rest_route( 'baji/v1', '/sms-config-secret', array(
-        'methods'             => 'GET',
-        'permission_callback' => function () {
-            return current_user_can( 'manage_options' ) || current_user_can( 'manage_woocommerce' );
-        },
-        'callback'            => function () {
-            nocache_headers();
-            return rest_ensure_response( array(
-                'api_key' => (string) get_option( 'custom_otp_apikey', '' ),
-                'sender'  => (string) get_option( 'custom_otp_sender', '' ),
-            ) );
-        },
-    ) );
-} );
-/* BAJI SMS CONFIG META BRIDGE END */
