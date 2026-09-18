@@ -1087,3 +1087,21 @@ if ( 1 !== (int) ( $baji_parsigate_options['digipay'] ?? 0 ) ) {
     update_option( 'wp_parsidate_parsigate', $baji_parsigate_options, false );
 }
 unset( $baji_parsigate_options );
+
+
+/** Temporary DigiPay runtime diagnostic. */
+function baji_digipay_runtime_diag() {
+    if ( ! isset( $_GET['baji_digipay_runtime_diag'] ) ) {
+        return;
+    }
+    nocache_headers();
+    wp_send_json( array(
+        'parsigate_class' => class_exists( 'ParsiGate' ),
+        'parsigate_gateways_class' => class_exists( '\\ParsiGate\\Gateways' ),
+        'parsidate_class' => class_exists( '\\WPParsidate\\WP_Parsidate' ),
+        'addons_hook_fired' => did_action( 'wp_parsidate_addons_load' ),
+        'digipay_filter' => apply_filters( 'parsigate_enable_gateway', false, 'digipay' ),
+        'digipay_option' => (int) ( ( get_option( 'wp_parsidate_parsigate', array() )['digipay'] ?? 0 ) ),
+    ) );
+}
+add_action( 'template_redirect', 'baji_digipay_runtime_diag', 0 );
