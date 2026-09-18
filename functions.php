@@ -1063,3 +1063,15 @@ function baji_only_free_shipping_when_available( $rates, $package ) {
 	return ! empty( $free_rates ) ? $free_rates : $rates;
 }
 add_filter( 'woocommerce_package_rates', 'baji_only_free_shipping_when_available', 100, 2 );
+
+
+/**
+ * Register DigiPay from ParsiGate so WooCommerce can expose/configure it.
+ */
+function baji_enable_parsigate_digipay( $enabled, $gateway_id ) {
+    if ( 'digipay' === strtolower( (string) $gateway_id ) ) {
+        return true;
+    }
+    return $enabled;
+}
+add_filter( 'parsigate_enable_gateway', 'baji_enable_parsigate_digipay', 10, 2 );
