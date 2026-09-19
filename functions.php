@@ -471,6 +471,7 @@ require BAJISTYLE_DIR . '/inc/template-tags.php';
 require BAJISTYLE_DIR . '/inc/security.php';
 require BAJISTYLE_DIR . '/inc/seo.php';
 require BAJISTYLE_DIR . '/inc/order-attribution.php';
+require BAJISTYLE_DIR . '/inc/online-visitors-report.php';
 require BAJISTYLE_DIR . '/inc/product-video.php';
 
 /* -------------------------------------------------------------------------
