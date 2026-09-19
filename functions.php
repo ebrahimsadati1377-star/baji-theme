@@ -1075,13 +1075,22 @@ add_filter( 'woocommerce_package_rates', 'baji_only_free_shipping_when_available
 
 
 /**
- * Temporary one-shot LiteSpeed cache purge requested from ChatGPT.
- * Removes itself from execution after the first successful page bootstrap via a short transient.
+ * Temporary authenticated REST endpoint for a one-time LiteSpeed cache purge.
+ * Application-password authentication + manage_options capability is required.
  */
-add_action( 'init', function () {
-	if ( get_transient( '_baji_lscache_purge_20260920_0159' ) ) {
-		return;
-	}
-	set_transient( '_baji_lscache_purge_20260920_0159', 1, 5 * MINUTE_IN_SECONDS );
-	do_action( 'litespeed_purge_all', 'BAJI manual cache purge 2026-09-20' );
-}, 1 );
+add_action( 'rest_api_init', function () {
+	register_rest_route( 'bajistyle/v1', '/cache/purge-litespeed', array(
+		'methods'  => 'POST',
+		'callback' => function () {
+			do_action( 'litespeed_purge_all', 'BAJI manual cache purge 2026-09-20' );
+			return rest_ensure_response( array(
+				'success' => true,
+				'purged'  => 'litespeed_all',
+				'time'    => current_time( 'mysql' ),
+			) );
+		},
+		'permission_callback' => function () {
+			return current_user_can( 'manage_options' );
+		},
+	) );
+} );
