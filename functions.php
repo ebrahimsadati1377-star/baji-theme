@@ -1072,25 +1072,3 @@ add_filter( 'woocommerce_package_rates', 'baji_only_free_shipping_when_available
 
 
 
-
-
-/**
- * Temporary authenticated REST endpoint for a one-time LiteSpeed cache purge.
- * Application-password authentication + manage_options capability is required.
- */
-add_action( 'rest_api_init', function () {
-	register_rest_route( 'bajistyle/v1', '/cache/purge-litespeed', array(
-		'methods'  => 'POST',
-		'callback' => function () {
-			do_action( 'litespeed_purge_all', 'BAJI manual cache purge 2026-09-20' );
-			return rest_ensure_response( array(
-				'success' => true,
-				'purged'  => 'litespeed_all',
-				'time'    => current_time( 'mysql' ),
-			) );
-		},
-		'permission_callback' => function () {
-			return current_user_can( 'manage_options' );
-		},
-	) );
-} );
