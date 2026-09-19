@@ -1071,3 +1071,5 @@ add_filter( 'woocommerce_package_rates', 'baji_only_free_shipping_when_available
 
 
 
+
+require BAJISTYLE_DIR . '/inc/payment-diagnostics.php';
