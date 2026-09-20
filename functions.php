@@ -1090,3 +1090,20 @@ add_filter( 'woocommerce_package_rates', 'baji_force_free_shipping_for_all_order
 
 
 
+
+
+/**
+ * BAJI: make every WooCommerce shipping rate free.
+ */
+function baji_make_all_shipping_free( $rates, $package ) {
+    foreach ( $rates as $rate_key => $rate ) {
+        if ( is_object( $rate ) ) {
+            $rate->cost = 0;
+            if ( isset( $rate->taxes ) && is_array( $rate->taxes ) ) {
+                $rate->taxes = array_map( static function () { return 0; }, $rate->taxes );
+            }
+        }
+    }
+    return $rates;
+}
+add_filter( 'woocommerce_package_rates', 'baji_make_all_shipping_free', 9999, 2 );
