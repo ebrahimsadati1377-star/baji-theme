@@ -1734,3 +1734,59 @@ body.home .baji-new-arrivals .baji-products-slider .baji-product-buy-cta{
         min-height:3em !important;
     }
 }
+
+
+/* BAJI new-arrivals CTA hard alignment — exact mobile baseline */
+body.home .baji-new-arrivals .baji-products-slider .swiper-slide{
+    position:relative !important;
+    box-sizing:border-box !important;
+}
+body.home .baji-new-arrivals .baji-products-slider .swiper-slide > div.mt-3{
+    position:relative !important;
+    box-sizing:border-box !important;
+}
+body.home .baji-new-arrivals .baji-products-slider .swiper-slide h3{
+    height:48px !important;
+    min-height:48px !important;
+    max-height:48px !important;
+    overflow:hidden !important;
+    display:-webkit-box !important;
+    -webkit-line-clamp:2 !important;
+    -webkit-box-orient:vertical !important;
+    line-height:24px !important;
+}
+body.home .baji-new-arrivals .baji-products-slider .baji-product-price{
+    height:46px !important;
+    min-height:46px !important;
+    max-height:46px !important;
+    overflow:hidden !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    flex-wrap:wrap !important;
+}
+body.home .baji-new-arrivals .baji-products-slider .baji-product-buy-cta{
+    height:44px !important;
+    min-height:44px !important;
+    max-height:44px !important;
+    margin-top:8px !important;
+}
+@media(max-width:767px){
+    body.home .baji-new-arrivals .baji-products-slider .swiper-slide h3{
+        height:46px !important;
+        min-height:46px !important;
+        max-height:46px !important;
+        line-height:23px !important;
+    }
+    body.home .baji-new-arrivals .baji-products-slider .baji-product-price{
+        height:44px !important;
+        min-height:44px !important;
+        max-height:44px !important;
+    }
+    body.home .baji-new-arrivals .baji-products-slider .baji-product-buy-cta{
+        height:42px !important;
+        min-height:42px !important;
+        max-height:42px !important;
+        margin-top:8px !important;
+    }
+}
