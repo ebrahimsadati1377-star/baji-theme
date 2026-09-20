@@ -488,6 +488,35 @@ document.addEventListener('DOMContentLoaded', function () {
             prevEl: '.swiper-button-prev',
         },
     });
+
+    function equalizeBajiProductSliderCards() {
+        const slider = document.querySelector('.baji-products-slider');
+        if (!slider) return;
+
+        const slides = Array.from(slider.querySelectorAll('.swiper-slide'));
+        if (!slides.length) return;
+
+        slides.forEach((slide) => {
+            slide.style.height = 'auto';
+        });
+
+        let maxHeight = 0;
+        slides.forEach((slide) => {
+            maxHeight = Math.max(maxHeight, slide.getBoundingClientRect().height);
+        });
+
+        if (maxHeight > 0) {
+            slides.forEach((slide) => {
+                slide.style.height = maxHeight + 'px';
+            });
+        }
+    }
+
+    requestAnimationFrame(equalizeBajiProductSliderCards);
+    window.addEventListener('load', equalizeBajiProductSliderCards, { once: true });
+    window.addEventListener('resize', equalizeBajiProductSliderCards);
+    productsSlider.on('resize', equalizeBajiProductSliderCards);
+    productsSlider.on('slideChangeTransitionEnd', equalizeBajiProductSliderCards);
 });
 
 
