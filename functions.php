@@ -1072,3 +1072,15 @@ add_filter( 'woocommerce_package_rates', 'baji_only_free_shipping_when_available
 
 
 
+
+
+/**
+ * BAJI login OTP: keep resend countdown at 120 seconds.
+ */
+function baji_login_otp_timer_120( $content ) {
+	if ( is_page( 31 ) ) {
+		$content = str_replace( 'startTimer(15);', 'startTimer(120);', $content );
+	}
+	return $content;
+}
+add_filter( 'the_content', 'baji_login_otp_timer_120', 99 );
