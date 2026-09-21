@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /* -------------------------------------------------------------------------
  * ثابت‌های قالب
  * ---------------------------------------------------------------------- */
-define( 'BAJISTYLE_VERSION', '1.0.19' );
+define( 'BAJISTYLE_VERSION', '1.0.18' );
 define( 'BAJISTYLE_DIR', get_template_directory() );
 define( 'BAJISTYLE_URI', get_template_directory_uri() );
 
@@ -1015,10 +1015,10 @@ function baji_update_mini_cart_quantity_ajax() {
 	woocommerce_mini_cart();
 	$mini_cart = ob_get_clean();
 
-	$shipping_target    = 0;
+	$shipping_target    = 3000000;
 	$shipping_current   = (float) WC()->cart->get_subtotal();
-	$shipping_remaining = 0;
-	$shipping_percent   = 100;
+	$shipping_remaining = max( 0, $shipping_target - $shipping_current );
+	$shipping_percent   = min( 100, ( $shipping_current / $shipping_target ) * 100 );
 
 	wp_send_json_success(
 		array(
@@ -1043,44 +1043,26 @@ require_once BAJISTYLE_DIR . '/inc/sms-proxy.php';
 
 
 /**
- * BAJI shipping policy: all customer shipping is free.
- * Keep a single available method, set its amount/taxes to zero, and label it clearly.
+ * When free shipping is available for a package, hide every paid/other method.
+ * This keeps Checkout simple and prevents customers from selecting a paid option
+ * after qualifying for free shipping.
  */
-function baji_force_free_shipping_for_all_orders( $rates, $package ) {
+function baji_only_free_shipping_when_available( $rates, $package ) {
 	if ( empty( $rates ) || ! is_array( $rates ) ) {
 		return $rates;
 	}
 
-	$preferred = array();
+	$free_rates = array();
 
 	foreach ( $rates as $rate_id => $rate ) {
-		if ( ! is_object( $rate ) ) {
-			continue;
-		}
-
-		if ( method_exists( $rate, 'set_cost' ) ) {
-			$rate->set_cost( 0 );
-		}
-		if ( method_exists( $rate, 'set_taxes' ) ) {
-			$rate->set_taxes( array() );
-		}
-		if ( method_exists( $rate, 'set_label' ) ) {
-			$rate->set_label( 'ارسال رایگان' );
-		}
-
-		if ( isset( $rate->method_id ) && 'free_shipping' === $rate->method_id ) {
-			$preferred[ $rate_id ] = $rate;
+		if ( is_object( $rate ) && isset( $rate->method_id ) && 'free_shipping' === $rate->method_id ) {
+			$free_rates[ $rate_id ] = $rate;
 		}
 	}
 
-	if ( ! empty( $preferred ) ) {
-		return $preferred;
-	}
-
-	$first_key = array_key_first( $rates );
-	return null !== $first_key ? array( $first_key => $rates[ $first_key ] ) : $rates;
+	return ! empty( $free_rates ) ? $free_rates : $rates;
 }
-add_filter( 'woocommerce_package_rates', 'baji_force_free_shipping_for_all_orders', 999, 2 );
+add_filter( 'woocommerce_package_rates', 'baji_only_free_shipping_when_available', 100, 2 );
 
 
 
@@ -1090,20 +1072,3 @@ add_filter( 'woocommerce_package_rates', 'baji_force_free_shipping_for_all_order
 
 
 
-
-
-/**
- * BAJI: make every WooCommerce shipping rate free.
- */
-function baji_make_all_shipping_free( $rates, $package ) {
-    foreach ( $rates as $rate_key => $rate ) {
-        if ( is_object( $rate ) ) {
-            $rate->cost = 0;
-            if ( isset( $rate->taxes ) && is_array( $rate->taxes ) ) {
-                $rate->taxes = array_map( static function () { return 0; }, $rate->taxes );
-            }
-        }
-    }
-    return $rates;
-}
-add_filter( 'woocommerce_package_rates', 'baji_make_all_shipping_free', 9999, 2 );
