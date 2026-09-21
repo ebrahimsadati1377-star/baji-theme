@@ -1790,3 +1790,271 @@ body.home .baji-new-arrivals .baji-products-slider .baji-product-buy-cta{
         margin-top:8px !important;
     }
 }
+
+
+/* BAJI LOGIN FINAL PREMIUM — 2026-09-22 */
+body.page-id-31{
+  background:
+    radial-gradient(circle at 12% 9%,rgba(123,19,39,.07),transparent 24%),
+    radial-gradient(circle at 88% 22%,rgba(202,168,160,.12),transparent 26%),
+    linear-gradient(180deg,#fffaf8 0%,#fff 72%)!important;
+}
+body.page-id-31 #main-content{
+  min-height:calc(100vh - 160px)!important;
+  background:transparent!important;
+  padding:36px 16px 78px!important;
+}
+body.page-id-31 .baji-page-wrapper{
+  max-width:1180px!important;
+  margin:0 auto!important;
+  padding-left:0!important;
+  padding-right:0!important;
+}
+body.page-id-31 .baji-breadcrumb,
+body.page-id-31 .baji-page-header{
+  display:none!important;
+}
+body.page-id-31 .baji-page-content,
+body.page-id-31 .entry-content,
+body.page-id-31 .page-content{
+  max-width:520px!important;
+  margin:0 auto!important;
+  padding:0!important;
+}
+body.page-id-31 .otp-login-wrapper{
+  position:relative!important;
+  width:100%!important;
+  max-width:500px!important;
+  margin:26px auto 0!important;
+  padding:44px 34px 30px!important;
+  overflow:hidden!important;
+  background:rgba(255,255,255,.98)!important;
+  border:1px solid #eadfd9!important;
+  border-radius:28px!important;
+  box-shadow:0 24px 70px rgba(70,45,38,.11)!important;
+  backdrop-filter:none!important;
+  -webkit-backdrop-filter:none!important;
+  font-family:inherit!important;
+  animation:none!important;
+}
+body.page-id-31 .otp-login-wrapper:before{
+  content:"BAJI"!important;
+  display:block!important;
+  margin:0 auto 4px!important;
+  color:#1d1715!important;
+  font:700 42px/1 Georgia,"Times New Roman",serif!important;
+  letter-spacing:.16em!important;
+  text-align:center!important;
+}
+body.page-id-31 .otp-login-wrapper:after{
+  content:"Baji • Be your best"!important;
+  display:block!important;
+  margin-top:22px!important;
+  color:#9a8982!important;
+  font-size:10px!important;
+  font-weight:700!important;
+  letter-spacing:.16em!important;
+  text-align:center!important;
+}
+body.page-id-31 .otp-login-wrapper h3{
+  display:block!important;
+  margin:18px 0 26px!important;
+  color:#2b211e!important;
+  font-size:24px!important;
+  line-height:1.6!important;
+  font-weight:900!important;
+  letter-spacing:0!important;
+  text-align:center!important;
+}
+body.page-id-31 .otp-login-wrapper h3:after{
+  content:"ورود سریع و امن با شماره موبایل"!important;
+  display:block!important;
+  margin-top:5px!important;
+  color:#8c7b74!important;
+  font-size:12px!important;
+  line-height:1.9!important;
+  font-weight:500!important;
+}
+body.page-id-31 #otp-step-1,
+body.page-id-31 #otp-step-2{
+  width:100%!important;
+}
+body.page-id-31 .otp-input-mobile{
+  width:100%!important;
+  height:58px!important;
+  box-sizing:border-box!important;
+  margin:0 0 12px!important;
+  padding:0 18px!important;
+  border:1px solid #e5d8d2!important;
+  border-radius:16px!important;
+  background:#fffaf8!important;
+  color:#261d1a!important;
+  box-shadow:none!important;
+  outline:none!important;
+  direction:ltr!important;
+  text-align:center!important;
+  font-family:inherit!important;
+  font-size:17px!important;
+  font-weight:800!important;
+  letter-spacing:1px!important;
+  transition:border-color .18s ease,box-shadow .18s ease,background .18s ease!important;
+}
+body.page-id-31 .otp-input-mobile:focus{
+  background:#fff!important;
+  border-color:#9d354b!important;
+  box-shadow:0 0 0 4px rgba(123,19,39,.08)!important;
+}
+body.page-id-31 .otp-input-mobile::placeholder{
+  color:#a99a94!important;
+  opacity:1!important;
+  letter-spacing:.5px!important;
+}
+body.page-id-31 .otp-btn{
+  width:100%!important;
+  min-height:56px!important;
+  box-sizing:border-box!important;
+  margin-top:0!important;
+  padding:12px 18px!important;
+  border:1px solid #7b1327!important;
+  border-radius:16px!important;
+  background:#7b1327!important;
+  color:#fff!important;
+  box-shadow:0 10px 24px rgba(123,19,39,.18)!important;
+  font-family:inherit!important;
+  font-size:15px!important;
+  font-weight:900!important;
+  cursor:pointer!important;
+  transition:transform .16s ease,box-shadow .16s ease,background .16s ease!important;
+}
+body.page-id-31 .otp-btn:hover{
+  background:#681020!important;
+  transform:translateY(-1px)!important;
+  box-shadow:0 13px 28px rgba(123,19,39,.22)!important;
+}
+body.page-id-31 .otp-btn:active{
+  transform:translateY(0)!important;
+}
+body.page-id-31 .otp-btn:disabled{
+  border-color:#d7cbc6!important;
+  background:#d7cbc6!important;
+  color:#fff!important;
+  box-shadow:none!important;
+  cursor:not-allowed!important;
+  transform:none!important;
+}
+body.page-id-31 .otp-btn-secondary{
+  margin-top:12px!important;
+  border-color:#e0d4ce!important;
+  background:#fff!important;
+  color:#6e5c55!important;
+  box-shadow:none!important;
+}
+body.page-id-31 .otp-btn-secondary:hover{
+  border-color:#c9b7af!important;
+  background:#fff8f6!important;
+  color:#4d3e39!important;
+}
+body.page-id-31 #otp-step-2 > p{
+  margin:0 0 14px!important;
+  color:#796a64!important;
+  font-family:inherit!important;
+  font-size:12px!important;
+  line-height:1.9!important;
+  text-align:center!important;
+}
+body.page-id-31 .otp-boxes-container{
+  display:grid!important;
+  grid-template-columns:repeat(4,minmax(0,1fr))!important;
+  gap:10px!important;
+  width:100%!important;
+  margin:0 0 16px!important;
+  direction:ltr!important;
+}
+body.page-id-31 .otp-box{
+  width:100%!important;
+  min-width:0!important;
+  height:64px!important;
+  box-sizing:border-box!important;
+  padding:0!important;
+  border:1px solid #e5d8d2!important;
+  border-radius:15px!important;
+  background:#fffaf8!important;
+  color:#2b211e!important;
+  box-shadow:none!important;
+  outline:none!important;
+  font-family:inherit!important;
+  font-size:25px!important;
+  font-weight:900!important;
+  text-align:center!important;
+  transition:border-color .18s ease,box-shadow .18s ease,background .18s ease!important;
+}
+body.page-id-31 .otp-box:focus{
+  background:#fff!important;
+  border-color:#9d354b!important;
+  box-shadow:0 0 0 4px rgba(123,19,39,.08)!important;
+  transform:none!important;
+}
+body.page-id-31 #otp-message{
+  min-height:0!important;
+  margin:0 0 14px!important;
+  padding:10px 12px!important;
+  border-radius:12px!important;
+  background:#fff7f5!important;
+  color:#604e47!important;
+  font-size:12px!important;
+  line-height:1.8!important;
+  font-weight:700!important;
+  opacity:1!important;
+}
+body.page-id-31 #otp-message:empty{
+  display:none!important;
+}
+body.page-id-31 #otp-timer-wrap{
+  margin-top:14px!important;
+  color:#8a7972!important;
+  font-size:12px!important;
+  line-height:1.8!important;
+  text-align:center!important;
+}
+body.page-id-31 #otp-timer{
+  color:#7b1327!important;
+  font-weight:900!important;
+}
+body.page-id-31 .wp-block-paragraph:empty{
+  display:none!important;
+}
+@media(max-width:767px){
+  body.page-id-31 #main-content{
+    min-height:calc(100vh - 126px)!important;
+    padding:20px 14px 48px!important;
+  }
+  body.page-id-31 .otp-login-wrapper{
+    margin:14px auto 0!important;
+    padding:34px 20px 24px!important;
+    border-radius:22px!important;
+    box-shadow:0 18px 44px rgba(70,45,38,.10)!important;
+  }
+  body.page-id-31 .otp-login-wrapper:before{
+    font-size:36px!important;
+  }
+  body.page-id-31 .otp-login-wrapper h3{
+    margin:16px 0 22px!important;
+    font-size:21px!important;
+  }
+  body.page-id-31 .otp-input-mobile{
+    height:56px!important;
+    font-size:16px!important;
+  }
+  body.page-id-31 .otp-btn{
+    min-height:54px!important;
+    font-size:14px!important;
+  }
+  body.page-id-31 .otp-boxes-container{
+    gap:8px!important;
+  }
+  body.page-id-31 .otp-box{
+    height:58px!important;
+    border-radius:13px!important;
+    font-size:23px!important;
+  }
+}
