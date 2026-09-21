@@ -8,8 +8,8 @@ document.addEventListener('DOMContentLoaded',function(){
   var box=panel.querySelector('.baji-cart-shipping');
   var totalEl=panel.querySelector('.woocommerce-mini-cart__total .amount, .woocommerce-mini-cart__total .woocommerce-Price-amount');
   if(!box||!totalEl)return;
-  var current=num(totalEl.textContent);
-  box.innerHTML='<div class="baji-cart-shipping__row"><i class="far fa-truck"></i><div><b class="is-free">ارسال همه سفارش‌ها رایگان است</b><span>بدون حداقل مبلغ خرید</span></div></div><div class="baji-cart-shipping__bar"><span style="width:100%"></span></div><div class="baji-cart-shipping__meta"><span>فعلی: '+fmt(current)+'</span><span>هزینه ارسال: رایگان</span></div>';
+  var target=3000000,current=num(totalEl.textContent),left=Math.max(0,target-current),pct=Math.max(0,Math.min(100,(current/target)*100));
+  box.innerHTML='<div class="baji-cart-shipping__row"><i class="far fa-truck"></i><div>'+(left>0?'<b>برای ارسال رایگان، <strong>'+fmt(left)+'</strong> دیگر خرید کنید</b><span>حد ارسال رایگان: ۳ میلیون تومان</span>':'<b class="is-free">تبریک! ارسال سفارش شما رایگان شد</b><span>مبلغ سبد به حد ارسال رایگان رسیده است.</span>')+'</div></div><div class="baji-cart-shipping__bar"><span style="width:'+pct+'%"></span></div><div class="baji-cart-shipping__meta"><span>فعلی: '+fmt(current)+'</span><span>هدف: '+fmt(target)+'</span></div>';
  }
  function coupon(){
   var body=panel.querySelector('.widget_shopping_cart_content'),total=body&&body.querySelector('.woocommerce-mini-cart__total');
