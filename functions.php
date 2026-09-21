@@ -1084,3 +1084,19 @@ function baji_login_otp_timer_120( $content ) {
 	return $content;
 }
 add_filter( 'the_content', 'baji_login_otp_timer_120', 99 );
+
+
+/**
+ * One-time LiteSpeed purge after changing the OTP countdown to 120 seconds.
+ */
+function baji_purge_litespeed_after_otp_timer_120() {
+	$key = 'baji_lscache_purge_otp_timer_120_v1';
+	if ( 'done' === get_option( $key ) ) {
+		return;
+	}
+	if ( has_action( 'litespeed_purge_all' ) || defined( 'LSCWP_V' ) ) {
+		do_action( 'litespeed_purge_all' );
+		update_option( $key, 'done', false );
+	}
+}
+add_action( 'init', 'baji_purge_litespeed_after_otp_timer_120', 99 );
