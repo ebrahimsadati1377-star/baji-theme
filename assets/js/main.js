@@ -550,3 +550,24 @@ document.addEventListener('DOMContentLoaded', function () {
         },
     });
 });
+
+
+/* BAJI login OTP UX polish */
+document.addEventListener('DOMContentLoaded', function () {
+    if (!document.body.classList.contains('page-id-31')) return;
+
+    var mobile = document.getElementById('otp_mobile');
+    if (mobile) {
+        mobile.setAttribute('inputmode', 'numeric');
+        mobile.setAttribute('autocomplete', 'tel');
+        mobile.setAttribute('aria-label', 'شماره موبایل');
+        mobile.setAttribute('placeholder', '0912 000 0000');
+    }
+
+    var boxes = Array.prototype.slice.call(document.querySelectorAll('.otp-box'));
+    boxes.forEach(function (box, index) {
+        box.setAttribute('inputmode', 'numeric');
+        box.setAttribute('aria-label', 'رقم ' + (index + 1) + ' کد تایید');
+        if (index === 0) box.setAttribute('autocomplete', 'one-time-code');
+    });
+});
