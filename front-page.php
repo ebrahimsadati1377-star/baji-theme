@@ -121,7 +121,7 @@ get_header();
 					</div>
 					<div>
 						<div class="text-sm md:text-base font-black text-[#2d211e] mb-1">ارسال رایگان</div>
-						<div class="text-[11px] md:text-sm text-[#7c6f69] leading-6">برای همه سفارش‌ها</div>
+						<div class="text-[11px] md:text-sm text-[#7c6f69] leading-6">برای سفارش‌های بالای ۳ میلیون تومان</div>
 					</div>
 				</div>
 
