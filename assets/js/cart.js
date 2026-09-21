@@ -302,18 +302,22 @@ function initMiniCartQuantityControls() {
 							const currentEl = shippingBox.querySelector( '.baji-cart-shipping__current' );
 							const remaining = Number( response.data.shipping_remaining || 0 );
 							const percent = Number( response.data.shipping_percent || 0 );
-							const isFree = true;
+							const isFree = Boolean( response.data.shipping_is_free );
 							const fmt = ( n ) => new Intl.NumberFormat( 'fa-IR' ).format( Math.max( 0, Math.round( Number( n ) || 0 ) ) ) + ' تومان';
 
 							if ( title ) {
-								title.textContent = 'ارسال همه سفارش‌ها رایگان است';
+								title.textContent = isFree
+									? 'ارسال سفارش شما رایگان شد'
+									: 'فقط ' + fmt( remaining ) + ' تا ارسال رایگان';
 								title.classList.toggle( 'is-free', isFree );
 							}
 							if ( text ) {
-								text.textContent = 'بدون حداقل مبلغ خرید';
+								text.textContent = isFree
+									? 'تبریک! هزینه ارسال این سفارش رایگان شد.'
+									: 'حد ارسال رایگان: ۳ میلیون تومان';
 							}
 							if ( bar ) {
-								bar.style.width = '100%';
+								bar.style.width = Math.max( 0, Math.min( 100, percent ) ) + '%';
 							}
 							if ( currentEl ) {
 								currentEl.textContent = 'فعلی: ' + fmt( response.data.cart_subtotal || 0 );
