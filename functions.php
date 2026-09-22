@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /* -------------------------------------------------------------------------
  * ثابت‌های قالب
  * ---------------------------------------------------------------------- */
-define( 'BAJISTYLE_VERSION', '1.0.39' );
+define( 'BAJISTYLE_VERSION', '1.0.40' );
 define( 'BAJISTYLE_DIR', get_template_directory() );
 define( 'BAJISTYLE_URI', get_template_directory_uri() );
 
@@ -418,6 +418,31 @@ function bajistyle_enqueue_assets() {
 					'strategy'  => 'defer',
 				)
 			);
+
+			wp_enqueue_style(
+				'bajistyle-size-guide',
+				BAJISTYLE_URI . '/assets/css/size-guide.css',
+				array( 'bajistyle-custom' ),
+				BAJISTYLE_VERSION
+			);
+
+			wp_enqueue_script(
+				'bajistyle-size-guide',
+				BAJISTYLE_URI . '/assets/js/size-guide.js',
+				array(),
+				BAJISTYLE_VERSION,
+				array(
+					'in_footer' => true,
+					'strategy'  => 'defer',
+				)
+			);
+		} elseif ( is_product_category() ) {
+			wp_enqueue_style(
+				'bajistyle-size-guide',
+				BAJISTYLE_URI . '/assets/css/size-guide.css',
+				array( 'bajistyle-custom' ),
+				BAJISTYLE_VERSION
+			);
 		}
 
 		// ارسال داده‌های لازم از PHP به جاوااسکریپت به‌صورت امن
@@ -488,6 +513,7 @@ require BAJISTYLE_DIR . '/inc/security.php';
 require BAJISTYLE_DIR . '/inc/seo.php';
 require BAJISTYLE_DIR . '/inc/order-attribution.php';
 require BAJISTYLE_DIR . '/inc/product-video.php';
+require BAJISTYLE_DIR . '/inc/size-guide.php';
 
 /* -------------------------------------------------------------------------
  * ثبت بلوک‌های قالب برای Gutenberg
