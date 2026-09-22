@@ -1100,3 +1100,90 @@ function baji_purge_litespeed_after_otp_timer_120() {
 	}
 }
 add_action( 'init', 'baji_purge_litespeed_after_otp_timer_120', 99 );
+
+
+/**
+ * BAJI OTP SMS copy.
+ * Rewrites only the login-code SMS payload before it is sent by the SMS plugin.
+ */
+function baji_rewrite_otp_sms_text_value( $value ) {
+	if ( ! is_string( $value ) || '' === $value ) {
+		return $value;
+	}
+
+	$make_message = static function( $code ) {
+		return "باجی 🤍\nکد ورود شما: " . $code . "\nاعتبار کد: ۲ دقیقه\nاین کد را در اختیار دیگران قرار ندهید.\nbajistyle.ir";
+	};
+
+	$patterns = array(
+		'/کد\s*ورود\s*شما\s*([0-9۰-۹]{4})\s*می(?:‌|\s*)باشد\.?/u',
+		'/کد\s*ورود\s*شما[:：]?\s*([0-9۰-۹]{4})/u',
+	);
+
+	foreach ( $patterns as $pattern ) {
+		if ( preg_match( $pattern, $value, $m ) ) {
+			return $make_message( $m[1] );
+		}
+	}
+
+	$templates = array(
+		'کد ورود شما %s میباشد.',
+		'کد ورود شما %s می‌باشد.',
+		'کد ورود شما: %s',
+		'کد ورود شما {code} میباشد.',
+		'کد ورود شما {code} می‌باشد.',
+		'کد ورود شما: {code}',
+	);
+	foreach ( $templates as $template ) {
+		if ( false !== strpos( $value, $template ) ) {
+			$code = false !== strpos( $template, '%s' ) ? '%s' : '{code}';
+			return $make_message( $code );
+		}
+	}
+
+	return $value;
+}
+
+function baji_rewrite_otp_sms_text_deep( $value ) {
+	if ( is_array( $value ) ) {
+		foreach ( $value as $key => $item ) {
+			$value[ $key ] = baji_rewrite_otp_sms_text_deep( $item );
+		}
+		return $value;
+	}
+
+	if ( is_string( $value ) ) {
+		$rewritten = baji_rewrite_otp_sms_text_value( $value );
+		if ( $rewritten !== $value ) {
+			return $rewritten;
+		}
+
+		$trimmed = trim( $value );
+		if ( ( str_starts_with( $trimmed, '{' ) && str_ends_with( $trimmed, '}' ) ) || ( str_starts_with( $trimmed, '[' ) && str_ends_with( $trimmed, ']' ) ) ) {
+			$decoded = json_decode( $value, true );
+			if ( is_array( $decoded ) ) {
+				$changed = baji_rewrite_otp_sms_text_deep( $decoded );
+				if ( $changed !== $decoded ) {
+					return wp_json_encode( $changed, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES );
+				}
+			}
+		}
+	}
+
+	return $value;
+}
+
+function baji_rewrite_otp_sms_text( $args, $url ) {
+	$host = strtolower( (string) wp_parse_url( $url, PHP_URL_HOST ) );
+	$is_sms_request = false !== strpos( $host, 'ippanel' )
+		|| false !== strpos( $host, 'sms' )
+		|| false !== strpos( strtolower( $url ), 'panel' );
+
+	if ( ! $is_sms_request || empty( $args['body'] ) ) {
+		return $args;
+	}
+
+	$args['body'] = baji_rewrite_otp_sms_text_deep( $args['body'] );
+	return $args;
+}
+add_filter( 'http_request_args', 'baji_rewrite_otp_sms_text', 999, 2 );
