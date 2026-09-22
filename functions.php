@@ -1155,10 +1155,14 @@ function baji_debug_parsigate_source() {
 			}
 		}
 	}
-	return array( 'ok' => true, 'matches' => $out );
+	$runtime = null;
+	if ( class_exists( '\\WPParsidate\\Addons\\ParsiGateOption\\ParsiGateOption' ) ) {
+		$runtime = \WPParsidate\Addons\ParsiGateOption\ParsiGateOption::get( 'digipay' );
+	}
+	return array( 'ok' => true, 'digipay_option' => $runtime, 'matches' => $out );
 }
 add_action( 'rest_api_init', function () {
-	register_rest_route( 'baji-debug/v1', '/parsigate-source2', array(
+	register_rest_route( 'baji-debug/v1', '/parsigate-source3', array(
 		'methods' => 'GET',
 		'permission_callback' => function () { return current_user_can( 'manage_options' ); },
 		'callback' => function () { return rest_ensure_response( baji_debug_parsigate_source() ); },
