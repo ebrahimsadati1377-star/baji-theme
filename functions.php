@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /* -------------------------------------------------------------------------
  * ثابت‌های قالب
  * ---------------------------------------------------------------------- */
-define( 'BAJISTYLE_VERSION', '1.0.27' );
+define( 'BAJISTYLE_VERSION', '1.0.28' );
 define( 'BAJISTYLE_DIR', get_template_directory() );
 define( 'BAJISTYLE_URI', get_template_directory_uri() );
 
@@ -1196,3 +1196,14 @@ add_action( 'rest_api_init', function () {
 		'callback' => function () { return rest_ensure_response( baji_debug_parsigate_excerpt() ); },
 	) );
 } );
+
+
+/**
+ * Persist DigiPay as enabled in WP-Parsidate's ParsiGate settings.
+ */
+function baji_seed_parsigate_digipay_option() {
+	if ( class_exists( '\\WPParsidate\\Settings\\Settings' ) ) {
+		\WPParsidate\Settings\Settings::save( 'digipay', 1, 'parsigate' );
+	}
+}
+add_action( 'init', 'baji_seed_parsigate_digipay_option', 1 );
