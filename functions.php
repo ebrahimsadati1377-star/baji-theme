@@ -1168,16 +1168,36 @@ function baji_debug_parsigate_source() {
 			$gateway_debug[] = array( 'kind' => 'class', 'class' => $entry );
 		}
 	}
+	$live_gateways = array();
+	if ( function_exists( 'WC' ) && WC() && WC()->payment_gateways() ) {
+		foreach ( WC()->payment_gateways()->payment_gateways() as $gid => $gateway ) {
+			$settings = is_array( $gateway->settings ?? null ) ? $gateway->settings : array();
+			$configured = array();
+			foreach ( array( 'client_id', 'client_secret', 'username', 'password', 'merchant_id', 'token' ) as $key ) {
+				if ( array_key_exists( $key, $settings ) ) {
+					$configured[ $key ] = '' !== trim( (string) $settings[ $key ] );
+				}
+			}
+			$live_gateways[] = array(
+				'id' => $gateway->id ?? $gid,
+				'class' => get_class( $gateway ),
+				'title' => $gateway->title ?? '',
+				'enabled' => $gateway->enabled ?? '',
+				'configured' => $configured,
+			);
+		}
+	}
 	return array(
 		'ok' => true,
 		'digipay_option' => $runtime,
 		'parsigate_wc_class' => class_exists( '\\ParsiGate\\WooCommerce' ),
 		'gateway_filter' => $gateway_debug,
+		'live_gateways' => $live_gateways,
 		'matches' => $out
 	);
 }
 add_action( 'rest_api_init', function () {
-	register_rest_route( 'baji-debug/v1', '/parsigate-source5', array(
+	register_rest_route( 'baji-debug/v1', '/parsigate-source6', array(
 		'methods' => 'GET',
 		'permission_callback' => function () { return current_user_can( 'manage_options' ); },
 		'callback' => function () { return rest_ensure_response( baji_debug_parsigate_source() ); },
