@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /* -------------------------------------------------------------------------
  * ثابت‌های قالب
  * ---------------------------------------------------------------------- */
-define( 'BAJISTYLE_VERSION', '1.0.23' );
+define( 'BAJISTYLE_VERSION', '1.0.24' );
 define( 'BAJISTYLE_DIR', get_template_directory() );
 define( 'BAJISTYLE_URI', get_template_directory_uri() );
 
@@ -1112,7 +1112,7 @@ function baji_rewrite_otp_sms_text_value( $value ) {
 	}
 
 	$make_message = static function( $code ) {
-		return "باجی 🤍\nکد ورود شما: " . $code . "\nاعتبار کد: ۲ دقیقه\nاین کد را در اختیار دیگران قرار ندهید.\nbajistyle.ir";
+		return "BAJI | باجی\nکد ورود: " . $code . "\nاعتبار: ۲ دقیقه\nbajistyle.ir";
 	};
 
 	$patterns = array(
