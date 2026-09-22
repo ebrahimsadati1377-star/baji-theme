@@ -85,10 +85,33 @@ function initCheckoutErrorScroll() {
  *
  * @since 1.0.0
  */
+function syncBajiPaymentSelection() {
+	const methods = document.querySelectorAll( '.wc_payment_method' );
+	methods.forEach( ( method ) => {
+		const radio = method.querySelector( 'input[name="payment_method"]' );
+		method.classList.toggle( 'is-selected', Boolean( radio && radio.checked ) );
+	} );
+}
+
+function initBajiPaymentSelection() {
+	document.addEventListener( 'change', ( event ) => {
+		if ( event.target && event.target.matches( 'input[name="payment_method"]' ) ) {
+			syncBajiPaymentSelection();
+		}
+	} );
+
+	if ( typeof window.jQuery !== 'undefined' ) {
+		window.jQuery( document.body ).on( 'updated_checkout', syncBajiPaymentSelection );
+	}
+
+	syncBajiPaymentSelection();
+}
+
 function initBajiStyleCheckout() {
 	initCheckoutLoadingState();
 	initShipToDifferentAddressToggle();
 	initCheckoutErrorScroll();
+	initBajiPaymentSelection();
 }
 
 if ( document.readyState === 'loading' ) {
