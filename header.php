@@ -66,6 +66,25 @@ $new_url = add_query_arg('orderby','date',$shop_url);
 $wishlist_url = class_exists('WooCommerce') ? wc_get_account_endpoint_url('wishlist') : $account_url;
 $cart_count = ( class_exists('WooCommerce') && WC()->cart ) ? absint( WC()->cart->get_cart_contents_count() ) : 0;
 $wishlist_count = function_exists('bajistyle_get_wishlist_count') ? absint( bajistyle_get_wishlist_count() ) : 0;
+
+$menu_user = wp_get_current_user();
+$is_menu_user_logged_in = is_user_logged_in();
+$menu_display_name = $is_menu_user_logged_in ? ( $menu_user->display_name ?: $menu_user->user_login ) : 'مهمان باجی';
+$menu_phone = $is_menu_user_logged_in ? (string) get_user_meta( $menu_user->ID, 'billing_phone', true ) : '';
+if ( $menu_phone && strlen( $menu_phone ) >= 7 ) {
+	$menu_phone_masked = substr( $menu_phone, 0, 4 ) . '***' . substr( $menu_phone, -4 );
+} else {
+	$menu_phone_masked = '';
+}
+
+$baji_menu_term_url = static function( $term_id ) use ( $shop_url ) {
+	$link = get_term_link( (int) $term_id, 'product_cat' );
+	return is_wp_error( $link ) ? $shop_url : $link;
+};
+$menu_cat_blouse = $baji_menu_term_url( 17 );
+$menu_cat_pants  = $baji_menu_term_url( 20 );
+$menu_cat_rain   = $baji_menu_term_url( 333 );
+$menu_cat_skirt  = $baji_menu_term_url( 19 );
 ?>
 <div id="baji-mobile-menu" class="baji-mobile-menu" aria-label="منوی موبایل" aria-hidden="true">
   <div class="baji-mm-shell">
@@ -81,6 +100,31 @@ $wishlist_count = function_exists('bajistyle_get_wishlist_count') ? absint( baji
     <div class="baji-mm-intro"><span>سبک زندگی زیباتر</span></div>
 
     <div class="baji-mm-body">
+      <section class="baji-mm-member">
+        <div class="baji-mm-member__avatar"><?php echo esc_html( mb_substr( $menu_display_name, 0, 1 ) ); ?></div>
+        <div class="baji-mm-member__copy">
+          <small><?php echo $is_menu_user_logged_in ? 'BAJI MEMBER' : 'BAJI CLUB'; ?></small>
+          <strong><?php echo $is_menu_user_logged_in ? 'سلام ' . esc_html( $menu_display_name ) : 'به باجی خوش اومدی'; ?></strong>
+          <span><?php echo $menu_phone_masked ? esc_html( $menu_phone_masked ) : ( $is_menu_user_logged_in ? 'حساب کاربری شما' : 'برای تجربه شخصی‌تر وارد حساب شو' ); ?></span>
+        </div>
+        <a href="<?php echo esc_url($account_url); ?>" class="baji-mm-member__action">
+          <span><?php echo $is_menu_user_logged_in ? 'حساب من' : 'ورود / ثبت‌نام'; ?></span>
+          <i class="fa-solid fa-chevron-left"></i>
+        </a>
+      </section>
+
+      <section class="baji-mm-categories" aria-label="دسته‌بندی‌های محبوب">
+        <div class="baji-mm-section-head">
+          <div><small>SHOP BY CATEGORY</small><strong>دسته‌بندی‌های محبوب</strong></div>
+          <a href="<?php echo esc_url($shop_url); ?>">همه محصولات <i class="fa-solid fa-chevron-left"></i></a>
+        </div>
+        <div class="baji-mm-category-grid">
+          <a href="<?php echo esc_url($menu_cat_blouse); ?>"><i class="fa-regular fa-shirt"></i><span>شومیز</span></a>
+          <a href="<?php echo esc_url($menu_cat_rain); ?>"><i class="fa-regular fa-cloud-rain"></i><span>بارونی</span></a>
+          <a href="<?php echo esc_url($menu_cat_pants); ?>"><i class="fa-regular fa-person"></i><span>شلوار</span></a>
+          <a href="<?php echo esc_url($menu_cat_skirt); ?>"><i class="fa-regular fa-person-dress"></i><span>دامن</span></a>
+        </div>
+      </section>
       <nav class="baji-mm-primary" aria-label="دسترسی سریع">
         <a href="<?php echo esc_url(home_url('/')); ?>">
           <span class="baji-mm-link-icon"><i class="fa-regular fa-house"></i></span>
