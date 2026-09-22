@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /* -------------------------------------------------------------------------
  * ثابت‌های قالب
  * ---------------------------------------------------------------------- */
-define( 'BAJISTYLE_VERSION', '1.0.26' );
+define( 'BAJISTYLE_VERSION', '1.0.27' );
 define( 'BAJISTYLE_DIR', get_template_directory() );
 define( 'BAJISTYLE_URI', get_template_directory_uri() );
 
@@ -1113,12 +1113,10 @@ function baji_enable_parsigate_digipay( $enabled, $gateway_id ) {
 }
 add_filter( 'parsigate_enable_gateway', 'baji_enable_parsigate_digipay', 10, 2 );
 
-function baji_persist_parsigate_digipay_enabled() {
-	$options = get_option( 'wp_parsidate_parsigate', array() );
-	$options = is_array( $options ) ? $options : array();
-	if ( 1 !== (int) ( $options['digipay'] ?? 0 ) ) {
-		$options['digipay'] = 1;
-		update_option( 'wp_parsidate_parsigate', $options, false );
-	}
+$baji_parsigate_options = get_option( 'wp_parsidate_parsigate', array() );
+$baji_parsigate_options = is_array( $baji_parsigate_options ) ? $baji_parsigate_options : array();
+if ( 1 !== (int) ( $baji_parsigate_options['digipay'] ?? 0 ) ) {
+	$baji_parsigate_options['digipay'] = 1;
+	update_option( 'wp_parsidate_parsigate', $baji_parsigate_options, false );
 }
-add_action( 'plugins_loaded', 'baji_persist_parsigate_digipay_enabled', 5 );
+unset( $baji_parsigate_options );
