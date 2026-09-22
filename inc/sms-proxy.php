@@ -318,6 +318,65 @@ function baji_sms_proxy_send( WP_REST_Request $request ) {
 
 
 
+
+function baji_sms_proxy_create_ticket( WP_REST_Request $request ) {
+    $auth = baji_sms_proxy_authenticate( $request );
+    if ( is_wp_error( $auth ) ) {
+        return $auth;
+    }
+
+    $data        = $request->get_json_params();
+    $subject     = trim( (string) ( $data['subject'] ?? '' ) );
+    $description = trim( (string) ( $data['description'] ?? '' ) );
+    $category_id = (int) ( $data['category_id'] ?? 0 );
+
+    if ( '' === $subject || '' === $description || $category_id <= 0 ) {
+        return new WP_Error( 'baji_sms_ticket_fields', 'Ticket subject, description and category_id are required.', array( 'status' => 400 ) );
+    }
+
+    $api_key = trim( (string) get_option( 'custom_otp_apikey', '' ) );
+    $boundary = wp_generate_password( 24, false, false );
+    $eol = "\r\n";
+    $body  = '--' . $boundary . $eol;
+    $body .= 'Content-Disposition: form-data; name="subject"' . $eol . $eol . $subject . $eol;
+    $body .= '--' . $boundary . $eol;
+    $body .= 'Content-Disposition: form-data; name="category_id"' . $eol . $eol . $category_id . $eol;
+    $body .= '--' . $boundary . $eol;
+    $body .= 'Content-Disposition: form-data; name="description"' . $eol . $eol . $description . $eol;
+    $body .= '--' . $boundary . $eol;
+    $body .= 'Content-Disposition: form-data; name="sms_notification"' . $eol . $eol . '1' . $eol;
+    $body .= '--' . $boundary . '--' . $eol;
+
+    $response = wp_remote_post(
+        'https://edge.ippanel.com/v1/api/ticket',
+        array(
+            'timeout'     => 30,
+            'redirection' => 0,
+            'headers'     => array(
+                'Authorization' => $api_key,
+                'Accept'        => 'application/json',
+                'Content-Type'  => 'multipart/form-data; boundary=' . $boundary,
+            ),
+            'body'        => $body,
+        )
+    );
+
+    if ( is_wp_error( $response ) ) {
+        return new WP_Error( 'baji_sms_ticket_transport', 'Ticket transport error.', array( 'status' => 502 ) );
+    }
+
+    $status = (int) wp_remote_retrieve_response_code( $response );
+    $json   = json_decode( (string) wp_remote_retrieve_body( $response ), true );
+
+    return rest_ensure_response(
+        array(
+            'success'       => $status >= 200 && $status < 300,
+            'provider_http' => $status,
+            'response'      => is_array( $json ) ? $json : array(),
+        )
+    );
+}
+
 function baji_sms_proxy_send_with_line( WP_REST_Request $request ) {
     $auth = baji_sms_proxy_authenticate( $request );
     if ( is_wp_error( $auth ) ) {
@@ -384,6 +443,7 @@ function baji_sms_proxy_account_diagnostics( WP_REST_Request $request ) {
     $checks = array(
         'token'   => array( 'GET', '/api/acl/auth/check_token' ),
         'numbers' => array( 'GET', '/api/number/numbers?page=1&per_page=100' ),
+        'tickets' => array( 'GET', '/api/ticket?page=1&per_page=50' ),
     );
     $results = array();
 
@@ -763,6 +823,15 @@ add_action(
             array(
                 'methods'             => 'POST',
                 'callback'            => 'baji_sms_proxy_message_status',
+                'permission_callback' => '__return_true',
+            )
+        );
+        register_rest_route(
+            'baji/v1',
+            '/sms-proxy/create-ticket',
+            array(
+                'methods'             => 'POST',
+                'callback'            => 'baji_sms_proxy_create_ticket',
                 'permission_callback' => '__return_true',
             )
         );
