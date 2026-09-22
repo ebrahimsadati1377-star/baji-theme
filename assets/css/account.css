@@ -666,3 +666,301 @@ body.woocommerce-account .baji-mobile-bottom-nav .is-active{
   }
   .baji-view-order-totals>div{padding:5px 0}
 }
+
+
+/* BAJI ADDRESS BOOK PREMIUM 2026-09-22 */
+body.woocommerce-account .baji-account-section--address{
+  padding:0!important;
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  overflow:visible!important;
+}
+.baji-address-book{
+  display:grid;
+  gap:14px;
+  direction:rtl;
+}
+.baji-address-book__intro{
+  display:flex;
+  align-items:center;
+  gap:13px;
+  padding:17px 18px;
+  border:1px solid #efdeda;
+  border-radius:18px;
+  background:
+    radial-gradient(circle at 8% 20%,rgba(140,23,48,.05),transparent 28%),
+    linear-gradient(135deg,#fff 0%,#fff4f5 100%);
+  box-shadow:0 8px 24px rgba(66,43,36,.04);
+}
+.baji-address-book__intro-icon{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:46px;
+  height:46px;
+  flex:0 0 46px;
+  border-radius:14px;
+  background:#f8e5e9;
+  color:var(--ba-brand);
+  font-size:15px;
+}
+.baji-address-book__intro small{
+  display:block;
+  color:#a18d85;
+  font-size:8px;
+  font-weight:850;
+}
+.baji-address-book__intro h2{
+  margin:1px 0 2px!important;
+  color:var(--ba-brand)!important;
+  font-size:15px!important;
+  line-height:1.65!important;
+  font-weight:950!important;
+}
+.baji-address-book__intro p{
+  margin:0!important;
+  color:#89766f!important;
+  font-size:9px!important;
+  line-height:1.8!important;
+}
+.baji-address-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:13px;
+  align-items:start;
+}
+.baji-address-card{
+  overflow:hidden;
+  border:1px solid var(--ba-line);
+  border-radius:20px;
+  background:#fff;
+  box-shadow:0 9px 28px rgba(65,43,36,.05);
+}
+.baji-address-card__head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+  padding:17px 17px 14px;
+  border-bottom:1px solid #f1e7e3;
+  background:linear-gradient(180deg,#fff 0%,#fffaf9 100%);
+}
+.baji-address-card__title{
+  display:flex;
+  align-items:center;
+  gap:11px;
+  min-width:0;
+}
+.baji-address-card__title>span{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:42px;
+  height:42px;
+  flex:0 0 42px;
+  border-radius:13px;
+  background:#fbeaec;
+  color:var(--ba-brand);
+  font-size:14px;
+}
+.baji-address-card__title h3{
+  margin:0!important;
+  color:var(--ba-ink)!important;
+  font-size:13px!important;
+  line-height:1.65!important;
+  font-weight:950!important;
+}
+.baji-address-card__title p{
+  margin:2px 0 0!important;
+  color:#9b8981!important;
+  font-size:8px!important;
+  line-height:1.65!important;
+}
+.baji-address-card__edit{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+  min-height:36px;
+  padding:0 11px;
+  flex:0 0 auto;
+  border:1px solid #efd8dd;
+  border-radius:11px;
+  background:#fff4f6;
+  color:var(--ba-brand)!important;
+  font-size:8.5px;
+  font-weight:900;
+  transition:.16s ease;
+}
+.baji-address-card__edit:hover{
+  border-color:#dcb8c0;
+  background:#fdebed;
+  transform:translateY(-1px);
+}
+.baji-address-details{
+  padding:7px 17px 12px;
+}
+.baji-address-row{
+  display:grid;
+  grid-template-columns:30px 88px minmax(0,1fr);
+  gap:9px;
+  align-items:center;
+  min-height:50px;
+  padding:8px 0;
+  border-top:1px solid #f4ebe8;
+}
+.baji-address-row:first-child{border-top:0}
+.baji-address-row__icon{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:30px;
+  height:30px;
+  border-radius:9px;
+  background:#fff3f4;
+  color:#9a3046;
+  font-size:10px;
+}
+.baji-address-row__label{
+  color:#9a8880;
+  font-size:8.5px;
+  font-weight:750;
+}
+.baji-address-row strong{
+  min-width:0;
+  color:#3a2d29;
+  font-size:9.5px;
+  line-height:1.85;
+  font-weight:900;
+  overflow-wrap:anywhere;
+}
+.baji-address-row--address{
+  align-items:start;
+}
+.baji-address-row--address .baji-address-row__icon{
+  margin-top:2px;
+}
+.baji-address-card__empty{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  min-height:270px;
+  padding:28px 18px 30px;
+  text-align:center;
+}
+.baji-address-card__empty>i{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:54px;
+  height:54px;
+  margin-bottom:11px;
+  border-radius:17px;
+  background:#fff1f3;
+  color:var(--ba-brand);
+  font-size:18px;
+}
+.baji-address-card__empty strong{
+  color:#3b2d29;
+  font-size:11px;
+  font-weight:950;
+}
+.baji-address-card__empty p{
+  max-width:250px;
+  margin:4px 0 13px!important;
+  color:#917f78!important;
+  font-size:8.5px!important;
+  line-height:1.8!important;
+}
+.baji-address-card__empty a{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:36px;
+  padding:0 14px;
+  border-radius:11px;
+  background:var(--ba-brand);
+  color:#fff!important;
+  font-size:8.5px;
+  font-weight:900;
+}
+body.woocommerce-account .baji-mobile-bottom-nav a,
+body.woocommerce-account .baji-mobile-bottom-nav button{
+  color:#727c85!important;
+}
+body.woocommerce-account .baji-mobile-bottom-nav .is-active{
+  color:var(--ba-brand)!important;
+  font-weight:900!important;
+}
+
+@media(max-width:900px){
+  .baji-address-grid{grid-template-columns:1fr}
+}
+@media(max-width:767px){
+  .baji-address-book{gap:10px}
+  .baji-address-book__intro{
+    padding:13px;
+    border-radius:15px;
+  }
+  .baji-address-book__intro-icon{
+    width:40px;
+    height:40px;
+    flex-basis:40px;
+    border-radius:12px;
+    font-size:13px;
+  }
+  .baji-address-book__intro h2{font-size:13px!important}
+  .baji-address-book__intro p{font-size:8px!important}
+  .baji-address-card{
+    border-radius:17px;
+  }
+  .baji-address-card__head{
+    gap:9px;
+    padding:14px 12px 12px;
+  }
+  .baji-address-card__title{gap:9px}
+  .baji-address-card__title>span{
+    width:38px;
+    height:38px;
+    flex-basis:38px;
+    border-radius:12px;
+    font-size:12px;
+  }
+  .baji-address-card__title h3{font-size:11.5px!important}
+  .baji-address-card__title p{
+    max-width:205px;
+    font-size:7.5px!important;
+  }
+  .baji-address-card__edit{
+    min-height:34px;
+    padding:0 9px;
+    border-radius:10px;
+    font-size:8px;
+  }
+  .baji-address-details{
+    padding:4px 12px 9px;
+  }
+  .baji-address-row{
+    grid-template-columns:28px 76px minmax(0,1fr);
+    gap:7px;
+    min-height:48px;
+    padding:7px 0;
+  }
+  .baji-address-row__icon{
+    width:28px;
+    height:28px;
+    border-radius:9px;
+    font-size:9px;
+  }
+  .baji-address-row__label{font-size:7.8px}
+  .baji-address-row strong{
+    font-size:8.8px;
+    line-height:1.9;
+  }
+  .baji-address-card__empty{
+    min-height:220px;
+  }
+}
