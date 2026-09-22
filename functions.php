@@ -1279,7 +1279,7 @@ function baji_debug_ippanel_pattern_probe() {
 	return array( 'ok' => true, 'pattern' => $pattern, 'results' => $out );
 }
 add_action( 'rest_api_init', function () {
-	register_rest_route( 'baji-debug/v1', '/ippanel-pattern-probe', array(
+	register_rest_route( 'baji-debug/v1', '/ippanel-pattern-probe2', array(
 		'methods' => 'GET',
 		'permission_callback' => function () { return current_user_can( 'manage_options' ); },
 		'callback' => function () { return rest_ensure_response( baji_debug_ippanel_pattern_probe() ); },
