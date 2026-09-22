@@ -44,6 +44,12 @@ if ( ! is_user_logged_in() && 'no' === get_option( 'woocommerce_enable_guest_che
 		<?php do_action( 'woocommerce_before_checkout_form', $checkout ); ?>
 	</div>
 
+	<?php if ( shortcode_exists( 'bwdk_comp1' ) ) : ?>
+		<div class="baji-checkout-digikala-top">
+			<?php echo do_shortcode( '[bwdk_comp1]' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+		</div>
+	<?php endif; ?>
+
 	<?php if ( ! $checkout->is_registration_enabled() && $checkout->is_registration_required() && ! is_user_logged_in() ) : ?>
 		<div class="baji-checkout-login-required">
 			<?php echo esc_html( apply_filters( 'woocommerce_checkout_must_be_logged_in_message', __( 'برای تکمیل خرید، ابتدا باید وارد حساب کاربری خود شوید.', 'bajistyle' ) ) ); ?>
@@ -116,22 +122,6 @@ if ( ! is_user_logged_in() && 'no' === get_option( 'woocommerce_enable_guest_che
 						</div>
 						<i class="fa-solid fa-lock" aria-hidden="true"></i>
 					</div>
-
-					<?php if ( class_exists( 'BWDK\\Woo\\Payment\\BwdkGateway' ) ) : ?>
-						<div class="baji-digikala-express">
-							<div class="baji-digikala-express__head">
-								<span class="baji-digikala-express__badge">دیجی‌کالا</span>
-								<div>
-									<strong>خرید با حساب دیجی‌کالا</strong>
-									<small>ورود سریع و ادامه خرید در مسیر امن دیجی‌کالا</small>
-								</div>
-							</div>
-							<button type="button" class="bwdk-button baji-digikala-express__button">
-								<span>ادامه خرید با دیجی‌کالا</span>
-								<i class="fa-solid fa-arrow-left"></i>
-							</button>
-						</div>
-					<?php endif; ?>
 
 					<?php do_action( 'woocommerce_checkout_before_order_review_heading' ); ?>
 					<div id="order_review" class="woocommerce-checkout-review-order">
