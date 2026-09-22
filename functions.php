@@ -1107,7 +1107,7 @@ function baji_debug_bwdk_render() {
 	$base = WP_PLUGIN_DIR . '/buy-with-digikala';
 	$out = array();
 	if ( ! is_dir( $base ) ) return array( 'found' => false );
-	$needles = array( 'bwdk-digikala', 'bfp-digikala', 'woocommerce_before_checkout', 'woocommerce_review_order', 'woocommerce_after_cart', 'shortcode', 'render', 'button' );
+	$needles = array( 'bwdk-button', 'bwdk-single-buy-button', 'buy-with-digikala', 'digikala-modal-sp' );
 	$it = new RecursiveIteratorIterator( new RecursiveDirectoryIterator( $base, FilesystemIterator::SKIP_DOTS ) );
 	foreach ( $it as $file ) {
 		if ( ! $file->isFile() ) continue;
@@ -1118,21 +1118,23 @@ function baji_debug_bwdk_render() {
 		foreach ( $lines as $i => $line ) {
 			foreach ( $needles as $needle ) {
 				if ( false !== stripos( $line, $needle ) ) {
+					$from = max( 0, $i - 8 );
+					$snippet = implode( '', array_slice( $lines, $from, 28 ) );
 					$out[] = array(
 						'file' => str_replace( ABSPATH, '', $file->getPathname() ),
 						'line' => $i + 1,
-						'text' => mb_substr( trim( $line ), 0, 320 ),
+						'source' => mb_substr( $snippet, 0, 4200 ),
 					);
 					break;
 				}
 			}
-			if ( count( $out ) >= 160 ) break 2;
+			if ( count( $out ) >= 30 ) break 2;
 		}
 	}
 	return array( 'found' => true, 'matches' => $out );
 }
 add_action( 'rest_api_init', function () {
-	register_rest_route( 'baji-debug/v1', '/bwdk-render', array(
+	register_rest_route( 'baji-debug/v1', '/bwdk-render2', array(
 		'methods' => 'GET',
 		'permission_callback' => function () { return current_user_can( 'manage_options' ); },
 		'callback' => function () { return rest_ensure_response( baji_debug_bwdk_render() ); },
