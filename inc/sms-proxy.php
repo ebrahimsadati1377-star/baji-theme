@@ -315,6 +315,75 @@ function baji_sms_proxy_send( WP_REST_Request $request ) {
 
 
 
+
+function baji_sms_proxy_send_legacy( WP_REST_Request $request ) {
+    $auth = baji_sms_proxy_authenticate( $request );
+    if ( is_wp_error( $auth ) ) {
+        return $auth;
+    }
+
+    $data      = $request->get_json_params();
+    $recipient = trim( (string) ( $data['recipient'] ?? '' ) );
+    $message   = trim( (string) ( $data['message'] ?? '' ) );
+
+    $digits = preg_replace( '/\D+/', '', $recipient );
+    if ( 12 === strlen( $digits ) && 0 === strpos( $digits, '98' ) ) {
+        $digits = '0' . substr( $digits, 2 );
+    } elseif ( 10 === strlen( $digits ) && 0 === strpos( $digits, '9' ) ) {
+        $digits = '0' . $digits;
+    }
+    if ( ! preg_match( '/^09\d{9}$/', $digits ) ) {
+        return new WP_Error( 'baji_sms_mobile', 'Invalid Iranian mobile number.', array( 'status' => 400 ) );
+    }
+    if ( '' === $message ) {
+        return new WP_Error( 'baji_sms_message', 'Invalid SMS message.', array( 'status' => 400 ) );
+    }
+
+    $api_key = trim( (string) get_option( 'custom_otp_apikey', '' ) );
+    $sender  = trim( (string) get_option( 'custom_otp_sender', '' ) );
+
+    $response = wp_remote_post(
+        'https://api2.ippanel.com/api/v1/sms/send/webservice/single',
+        array(
+            'timeout'     => 20,
+            'redirection' => 0,
+            'headers'     => array(
+                'Apikey'       => $api_key,
+                'Content-Type' => 'application/json',
+                'Accept'       => 'application/json',
+            ),
+            'body'        => wp_json_encode(
+                array(
+                    'sender'      => $sender,
+                    'recipient'   => array( $digits ),
+                    'message'     => $message,
+                    'description' => array(
+                        'summary'         => 'BAJI legacy route test',
+                        'count_recipient' => '1',
+                    ),
+                ),
+                JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES
+            ),
+        )
+    );
+
+    if ( is_wp_error( $response ) ) {
+        return new WP_Error( 'baji_sms_legacy_transport', 'Legacy provider transport error.', array( 'status' => 502 ) );
+    }
+
+    $status = (int) wp_remote_retrieve_response_code( $response );
+    $json   = json_decode( (string) wp_remote_retrieve_body( $response ), true );
+
+    return rest_ensure_response(
+        array(
+            'success'       => $status >= 200 && $status < 300,
+            'route'         => 'wordpress-legacy-api2',
+            'provider_http' => $status,
+            'response'      => is_array( $json ) ? $json : array(),
+        )
+    );
+}
+
 function baji_sms_proxy_send_peer( WP_REST_Request $request ) {
     $auth = baji_sms_proxy_authenticate( $request );
     if ( is_wp_error( $auth ) ) {
@@ -596,6 +665,15 @@ add_action(
             array(
                 'methods'             => 'POST',
                 'callback'            => 'baji_sms_proxy_message_status',
+                'permission_callback' => '__return_true',
+            )
+        );
+        register_rest_route(
+            'baji/v1',
+            '/sms-proxy/send-legacy',
+            array(
+                'methods'             => 'POST',
+                'callback'            => 'baji_sms_proxy_send_legacy',
                 'permission_callback' => '__return_true',
             )
         );
