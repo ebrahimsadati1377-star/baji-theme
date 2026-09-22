@@ -1256,16 +1256,14 @@ function baji_debug_ippanel_pattern_probe() {
 		return array( 'ok' => false, 'reason' => 'missing_config' );
 	}
 	$urls = array(
-		'https://api2.ippanel.com/api/v1/sms/pattern/normal',
-		'https://api2.ippanel.com/api/v1/sms/pattern/normal/' . rawurlencode( $pattern ),
-		'https://api2.ippanel.com/api/v1/sms/pattern',
-		'https://api2.ippanel.com/api/v1/pattern',
+		'https://edge.ippanel.com/v1/api/patterns/' . rawurlencode( $pattern ),
+		'https://edge.ippanel.com/v1/api/patterns?search=' . rawurlencode( $pattern ),
 	);
 	$out = array();
 	foreach ( $urls as $url ) {
 		$response = wp_remote_get( $url, array(
 			'timeout' => 20,
-			'headers' => array( 'apikey' => $apikey, 'Accept' => 'application/json' ),
+			'headers' => array( 'Authorization' => $apikey, 'Accept' => 'application/json' ),
 		) );
 		if ( is_wp_error( $response ) ) {
 			$out[] = array( 'url' => $url, 'error' => $response->get_error_message() );
