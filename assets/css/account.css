@@ -1333,3 +1333,119 @@ body.woocommerce-account .baji-mobile-bottom-nav .baji-mobile-wishlist.is-active
     font-size:8.5px!important;
   }
 }
+
+
+/* BAJI ORDERS MOBILE CONTACT 2026-09-22 */
+.baji-orders-mobile-card{
+  display:grid;
+  grid-template-columns:48px minmax(0,1fr) auto;
+  gap:13px;
+  align-items:center;
+  margin:0 0 15px;
+  padding:15px 16px;
+  border:1px solid #eadbd6;
+  border-radius:17px;
+  background:
+    radial-gradient(circle at 92% 16%,rgba(140,23,48,.055),transparent 24%),
+    linear-gradient(135deg,#fff 0%,#fff7f7 100%);
+  box-shadow:0 7px 22px rgba(61,42,36,.045);
+}
+.baji-orders-mobile-card__icon{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:48px;
+  height:48px;
+  border-radius:14px;
+  background:#f9e8ec;
+  color:var(--ba-brand);
+  font-size:16px;
+}
+.baji-orders-mobile-card__copy small{
+  display:block;
+  margin-bottom:1px;
+  color:#a18d85;
+  font-size:8px;
+  font-weight:850;
+}
+.baji-orders-mobile-card__copy strong{
+  display:block;
+  color:#332723;
+  font-size:11.5px;
+  line-height:1.65;
+  font-weight:950;
+}
+.baji-orders-mobile-card__copy p{
+  margin:2px 0 0!important;
+  color:#8b7972!important;
+  font-size:8.5px!important;
+  line-height:1.8!important;
+}
+.baji-orders-mobile-card__phone{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  flex:0 0 auto;
+}
+.baji-orders-mobile-card__phone>span{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:36px;
+  padding:0 12px;
+  border:1px solid #ecd9dd;
+  border-radius:11px;
+  background:#fff;
+  color:var(--ba-brand);
+  font-size:10px;
+  font-weight:950;
+  letter-spacing:.02em;
+}
+.baji-orders-mobile-card__phone>a{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:5px;
+  min-height:36px;
+  padding:0 10px;
+  border-radius:11px;
+  background:var(--ba-brand);
+  color:#fff!important;
+  font-size:8.5px;
+  font-weight:900;
+}
+.baji-orders-mobile-card__phone>a:hover{
+  background:var(--ba-brand-dark);
+}
+@media(max-width:767px){
+  .baji-orders-mobile-card{
+    grid-template-columns:40px minmax(0,1fr);
+    gap:9px;
+    padding:12px;
+    border-radius:15px;
+  }
+  .baji-orders-mobile-card__icon{
+    width:40px;
+    height:40px;
+    border-radius:12px;
+    font-size:14px;
+  }
+  .baji-orders-mobile-card__copy strong{font-size:10.5px}
+  .baji-orders-mobile-card__copy p{font-size:7.8px!important}
+  .baji-orders-mobile-card__phone{
+    grid-column:1/-1;
+    display:grid;
+    grid-template-columns:1fr auto;
+    gap:7px;
+  }
+  .baji-orders-mobile-card__phone>span{
+    min-height:38px;
+    justify-content:flex-start;
+    padding:0 11px;
+    font-size:9.5px;
+  }
+  .baji-orders-mobile-card__phone>a{
+    min-height:38px;
+    padding:0 11px;
+  }
+}
