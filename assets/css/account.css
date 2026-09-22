@@ -1449,3 +1449,38 @@ body.woocommerce-account .baji-mobile-bottom-nav .baji-mobile-wishlist.is-active
     padding:0 11px;
   }
 }
+
+/* BAJI OPTIONAL ACCOUNT EMAIL 2026-09-22 */
+.baji-account-email-optional label{
+  display:flex!important;
+  align-items:center;
+  gap:7px;
+  flex-wrap:wrap;
+}
+.baji-optional-label{
+  display:inline-flex;
+  align-items:center;
+  min-height:20px;
+  padding:0 7px;
+  border-radius:999px;
+  background:#f4efed;
+  color:#8a7870;
+  font-size:7.5px;
+  font-weight:850;
+}
+.baji-account-email-note{
+  display:flex;
+  align-items:flex-start;
+  gap:7px;
+  margin-top:7px;
+  padding:9px 10px;
+  border-radius:10px;
+  background:#fff6f7;
+  color:#846f67;
+  font-size:8px;
+  line-height:1.8;
+}
+.baji-account-email-note i{
+  margin-top:2px;
+  color:var(--ba-brand);
+}
