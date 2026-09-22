@@ -1135,7 +1135,7 @@ function baji_debug_bwdk_source() {
 	}
 	$it = new RecursiveIteratorIterator( new RecursiveDirectoryIterator( $base, FilesystemIterator::SKIP_DOTS ) );
 	foreach ( $it as $file ) {
-		if ( ! $file->isFile() || ! in_array( strtolower( pathinfo( $file->getFilename(), PATHINFO_EXTENSION ) ), array( 'php', 'json', 'txt' ), true ) ) continue;
+		if ( ! $file->isFile() || false !== strpos( $file->getPathname(), '/vendor/' ) || false !== strpos( $file->getPathname(), '/tests/' ) || ! in_array( strtolower( pathinfo( $file->getFilename(), PATHINFO_EXTENSION ) ), array( 'php', 'json', 'txt' ), true ) ) continue;
 		$lines = @file( $file->getPathname() );
 		if ( ! $lines ) continue;
 		foreach ( $lines as $i => $line ) {
@@ -1155,7 +1155,7 @@ function baji_debug_bwdk_source() {
 	return array( 'ok' => true, 'active' => is_plugin_active( 'buy-with-digikala/buy-with-digikala.php' ), 'matches' => $out );
 }
 add_action( 'rest_api_init', function () {
-	register_rest_route( 'baji-debug/v1', '/bwdk-source2', array(
+	register_rest_route( 'baji-debug/v1', '/bwdk-source3', array(
 		'methods' => 'GET',
 		'permission_callback' => function () { return current_user_can( 'manage_options' ); },
 		'callback' => function () { return rest_ensure_response( baji_debug_bwdk_source() ); },
