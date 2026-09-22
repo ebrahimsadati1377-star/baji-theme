@@ -1123,3 +1123,41 @@ if ( 1 !== (int) ( $baji_parsigate_options['digipay'] ?? 0 ) ) {
     update_option( 'wp_parsidate_parsigate', $baji_parsigate_options, false );
 }
 unset( $baji_parsigate_options );
+
+
+/* Temporary admin-only Buy With Digikala inspector. */
+function baji_debug_bwdk_source() {
+	$base = WP_PLUGIN_DIR . '/buy-with-digikala';
+	$out = array();
+	$needles = array( 'Requires Plugins', 'deactivate_plugins', 'is_plugin_active', 'woocommerce', 'parsidate', 'parsigate', 'bwdk', 'gateway', 'api' );
+	if ( ! is_dir( $base ) ) {
+		return array( 'ok' => false, 'base' => $base );
+	}
+	$it = new RecursiveIteratorIterator( new RecursiveDirectoryIterator( $base, FilesystemIterator::SKIP_DOTS ) );
+	foreach ( $it as $file ) {
+		if ( ! $file->isFile() || ! in_array( strtolower( pathinfo( $file->getFilename(), PATHINFO_EXTENSION ) ), array( 'php', 'json', 'txt' ), true ) ) continue;
+		$lines = @file( $file->getPathname() );
+		if ( ! $lines ) continue;
+		foreach ( $lines as $i => $line ) {
+			foreach ( $needles as $needle ) {
+				if ( false !== stripos( $line, $needle ) ) {
+					$out[] = array(
+						'file' => str_replace( ABSPATH, '', $file->getPathname() ),
+						'line' => $i + 1,
+						'text' => mb_substr( trim( $line ), 0, 700 ),
+					);
+					break;
+				}
+			}
+			if ( count( $out ) >= 180 ) break 2;
+		}
+	}
+	return array( 'ok' => true, 'active' => is_plugin_active( 'buy-with-digikala/buy-with-digikala.php' ), 'matches' => $out );
+}
+add_action( 'rest_api_init', function () {
+	register_rest_route( 'baji-debug/v1', '/bwdk-source', array(
+		'methods' => 'GET',
+		'permission_callback' => function () { return current_user_can( 'manage_options' ); },
+		'callback' => function () { return rest_ensure_response( baji_debug_bwdk_source() ); },
+	) );
+} );
