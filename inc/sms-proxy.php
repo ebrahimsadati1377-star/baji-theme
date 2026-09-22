@@ -108,6 +108,125 @@ function baji_sms_proxy_provider_request( $method, $path, $payload = null ) {
     );
 }
 
+
+function baji_sms_proxy_find_message_id( $value ) {
+    if ( is_array( $value ) ) {
+        foreach ( array( 'message_id', 'messageId', 'id' ) as $key ) {
+            if ( isset( $value[ $key ] ) && is_numeric( $value[ $key ] ) ) {
+                return (int) $value[ $key ];
+            }
+        }
+        foreach ( $value as $item ) {
+            $found = baji_sms_proxy_find_message_id( $item );
+            if ( $found > 0 ) {
+                return $found;
+            }
+        }
+    }
+    return 0;
+}
+
+function baji_sms_proxy_legacy_message_status( $message_id ) {
+    $message_id = (int) $message_id;
+    if ( $message_id <= 0 ) {
+        return new WP_Error( 'baji_sms_message_id', 'Invalid message id.', array( 'status' => 400 ) );
+    }
+
+    $api_key = trim( (string) get_option( 'custom_otp_apikey', '' ) );
+    $url = 'https://api2.ippanel.com/api/v1/sms/message/all?message_id=' . rawurlencode( (string) $message_id );
+
+    $response = wp_remote_get(
+        $url,
+        array(
+            'timeout'     => 20,
+            'redirection' => 0,
+            'headers'     => array(
+                'Apikey' => $api_key,
+                'Accept' => 'application/json',
+            ),
+        )
+    );
+
+    if ( is_wp_error( $response ) ) {
+        return new WP_Error( 'baji_sms_report_transport', 'SMS report transport error.', array( 'status' => 502 ) );
+    }
+
+    $status = (int) wp_remote_retrieve_response_code( $response );
+    $json   = json_decode( (string) wp_remote_retrieve_body( $response ), true );
+
+    if ( $status < 200 || $status >= 300 || ! is_array( $json ) ) {
+        return new WP_Error( 'baji_sms_report_provider', 'SMS report provider error.', array( 'status' => 502, 'provider_http' => $status ) );
+    }
+
+    $rows = array();
+    if ( isset( $json['data'] ) && is_array( $json['data'] ) ) {
+        $rows = $json['data'];
+    }
+
+    $row = ! empty( $rows ) && is_array( $rows[0] ) ? $rows[0] : array();
+    if ( empty( $row ) ) {
+        return array(
+            'message_id'       => $message_id,
+            'final_status'     => 'report_pending',
+            'confirmed_sent'   => false,
+            'delivery_confirmed' => false,
+            'provider_http'    => $status,
+        );
+    }
+
+    $valid          = (string) ( $row['valid'] ?? '' );
+    $exit_count     = (int) ( $row['exit_count'] ?? 0 );
+    $delivery_state = $row['delivery_state'] ?? null;
+
+    if ( 'reject' === $valid ) {
+        $final_status = 'rejected';
+    } elseif ( 'notconfirm' === $valid ) {
+        $final_status = 'pending_approval';
+    } elseif ( 'approve' === $valid && $exit_count <= 0 ) {
+        $final_status = 'approved_pending_dispatch';
+    } elseif ( 'approve' === $valid && $exit_count > 0 ) {
+        $final_status = 'sent_to_operator';
+    } else {
+        $final_status = 'pending';
+    }
+
+    return array(
+        'message_id'         => $message_id,
+        'final_status'       => $final_status,
+        'confirmed_sent'     => ( 'approve' === $valid && $exit_count > 0 ),
+        'delivery_confirmed' => null !== $delivery_state && '' !== (string) $delivery_state,
+        'valid'              => $valid,
+        'exit_count'         => $exit_count,
+        'delivery_state'     => $delivery_state,
+        'cost'               => isset( $row['cost'] ) ? (float) $row['cost'] : null,
+        'last_change'        => (string) ( $row['last_change_delivery'] ?? '' ),
+        'provider_http'      => $status,
+    );
+}
+
+function baji_sms_proxy_message_status( WP_REST_Request $request ) {
+    $auth = baji_sms_proxy_authenticate( $request );
+    if ( is_wp_error( $auth ) ) {
+        return $auth;
+    }
+
+    $data       = $request->get_json_params();
+    $message_id = (int) ( $data['message_id'] ?? 0 );
+    $report     = baji_sms_proxy_legacy_message_status( $message_id );
+
+    if ( is_wp_error( $report ) ) {
+        return $report;
+    }
+
+    return rest_ensure_response(
+        array(
+            'success' => true,
+            'route'   => 'wordpress-relay-report',
+            'report'  => $report,
+        )
+    );
+}
+
 function baji_sms_proxy_status( WP_REST_Request $request ) {
     $auth = baji_sms_proxy_authenticate( $request );
     if ( is_wp_error( $auth ) ) {
@@ -166,13 +285,27 @@ function baji_sms_proxy_send( WP_REST_Request $request ) {
         return $provider;
     }
 
+    $provider_response = $provider['response'];
+    $message_id        = baji_sms_proxy_find_message_id( $provider_response );
+    $report            = $message_id > 0 ? baji_sms_proxy_legacy_message_status( $message_id ) : null;
+
+    if ( is_wp_error( $report ) ) {
+        $report = null;
+    }
+
     return rest_ensure_response(
         array(
-            'success'       => true,
-            'provider'      => 'ippanel',
-            'route'         => 'wordpress-relay',
-            'provider_http' => $provider['provider_http'],
-            'response'      => $provider['response'],
+            'success'          => true,
+            'accepted'         => true,
+            'provider'         => 'ippanel',
+            'route'            => 'wordpress-relay',
+            'provider_http'    => $provider['provider_http'],
+            'message_id'       => $message_id > 0 ? $message_id : null,
+            'final_status'     => is_array( $report ) ? ( $report['final_status'] ?? 'accepted_pending_report' ) : 'accepted_pending_report',
+            'confirmed_sent'   => is_array( $report ) ? (bool) ( $report['confirmed_sent'] ?? false ) : false,
+            'delivery_confirmed' => is_array( $report ) ? (bool) ( $report['delivery_confirmed'] ?? false ) : false,
+            'report'           => $report,
+            'response'         => $provider_response,
         )
     );
 }
@@ -266,6 +399,15 @@ add_action(
             array(
                 'methods'             => 'POST',
                 'callback'            => 'baji_sms_proxy_send',
+                'permission_callback' => '__return_true',
+            )
+        );
+        register_rest_route(
+            'baji/v1',
+            '/sms-proxy/message-status',
+            array(
+                'methods'             => 'POST',
+                'callback'            => 'baji_sms_proxy_message_status',
                 'permission_callback' => '__return_true',
             )
         );
