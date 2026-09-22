@@ -1250,3 +1250,19 @@ function baji_purge_litespeed_mobile_menu_1043() {
 	}
 }
 add_action( 'init', 'baji_purge_litespeed_mobile_menu_1043', 99 );
+
+
+/**
+ * One-time LiteSpeed purge for BAJI mobile menu readability 1.0.44.
+ */
+function baji_purge_litespeed_mobile_menu_1044() {
+	$key = 'baji_lscache_purge_mobile_menu_1044';
+	if ( 'done' === get_option( $key ) ) {
+		return;
+	}
+	if ( has_action( 'litespeed_purge_all' ) || defined( 'LSCWP_V' ) ) {
+		do_action( 'litespeed_purge_all' );
+		update_option( $key, 'done', false );
+	}
+}
+add_action( 'init', 'baji_purge_litespeed_mobile_menu_1044', 99 );
