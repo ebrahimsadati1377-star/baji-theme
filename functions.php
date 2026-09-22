@@ -1178,7 +1178,7 @@ function baji_debug_parsigate_excerpt() {
 		array( WP_PLUGIN_DIR . '/parsigate/inc/Option.php', 1, 90 ),
 		array( WP_PLUGIN_DIR . '/parsigate/inc/WooCommerce.php', 1, 100 ),
 		array( WP_PLUGIN_DIR . '/parsigate/inc/Gateways.php', 920, 1035 ),
-		array( WP_PLUGIN_DIR . '/parsigate/ParsiGate.php', 150, 225 ),
+		array( WP_PLUGIN_DIR . '/parsigate/ParsiGate.php', 150, 290 ),
 	);
 	$out = array();
 	foreach ( $targets as $target ) {
@@ -1194,7 +1194,7 @@ function baji_debug_parsigate_excerpt() {
 	return $out;
 }
 add_action( 'rest_api_init', function () {
-	register_rest_route( 'baji-debug/v1', '/parsigate-excerpt3', array(
+	register_rest_route( 'baji-debug/v1', '/parsigate-excerpt4', array(
 		'methods' => 'GET',
 		'permission_callback' => function () { return current_user_can( 'manage_options' ); },
 		'callback' => function () { return rest_ensure_response( baji_debug_parsigate_excerpt() ); },
