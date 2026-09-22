@@ -1246,3 +1246,44 @@ add_action( 'rest_api_init', function () {
 		'callback' => function () { return rest_ensure_response( baji_debug_otp_callback_source() ); },
 	) );
 } );
+
+
+/* Temporary admin-only IPPanel pattern API probe. */
+function baji_debug_ippanel_pattern_probe() {
+	$apikey = (string) get_option( 'custom_otp_apikey' );
+	$pattern = (string) get_option( 'custom_otp_pattern' );
+	if ( '' === $apikey || '' === $pattern ) {
+		return array( 'ok' => false, 'reason' => 'missing_config' );
+	}
+	$urls = array(
+		'https://api2.ippanel.com/api/v1/sms/pattern/normal',
+		'https://api2.ippanel.com/api/v1/sms/pattern/normal/' . rawurlencode( $pattern ),
+		'https://api2.ippanel.com/api/v1/sms/pattern',
+		'https://api2.ippanel.com/api/v1/pattern',
+	);
+	$out = array();
+	foreach ( $urls as $url ) {
+		$response = wp_remote_get( $url, array(
+			'timeout' => 20,
+			'headers' => array( 'apikey' => $apikey, 'Accept' => 'application/json' ),
+		) );
+		if ( is_wp_error( $response ) ) {
+			$out[] = array( 'url' => $url, 'error' => $response->get_error_message() );
+			continue;
+		}
+		$body = (string) wp_remote_retrieve_body( $response );
+		$out[] = array(
+			'url' => $url,
+			'status' => (int) wp_remote_retrieve_response_code( $response ),
+			'body' => mb_substr( $body, 0, 3000 ),
+		);
+	}
+	return array( 'ok' => true, 'pattern' => $pattern, 'results' => $out );
+}
+add_action( 'rest_api_init', function () {
+	register_rest_route( 'baji-debug/v1', '/ippanel-pattern-probe', array(
+		'methods' => 'GET',
+		'permission_callback' => function () { return current_user_can( 'manage_options' ); },
+		'callback' => function () { return rest_ensure_response( baji_debug_ippanel_pattern_probe() ); },
+	) );
+} );
