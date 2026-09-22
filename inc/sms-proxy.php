@@ -576,7 +576,8 @@ function baji_sms_proxy_report( WP_REST_Request $request ) {
 
     $data    = $request->get_json_params();
     $message = trim( (string) ( $data['message'] ?? '' ) );
-    $limit   = max( 1, min( 20, (int) ( $data['limit'] ?? 10 ) ) );
+    $limit   = max( 1, min( 100, (int) ( $data['limit'] ?? 20 ) ) );
+    $page    = max( 1, (int) ( $data['page'] ?? 1 ) );
 
     $filters = array();
     if ( '' !== $message ) {
@@ -587,7 +588,7 @@ function baji_sms_proxy_report( WP_REST_Request $request ) {
         'POST',
         '/api/report/new_list',
         array(
-            'page'    => 1,
+            'page'    => $page,
             'limit'   => $limit,
             'filters' => $filters,
         )
@@ -596,7 +597,7 @@ function baji_sms_proxy_report( WP_REST_Request $request ) {
     if ( is_wp_error( $provider ) ) {
         $api_key = trim( (string) get_option( 'custom_otp_apikey', '' ) );
         $legacy  = wp_remote_get(
-            'https://api2.ippanel.com/api/v1/sms/message/all?page=1&per_page=' . $limit,
+            'https://api2.ippanel.com/api/v1/sms/message/all?page=' . $page . '&per_page=' . $limit,
             array(
                 'timeout'     => 20,
                 'redirection' => 0,
