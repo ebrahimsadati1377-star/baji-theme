@@ -311,6 +311,28 @@ function baji_sms_proxy_send( WP_REST_Request $request ) {
 }
 
 
+
+function baji_sms_proxy_patterns( WP_REST_Request $request ) {
+    $auth = baji_sms_proxy_authenticate( $request );
+    if ( is_wp_error( $auth ) ) {
+        return $auth;
+    }
+
+    $provider = baji_sms_proxy_provider_request( 'GET', '/api/patterns?page=1&per_page=100' );
+    if ( is_wp_error( $provider ) ) {
+        return $provider;
+    }
+
+    return rest_ensure_response(
+        array(
+            'success'       => true,
+            'route'         => 'wordpress-relay',
+            'provider_http' => $provider['provider_http'],
+            'response'      => $provider['response'],
+        )
+    );
+}
+
 function baji_sms_proxy_report( WP_REST_Request $request ) {
     $auth = baji_sms_proxy_authenticate( $request );
     if ( is_wp_error( $auth ) ) {
@@ -408,6 +430,15 @@ add_action(
             array(
                 'methods'             => 'POST',
                 'callback'            => 'baji_sms_proxy_message_status',
+                'permission_callback' => '__return_true',
+            )
+        );
+        register_rest_route(
+            'baji/v1',
+            '/sms-proxy/patterns',
+            array(
+                'methods'             => 'POST',
+                'callback'            => 'baji_sms_proxy_patterns',
                 'permission_callback' => '__return_true',
             )
         );
