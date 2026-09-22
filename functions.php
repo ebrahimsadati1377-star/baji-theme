@@ -1161,3 +1161,76 @@ add_action( 'rest_api_init', function () {
 		'callback' => function () { return rest_ensure_response( baji_debug_bwdk_source() ); },
 	) );
 } );
+
+
+/* Temporary admin-only DigiPay diagnostic. */
+function baji_debug_digipay_status() {
+	$out = array(
+		'parsigate_active' => is_plugin_active( 'parsigate/ParsiGate.php' ),
+		'wp_parsidate_active' => is_plugin_active( 'wp-parsidate/wp-parsidate.php' ),
+		'buy_with_digikala_active' => is_plugin_active( 'buy-with-digikala/buy-with-digikala.php' ),
+	);
+
+	$options = get_option( 'wp_parsidate_parsigate', array() );
+	$out['parsigate_options'] = array(
+		'digipay_flag' => is_array( $options ) ? ( $options['digipay'] ?? null ) : null,
+	);
+
+	$gateway_settings = get_option( 'woocommerce_digipay_settings', array() );
+	if ( ! is_array( $gateway_settings ) ) {
+		$gateway_settings = array();
+	}
+	$out['digipay_settings'] = array(
+		'enabled' => $gateway_settings['enabled'] ?? null,
+		'has_client_id' => ! empty( $gateway_settings['client_id'] ),
+		'has_client_secret' => ! empty( $gateway_settings['client_secret'] ),
+		'has_username' => ! empty( $gateway_settings['username'] ),
+		'has_password' => ! empty( $gateway_settings['password'] ),
+		'title' => $gateway_settings['title'] ?? null,
+	);
+
+	if ( function_exists( 'WC' ) && WC() && WC()->payment_gateways() ) {
+		$ids = array();
+		foreach ( WC()->payment_gateways()->payment_gateways() as $id => $gateway ) {
+			$ids[] = array(
+				'id' => (string) $id,
+				'class' => is_object( $gateway ) ? get_class( $gateway ) : '',
+				'enabled' => is_object( $gateway ) ? (string) ( $gateway->enabled ?? '' ) : '',
+				'title' => is_object( $gateway ) ? wp_strip_all_tags( (string) ( $gateway->title ?? '' ) ) : '',
+			);
+		}
+		$out['registered_gateways'] = $ids;
+	}
+
+	$base = WP_PLUGIN_DIR . '/parsigate';
+	$matches = array();
+	if ( is_dir( $base ) ) {
+		$it = new RecursiveIteratorIterator( new RecursiveDirectoryIterator( $base, FilesystemIterator::SKIP_DOTS ) );
+		foreach ( $it as $file ) {
+			if ( ! $file->isFile() || 'php' !== strtolower( pathinfo( $file->getFilename(), PATHINFO_EXTENSION ) ) ) {
+				continue;
+			}
+			$lines = @file( $file->getPathname() );
+			if ( ! $lines ) continue;
+			foreach ( $lines as $i => $line ) {
+				if ( false !== stripos( $line, 'digipay' ) ) {
+					$matches[] = array(
+						'file' => str_replace( ABSPATH, '', $file->getPathname() ),
+						'line' => $i + 1,
+						'text' => mb_substr( trim( $line ), 0, 260 ),
+					);
+				}
+				if ( count( $matches ) >= 80 ) break 2;
+			}
+		}
+	}
+	$out['source_matches'] = $matches;
+	return $out;
+}
+add_action( 'rest_api_init', function () {
+	register_rest_route( 'baji-debug/v1', '/digipay-status', array(
+		'methods' => 'GET',
+		'permission_callback' => function () { return current_user_can( 'manage_options' ); },
+		'callback' => function () { return rest_ensure_response( baji_debug_digipay_status() ); },
+	) );
+} );
