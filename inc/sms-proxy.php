@@ -204,6 +204,37 @@ function baji_sms_proxy_report( WP_REST_Request $request ) {
     );
 
     if ( is_wp_error( $provider ) ) {
+        $api_key = trim( (string) get_option( 'custom_otp_apikey', '' ) );
+        $legacy  = wp_remote_get(
+            'https://api2.ippanel.com/api/v1/sms/message/all?page=1&per_page=' . $limit,
+            array(
+                'timeout'     => 20,
+                'redirection' => 0,
+                'headers'     => array(
+                    'Apikey' => $api_key,
+                    'Accept' => 'application/json',
+                ),
+            )
+        );
+
+        if ( is_wp_error( $legacy ) ) {
+            return $provider;
+        }
+
+        $legacy_status = (int) wp_remote_retrieve_response_code( $legacy );
+        $legacy_body   = json_decode( (string) wp_remote_retrieve_body( $legacy ), true );
+
+        if ( $legacy_status >= 200 && $legacy_status < 300 && is_array( $legacy_body ) ) {
+            return rest_ensure_response(
+                array(
+                    'success'       => true,
+                    'route'         => 'wordpress-relay-legacy-report',
+                    'provider_http' => $legacy_status,
+                    'response'      => $legacy_body,
+                )
+            );
+        }
+
         return $provider;
     }
 
