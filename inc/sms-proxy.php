@@ -313,6 +313,72 @@ function baji_sms_proxy_send( WP_REST_Request $request ) {
 
 
 
+
+function baji_sms_proxy_send_pattern( WP_REST_Request $request ) {
+    $auth = baji_sms_proxy_authenticate( $request );
+    if ( is_wp_error( $auth ) ) {
+        return $auth;
+    }
+
+    $data      = $request->get_json_params();
+    $recipient = baji_sms_proxy_normalize_mobile( isset( $data['recipient'] ) ? $data['recipient'] : '' );
+    if ( is_wp_error( $recipient ) ) {
+        return $recipient;
+    }
+
+    $code   = trim( (string) ( $data['code'] ?? '' ) );
+    $params = isset( $data['params'] ) && is_array( $data['params'] ) ? $data['params'] : array();
+
+    if ( '' === $code ) {
+        return new WP_Error( 'baji_sms_pattern_code', 'Pattern code is required.', array( 'status' => 400 ) );
+    }
+
+    $sender = trim( (string) get_option( 'custom_otp_sender', '' ) );
+    if ( '' === $sender ) {
+        return new WP_Error( 'baji_sms_sender', 'SMS sender is not configured.', array( 'status' => 503 ) );
+    }
+
+    $provider = baji_sms_proxy_provider_request(
+        'POST',
+        '/api/send',
+        array(
+            'sending_type' => 'pattern',
+            'from_number'  => $sender,
+            'code'         => $code,
+            'recipients'   => array( $recipient ),
+            'params'       => $params,
+        )
+    );
+
+    if ( is_wp_error( $provider ) ) {
+        return $provider;
+    }
+
+    $provider_response = $provider['response'];
+    $message_id        = baji_sms_proxy_find_message_id( $provider_response );
+    $report            = $message_id > 0 ? baji_sms_proxy_legacy_message_status( $message_id ) : null;
+
+    if ( is_wp_error( $report ) ) {
+        $report = null;
+    }
+
+    return rest_ensure_response(
+        array(
+            'success'            => true,
+            'accepted'           => true,
+            'provider'           => 'ippanel',
+            'route'              => 'wordpress-relay-pattern',
+            'provider_http'      => $provider['provider_http'],
+            'message_id'         => $message_id > 0 ? $message_id : null,
+            'final_status'       => is_array( $report ) ? ( $report['final_status'] ?? 'accepted_pending_report' ) : 'accepted_pending_report',
+            'confirmed_sent'     => is_array( $report ) ? (bool) ( $report['confirmed_sent'] ?? false ) : false,
+            'delivery_confirmed' => is_array( $report ) ? (bool) ( $report['delivery_confirmed'] ?? false ) : false,
+            'report'             => $report,
+            'response'           => $provider_response,
+        )
+    );
+}
+
 function baji_sms_proxy_create_pattern( WP_REST_Request $request ) {
     $auth = baji_sms_proxy_authenticate( $request );
     if ( is_wp_error( $auth ) ) {
@@ -472,6 +538,15 @@ add_action(
             array(
                 'methods'             => 'POST',
                 'callback'            => 'baji_sms_proxy_message_status',
+                'permission_callback' => '__return_true',
+            )
+        );
+        register_rest_route(
+            'baji/v1',
+            '/sms-proxy/send-pattern',
+            array(
+                'methods'             => 'POST',
+                'callback'            => 'baji_sms_proxy_send_pattern',
                 'permission_callback' => '__return_true',
             )
         );
