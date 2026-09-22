@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /* -------------------------------------------------------------------------
  * ثابت‌های قالب
  * ---------------------------------------------------------------------- */
-define( 'BAJISTYLE_VERSION', '1.0.37' );
+define( 'BAJISTYLE_VERSION', '1.0.38' );
 define( 'BAJISTYLE_DIR', get_template_directory() );
 define( 'BAJISTYLE_URI', get_template_directory_uri() );
 
@@ -1116,3 +1116,64 @@ function baji_purge_litespeed_after_otp_timer_120() {
 	}
 }
 add_action( 'init', 'baji_purge_litespeed_after_otp_timer_120', 99 );
+
+
+/**
+ * BAJI account orders: replace WooCommerce email verification prompt
+ * with the verified/mobile-first contact channel used by the store.
+ */
+function baji_remove_account_email_verification_prompt() {
+	if ( ! function_exists( 'wc_get_container' ) ) {
+		return;
+	}
+
+	$controller_class = 'Automattic\\WooCommerce\\Internal\\CustomerEmailVerification\\VerificationController';
+
+	if ( ! class_exists( $controller_class ) ) {
+		return;
+	}
+
+	try {
+		$controller = wc_get_container()->get( $controller_class );
+		remove_action( 'woocommerce_before_account_orders', array( $controller, 'render_prompt' ) );
+	} catch ( Throwable $e ) {
+		return;
+	}
+}
+add_action( 'wp_loaded', 'baji_remove_account_email_verification_prompt', 20 );
+
+function baji_account_orders_mobile_card() {
+	if ( ! is_user_logged_in() ) {
+		return;
+	}
+
+	$user = wp_get_current_user();
+	$phone = (string) get_user_meta( $user->ID, 'billing_phone', true );
+
+	if ( '' === $phone && preg_match( '/^09\\d{9}$/', (string) $user->user_login ) ) {
+		$phone = (string) $user->user_login;
+	}
+
+	$phone_display = $phone ?: 'شماره موبایل ثبت نشده';
+	$edit_url = wc_get_endpoint_url( 'edit-address', 'billing', wc_get_page_permalink( 'myaccount' ) );
+	?>
+	<section class="baji-orders-mobile-card" aria-label="شماره موبایل حساب">
+		<div class="baji-orders-mobile-card__icon">
+			<i class="fa-solid fa-mobile-screen-button"></i>
+		</div>
+		<div class="baji-orders-mobile-card__copy">
+			<small>راه ارتباطی باجی با شما</small>
+			<strong>شماره موبایل حساب</strong>
+			<p>پیامک‌های وضعیت سفارش و اطلاع‌رسانی‌های مهم باجی به این شماره ارسال می‌شود.</p>
+		</div>
+		<div class="baji-orders-mobile-card__phone">
+			<span dir="ltr"><?php echo esc_html( $phone_display ); ?></span>
+			<a href="<?php echo esc_url( $edit_url ); ?>">
+				<i class="fa-solid fa-pen"></i>
+				ویرایش
+			</a>
+		</div>
+	</section>
+	<?php
+}
+add_action( 'woocommerce_before_account_orders', 'baji_account_orders_mobile_card', 5 );
