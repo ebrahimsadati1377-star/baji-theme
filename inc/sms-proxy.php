@@ -177,6 +177,46 @@ function baji_sms_proxy_send( WP_REST_Request $request ) {
     );
 }
 
+
+function baji_sms_proxy_report( WP_REST_Request $request ) {
+    $auth = baji_sms_proxy_authenticate( $request );
+    if ( is_wp_error( $auth ) ) {
+        return $auth;
+    }
+
+    $data    = $request->get_json_params();
+    $message = trim( (string) ( $data['message'] ?? '' ) );
+    $limit   = max( 1, min( 20, (int) ( $data['limit'] ?? 10 ) ) );
+
+    $filters = array();
+    if ( '' !== $message ) {
+        $filters['message'] = $message;
+    }
+
+    $provider = baji_sms_proxy_provider_request(
+        'POST',
+        '/api/report/new_list',
+        array(
+            'page'    => 1,
+            'limit'   => $limit,
+            'filters' => $filters,
+        )
+    );
+
+    if ( is_wp_error( $provider ) ) {
+        return $provider;
+    }
+
+    return rest_ensure_response(
+        array(
+            'success'       => true,
+            'route'         => 'wordpress-relay',
+            'provider_http' => $provider['provider_http'],
+            'response'      => $provider['response'],
+        )
+    );
+}
+
 add_action(
     'rest_api_init',
     function () {
@@ -195,6 +235,15 @@ add_action(
             array(
                 'methods'             => 'POST',
                 'callback'            => 'baji_sms_proxy_send',
+                'permission_callback' => '__return_true',
+            )
+        );
+        register_rest_route(
+            'baji/v1',
+            '/sms-proxy/report',
+            array(
+                'methods'             => 'POST',
+                'callback'            => 'baji_sms_proxy_report',
                 'permission_callback' => '__return_true',
             )
         );
