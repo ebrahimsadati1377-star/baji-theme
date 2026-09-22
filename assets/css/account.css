@@ -1,0 +1,560 @@
+/* BAJI Account & Order Details — Premium UI 2026-09-22 */
+body.woocommerce-account{
+  --ba-brand:#8c1730;
+  --ba-brand-dark:#681020;
+  --ba-brand-soft:#fff1f3;
+  --ba-ink:#2c2220;
+  --ba-muted:#8d7d76;
+  --ba-line:#eee1dc;
+  --ba-surface:#fff;
+  --ba-bg:#fffaf8;
+}
+body.woocommerce-account #main-content{
+  padding-top:0!important;
+  background:
+    radial-gradient(circle at 92% 0,rgba(140,23,48,.05),transparent 26%),
+    linear-gradient(180deg,#fffaf8 0,#fff 680px)!important;
+}
+body.woocommerce-account .baji-page-wrapper{
+  padding-top:0!important;
+  padding-bottom:0!important;
+}
+body.woocommerce-account .baji-account-shell{
+  padding-top:18px!important;
+}
+body.woocommerce-account .baji-account-hero{
+  position:relative;
+  overflow:hidden;
+  isolation:isolate;
+}
+body.woocommerce-account .baji-account-hero:before{
+  content:'';
+  position:absolute;
+  inset:-40% auto auto -5%;
+  width:340px;
+  height:340px;
+  border-radius:50%;
+  background:
+    radial-gradient(circle at 50% 50%,rgba(255,255,255,.11),transparent 48%),
+    radial-gradient(circle at 70% 35%,rgba(255,255,255,.08),transparent 35%);
+  pointer-events:none;
+  z-index:-1;
+}
+body.woocommerce-account .baji-account-tabs{
+  grid-template-columns:repeat(4,minmax(0,1fr))!important;
+}
+body.woocommerce-account .baji-account-section--view-order{
+  padding:0!important;
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  overflow:visible!important;
+}
+.baji-view-order{
+  display:grid;
+  gap:14px;
+  direction:rtl;
+}
+.baji-view-order-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:18px;
+  padding:21px 22px;
+  border:1px solid var(--ba-line);
+  border-radius:22px;
+  background:linear-gradient(145deg,#fff 0%,#fff8f7 100%);
+  box-shadow:0 10px 28px rgba(66,43,36,.055);
+}
+.baji-view-order-head__main{
+  display:flex;
+  align-items:center;
+  gap:13px;
+  min-width:0;
+}
+.baji-view-order-head__icon{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:46px;
+  height:46px;
+  flex:0 0 46px;
+  border-radius:14px;
+  background:#f9e8ec;
+  color:var(--ba-brand);
+  font-size:16px;
+}
+.baji-view-order-head__main small,
+.baji-view-order-head__meta small{
+  display:block;
+  color:#a39189;
+  font-size:8.5px;
+  font-weight:800;
+}
+.baji-view-order-head__main h2{
+  margin:1px 0 2px!important;
+  color:var(--ba-ink)!important;
+  font-size:18px!important;
+  line-height:1.65!important;
+  font-weight:950!important;
+}
+.baji-view-order-head__main p{
+  margin:0!important;
+  color:var(--ba-muted)!important;
+  font-size:9.5px!important;
+  line-height:1.8!important;
+}
+.baji-view-order-head__meta{
+  display:flex;
+  align-items:center;
+  gap:16px;
+  flex:0 0 auto;
+}
+.baji-view-order-head__meta>div{
+  min-width:104px;
+  padding-left:16px;
+  border-left:1px solid var(--ba-line);
+}
+.baji-view-order-head__meta strong{
+  display:block;
+  margin-top:4px;
+  color:#4b3c37;
+  font-size:10px;
+  font-weight:900;
+}
+.baji-view-order-status{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+  min-height:34px;
+  padding:0 12px;
+  border-radius:999px;
+  font-size:9.5px;
+  font-weight:900;
+  white-space:nowrap;
+}
+.baji-view-order-status--danger{background:#fff0f2;color:#bb334c}
+.baji-view-order-status--success{background:#edf8f1;color:#277149}
+.baji-view-order-status--warning{background:#fff6e7;color:#9d681c}
+.baji-view-order-status--neutral{background:#f4f0ee;color:#77665f}
+.baji-view-order-actions{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  flex-wrap:wrap;
+}
+.baji-view-order-action{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:38px;
+  padding:0 14px;
+  border:1px solid var(--ba-brand);
+  border-radius:11px;
+  background:var(--ba-brand);
+  color:#fff!important;
+  font-size:9.5px;
+  font-weight:900;
+}
+.baji-view-order-action:hover{background:var(--ba-brand-dark)}
+.baji-view-order-action--cancel,
+.baji-view-order-action--ghost{
+  border-color:#e7dad5;
+  background:#fff;
+  color:#68564f!important;
+}
+.baji-view-order-card{
+  padding:20px;
+  border:1px solid var(--ba-line);
+  border-radius:22px;
+  background:#fff;
+  box-shadow:0 8px 24px rgba(65,43,36,.045);
+}
+.baji-view-order-title{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:15px;
+}
+.baji-view-order-title>span{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:36px;
+  height:36px;
+  flex:0 0 36px;
+  border-radius:11px;
+  background:#fff1f3;
+  color:var(--ba-brand);
+  font-size:12px;
+}
+.baji-view-order-title small{
+  display:block;
+  color:#ad9991;
+  font-size:8px;
+  font-weight:850;
+}
+.baji-view-order-title h3{
+  margin:1px 0 0!important;
+  color:var(--ba-ink)!important;
+  font-size:14px!important;
+  font-weight:950!important;
+  line-height:1.6!important;
+}
+.baji-view-order-timeline{
+  position:relative;
+  display:grid;
+  gap:0;
+  padding:3px 0;
+}
+.baji-view-order-timeline:before{
+  content:'';
+  position:absolute;
+  right:17px;
+  top:20px;
+  bottom:20px;
+  width:1px;
+  background:#eadbd6;
+}
+.baji-view-order-timeline__item{
+  position:relative;
+  display:grid;
+  grid-template-columns:35px minmax(0,1fr) auto;
+  gap:11px;
+  align-items:center;
+  min-height:76px;
+  padding:8px 0;
+}
+.baji-view-order-timeline__dot{
+  position:relative;
+  z-index:1;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:35px;
+  height:35px;
+  border:5px solid #fff;
+  border-radius:50%;
+  background:#f3ece9;
+  color:#8b7971;
+  box-shadow:0 0 0 1px #eadbd6;
+  font-size:9px;
+}
+.baji-view-order-timeline__item.is-done .baji-view-order-timeline__dot{
+  background:#edf8f1;
+  color:#28754a;
+  box-shadow:0 0 0 1px #cfe6d7;
+}
+.baji-view-order-timeline__item.is-active .baji-view-order-timeline__dot{
+  background:#fff4e8;
+  color:#9b671d;
+  box-shadow:0 0 0 1px #ecd5b3;
+}
+.baji-view-order-timeline__item.is-danger .baji-view-order-timeline__dot{
+  background:#fff0f2;
+  color:#bd344d;
+  box-shadow:0 0 0 1px #efcbd2;
+}
+.baji-view-order-timeline__copy strong{
+  display:block;
+  color:#3b2e2a;
+  font-size:10.5px;
+  font-weight:900;
+}
+.baji-view-order-timeline__copy p{
+  margin:3px 0 0!important;
+  color:#918079!important;
+  font-size:8.5px!important;
+  line-height:1.8!important;
+}
+.baji-view-order-timeline time{
+  color:#a08f88;
+  font-size:8.5px;
+  direction:ltr;
+  white-space:nowrap;
+}
+.baji-view-order-info-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+.baji-view-order-mini,
+.baji-view-order-support{
+  display:grid;
+  grid-template-columns:40px minmax(0,1fr);
+  gap:11px;
+  align-items:start;
+  min-height:112px;
+  padding:17px;
+  border:1px solid var(--ba-line);
+  border-radius:18px;
+  background:#fff;
+  box-shadow:0 7px 20px rgba(65,43,36,.035);
+}
+.baji-view-order-mini__icon,
+.baji-view-order-support>i{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:40px;
+  height:40px;
+  border-radius:12px;
+  background:#fff2f4;
+  color:var(--ba-brand);
+  font-size:13px;
+}
+.baji-view-order-mini small,
+.baji-view-order-support small{
+  display:block;
+  color:#a18e87;
+  font-size:8px;
+  font-weight:850;
+}
+.baji-view-order-mini strong,
+.baji-view-order-support strong{
+  display:block;
+  margin-top:2px;
+  color:#3b2e2a;
+  font-size:10.5px;
+  line-height:1.7;
+  font-weight:900;
+}
+.baji-view-order-mini p,
+.baji-view-order-support p{
+  margin:5px 0 0!important;
+  color:#8f7d76!important;
+  font-size:8.5px!important;
+  line-height:1.8!important;
+  overflow-wrap:anywhere;
+}
+.baji-view-order-mini address{font-style:normal!important}
+.baji-view-order-support{
+  grid-template-columns:40px minmax(0,1fr) auto;
+  background:linear-gradient(145deg,#2f2522,#4b3733);
+  color:#fff;
+  border-color:#3f302c;
+}
+.baji-view-order-support>i{background:rgba(255,255,255,.1);color:#f0c8d0}
+.baji-view-order-support small{color:#cfb9b4}
+.baji-view-order-support strong{color:#fff}
+.baji-view-order-support p{color:#d9cbc7!important}
+.baji-view-order-support a{
+  align-self:center;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:34px;
+  padding:0 10px;
+  border-radius:10px;
+  background:#fff;
+  color:#44342f!important;
+  font-size:8.5px;
+  font-weight:900;
+  white-space:nowrap;
+}
+.baji-view-order-items{
+  display:grid;
+  gap:0;
+}
+.baji-view-order-item{
+  display:grid;
+  grid-template-columns:70px minmax(0,1fr) auto;
+  gap:12px;
+  align-items:center;
+  padding:12px 0;
+  border-top:1px solid #f2e8e4;
+}
+.baji-view-order-item:first-child{border-top:0}
+.baji-view-order-item__image{
+  width:70px;
+  height:84px;
+  overflow:hidden;
+  border-radius:13px;
+  background:#f7f1ee;
+}
+.baji-view-order-item__image img{
+  display:block!important;
+  width:100%!important;
+  height:100%!important;
+  margin:0!important;
+  object-fit:cover!important;
+}
+.baji-view-order-item__content{min-width:0}
+.baji-view-order-item__content h4{
+  margin:0 0 5px!important;
+  color:#352925!important;
+  font-size:10.5px!important;
+  font-weight:900!important;
+  line-height:1.75!important;
+}
+.baji-view-order-item__content h4 a{color:inherit!important}
+.baji-view-order-item__meta,
+.baji-view-order-item__meta .wc-item-meta{
+  margin:0 0 5px!important;
+  padding:0!important;
+  list-style:none!important;
+  color:#8f7d76!important;
+  font-size:8.5px!important;
+  line-height:1.75!important;
+}
+.baji-view-order-item__meta li{
+  display:inline!important;
+  margin-left:8px!important;
+}
+.baji-view-order-item__meta p{display:inline!important;margin:0!important}
+.baji-view-order-item__qty{
+  color:#9d8a83;
+  font-size:8.5px;
+  font-weight:750;
+}
+.baji-view-order-item__price{
+  color:var(--ba-brand);
+  font-size:10px;
+  font-weight:950;
+  white-space:nowrap;
+}
+.baji-view-order-totals{
+  margin-top:10px;
+  padding-top:11px;
+  border-top:1px solid var(--ba-line);
+}
+.baji-view-order-totals>div{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  padding:6px 0;
+}
+.baji-view-order-totals span{
+  color:#85736c;
+  font-size:9px;
+  font-weight:750;
+}
+.baji-view-order-totals strong{
+  color:#40322e;
+  font-size:9.5px;
+  font-weight:900;
+}
+.baji-view-order-totals .is-total{
+  margin-top:5px;
+  padding-top:12px;
+  border-top:1px dashed #ddcec8;
+}
+.baji-view-order-totals .is-total span{
+  color:#392c28;
+  font-size:10.5px;
+  font-weight:900;
+}
+.baji-view-order-totals .is-total strong,
+.baji-view-order-totals .is-total .woocommerce-Price-amount{
+  color:var(--ba-brand)!important;
+  font-size:14px!important;
+  font-weight:950!important;
+}
+.baji-view-order-note{
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+  padding:14px 16px;
+  border:1px solid #eee1dc;
+  border-radius:15px;
+  background:#fff8f6;
+}
+.baji-view-order-note>i{margin-top:2px;color:var(--ba-brand)}
+.baji-view-order-note strong{font-size:9.5px;font-weight:900}
+.baji-view-order-note p{margin:3px 0 0!important;color:#88766f!important;font-size:8.5px!important;line-height:1.8!important}
+body.woocommerce-account .baji-mobile-bottom-nav a,
+body.woocommerce-account .baji-mobile-bottom-nav button{
+  color:#727c85!important;
+}
+body.woocommerce-account .baji-mobile-bottom-nav .is-active{
+  color:var(--ba-brand)!important;
+  font-weight:900!important;
+}
+@media(max-width:767px){
+  body.woocommerce-account .baji-page-wrapper{
+    padding-left:10px!important;
+    padding-right:10px!important;
+  }
+  body.woocommerce-account .baji-account-shell{padding-top:10px!important}
+  body.woocommerce-account .baji-account-tabs{
+    display:grid!important;
+    grid-template-columns:repeat(4,minmax(0,1fr))!important;
+    gap:4px!important;
+    overflow:visible!important;
+    padding:5px!important;
+    margin:10px 0 12px!important;
+  }
+  body.woocommerce-account .baji-account-tabs a{
+    min-width:0!important;
+    min-height:46px!important;
+    padding:6px 4px!important;
+    gap:4px!important;
+    border-radius:11px!important;
+    font-size:8.5px!important;
+    white-space:nowrap;
+  }
+  body.woocommerce-account .baji-account-tabs a i{font-size:11px!important}
+  .baji-view-order{gap:10px}
+  .baji-view-order-head{
+    display:block;
+    padding:15px 13px;
+    border-radius:17px;
+  }
+  .baji-view-order-head__icon{width:40px;height:40px;flex-basis:40px;border-radius:12px}
+  .baji-view-order-head__main h2{font-size:15px!important}
+  .baji-view-order-head__main p{font-size:8.5px!important}
+  .baji-view-order-head__meta{
+    justify-content:space-between;
+    gap:8px;
+    margin-top:13px;
+    padding-top:12px;
+    border-top:1px solid var(--ba-line);
+  }
+  .baji-view-order-head__meta>div{min-width:0;border-left:0;padding-left:0}
+  .baji-view-order-status{min-height:31px;padding:0 9px;font-size:8.5px}
+  .baji-view-order-actions{gap:6px}
+  .baji-view-order-action{min-height:35px;padding:0 11px;font-size:8.5px}
+  .baji-view-order-card{padding:14px 12px;border-radius:17px}
+  .baji-view-order-title{margin-bottom:11px}
+  .baji-view-order-title h3{font-size:12.5px!important}
+  .baji-view-order-timeline:before{right:15px}
+  .baji-view-order-timeline__item{
+    grid-template-columns:31px minmax(0,1fr);
+    gap:9px;
+    min-height:72px;
+  }
+  .baji-view-order-timeline__dot{width:31px;height:31px}
+  .baji-view-order-timeline time{
+    grid-column:2;
+    justify-self:start;
+    margin-top:-8px;
+    font-size:7.5px;
+  }
+  .baji-view-order-info-grid{grid-template-columns:1fr;gap:9px}
+  .baji-view-order-mini,
+  .baji-view-order-support{
+    min-height:0;
+    padding:13px;
+    border-radius:15px;
+  }
+  .baji-view-order-support{grid-template-columns:36px minmax(0,1fr) auto}
+  .baji-view-order-mini__icon,
+  .baji-view-order-support>i{width:36px;height:36px}
+  .baji-view-order-item{
+    grid-template-columns:58px minmax(0,1fr);
+    gap:9px;
+    padding:10px 0;
+  }
+  .baji-view-order-item__image{width:58px;height:70px;border-radius:11px}
+  .baji-view-order-item__content h4{font-size:9.5px!important}
+  .baji-view-order-item__price{
+    grid-column:2;
+    justify-self:start;
+    margin-top:-3px;
+    font-size:9px;
+  }
+  .baji-view-order-totals>div{padding:5px 0}
+}
