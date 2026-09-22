@@ -1234,3 +1234,26 @@ add_action( 'rest_api_init', function () {
 		'callback' => function () { return rest_ensure_response( baji_debug_digipay_status() ); },
 	) );
 } );
+
+
+function baji_debug_bwdk_files() {
+	$base = WP_PLUGIN_DIR . '/buy-with-digikala';
+	$out = array();
+	if ( ! is_dir( $base ) ) return $out;
+	$it = new RecursiveIteratorIterator( new RecursiveDirectoryIterator( $base, FilesystemIterator::SKIP_DOTS ) );
+	foreach ( $it as $file ) {
+		if ( ! $file->isFile() ) continue;
+		$path = $file->getPathname();
+		if ( false !== stripos( $file->getFilename(), 'gateway' ) || false !== stripos( $path, '/Payment/' ) || false !== stripos( $path, '/Woo/' ) ) {
+			$out[] = str_replace( ABSPATH, '', $path );
+		}
+	}
+	return $out;
+}
+add_action( 'rest_api_init', function () {
+	register_rest_route( 'baji-debug/v1', '/bwdk-files', array(
+		'methods' => 'GET',
+		'permission_callback' => function () { return current_user_can( 'manage_options' ); },
+		'callback' => function () { return rest_ensure_response( baji_debug_bwdk_files() ); },
+	) );
+} );
