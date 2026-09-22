@@ -1159,10 +1159,25 @@ function baji_debug_parsigate_source() {
 	if ( class_exists( '\\WPParsidate\\Addons\\ParsiGateOption\\ParsiGateOption' ) ) {
 		$runtime = \WPParsidate\Addons\ParsiGateOption\ParsiGateOption::get( 'digipay' );
 	}
-	return array( 'ok' => true, 'digipay_option' => $runtime, 'matches' => $out );
+	$filtered = apply_filters( 'woocommerce_payment_gateways', array() );
+	$gateway_debug = array();
+	foreach ( $filtered as $entry ) {
+		if ( is_object( $entry ) ) {
+			$gateway_debug[] = array( 'kind' => 'object', 'class' => get_class( $entry ), 'id' => isset( $entry->id ) ? $entry->id : null );
+		} elseif ( is_string( $entry ) ) {
+			$gateway_debug[] = array( 'kind' => 'class', 'class' => $entry );
+		}
+	}
+	return array(
+		'ok' => true,
+		'digipay_option' => $runtime,
+		'parsigate_wc_class' => class_exists( '\\ParsiGate\\WooCommerce' ),
+		'gateway_filter' => $gateway_debug,
+		'matches' => $out
+	);
 }
 add_action( 'rest_api_init', function () {
-	register_rest_route( 'baji-debug/v1', '/parsigate-source4', array(
+	register_rest_route( 'baji-debug/v1', '/parsigate-source5', array(
 		'methods' => 'GET',
 		'permission_callback' => function () { return current_user_can( 'manage_options' ); },
 		'callback' => function () { return rest_ensure_response( baji_debug_parsigate_source() ); },
