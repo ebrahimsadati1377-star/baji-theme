@@ -1,241 +1,165 @@
-/* ==========================================================================
-   BajiStyle — تسویه‌حساب ووکامرس (checkout.css)
-   برای لود: این فایل را در قالب enqueue کنید. (دستورات انتهای فایل)
-   ========================================================================== */
-
+/* BAJI Premium Checkout — 2026-09-22 */
 :root{
-  --bj-cream:#faf7f2;
-  --bj-surface:#ffffff;
-  --bj-ink:#1f2937;
-  --bj-ink-soft:#6b7280;
-  --bj-accent:#111827;
-  --bj-accent-hover:#000000;
-  --bj-gold:#b8860b;
-  --bj-border:#e7e3db;
-  --bj-border-strong:#d6d0c4;
-  --bj-success:#15803d;
-  --bj-radius:16px;
-  --bj-radius-sm:10px;
-  --bj-shadow:0 1px 2px rgba(16,24,40,.06), 0 10px 30px -12px rgba(16,24,40,.12);
-  --bj-shadow-sm:0 1px 2px rgba(16,24,40,.05);
-  --bj-ring:0 0 0 4px rgba(184,134,11,.14);
+  --bc-bg:#fffaf8;
+  --bc-surface:#fff;
+  --bc-soft:#fff5f3;
+  --bc-line:#eee0da;
+  --bc-line-strong:#decac2;
+  --bc-ink:#2e2320;
+  --bc-muted:#8b7871;
+  --bc-brand:#7b1327;
+  --bc-brand-2:#9d354b;
+  --bc-success:#2d7a4f;
+  --bc-radius:22px;
+  --bc-shadow:0 14px 38px rgba(71,45,37,.075);
 }
+body.woocommerce-checkout{background:var(--bc-bg)!important}
+body.woocommerce-checkout .baji-smart-promo{display:none!important}
+body.woocommerce-checkout .baji-breadcrumb,
+body.woocommerce-checkout .baji-page-header{display:none!important}
+body.woocommerce-checkout .baji-page-wrapper{max-width:1240px!important;padding:0 18px!important}
+body.woocommerce-checkout .baji-page-content{max-width:none!important;margin:0!important}
+body.woocommerce-checkout .woocommerce{max-width:none!important}
+.baji-checkout-page{max-width:1160px;margin:0 auto;padding:26px 0 72px;direction:rtl;color:var(--bc-ink)}
+.baji-checkout-page *{box-sizing:border-box}
+.baji-checkout-hero{display:grid;grid-template-columns:94px 1fr auto;align-items:center;gap:18px;padding:23px 26px;border:1px solid var(--bc-line);border-radius:26px;background:linear-gradient(135deg,#fff 0%,#fff7f5 100%);box-shadow:var(--bc-shadow)}
+.baji-checkout-hero__brand{display:flex;align-items:center;justify-content:center;width:76px;height:76px;border-radius:22px;background:var(--bc-brand);color:#fff;font:700 20px/1 Georgia,serif;letter-spacing:.12em}
+.baji-checkout-kicker{display:block;margin-bottom:3px;color:var(--bc-brand);font-size:9px;font-weight:900}
+.baji-checkout-hero h1{margin:0!important;color:var(--bc-ink)!important;font-size:23px!important;line-height:1.7!important;font-weight:950!important}
+.baji-checkout-hero p{margin:3px 0 0!important;color:var(--bc-muted)!important;font-size:10.5px!important}
+.baji-checkout-security{display:flex;align-items:center;gap:8px;padding:9px 12px;border:1px solid var(--bc-line);border-radius:12px;background:#fff;color:#5f504b;font-size:9.5px;font-weight:900;white-space:nowrap}
+.baji-checkout-security i{color:var(--bc-success)}
+.baji-checkout-steps{display:grid;grid-template-columns:auto 1fr auto 1fr auto;align-items:center;gap:10px;max-width:660px;margin:18px auto 24px;padding:0 8px}
+.baji-checkout-steps span{display:flex;align-items:center;gap:7px;color:#a18e87;font-size:9px;font-weight:800;white-space:nowrap}
+.baji-checkout-steps span i{display:grid;place-items:center;width:24px;height:24px;border:1px solid var(--bc-line-strong);border-radius:50%;background:#fff;color:#8f7d76;font-size:9px;font-style:normal}
+.baji-checkout-steps span.is-done i{border-color:#d7eadf;background:#edf8f1;color:var(--bc-success)}
+.baji-checkout-steps span.is-active{color:var(--bc-brand)}
+.baji-checkout-steps span.is-active i{border-color:var(--bc-brand);background:var(--bc-brand);color:#fff}
+.baji-checkout-steps em{height:1px;background:var(--bc-line)}
+.baji-checkout-before-form{margin-bottom:14px}
+.baji-checkout-before-form .woocommerce-form-login-toggle,
+.baji-checkout-before-form .woocommerce-form-coupon-toggle{margin:0 0 8px!important}
+.baji-checkout-before-form .woocommerce-info{margin:0!important;padding:12px 14px!important;border:1px solid var(--bc-line)!important;border-radius:13px!important;background:#fff!important;color:#695952!important;font-size:10px!important}
+.baji-checkout-before-form .woocommerce-info:before{color:var(--bc-brand)!important}
+.baji-checkout-before-form .woocommerce-form-login,
+.baji-checkout-before-form .checkout_coupon{margin:8px 0 12px!important;padding:16px!important;border:1px solid var(--bc-line)!important;border-radius:15px!important;background:#fff!important}
+.baji-checkout-layout{display:grid!important;grid-template-columns:minmax(0,1.15fr) minmax(360px,.85fr)!important;gap:20px!important;align-items:start!important}
+.baji-checkout-main{display:grid;gap:15px;min-width:0}
+.baji-checkout-card{padding:22px;border:1px solid var(--bc-line);border-radius:var(--bc-radius);background:var(--bc-surface);box-shadow:0 8px 24px rgba(68,45,38,.045)}
+.baji-checkout-card__head{display:flex;align-items:flex-start;gap:12px;margin-bottom:18px}
+.baji-checkout-card__icon{display:flex;align-items:center;justify-content:center;width:42px;height:42px;flex:0 0 42px;border-radius:13px;background:#fbe9ed;color:var(--bc-brand);font-size:14px}
+.baji-checkout-card__head small{display:block;margin-bottom:2px;color:#ad9991;font-size:8px;font-weight:900}
+.baji-checkout-card__head h2{margin:0!important;color:var(--bc-ink)!important;font-size:16px!important;line-height:1.6!important;font-weight:950!important}
+.baji-checkout-card__head p{margin:2px 0 0!important;color:var(--bc-muted)!important;font-size:9.5px!important}
+.baji-checkout-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px 12px}
+.baji-checkout-fields .form-row{float:none!important;width:100%!important;margin:0!important;padding:0!important}
+.baji-checkout-fields #billing_address_1_field,
+.baji-checkout-fields #billing_phone_field,
+.baji-checkout-fields #billing_email_field{grid-column:1/-1}
+.baji-checkout-page .form-row label{display:block;margin:0 0 5px!important;color:#5f504a!important;font-size:9.5px!important;font-weight:850!important}
+.baji-checkout-page .required{color:#c53c54!important;text-decoration:none!important}
+.baji-checkout-page input.input-text,
+.baji-checkout-page input[type=text],
+.baji-checkout-page input[type=email],
+.baji-checkout-page input[type=tel],
+.baji-checkout-page input[type=password],
+.baji-checkout-page select,
+.baji-checkout-page textarea{width:100%!important;min-height:47px!important;padding:10px 12px!important;border:1px solid var(--bc-line-strong)!important;border-radius:12px!important;background:#fffcfb!important;box-shadow:none!important;color:var(--bc-ink)!important;font-family:inherit!important;font-size:10.5px!important;outline:none!important;transition:.15s ease!important}
+.baji-checkout-page textarea{min-height:92px!important;resize:vertical}
+.baji-checkout-page input:focus,
+.baji-checkout-page select:focus,
+.baji-checkout-page textarea:focus{border-color:var(--bc-brand-2)!important;box-shadow:0 0 0 3px rgba(123,19,39,.07)!important;background:#fff!important}
+.baji-checkout-page .select2-container{width:100%!important}
+.baji-checkout-page .select2-container .select2-selection--single{height:47px!important;border:1px solid var(--bc-line-strong)!important;border-radius:12px!important;background:#fffcfb!important}
+.baji-checkout-page .select2-container .select2-selection--single .select2-selection__rendered{line-height:45px!important;padding:0 12px!important;color:var(--bc-ink)!important;font-size:10.5px!important}
+.baji-checkout-page .select2-container .select2-selection--single .select2-selection__arrow{height:45px!important}
+.baji-checkout-page .woocommerce-invalid input.input-text{border-color:#d94b61!important}
+.baji-checkout-order-notes .form-row{margin:0!important}
+.baji-checkout-trust-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.baji-checkout-trust-row span{display:flex;align-items:center;justify-content:center;gap:7px;min-height:47px;border:1px solid var(--bc-line);border-radius:13px;background:#fff;color:#6f5f58;font-size:9px;font-weight:800}
+.baji-checkout-trust-row i{color:var(--bc-brand)}
+.baji-checkout-sidebar{position:sticky;top:22px;min-width:0}
+.baji-checkout-summary{padding:20px;border:1px solid var(--bc-line);border-radius:24px;background:#fff;box-shadow:var(--bc-shadow)}
+.baji-checkout-summary__head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-bottom:15px;border-bottom:1px solid #f2e8e4}
+.baji-checkout-summary__head small{display:block;color:#ad9991;font-size:8px;font-weight:900}
+.baji-checkout-summary__head h2{margin:1px 0 0!important;color:var(--bc-ink)!important;font-size:16px!important;font-weight:950!important}
+.baji-checkout-summary__head>i{display:grid;place-items:center;width:36px;height:36px;border-radius:11px;background:#edf8f1;color:var(--bc-success);font-size:12px}
+.baji-digikala-express{display:block!important;margin:15px 0!important;padding:13px!important;border:1px solid rgba(239,64,86,.25)!important;border-radius:16px!important;background:linear-gradient(180deg,#fff 0%,#fff7f8 100%)!important}
+.baji-digikala-express__head{display:flex!important;align-items:center!important;gap:9px!important;margin-bottom:10px!important}
+.baji-digikala-express__badge{display:grid!important;place-items:center!important;min-width:61px!important;height:34px!important;padding:0 8px!important;border-radius:10px!important;background:#ef4056!important;color:#fff!important;font-size:9px!important;font-weight:950!important}
+.baji-digikala-express__head strong{display:block!important;color:#302421!important;font-size:10.5px!important;font-weight:950!important}
+.baji-digikala-express__head small{display:block!important;margin-top:2px!important;color:#94817a!important;font-size:8px!important;line-height:1.6!important}
+.baji-digikala-express__button{display:flex!important;visibility:visible!important;opacity:1!important;align-items:center!important;justify-content:space-between!important;width:100%!important;min-height:46px!important;margin:0!important;padding:0 14px!important;border:0!important;border-radius:12px!important;background:#ef4056!important;color:#fff!important;box-shadow:0 8px 18px rgba(239,64,86,.19)!important;font-family:inherit!important;font-size:10px!important;font-weight:950!important;cursor:pointer!important}
+.baji-digikala-express__button:hover{background:#df334b!important}
+.woocommerce-checkout-review-order-table{width:100%!important;margin:0 0 14px!important;border:0!important;border-collapse:collapse!important;font-size:10px!important}
+.woocommerce-checkout-review-order-table thead th{padding:13px 0 8px!important;border:0!important;border-bottom:1px solid #f1e7e3!important;background:transparent!important;color:#9b8881!important;font-size:8.5px!important;font-weight:850!important}
+.woocommerce-checkout-review-order-table thead .product-name{text-align:right!important}
+.woocommerce-checkout-review-order-table thead .product-total{text-align:left!important}
+.woocommerce-checkout-review-order-table td{padding:11px 0!important;border:0!important;border-bottom:1px solid #f5ece8!important;background:transparent!important;vertical-align:middle!important}
+.baji-review-product{display:flex;align-items:center;gap:9px}
+.baji-review-product__thumb{width:52px;height:64px;flex:0 0 52px;overflow:hidden;border-radius:10px;background:#f5efec}
+.baji-review-product__thumb img{display:block!important;width:100%!important;height:100%!important;margin:0!important;object-fit:cover!important}
+.baji-review-product__info{min-width:0}
+.baji-review-product__info strong{display:block;max-width:180px;overflow:hidden;color:#362a26;font-size:9.5px;font-weight:900;line-height:1.6;white-space:nowrap;text-overflow:ellipsis}
+.baji-review-product__info span{display:block;margin-top:2px;color:#9c8981;font-size:8px}
+.woocommerce-checkout-review-order-table .product-total{text-align:left!important;color:#7b1327!important;font-size:9.5px!important;font-weight:900!important;white-space:nowrap}
+.woocommerce-checkout-review-order-table tfoot th,.woocommerce-checkout-review-order-table tfoot td{padding:8px 0!important;border:0!important;background:transparent!important}
+.woocommerce-checkout-review-order-table tfoot th{text-align:right!important;color:#86736c!important;font-size:9px!important;font-weight:750!important}
+.woocommerce-checkout-review-order-table tfoot td{text-align:left!important;color:#342824!important;font-size:9.5px!important;font-weight:900!important}
+.woocommerce-checkout-review-order-table .shipping ul{margin:0!important;padding:0!important;list-style:none!important}
+.woocommerce-checkout-review-order-table .shipping li{margin:3px 0!important}
+.woocommerce-checkout-review-order-table .order-total th,.woocommerce-checkout-review-order-table .order-total td{padding-top:13px!important;border-top:1px solid var(--bc-line)!important;color:#2b211e!important;font-size:11px!important}
+.woocommerce-checkout-review-order-table .order-total .woocommerce-Price-amount{color:var(--bc-brand)!important;font-size:15px!important;font-weight:950!important}
+.woocommerce-checkout-payment{margin:0!important;padding:14px 0 0!important;border-top:1px solid var(--bc-line)!important;background:transparent!important}
+.wc_payment_methods{margin:0!important;padding:0!important;border:0!important;list-style:none!important}
+.wc_payment_method{margin:0 0 8px!important;padding:11px 12px!important;border:1px solid var(--bc-line)!important;border-radius:12px!important;background:#fff!important;transition:.15s ease!important}
+.wc_payment_method:hover{border-color:#d6c0b7!important}
+.wc_payment_method:has(input:checked){border-color:var(--bc-brand)!important;background:#fff8f7!important;box-shadow:0 0 0 2px rgba(123,19,39,.045)!important}
+.wc_payment_method input[type=radio]{width:15px!important;height:15px!important;margin-left:7px!important;accent-color:var(--bc-brand)!important}
+.wc_payment_method label{display:inline!important;margin:0!important;color:#443631!important;font-size:9.5px!important;font-weight:900!important;cursor:pointer!important}
+.wc_payment_method label img{max-height:20px!important;width:auto!important;margin-right:6px!important;vertical-align:middle!important}
+.wc_payment_method .payment_box{margin:9px 0 0!important;padding:9px 10px!important;border:0!important;border-radius:10px!important;background:#f8f2ef!important;color:#7f6d66!important;font-size:8.5px!important;line-height:1.8!important}
+.wc_payment_method .payment_box:before{display:none!important}
+.woocommerce-terms-and-conditions-wrapper{margin:12px 0!important}
+.woocommerce-terms-and-conditions-wrapper p{color:#8c7a73!important;font-size:8.5px!important;line-height:1.8!important}
+.woocommerce-terms-and-conditions-wrapper a{color:var(--bc-brand)!important}
+#place_order{display:flex!important;align-items:center!important;justify-content:center!important;width:100%!important;min-height:50px!important;margin:0!important;padding:0 16px!important;border:0!important;border-radius:13px!important;background:var(--bc-brand)!important;color:#fff!important;box-shadow:0 10px 22px rgba(123,19,39,.18)!important;font-family:inherit!important;font-size:10.5px!important;font-weight:950!important;cursor:pointer!important}
+#place_order:hover{background:#661020!important}
+.baji-checkout-safe-note{display:flex;align-items:center;gap:9px;margin-top:13px;padding:11px;border-radius:12px;background:#f8f5f3}
+.baji-checkout-safe-note>i{display:grid;place-items:center;width:32px;height:32px;border-radius:10px;background:#edf8f1;color:var(--bc-success);font-size:12px}
+.baji-checkout-safe-note span{min-width:0}
+.baji-checkout-safe-note b{display:block;color:#51423d;font-size:8.5px;font-weight:900}
+.baji-checkout-safe-note small{display:block;margin-top:1px;color:#998780;font-size:7.5px}
+.baji-checkout-notices .woocommerce-message,.baji-checkout-notices .woocommerce-info,.baji-checkout-notices .woocommerce-error{margin:0 0 10px!important;padding:12px 14px!important;border-radius:13px!important;font-size:9.5px!important}
+.baji-checkout-login-required{max-width:520px;margin:36px auto;padding:24px;border:1px solid var(--bc-line);border-radius:18px;background:#fff;text-align:center;color:var(--bc-muted)}
+body.woocommerce-checkout .baji-mobile-bottom-nav{display:none!important}
 
-.baji-checkout{
-  max-width:1180px;
-  margin:0 auto;
-  padding:10px 0 40px;
-  font-family:"Vazirmatn","Vazir","IRANSans","Tahoma",sans-serif;
-  color:var(--bj-ink);
-  line-height:1.75;
-  -webkit-font-smoothing:antialiased;
+@media(max-width:920px){
+  .baji-checkout-layout{grid-template-columns:1fr!important}
+  .baji-checkout-sidebar{position:static}
+  .baji-checkout-summary{order:2}
 }
-
-/* پیام ورود */
-.baji-login-required{
-  text-align:center;color:var(--bj-ink-soft);padding:48px 0;margin:0;
-}
-
-/* اعلان‌ها */
-.baji-notices .woocommerce-message,
-.baji-notices .woocommerce-info,
-.baji-notices .woocommerce-error{
-  border-radius:var(--bj-radius-sm);
-  margin-bottom:18px !important;
-}
-.baji-notices .woocommerce-message{background:#ecfdf3;border-color:#c6f6d9;color:#14532d}
-.baji-notices .woocommerce-info{background:#eff6ff;border-color:#bfdbfe;color:#1e3a8a}
-.baji-notices .woocommerce-error{background:#fef2f2;border-color:#fecaca;color:#7f1d1d}
-
-/* شبکه دوستونه */
-.baji-grid{
-  display:grid;
-  grid-template-columns:minmax(0,1fr) 400px;
-  gap:26px;
-  align-items:start;
-}
-@media (max-width:920px){
-  .baji-grid{grid-template-columns:minmax(0,1fr)}
-}
-
-.baji-main{min-width:0}
-.baji-stack{display:flex;flex-direction:column;gap:22px}
-
-/* کارت */
-.baji-card{
-  background:var(--bj-surface);
-  border:1px solid var(--bj-border);
-  border-radius:var(--bj-radius);
-  padding:24px;
-  box-shadow:var(--bj-shadow-sm);
-}
-.baji-card-head{
-  display:flex;align-items:center;gap:12px;margin-bottom:16px;
-}
-.baji-ico{
-  width:38px;height:38px;border-radius:11px;flex:none;
-  background:var(--bj-cream);border:1px solid var(--bj-border);
-  display:grid;place-items:center;color:var(--bj-ink);
-}
-.baji-ico svg{width:20px;height:20px;display:block}
-.baji-card-head h2{font-size:16px;font-weight:800;margin:0;line-height:1.4}
-.baji-card-head p{font-size:12.5px;color:var(--bj-ink-soft);margin:0;line-height:1.5}
-
-/* چیدمان فیلدها */
-.baji-grid-1{display:grid;grid-template-columns:minmax(0,1fr);gap:14px}
-.baji-grid-2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
-.baji-grid-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
-@media (max-width:560px){
-  .baji-grid-2,.baji-grid-3{grid-template-columns:minmax(0,1fr)}
-}
-
-/* ---------- فیلدهای تولیدشده توسط ووکامرس ---------- */
-.woocommerce form .form-row{display:block;margin:0;padding:0}
-.baji-card .form-row{float:none !important;width:100% !important}
-
-.baji-card label{
-  display:block;font-size:13px;font-weight:600;color:var(--bj-ink);
-  margin-bottom:6px;line-height:1.5;
-}
-.baji-card label .required{color:#dc2626;border:none;text-decoration:none}
-
-.baji-card input.input-text,
-.baji-card input[type="text"],
-.baji-card input[type="email"],
-.baji-card input[type="tel"],
-.baji-card input[type="tel"]::placeholder,
-.baji-card textarea,
-.baji-card select{
-  width:100%;
-  padding:12px 14px;
-  font-family:inherit;font-size:14px;color:var(--bj-ink);
-  background:#fff;
-  border:1.5px solid var(--bj-border-strong);
-  border-radius:var(--bj-radius-sm);
-  box-sizing:border-box;
-  transition:border-color .15s, box-shadow .15s;
-  line-height:1.5;
-}
-.baji-card textarea{min-height:88px;resize:vertical}
-.baji-card input::placeholder,.baji-card textarea::placeholder{color:#9ca3af}
-.baji-card input:hover,.baji-card textarea:hover,.baji-card select:hover{border-color:#b8b1a2}
-.baji-card input:focus,.baji-card textarea:focus,.baji-card select:focus{
-  outline:none;border-color:var(--bj-gold);box-shadow:var(--bj-ring);
-}
-.baji-card select{appearance:none;-webkit-appearance:none}
-
-/* پیام‌های اعتبارسنجی ووکامرس */
-.baji-card .woocommerce-invalid input.input-text,
-.baji-card .woocommerce-invalid .input-text{border-color:#dc2626}
-.baji-card .woocommerce-invalid label{color:#dc2626}
-.baji-card .woocommerce-input-wrapper{display:block}
-.woocommerce form .form-row .select2-container{width:100% !important}
-
-/* ---------- ستون خلاصه سفارش ---------- */
-.baji-sidebar{position:sticky;top:24px;min-width:0}
-.baji-order-review{
-  background:var(--bj-surface);
-  border:1px solid var(--bj-border);
-  border-radius:var(--bj-radius);
-  padding:24px;
-  box-shadow:var(--bj-shadow);
-}
-
-/* جدول سفارش */
-.woocommerce-checkout-review-order-table{
-  width:100%;border-collapse:collapse;margin:0 0 16px;font-size:14px;
-}
-.woocommerce-checkout-review-order-table thead th{
-  text-align:right;font-size:13px;color:var(--bj-ink-soft);font-weight:700;
-  border-bottom:1px solid var(--bj-border);padding:0 0 10px;
-}
-.woocommerce-checkout-review-order-table thead .product-total{text-align:left}
-.woocommerce-checkout-review-order-table td{
-  padding:12px 0;border-bottom:1px dashed var(--bj-border);vertical-align:top;
-}
-.woocommerce-checkout-review-order-table .product-name .product-quantity{color:var(--bj-ink-soft);font-size:12px}
-.woocommerce-checkout-review-order-table .product-total{text-align:left;font-weight:800;color:var(--bj-accent);white-space:nowrap}
-.woocommerce-checkout-review-order-table tfoot .cart-subtotal td,
-.woocommerce-checkout-review-order-table tfoot .shipping td,
-.woocommerce-checkout-review-order-table tfoot .order-total td,
-.woocommerce-checkout-review-order-table tfoot .tax-total td,
-.woocommerce-checkout-review-order-table tfoot .fee td{
-  font-weight:700;color:var(--bj-ink);
-}
-.woocommerce-checkout-review-order-table tfoot th{
-  text-align:right;font-weight:600;color:var(--bj-ink-soft);padding:8px 0;font-size:13.5px;
-}
-.woocommerce-checkout-review-order-table .woocommerce-Price-amount{font-weight:700}
-.woocommerce-checkout-review-order-table .order-total th,
-.woocommerce-checkout-review-order-table .order-total td{
-  border-top:1.5px solid var(--bj-border);padding-top:14px;font-size:16px;
-}
-.woocommerce-checkout-review-order-table .order-total .woocommerce-Price-amount{
-  font-size:20px;color:var(--bj-accent);font-weight:800;
-}
-/* درگاه‌ها/کد تخفیف منفی */
-.woocommerce-checkout-review-order-table .cart-discount .woocommerce-Price-amount{color:var(--bj-success)}
-
-/* ---------- کد تخفیف ---------- */
-.baji-promo{display:flex;gap:8px;margin-top:16px}
-.baji-promo-input{
-  flex:1;min-width:0;padding:10px 12px;font-family:inherit;font-size:13px;
-  border:1.5px solid var(--bj-border-strong);border-radius:var(--bj-radius-sm);background:#fff;color:var(--bj-ink);
-}
-.baji-promo-input:focus{outline:none;border-color:var(--bj-gold);box-shadow:var(--bj-ring)}
-.baji-btn-ghost{
-  white-space:nowrap;padding:0 16px;border:1.5px solid var(--bj-accent);border-radius:var(--bj-radius-sm);
-  background:var(--bj-accent);color:#fff;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;
-}
-.baji-btn-ghost:hover{background:var(--bj-accent-hover)}
-
-/* ---------- پرداخت ---------- */
-.woocommerce-checkout-payment{
-  margin-top:18px;border-top:1px solid var(--bj-border);padding-top:18px;
-}
-.wc_payment_methods{list-style:none;margin:0;padding:0}
-.wc_payment_method{
-  border:1.5px solid var(--bj-border-strong);
-  border-radius:var(--bj-radius-sm);padding:13px 14px;margin-bottom:10px;
-  cursor:pointer;transition:border-color .15s, box-shadow .15s, background .15s;
-}
-.wc_payment_method:hover{border-color:#b8b1a2}
-.wc_payment_method:has(input:checked),
-.wc_payment_method.payment_method_selected{
-  border-color:var(--bj-accent);background:#fbfaf6;box-shadow:var(--bj-ring);
-}
-.wc_payment_method input[type="radio"]{accent-color:var(--bj-accent);width:16px;height:16px;cursor:pointer;vertical-align:middle}
-.wc_payment_method label{
-  font-weight:700;font-size:14px;cursor:pointer;
-}
-.wc_payment_method label img{max-height:22px;vertical-align:middle;margin-inline-start:8px}
-.wc_payment_method .payment_box{
-  background:#f7f4ee;border:1px solid var(--bj-border);border-radius:var(--bj-radius-sm);
-  padding:10px 12px;margin-top:10px;font-size:13px;color:var(--bj-ink-soft);
-}
-
-/* ---------- شرایط و دکمه ثبت سفارش ---------- */
-.woocommerce-terms-and-conditions-wrapper{margin:14px 0}
-.woocommerce-terms-and-conditions-wrapper input[type="checkbox"]{accent-color:var(--bj-accent);width:16px;height:16px;vertical-align:middle}
-.woocommerce-terms-and-conditions-wrapper span, .woocommerce-terms-and-conditions-wrapper a{font-size:13px;color:var(--bj-ink-soft)}
-
-.place-order{margin:0}
-#place_order{
-  display:flex;align-items:center;justify-content:center;gap:10px;
-  width:100%;padding:15px 22px;margin:0;
-  font-family:inherit;font-size:15px;font-weight:800;color:#fff;cursor:pointer;
-  background:var(--bj-accent);border:none;border-radius:var(--bj-radius-sm);
-  box-shadow:0 12px 24px -12px rgba(0,0,0,.4);
-  transition:background .15s, box-shadow .15s, transform .08s;
-}
-#place_order:hover{background:var(--bj-accent-hover);box-shadow:0 16px 28px -12px rgba(0,0,0,.45)}
-#place_order:active{transform:translateY(1px)}
-.place-order .woocommerce-privacy-policy-text{font-size:12px;color:var(--bj-ink-soft);margin-top:10px}
-
-/* پیام‌های ریز */
-.woocommerce-checkout-review-order .blockUI.blockOverlay{opacity:.6 !important}
-
-/* حالت موبایل: unsticky سایدبار */
-@media (max-width:920px){
-  .baji-sidebar{position:static}
+@media(max-width:767px){
+  body.woocommerce-checkout .baji-page-wrapper{padding:0 11px!important}
+  .baji-checkout-page{padding:14px 0 42px}
+  .baji-checkout-hero{grid-template-columns:52px 1fr auto;gap:10px;padding:16px 13px;border-radius:19px}
+  .baji-checkout-hero__brand{width:48px;height:48px;border-radius:15px;font-size:13px}
+  .baji-checkout-hero h1{font-size:16px!important}
+  .baji-checkout-hero p{display:none}
+  .baji-checkout-security{padding:8px;border-radius:10px}
+  .baji-checkout-security span{display:none}
+  .baji-checkout-steps{gap:5px;margin:12px auto 16px}
+  .baji-checkout-steps span{gap:4px;font-size:7.5px}
+  .baji-checkout-steps span i{width:20px;height:20px;font-size:7.5px}
+  .baji-checkout-card{padding:16px 13px;border-radius:17px}
+  .baji-checkout-card__head{margin-bottom:14px}
+  .baji-checkout-card__head h2{font-size:14px!important}
+  .baji-checkout-card__head p{font-size:8.5px!important}
+  .baji-checkout-fields{grid-template-columns:1fr;gap:10px}
+  .baji-checkout-fields .form-row{grid-column:auto!important}
+  .baji-checkout-trust-row{gap:5px}
+  .baji-checkout-trust-row span{min-height:42px;gap:4px;padding:0 4px;font-size:7.5px}
+  .baji-checkout-summary{padding:15px 13px;border-radius:18px}
+  .baji-review-product__info strong{max-width:150px}
+  .baji-digikala-express{margin:12px 0!important}
 }
