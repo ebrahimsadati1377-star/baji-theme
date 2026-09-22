@@ -1129,7 +1129,7 @@ function baji_debug_parsigate_source() {
 	if ( ! is_dir( $base ) ) {
 		return array( 'ok' => false, 'base' => $base );
 	}
-	$needles = array( 'digipay', 'woocommerce_payment_gateways', 'parsigate_enable_gateway', 'function enable', 'ParsiGateOption', 'client_id', 'client_secret', 'username', 'password' );
+	$needles = array( 'digipay', 'woocommerce_payment_gateways', 'parsigate_enable_gateway', 'function enable', 'ParsiGateOption', 'new WooCommerce', 'woocommerce =', 'client_id', 'client_secret', 'username', 'password' );
 	$it = new RecursiveIteratorIterator( new RecursiveDirectoryIterator( $base, FilesystemIterator::SKIP_DOTS ) );
 	foreach ( $it as $file ) {
 		if ( ! $file->isFile() || 'php' !== strtolower( pathinfo( $file->getFilename(), PATHINFO_EXTENSION ) ) ) {
@@ -1162,7 +1162,7 @@ function baji_debug_parsigate_source() {
 	return array( 'ok' => true, 'digipay_option' => $runtime, 'matches' => $out );
 }
 add_action( 'rest_api_init', function () {
-	register_rest_route( 'baji-debug/v1', '/parsigate-source3', array(
+	register_rest_route( 'baji-debug/v1', '/parsigate-source4', array(
 		'methods' => 'GET',
 		'permission_callback' => function () { return current_user_can( 'manage_options' ); },
 		'callback' => function () { return rest_ensure_response( baji_debug_parsigate_source() ); },
