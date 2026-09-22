@@ -1257,3 +1257,21 @@ add_action( 'rest_api_init', function () {
 		'callback' => function () { return rest_ensure_response( baji_debug_bwdk_files() ); },
 	) );
 } );
+
+
+function baji_debug_bwdk_gateway_source() {
+	$file = WP_PLUGIN_DIR . '/buy-with-digikala/src/Woo/Payment/BwdkGateway.php';
+	if ( ! is_readable( $file ) ) return array( 'ok' => false );
+	$lines = file( $file );
+	return array(
+		'ok' => true,
+		'source' => implode( '', array_slice( $lines, 0, min( 360, count( $lines ) ) ) )
+	);
+}
+add_action( 'rest_api_init', function () {
+	register_rest_route( 'baji-debug/v1', '/bwdk-gateway-source', array(
+		'methods' => 'GET',
+		'permission_callback' => function () { return current_user_can( 'manage_options' ); },
+		'callback' => function () { return rest_ensure_response( baji_debug_bwdk_gateway_source() ); },
+	) );
+} );
