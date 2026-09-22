@@ -1285,3 +1285,52 @@ add_action( 'rest_api_init', function () {
 		'callback' => function () { return rest_ensure_response( baji_debug_ippanel_pattern_probe() ); },
 	) );
 } );
+
+
+/* Temporary admin-only updater for the configured BAJI OTP pattern. */
+function baji_debug_ippanel_pattern_update() {
+	$apikey = (string) get_option( 'custom_otp_apikey' );
+	$pattern = (string) get_option( 'custom_otp_pattern' );
+	if ( '' === $apikey || '' === $pattern ) {
+		return new WP_Error( 'missing_config', 'OTP pattern configuration is incomplete.', array( 'status' => 400 ) );
+	}
+
+	$url = 'https://edge.ippanel.com/v1/api/patterns/normal/' . rawurlencode( $pattern );
+	$payload = array(
+		'title' => 'ورود باجی استایل',
+		'description' => 'تایید هویت سایت باجی استایل',
+		'is_share' => false,
+		'message' => "BAJI | باجی\nکد ورود: %code%\nاعتبار: ۲ دقیقه\nbajistyle.ir",
+		'website' => 'https://bajistyle.ir/',
+		'variable' => array(
+			array( 'name' => 'code', 'type' => 'integer' ),
+		),
+	);
+
+	$response = wp_remote_request( $url, array(
+		'method' => 'PUT',
+		'timeout' => 25,
+		'headers' => array(
+			'Authorization' => $apikey,
+			'Content-Type' => 'application/json',
+			'Accept' => 'application/json',
+		),
+		'body' => wp_json_encode( $payload, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES ),
+	) );
+
+	if ( is_wp_error( $response ) ) {
+		return new WP_Error( 'ippanel_request_failed', $response->get_error_message(), array( 'status' => 502 ) );
+	}
+
+	return array(
+		'status' => (int) wp_remote_retrieve_response_code( $response ),
+		'body' => json_decode( (string) wp_remote_retrieve_body( $response ), true ),
+	);
+}
+add_action( 'rest_api_init', function () {
+	register_rest_route( 'baji-debug/v1', '/ippanel-pattern-update', array(
+		'methods' => 'POST',
+		'permission_callback' => function () { return current_user_can( 'manage_options' ); },
+		'callback' => function () { return rest_ensure_response( baji_debug_ippanel_pattern_update() ); },
+	) );
+} );
