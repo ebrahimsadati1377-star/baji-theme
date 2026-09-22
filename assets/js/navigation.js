@@ -10,36 +10,49 @@
  * Overlay اختیاری است تا نبودن آن مانع کارکرد دکمه همبرگری نشود.
  */
 function initMobileMenu() {
-	const toggleButton = document.querySelector( '.baji-mobile-menu-toggle' );
-	const closeButton = document.querySelector( '.baji-mobile-menu-close' );
+	const state = document.getElementById( 'baji-menu-state' );
+	const toggleButton = document.getElementById( 'baji-mobile-menu-toggle' );
+	const closeButton = document.getElementById( 'baji-mobile-menu-close' );
 	const menu = document.getElementById( 'baji-mobile-menu' );
-	const overlay = document.getElementById( 'baji-mobile-overlay' );
 
-	if ( ! toggleButton || ! menu ) return;
+	if ( ! state || ! toggleButton || ! menu ) return;
 
-	const openMenu = () => {
-		menu.classList.remove( 'translate-x-full' );
-		if ( overlay ) overlay.classList.remove( 'opacity-0', 'pointer-events-none' );
-		menu.setAttribute( 'aria-hidden', 'false' );
-		toggleButton.setAttribute( 'aria-expanded', 'true' );
-		document.body.style.overflow = 'hidden';
+	let lastFocused = null;
+
+	const syncMenuState = () => {
+		const isOpen = Boolean( state.checked );
+		menu.setAttribute( 'aria-hidden', isOpen ? 'false' : 'true' );
+		toggleButton.setAttribute( 'aria-expanded', isOpen ? 'true' : 'false' );
+		document.body.classList.toggle( 'baji-mobile-menu-open', isOpen );
+		document.body.style.overflow = isOpen ? 'hidden' : '';
+
+		if ( isOpen ) {
+			lastFocused = document.activeElement;
+			window.setTimeout( () => {
+				if ( closeButton ) closeButton.focus();
+			}, 60 );
+		} else if ( lastFocused && typeof lastFocused.focus === 'function' ) {
+			window.setTimeout( () => lastFocused.focus(), 20 );
+		}
 	};
 
-	const closeMenu = () => {
-		menu.classList.add( 'translate-x-full' );
-		if ( overlay ) overlay.classList.add( 'opacity-0', 'pointer-events-none' );
-		menu.setAttribute( 'aria-hidden', 'true' );
-		toggleButton.setAttribute( 'aria-expanded', 'false' );
-		document.body.style.overflow = '';
-	};
+	state.addEventListener( 'change', syncMenuState );
 
-	toggleButton.addEventListener( 'click', openMenu );
-	if ( closeButton ) closeButton.addEventListener( 'click', closeMenu );
-	if ( overlay ) overlay.addEventListener( 'click', closeMenu );
+	menu.querySelectorAll( 'a' ).forEach( ( link ) => {
+		link.addEventListener( 'click', () => {
+			state.checked = false;
+			syncMenuState();
+		} );
+	} );
 
 	document.addEventListener( 'keydown', ( event ) => {
-		if ( event.key === 'Escape' && menu.getAttribute( 'aria-hidden' ) === 'false' ) closeMenu();
+		if ( event.key === 'Escape' && state.checked ) {
+			state.checked = false;
+			syncMenuState();
+		}
 	} );
+
+	syncMenuState();
 }
 
 function initMegaMenu() {
