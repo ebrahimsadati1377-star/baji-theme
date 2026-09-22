@@ -363,6 +363,13 @@ function bajistyle_enqueue_assets() {
 		);
 
 		if ( is_checkout() ) {
+			wp_enqueue_style(
+				'bajistyle-checkout-style',
+				BAJISTYLE_URI . '/assets/css/checkout.css',
+				array( 'bajistyle-custom' ),
+				BAJISTYLE_VERSION
+			);
+
 			wp_enqueue_script(
 				'bajistyle-checkout',
 				BAJISTYLE_URI . '/assets/js/checkout.js',
@@ -1100,35 +1107,3 @@ function baji_purge_litespeed_after_otp_timer_120() {
 	}
 }
 add_action( 'init', 'baji_purge_litespeed_after_otp_timer_120', 99 );
-
-
-/**
- * Keep Buy With Digikala visible as a prominent Express Checkout action.
- * BWDK intentionally hides itself from WooCommerce's classic payment radios,
- * so this button launches the plugin's native Digify checkout flow.
- */
-function baji_digikala_checkout_button() {
-	if ( ! function_exists( 'is_checkout' ) || ! is_checkout() || is_wc_endpoint_url( 'order-received' ) ) {
-		return;
-	}
-
-	if ( ! class_exists( 'BWDK\\Woo\\Payment\\BwdkGateway' ) ) {
-		return;
-	}
-	?>
-	<div class="baji-digikala-express" data-baji-digikala-express>
-		<div class="baji-digikala-express__head">
-			<span class="baji-digikala-express__badge">دیجی‌کالا</span>
-			<div>
-				<strong>خرید با دیجی‌کالا</strong>
-				<small>ورود سریع با حساب دیجی‌کالا و ادامه خرید در مسیر امن</small>
-			</div>
-		</div>
-		<button type="button" class="bwdk-button baji-digikala-express__button">
-			<span>ادامه خرید با دیجی‌کالا</span>
-			<span class="baji-digikala-express__arrow" aria-hidden="true">←</span>
-		</button>
-	</div>
-	<?php
-}
-add_action( 'woocommerce_review_order_before_payment', 'baji_digikala_checkout_button', 4 );
