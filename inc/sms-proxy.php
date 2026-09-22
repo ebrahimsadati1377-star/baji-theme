@@ -316,6 +316,45 @@ function baji_sms_proxy_send( WP_REST_Request $request ) {
 
 
 
+
+function baji_sms_proxy_account_diagnostics( WP_REST_Request $request ) {
+    $auth = baji_sms_proxy_authenticate( $request );
+    if ( is_wp_error( $auth ) ) {
+        return $auth;
+    }
+
+    $checks = array(
+        'token'   => array( 'GET', '/api/acl/auth/check_token' ),
+        'numbers' => array( 'GET', '/api/number/numbers?page=1&per_page=100' ),
+    );
+    $results = array();
+
+    foreach ( $checks as $name => $spec ) {
+        $provider = baji_sms_proxy_provider_request( $spec[0], $spec[1] );
+        if ( is_wp_error( $provider ) ) {
+            $results[ $name ] = array(
+                'ok'      => false,
+                'message' => $provider->get_error_message(),
+                'data'    => $provider->get_error_data(),
+            );
+        } else {
+            $results[ $name ] = array(
+                'ok'            => true,
+                'provider_http' => $provider['provider_http'],
+                'response'      => $provider['response'],
+            );
+        }
+    }
+
+    return rest_ensure_response(
+        array(
+            'success' => true,
+            'route'   => 'wordpress-relay-diagnostics',
+            'checks'  => $results,
+        )
+    );
+}
+
 function baji_sms_proxy_send_legacy( WP_REST_Request $request ) {
     $auth = baji_sms_proxy_authenticate( $request );
     if ( is_wp_error( $auth ) ) {
@@ -666,6 +705,15 @@ add_action(
             array(
                 'methods'             => 'POST',
                 'callback'            => 'baji_sms_proxy_message_status',
+                'permission_callback' => '__return_true',
+            )
+        );
+        register_rest_route(
+            'baji/v1',
+            '/sms-proxy/account-diagnostics',
+            array(
+                'methods'             => 'POST',
+                'callback'            => 'baji_sms_proxy_account_diagnostics',
                 'permission_callback' => '__return_true',
             )
         );
