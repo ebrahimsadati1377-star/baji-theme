@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /* -------------------------------------------------------------------------
  * ثابت‌های قالب
  * ---------------------------------------------------------------------- */
-define( 'BAJISTYLE_VERSION', '1.0.29' );
+define( 'BAJISTYLE_VERSION', '1.0.30' );
 define( 'BAJISTYLE_DIR', get_template_directory() );
 define( 'BAJISTYLE_URI', get_template_directory_uri() );
 
@@ -1102,41 +1102,33 @@ function baji_purge_litespeed_after_otp_timer_120() {
 add_action( 'init', 'baji_purge_litespeed_after_otp_timer_120', 99 );
 
 
-/* Temporary admin-only BWDK render source diagnostic. */
-function baji_debug_bwdk_render() {
-	$base = WP_PLUGIN_DIR . '/buy-with-digikala';
-	$out = array();
-	if ( ! is_dir( $base ) ) return array( 'found' => false );
-	$needles = array( 'bwdk-button', 'bwdk-single-buy-button', 'buy-with-digikala', 'digikala-modal-sp' );
-	$it = new RecursiveIteratorIterator( new RecursiveDirectoryIterator( $base, FilesystemIterator::SKIP_DOTS ) );
-	foreach ( $it as $file ) {
-		if ( ! $file->isFile() ) continue;
-		$ext = strtolower( pathinfo( $file->getFilename(), PATHINFO_EXTENSION ) );
-		if ( ! in_array( $ext, array( 'php', 'js' ), true ) ) continue;
-		$lines = @file( $file->getPathname() );
-		if ( ! $lines ) continue;
-		foreach ( $lines as $i => $line ) {
-			foreach ( $needles as $needle ) {
-				if ( false !== stripos( $line, $needle ) ) {
-					$from = max( 0, $i - 8 );
-					$snippet = implode( '', array_slice( $lines, $from, 28 ) );
-					$out[] = array(
-						'file' => str_replace( ABSPATH, '', $file->getPathname() ),
-						'line' => $i + 1,
-						'source' => mb_substr( $snippet, 0, 4200 ),
-					);
-					break;
-				}
-			}
-			if ( count( $out ) >= 30 ) break 2;
-		}
+/**
+ * Keep Buy With Digikala visible as a prominent Express Checkout action.
+ * BWDK intentionally hides itself from WooCommerce's classic payment radios,
+ * so this button launches the plugin's native Digify checkout flow.
+ */
+function baji_digikala_checkout_button() {
+	if ( ! function_exists( 'is_checkout' ) || ! is_checkout() || is_wc_endpoint_url( 'order-received' ) ) {
+		return;
 	}
-	return array( 'found' => true, 'matches' => $out );
+
+	if ( ! class_exists( 'BWDK\\Woo\\Payment\\BwdkGateway' ) ) {
+		return;
+	}
+	?>
+	<div class="baji-digikala-express" data-baji-digikala-express>
+		<div class="baji-digikala-express__head">
+			<span class="baji-digikala-express__badge">دیجی‌کالا</span>
+			<div>
+				<strong>خرید با دیجی‌کالا</strong>
+				<small>ورود سریع با حساب دیجی‌کالا و ادامه خرید در مسیر امن</small>
+			</div>
+		</div>
+		<button type="button" class="bwdk-button baji-digikala-express__button">
+			<span>ادامه خرید با دیجی‌کالا</span>
+			<span class="baji-digikala-express__arrow" aria-hidden="true">←</span>
+		</button>
+	</div>
+	<?php
 }
-add_action( 'rest_api_init', function () {
-	register_rest_route( 'baji-debug/v1', '/bwdk-render2', array(
-		'methods' => 'GET',
-		'permission_callback' => function () { return current_user_can( 'manage_options' ); },
-		'callback' => function () { return rest_ensure_response( baji_debug_bwdk_render() ); },
-	) );
-} );
+add_action( 'woocommerce_review_order_before_payment', 'baji_digikala_checkout_button', 4 );
