@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /* -------------------------------------------------------------------------
  * ثابت‌های قالب
  * ---------------------------------------------------------------------- */
-define( 'BAJISTYLE_VERSION', '1.0.38' );
+define( 'BAJISTYLE_VERSION', '1.0.39' );
 define( 'BAJISTYLE_DIR', get_template_directory() );
 define( 'BAJISTYLE_URI', get_template_directory_uri() );
 
@@ -1177,3 +1177,26 @@ function baji_account_orders_mobile_card() {
 	<?php
 }
 add_action( 'woocommerce_before_account_orders', 'baji_account_orders_mobile_card', 5 );
+
+
+/**
+ * BAJI account: email is optional. When left blank, keep the current
+ * WordPress email internally so WooCommerce does not reject the form.
+ */
+function baji_optional_account_email_prepare_post() {
+	if ( ! is_user_logged_in() || empty( $_POST['save_account_details'] ) ) {
+		return;
+	}
+
+	if ( isset( $_POST['account_email'] ) && '' === trim( (string) wp_unslash( $_POST['account_email'] ) ) ) {
+		$user = wp_get_current_user();
+		$_POST['account_email'] = (string) $user->user_email;
+	}
+}
+add_action( 'wp_loaded', 'baji_optional_account_email_prepare_post', 5 );
+
+function baji_optional_account_email_required_fields( $fields ) {
+	unset( $fields['account_email'] );
+	return $fields;
+}
+add_filter( 'woocommerce_save_account_details_required_fields', 'baji_optional_account_email_required_fields', 20 );
