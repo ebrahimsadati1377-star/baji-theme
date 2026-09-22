@@ -436,7 +436,7 @@ function initMobileNavActiveState() {
 	} else if ( path.includes('cart') || path.includes('سبد') ) {
 		target = nav.querySelector('.baji-cart-toggle');
 	} else if ( path.includes('my-account') || path.includes('login') ) {
-		target = nav.querySelector('a[href*="my-account"],a[href*="login"]');
+		target = nav.querySelector('a[href*="my-account"]:not(.baji-mobile-wishlist),a[href*="login"]');
 	}
 	if ( target ) target.classList.add('is-active');
 }
