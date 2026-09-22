@@ -120,12 +120,15 @@ body.woocommerce-checkout .woocommerce{max-width:none!important}
 .wc_payment_methods{margin:0!important;padding:0!important;border:0!important;list-style:none!important}
 .wc_payment_method{margin:0 0 8px!important;padding:11px 12px!important;border:1px solid var(--bc-line)!important;border-radius:12px!important;background:#fff!important;transition:.15s ease!important}
 .wc_payment_method:hover{border-color:#d6c0b7!important}
-.wc_payment_method:has(input:checked){border-color:var(--bc-brand)!important;background:#fff8f7!important;box-shadow:0 0 0 2px rgba(123,19,39,.045)!important}
+.wc_payment_method:has(input:checked),.wc_payment_method.is-selected{border-color:var(--bc-brand)!important;background:#fff8f7!important;box-shadow:0 0 0 2px rgba(123,19,39,.045)!important}
 .wc_payment_method input[type=radio]{
   -webkit-appearance:none!important;
   appearance:none!important;
   display:inline-grid!important;
   place-content:center!important;
+  position:relative!important;
+  opacity:1!important;
+  visibility:visible!important;
   width:17px!important;
   height:17px!important;
   min-width:17px!important;
