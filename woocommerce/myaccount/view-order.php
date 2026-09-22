@@ -136,13 +136,31 @@ $customer_note    = $order->get_customer_note();
 	</section>
 
 	<?php if ( $actions ) : ?>
-		<div class="baji-view-order-actions">
+		<div class="baji-view-order-actions<?php echo isset( $actions['pay'] ) ? ' has-pay' : ''; ?>">
+			<?php if ( isset( $actions['pay'] ) ) : ?>
+				<?php $pay_action = $actions['pay']; ?>
+				<a class="baji-view-order-action baji-view-order-action--pay" href="<?php echo esc_url( $pay_action['url'] ); ?>">
+					<span class="baji-view-order-action__icon"><i class="fa-solid fa-credit-card"></i></span>
+					<span class="baji-view-order-action__copy">
+						<b>پرداخت سفارش</b>
+						<small>مبلغ قابل پرداخت: <?php echo wp_kses_post( $order->get_formatted_order_total() ); ?></small>
+					</span>
+					<i class="fa-solid fa-chevron-left baji-view-order-action__arrow"></i>
+				</a>
+			<?php endif; ?>
+
 			<?php foreach ( $actions as $key => $action ) : ?>
+				<?php if ( 'pay' === $key ) continue; ?>
 				<a class="baji-view-order-action baji-view-order-action--<?php echo esc_attr( sanitize_html_class( $key ) ); ?>" href="<?php echo esc_url( $action['url'] ); ?>">
-					<?php echo esc_html( $action['name'] ); ?>
+					<i class="fa-solid <?php echo 'cancel' === $key ? 'fa-xmark' : 'fa-arrow-rotate-right'; ?>"></i>
+					<span><?php echo esc_html( 'cancel' === $key ? 'لغو سفارش' : $action['name'] ); ?></span>
 				</a>
 			<?php endforeach; ?>
-			<a class="baji-view-order-action baji-view-order-action--ghost" href="<?php echo esc_url( wc_get_account_endpoint_url( 'orders' ) ); ?>">بازگشت به سفارش‌ها</a>
+
+			<a class="baji-view-order-action baji-view-order-action--ghost" href="<?php echo esc_url( wc_get_account_endpoint_url( 'orders' ) ); ?>">
+				<i class="fa-solid fa-arrow-right"></i>
+				<span>بازگشت به سفارش‌ها</span>
+			</a>
 		</div>
 	<?php endif; ?>
 
