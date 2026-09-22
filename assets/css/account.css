@@ -141,29 +141,120 @@ body.woocommerce-account .baji-account-section--view-order{
 .baji-view-order-status--neutral{background:#f4f0ee;color:#77665f}
 .baji-view-order-actions{
   display:flex;
-  align-items:center;
+  align-items:stretch;
   gap:8px;
   flex-wrap:wrap;
+}
+.baji-view-order-actions.has-pay{
+  display:grid;
+  grid-template-columns:minmax(250px,1.35fr) auto auto;
+  align-items:stretch;
 }
 .baji-view-order-action{
   display:inline-flex;
   align-items:center;
   justify-content:center;
-  min-height:38px;
+  gap:7px;
+  min-height:42px;
   padding:0 14px;
   border:1px solid var(--ba-brand);
-  border-radius:11px;
+  border-radius:12px;
   background:var(--ba-brand);
   color:#fff!important;
   font-size:9.5px;
   font-weight:900;
+  transition:transform .16s ease,box-shadow .16s ease,background .16s ease,border-color .16s ease;
 }
-.baji-view-order-action:hover{background:var(--ba-brand-dark)}
+.baji-view-order-action:hover{
+  background:var(--ba-brand-dark);
+  transform:translateY(-1px);
+}
+.baji-view-order-action--pay{
+  position:relative;
+  display:grid;
+  grid-template-columns:38px minmax(0,1fr) 24px;
+  gap:11px;
+  align-items:center;
+  justify-content:stretch;
+  min-height:62px;
+  padding:8px 14px;
+  overflow:hidden;
+  border:0;
+  border-radius:17px;
+  background:linear-gradient(135deg,#8c1730 0%,#a83a52 68%,#b85469 100%);
+  box-shadow:0 11px 24px rgba(140,23,48,.20);
+  text-align:right;
+}
+.baji-view-order-action--pay:before{
+  content:'';
+  position:absolute;
+  left:-24px;
+  bottom:-38px;
+  width:110px;
+  height:110px;
+  border-radius:50%;
+  background:rgba(255,255,255,.07);
+  pointer-events:none;
+}
+.baji-view-order-action--pay:hover{
+  background:linear-gradient(135deg,#741126 0%,#982d46 100%);
+  box-shadow:0 14px 28px rgba(140,23,48,.25);
+}
+.baji-view-order-action__icon{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:38px;
+  height:38px;
+  border:1px solid rgba(255,255,255,.25);
+  border-radius:12px;
+  background:rgba(255,255,255,.12);
+  font-size:13px;
+}
+.baji-view-order-action__copy{
+  display:block;
+  min-width:0;
+}
+.baji-view-order-action__copy b{
+  display:block;
+  color:#fff;
+  font-size:11px;
+  line-height:1.55;
+  font-weight:950;
+}
+.baji-view-order-action__copy small{
+  display:block;
+  margin-top:2px;
+  color:#f5dce2;
+  font-size:8px;
+  line-height:1.65;
+  font-weight:750;
+}
+.baji-view-order-action__copy .woocommerce-Price-amount{
+  color:inherit!important;
+  font-size:inherit!important;
+  font-weight:900!important;
+}
+.baji-view-order-action__arrow{
+  position:relative;
+  z-index:1;
+  justify-self:end;
+  font-size:10px;
+  opacity:.9;
+}
 .baji-view-order-action--cancel,
 .baji-view-order-action--ghost{
+  min-height:48px;
   border-color:#e7dad5;
   background:#fff;
   color:#68564f!important;
+  box-shadow:0 4px 14px rgba(60,40,34,.035);
+}
+.baji-view-order-action--cancel:hover,
+.baji-view-order-action--ghost:hover{
+  border-color:#d7c5be;
+  background:#fff8f6;
+  color:#4e3e38!important;
 }
 .baji-view-order-card{
   padding:20px;
@@ -516,7 +607,24 @@ body.woocommerce-account .baji-mobile-bottom-nav .is-active{
   .baji-view-order-head__meta>div{min-width:0;border-left:0;padding-left:0}
   .baji-view-order-status{min-height:31px;padding:0 9px;font-size:8.5px}
   .baji-view-order-actions{gap:6px}
+  .baji-view-order-actions.has-pay{grid-template-columns:1fr 1fr}
   .baji-view-order-action{min-height:35px;padding:0 11px;font-size:8.5px}
+  .baji-view-order-action--pay{
+    grid-column:1/-1;
+    grid-template-columns:36px minmax(0,1fr) 22px;
+    min-height:58px;
+    padding:8px 12px;
+    border-radius:15px;
+  }
+  .baji-view-order-action__icon{width:36px;height:36px;border-radius:11px}
+  .baji-view-order-action__copy b{font-size:10.5px}
+  .baji-view-order-action__copy small{font-size:7.5px}
+  .baji-view-order-action--cancel,
+  .baji-view-order-action--ghost{
+    width:100%;
+    min-height:42px;
+    padding:0 9px;
+  }
   .baji-view-order-card{padding:14px 12px;border-radius:17px}
   .baji-view-order-title{margin-bottom:11px}
   .baji-view-order-title h3{font-size:12.5px!important}
