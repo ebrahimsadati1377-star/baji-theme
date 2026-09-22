@@ -77,7 +77,6 @@ $tabs = array(
 	'orders'       => array( 'label' => 'سفارش‌ها', 'icon' => 'fa-bag-shopping' ),
 	'address'      => array( 'label' => 'آدرس‌ها', 'icon' => 'fa-location-dot' ),
 	'wishlist'     => array( 'label' => 'علاقه‌مندی‌ها', 'icon' => 'fa-heart' ),
-	'edit-account' => array( 'label' => 'اطلاعات من', 'icon' => 'fa-user-pen' ),
 );
 
 $ordered_products = array();
@@ -128,6 +127,9 @@ foreach ( $all_orders as $order ) {
 			<?php
 			$url = add_query_arg( 'tab', $key, $account_url );
 			$active_key = 'view-order' === $current_tab ? 'orders' : $current_tab;
+			if ( 'edit-account' === $active_key ) {
+				$active_key = 'dashboard';
+			}
 			$is_active  = $active_key === $key;
 			?>
 			<a class="<?php echo $is_active ? 'is-active' : ''; ?>" href="<?php echo esc_url( $url ); ?>">
@@ -254,7 +256,7 @@ foreach ( $all_orders as $order ) {
 			<?php endif; ?>
 
 		<?php else : ?>
-			<section class="baji-account-section">
+			<section class="baji-account-section baji-account-section--<?php echo esc_attr( $current_tab ); ?>">
 				<?php
 				if ( 'view-order' === $current_tab ) {
 					do_action( 'woocommerce_account_view-order_endpoint', absint( get_query_var( 'view-order' ) ) );
