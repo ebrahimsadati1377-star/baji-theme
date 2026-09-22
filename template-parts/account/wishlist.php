@@ -15,15 +15,21 @@ $has_items      = $wishlist_count > 0;
 ?>
 
 <section class="baji-account-wishlist" aria-labelledby="baji-wishlist-title">
-	<header class="baji-wishlist-header">
+	<header class="baji-wishlist-header baji-wishlist-hero">
 		<div class="baji-wishlist-heading">
-			<span class="baji-wishlist-kicker"><?php esc_html_e( 'منتخب‌های تو', 'bajistyle' ); ?></span>
+			<span class="baji-wishlist-kicker"><i class="fa-solid fa-heart"></i><?php esc_html_e( 'منتخب‌های تو', 'bajistyle' ); ?></span>
 			<h2 id="baji-wishlist-title"><?php esc_html_e( 'علاقه‌مندی‌ها', 'bajistyle' ); ?></h2>
-			<p><?php esc_html_e( 'انتخاب‌هایی که دوست داشتی، یک‌جا برای تصمیم بعدی.', 'bajistyle' ); ?></p>
+			<p><?php esc_html_e( 'مدل‌هایی که دوست داشتی را اینجا نگه دار تا هر وقت خواستی راحت‌تر مقایسه و انتخاب کنی.', 'bajistyle' ); ?></p>
+			<div class="baji-wishlist-total" aria-live="polite">
+				<span class="baji-wishlist-total__heart"><i class="fa-solid fa-heart"></i></span>
+				<strong data-wishlist-count><?php echo esc_html( $wishlist_count ); ?></strong>
+				<span><?php esc_html_e( 'محصول ذخیره‌شده', 'bajistyle' ); ?></span>
+			</div>
 		</div>
-		<div class="baji-wishlist-total" aria-live="polite">
-			<strong data-wishlist-count><?php echo esc_html( $wishlist_count ); ?></strong>
-			<span><?php esc_html_e( 'محصول ذخیره‌شده', 'bajistyle' ); ?></span>
+		<div class="baji-wishlist-hero__visual" aria-hidden="true">
+			<span class="baji-wishlist-hero__brand">BAJI</span>
+			<span class="baji-wishlist-hero__line">BE YOUR BEST</span>
+			<i class="fa-regular fa-heart"></i>
 		</div>
 	</header>
 
