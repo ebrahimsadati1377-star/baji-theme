@@ -249,38 +249,85 @@ function bajistyle_render_size_guide( $product = null, $compact = false ) {
 	$table = bajistyle_general_body_size_table();
 	?>
 	<div class="baji-size-guide<?php echo $compact ? ' is-compact' : ''; ?>">
+		<?php if ( ! $compact ) : ?>
+			<section class="baji-size-guide__hero">
+				<div class="baji-size-guide__hero-copy">
+					<span class="baji-size-guide__eyebrow"><i class="fa-solid fa-ruler-combined"></i> BAJI SIZE STUDIO</span>
+					<h2>سایز درست، خرید مطمئن‌تر</h2>
+					<p>اول اندازه‌های دقیق همین محصول را ببین؛ بعد با راهنمای <?php echo esc_html( $guide['name'] ); ?> و جدول عمومی مقایسه کن.</p>
+					<div class="baji-size-guide__chips">
+						<span><i class="fa-solid fa-check"></i> اولویت با اندازه محصول</span>
+						<span><i class="fa-solid fa-arrows-left-right"></i> اعداد به سانتی‌متر</span>
+						<span><i class="fa-solid fa-shirt"></i> مخصوص <?php echo esc_html( $guide['name'] ); ?></span>
+					</div>
+				</div>
+				<div class="baji-size-guide__hero-mark" aria-hidden="true">
+					<span class="baji-size-guide__hero-ring"></span>
+					<i class="fa-solid <?php echo esc_attr( $guide['icon'] ); ?>"></i>
+					<small>BAJI</small>
+				</div>
+			</section>
+
+			<section class="baji-size-guide__steps" aria-label="سه مرحله انتخاب سایز">
+				<div><b>۱</b><span><strong>اندازه بگیر</strong><small>متر را آزاد و افقی نگه دار</small></span></div>
+				<i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+				<div><b>۲</b><span><strong>مقایسه کن</strong><small>اول مشخصات همین محصول</small></span></div>
+				<i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+				<div><b>۳</b><span><strong>انتخاب کن</strong><small>اگر مرددی، تنخور را هم در نظر بگیر</small></span></div>
+			</section>
+		<?php endif; ?>
+
 		<?php if ( $product_measurements ) : ?>
 			<section class="baji-size-guide__exact">
 				<div class="baji-size-guide__section-head">
 					<span><i class="fa-solid fa-circle-check"></i></span>
 					<div>
-						<small>اول این بخش را ببین</small>
-						<h3>اندازه‌های ثبت‌شده همین محصول</h3>
+						<small>مهم‌ترین بخش</small>
+						<h3>اندازه‌های دقیق همین محصول</h3>
 					</div>
+					<em>ملاک اصلی</em>
 				</div>
 				<div class="baji-size-guide__exact-grid">
 					<?php foreach ( $product_measurements as $label => $value ) : ?>
-						<div><span><?php echo esc_html( $label ); ?></span><strong><?php echo esc_html( $value ); ?></strong></div>
+						<div>
+							<span><?php echo esc_html( $label ); ?></span>
+							<strong><?php echo esc_html( $value ); ?></strong>
+						</div>
 					<?php endforeach; ?>
 				</div>
 			</section>
+		<?php elseif ( ! $compact ) : ?>
+			<div class="baji-size-guide__missing">
+				<i class="fa-solid fa-circle-info"></i>
+				<p>برای این محصول اندازه اختصاصی ثبت نشده؛ از راهنمای دسته و جدول عمومی پایین استفاده کن.</p>
+			</div>
 		<?php endif; ?>
 
 		<section class="baji-size-guide__category">
 			<div class="baji-size-guide__section-head">
 				<span><i class="fa-solid <?php echo esc_attr( $guide['icon'] ); ?>"></i></span>
 				<div>
-					<small>راهنمای دسته <?php echo esc_html( $guide['name'] ); ?></small>
-					<h3>چه اندازه‌هایی را بگیری؟</h3>
+					<small>راهنمای اختصاصی دسته <?php echo esc_html( $guide['name'] ); ?></small>
+					<h3>دقیقاً چه قسمت‌هایی را اندازه بگیری؟</h3>
 				</div>
 			</div>
-			<p class="baji-size-guide__tip"><?php echo esc_html( $guide['priority'] ); ?></p>
+
+			<div class="baji-size-guide__priority">
+				<i class="fa-solid fa-wand-magic-sparkles"></i>
+				<p><?php echo esc_html( $guide['priority'] ); ?></p>
+			</div>
+
 			<div class="baji-size-guide__measurements">
+				<?php $index = 1; ?>
 				<?php foreach ( $guide['measurements'] as $label => $description ) : ?>
-					<div>
-						<strong><?php echo esc_html( $label ); ?></strong>
-						<span><?php echo esc_html( $description ); ?></span>
-					</div>
+					<article>
+						<b><?php echo esc_html( $index ); ?></b>
+						<div>
+							<strong><?php echo esc_html( $label ); ?></strong>
+							<span><?php echo esc_html( $description ); ?></span>
+						</div>
+					</article>
+					<?php $index++; ?>
 				<?php endforeach; ?>
 			</div>
 		</section>
@@ -288,12 +335,18 @@ function bajistyle_render_size_guide( $product = null, $compact = false ) {
 		<?php if ( ! $compact ) : ?>
 			<section class="baji-size-guide__table-section">
 				<div class="baji-size-guide__section-head">
-					<span><i class="fa-solid fa-table-cells"></i></span>
+					<span><i class="fa-solid fa-table-cells-large"></i></span>
 					<div>
-						<small>اعداد به سانتی‌متر</small>
-						<h3>جدول راهنمای عمومی سایز زنانه</h3>
+						<small>مرجع عمومی بدن — سانتی‌متر</small>
+						<h3>جدول راهنمای سایز زنانه</h3>
 					</div>
 				</div>
+
+				<div class="baji-size-guide__table-tip">
+					<i class="fa-solid fa-hand-pointer"></i>
+					<span>در موبایل جدول را افقی بکش. روی هر ردیف بزنی برجسته می‌شود.</span>
+				</div>
+
 				<div class="baji-size-guide__table-wrap">
 					<table class="baji-size-guide__table">
 						<thead>
@@ -301,7 +354,7 @@ function bajistyle_render_size_guide( $product = null, $compact = false ) {
 						</thead>
 						<tbody>
 							<?php foreach ( $table as $size => $row ) : ?>
-								<tr>
+								<tr tabindex="0">
 									<td><strong><?php echo esc_html( $size ); ?></strong></td>
 									<td><?php echo esc_html( $row['bust'] ); ?></td>
 									<td><?php echo esc_html( $row['waist'] ); ?></td>
@@ -315,8 +368,11 @@ function bajistyle_render_size_guide( $product = null, $compact = false ) {
 		<?php endif; ?>
 
 		<div class="baji-size-guide__note">
-			<i class="fa-solid fa-circle-info"></i>
-			<p><strong>ملاک نهایی انتخاب سایز:</strong> اندازه‌های درج‌شده در مشخصات همان محصول. جدول عمومی فقط برای راهنمای اولیه است و تنخور هر مدل می‌تواند متفاوت باشد.</p>
+			<span><i class="fa-solid fa-shield-heart"></i></span>
+			<div>
+				<strong>ملاک نهایی انتخاب سایز</strong>
+				<p>اندازه‌های درج‌شده در مشخصات همان محصول همیشه از جدول عمومی مهم‌ترند. نوع پارچه، کشسانی و مدل تنخور هم روی انتخاب نهایی اثر دارند.</p>
+			</div>
 		</div>
 	</div>
 	<?php
@@ -341,33 +397,79 @@ function bajistyle_size_guide_tab_content() {
 }
 
 /**
- * Visible shortcut near the product purchase area.
+ * Premium shortcut near the purchase area.
  */
 function bajistyle_product_size_guide_shortcut() {
 	?>
-	<a class="baji-size-guide-shortcut" href="#tab-baji_size_guide">
-		<span><i class="fa-solid fa-ruler-combined"></i></span>
-		<strong>راهنمای انتخاب سایز</strong>
-		<small>اندازه‌گیری درست قبل از خرید</small>
-		<i class="fa-solid fa-chevron-left"></i>
-	</a>
+	<button type="button" class="baji-size-guide-shortcut" data-baji-size-guide-open aria-haspopup="dialog" aria-controls="baji-size-guide-modal">
+		<span class="baji-size-guide-shortcut__icon"><i class="fa-solid fa-ruler-combined"></i></span>
+		<span class="baji-size-guide-shortcut__copy">
+			<em>پیشنهاد می‌شود</em>
+			<strong>راهنمای انتخاب سایز</strong>
+			<small>اندازه‌های همین محصول + جدول کامل</small>
+		</span>
+		<span class="baji-size-guide-shortcut__action">مشاهده <i class="fa-solid fa-chevron-left"></i></span>
+	</button>
 	<?php
 }
 add_action( 'woocommerce_single_product_summary', 'bajistyle_product_size_guide_shortcut', 24 );
 
 /**
- * Category-specific guide on every configured product category archive.
+ * Premium modal for instant access from the purchase area.
+ */
+function bajistyle_product_size_guide_modal() {
+	if ( ! is_product() ) {
+		return;
+	}
+
+	global $product;
+	if ( ! $product instanceof WC_Product ) {
+		return;
+	}
+
+	$guide = bajistyle_resolve_size_guide( $product );
+	?>
+	<div id="baji-size-guide-modal" class="baji-size-guide-modal" aria-hidden="true">
+		<div class="baji-size-guide-modal__backdrop" data-baji-size-guide-close></div>
+		<div class="baji-size-guide-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="baji-size-guide-modal-title">
+			<header class="baji-size-guide-modal__header">
+				<div>
+					<span>BAJI SIZE STUDIO</span>
+					<h2 id="baji-size-guide-modal-title">راهنمای سایز <?php echo esc_html( $guide['name'] ); ?></h2>
+				</div>
+				<button type="button" data-baji-size-guide-close aria-label="بستن راهنمای سایز"><i class="fa-solid fa-xmark"></i></button>
+			</header>
+			<div class="baji-size-guide-modal__body">
+				<?php bajistyle_render_size_guide( $product, false ); ?>
+			</div>
+			<footer class="baji-size-guide-modal__footer">
+				<div><i class="fa-solid fa-circle-info"></i><span>اندازه‌های خود محصول، ملاک اصلی انتخاب هستند.</span></div>
+				<button type="button" data-baji-size-guide-close>متوجه شدم</button>
+			</footer>
+		</div>
+	</div>
+	<?php
+}
+add_action( 'wp_footer', 'bajistyle_product_size_guide_modal', 35 );
+
+/**
+ * Category-specific guide on product-category archives.
  */
 function bajistyle_category_size_guide() {
 	if ( ! is_product_category() ) {
 		return;
 	}
+
 	$guide = bajistyle_resolve_size_guide();
 	?>
 	<details class="baji-category-size-guide">
 		<summary>
 			<span><i class="fa-solid fa-ruler-combined"></i></span>
-			<div><strong>راهنمای سایز <?php echo esc_html( $guide['name'] ); ?></strong><small>قبل از انتخاب محصول، روش اندازه‌گیری را ببین</small></div>
+			<div>
+				<em>BAJI SIZE STUDIO</em>
+				<strong>راهنمای سایز <?php echo esc_html( $guide['name'] ); ?></strong>
+				<small>قبل از انتخاب محصول، روش اندازه‌گیری درست را ببین</small>
+			</div>
 			<i class="fa-solid fa-chevron-down"></i>
 		</summary>
 		<div class="baji-category-size-guide__body">
