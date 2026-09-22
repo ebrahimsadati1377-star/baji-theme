@@ -1233,3 +1233,20 @@ function baji_optional_account_email_required_fields( $fields ) {
 	return $fields;
 }
 add_filter( 'woocommerce_save_account_details_required_fields', 'baji_optional_account_email_required_fields', 20 );
+
+
+/**
+ * One-time LiteSpeed purge for BAJI mobile menu 1.0.43.
+ */
+function baji_purge_litespeed_mobile_menu_1043() {
+	$key = 'baji_lscache_purge_mobile_menu_1043';
+	if ( 'done' === get_option( $key ) ) {
+		return;
+	}
+
+	if ( has_action( 'litespeed_purge_all' ) || defined( 'LSCWP_V' ) ) {
+		do_action( 'litespeed_purge_all' );
+		update_option( $key, 'done', false );
+	}
+}
+add_action( 'init', 'baji_purge_litespeed_mobile_menu_1043', 99 );
