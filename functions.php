@@ -1100,26 +1100,3 @@ function baji_purge_litespeed_after_otp_timer_120() {
 	}
 }
 add_action( 'init', 'baji_purge_litespeed_after_otp_timer_120', 99 );
-
-
-/**
- * Register DigiPay from ParsiGate so WooCommerce can expose/configure it.
- */
-function baji_enable_parsigate_digipay( $enabled, $gateway_id ) {
-    if ( 'digipay' === strtolower( (string) $gateway_id ) ) {
-        return true;
-    }
-    return $enabled;
-}
-add_filter( 'parsigate_enable_gateway', 'baji_enable_parsigate_digipay', 10, 2 );
-
-/**
- * Persist DigiPay as enabled in ParsiGate before WooCommerce builds its gateway list.
- */
-$baji_parsigate_options = get_option( 'wp_parsidate_parsigate', array() );
-$baji_parsigate_options = is_array( $baji_parsigate_options ) ? $baji_parsigate_options : array();
-if ( 1 !== (int) ( $baji_parsigate_options['digipay'] ?? 0 ) ) {
-    $baji_parsigate_options['digipay'] = 1;
-    update_option( 'wp_parsidate_parsigate', $baji_parsigate_options, false );
-}
-unset( $baji_parsigate_options );
