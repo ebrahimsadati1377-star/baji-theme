@@ -2058,3 +2058,652 @@ body.page-id-31 .wp-block-paragraph:empty{
     font-size:23px!important;
   }
 }
+
+
+/* BAJI ACCOUNT APP 2026-09-22 */
+body.woocommerce-account{
+  background:#fffaf8!important;
+}
+body.woocommerce-account #main-content{
+  background:
+    radial-gradient(circle at 92% 0,rgba(123,19,39,.055),transparent 24%),
+    linear-gradient(180deg,#fffaf8 0,#fff 680px)!important;
+}
+body.woocommerce-account .baji-page-wrapper{
+  max-width:1240px!important;
+  padding-left:18px!important;
+  padding-right:18px!important;
+}
+body.woocommerce-account .baji-breadcrumb,
+body.woocommerce-account .baji-page-header{
+  display:none!important;
+}
+body.woocommerce-account .baji-page-content{
+  max-width:none!important;
+  margin:0!important;
+}
+.baji-account-shell{
+  max-width:1160px;
+  margin:0 auto;
+  padding:30px 0 70px;
+  direction:rtl;
+  color:#2b211e;
+}
+.baji-account-shell *{box-sizing:border-box}
+.baji-account-shell a{text-decoration:none!important}
+.baji-account-hero{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+  padding:25px 28px;
+  background:linear-gradient(135deg,#7b1327 0%,#9f3c50 58%,#ba6675 100%);
+  border-radius:26px;
+  box-shadow:0 18px 46px rgba(123,19,39,.17);
+  color:#fff;
+}
+.baji-account-identity{
+  display:flex;
+  align-items:center;
+  gap:16px;
+  min-width:0;
+}
+.baji-account-avatar{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:68px;
+  height:68px;
+  flex:0 0 68px;
+  border:1px solid rgba(255,255,255,.35);
+  border-radius:22px;
+  background:rgba(255,255,255,.14);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.2);
+  color:#fff;
+  font-size:28px;
+  font-weight:900;
+}
+.baji-account-eyebrow{
+  display:block;
+  margin-bottom:3px;
+  color:#f6dfe4;
+  font:700 9px/1.5 Arial,sans-serif;
+  letter-spacing:.18em;
+}
+.baji-account-identity h1{
+  margin:0!important;
+  color:#fff!important;
+  font-size:25px!important;
+  line-height:1.6!important;
+  font-weight:900!important;
+}
+.baji-account-identity h1 span{font-size:19px}
+.baji-account-identity p{
+  margin:3px 0 0!important;
+  color:#f5dfe3!important;
+  font-size:11px!important;
+  line-height:1.8!important;
+}
+.baji-account-logout{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  min-height:42px;
+  padding:0 15px;
+  border:1px solid rgba(255,255,255,.28);
+  border-radius:13px;
+  background:rgba(255,255,255,.09);
+  color:#fff!important;
+  font-size:11px;
+  font-weight:800;
+}
+.baji-account-logout:hover{background:rgba(255,255,255,.16)}
+.baji-account-tabs{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:8px;
+  margin:16px 0 22px;
+  padding:8px;
+  border:1px solid #eee1dc;
+  border-radius:19px;
+  background:#fff;
+  box-shadow:0 8px 24px rgba(72,48,39,.05);
+}
+.baji-account-tabs a{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  min-height:48px;
+  padding:8px 10px;
+  border-radius:13px;
+  color:#74645e!important;
+  font-size:11px;
+  font-weight:800;
+  transition:.18s ease;
+}
+.baji-account-tabs a i{font-size:13px;color:#ad9890}
+.baji-account-tabs a:hover{background:#fff7f5;color:#7b1327!important}
+.baji-account-tabs a.is-active{
+  background:#7b1327;
+  color:#fff!important;
+  box-shadow:0 8px 18px rgba(123,19,39,.16);
+}
+.baji-account-tabs a.is-active i{color:#fff}
+.baji-account-main{min-height:360px}
+.baji-account-stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
+  margin-bottom:18px;
+}
+.baji-account-stats>a{
+  position:relative;
+  display:grid;
+  grid-template-columns:46px 1fr;
+  grid-template-rows:auto auto;
+  column-gap:12px;
+  align-items:center;
+  min-height:102px;
+  padding:17px;
+  overflow:hidden;
+  border:1px solid #eee2dd;
+  border-radius:19px;
+  background:#fff;
+  color:#2b211e!important;
+  box-shadow:0 7px 22px rgba(66,44,36,.045);
+}
+.baji-account-stats>a:after{
+  content:'';
+  position:absolute;
+  left:-18px;
+  bottom:-24px;
+  width:72px;
+  height:72px;
+  border-radius:50%;
+  background:#fff4f2;
+}
+.baji-account-stat-icon{
+  grid-row:1/3;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:46px;
+  height:46px;
+  border-radius:15px;
+  background:#fbe9ec;
+  color:#9a3046;
+  font-size:17px;
+}
+.baji-account-stats strong{
+  align-self:end;
+  font-size:23px;
+  line-height:1.1;
+  font-weight:950;
+  color:#2a201d;
+}
+.baji-account-stats small{
+  align-self:start;
+  margin-top:4px;
+  color:#887871;
+  font-size:10.5px;
+  font-weight:700;
+}
+.baji-account-grid{
+  display:grid;
+  grid-template-columns:minmax(0,1.65fr) minmax(270px,.75fr);
+  gap:18px;
+  align-items:start;
+}
+.baji-account-card{
+  border:1px solid #eee2dd;
+  border-radius:22px;
+  background:#fff;
+  box-shadow:0 9px 28px rgba(66,44,36,.05);
+  overflow:hidden;
+}
+.baji-account-card-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  padding:20px 21px 16px;
+}
+.baji-account-card-head span{
+  display:block;
+  margin-bottom:2px;
+  color:#a08e87;
+  font-size:9px;
+  font-weight:800;
+}
+.baji-account-card-head h2{
+  margin:0!important;
+  color:#2a201d!important;
+  font-size:17px!important;
+  line-height:1.7!important;
+  font-weight:900!important;
+}
+.baji-account-card-head>a{
+  color:#8c263b!important;
+  font-size:10px;
+  font-weight:900;
+}
+.baji-account-order-list{padding:0 13px 13px}
+.baji-account-order{
+  display:grid;
+  grid-template-columns:72px minmax(0,1fr) 34px;
+  gap:13px;
+  align-items:center;
+  padding:12px 8px;
+  border-top:1px solid #f3e9e5;
+}
+.baji-account-order-thumb{
+  width:72px;
+  height:82px;
+  overflow:hidden;
+  border-radius:13px;
+  background:#f6f1ee;
+}
+.baji-account-order-thumb img{
+  display:block;
+  width:100%!important;
+  height:100%!important;
+  margin:0!important;
+  object-fit:cover;
+}
+.baji-account-order-info{min-width:0}
+.baji-account-order-top{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin-bottom:5px;
+}
+.baji-account-order-top>b{
+  color:#42342f;
+  font-size:10px;
+  font-weight:900;
+}
+.baji-order-status{
+  display:inline-flex;
+  align-items:center;
+  min-height:23px;
+  padding:0 8px;
+  border-radius:999px;
+  background:#f5eee9;
+  color:#77645d;
+  font-size:8.5px;
+  font-weight:900;
+}
+.baji-order-status--completed{background:#edf8f1;color:#287448}
+.baji-order-status--processing{background:#fff6df;color:#946615}
+.baji-order-status--pending,.baji-order-status--on-hold{background:#fff3e7;color:#a05c20}
+.baji-order-status--cancelled,.baji-order-status--failed{background:#fff0f1;color:#b7354d}
+.baji-account-order h3{
+  max-width:100%;
+  margin:0 0 7px!important;
+  overflow:hidden;
+  color:#2d2320!important;
+  font-size:12px!important;
+  line-height:1.7!important;
+  font-weight:800!important;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+}
+.baji-account-order-meta{
+  display:flex;
+  align-items:center;
+  gap:13px;
+}
+.baji-account-order-meta span{color:#9c8b84;font-size:9px}
+.baji-account-order-meta strong{color:#7b1327;font-size:10.5px;font-weight:900}
+.baji-account-order-meta .woocommerce-Price-amount{font-size:inherit!important}
+.baji-account-order-link{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:32px;
+  height:32px;
+  border-radius:11px;
+  background:#fff5f3;
+  color:#8f2a40!important;
+  font-size:10px;
+}
+.baji-account-side{display:grid;gap:14px}
+.baji-account-quick{padding-bottom:7px}
+.baji-account-quick>a{
+  display:grid;
+  grid-template-columns:38px 1fr 20px;
+  gap:10px;
+  align-items:center;
+  margin:0 12px;
+  padding:12px 7px;
+  border-top:1px solid #f3e9e5;
+  color:#342824!important;
+}
+.baji-account-quick>a>i{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:38px;
+  height:38px;
+  border-radius:12px;
+  background:#fff4f2;
+  color:#963047;
+  font-size:13px;
+}
+.baji-account-quick>a span{min-width:0}
+.baji-account-quick>a b{
+  display:block;
+  margin-bottom:1px;
+  font-size:10.5px;
+  font-weight:900;
+}
+.baji-account-quick>a small{
+  display:block;
+  overflow:hidden;
+  color:#9a8982;
+  font-size:8.5px;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+}
+.baji-account-quick>a em{
+  color:#b9aaa4;
+  font:22px/1 Arial,sans-serif;
+  font-style:normal;
+}
+.baji-account-support{
+  position:relative;
+  padding:20px;
+  overflow:hidden;
+  border-radius:22px;
+  background:linear-gradient(145deg,#2e2623,#4c3835);
+  color:#fff;
+  box-shadow:0 12px 28px rgba(44,34,31,.13);
+}
+.baji-account-support>i{
+  position:absolute;
+  left:18px;
+  top:18px;
+  color:#edc9d0;
+  font-size:25px;
+}
+.baji-account-support span{display:block;color:#d9c0bc;font-size:9px;font-weight:800}
+.baji-account-support strong{display:block;margin-top:3px;font-size:14px;font-weight:900}
+.baji-account-support p{margin:5px 0 13px!important;color:#d8cbc7!important;font-size:9.5px!important}
+.baji-account-support a{
+  display:inline-flex;
+  min-height:33px;
+  align-items:center;
+  padding:0 12px;
+  border-radius:10px;
+  background:#fff;
+  color:#3e302c!important;
+  font-size:9px;
+  font-weight:900;
+}
+.baji-account-repeat{
+  margin-top:18px;
+  padding-bottom:16px;
+  border:1px solid #eee2dd;
+  border-radius:22px;
+  background:#fff;
+  box-shadow:0 9px 28px rgba(66,44,36,.045);
+}
+.baji-account-repeat-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:11px;
+  padding:0 18px;
+}
+.baji-account-repeat-grid>a{
+  display:block;
+  min-width:0;
+  color:#2d2320!important;
+}
+.baji-account-repeat-grid>a>div{
+  aspect-ratio:3/4;
+  overflow:hidden;
+  border-radius:14px;
+  background:#f5f0ed;
+}
+.baji-account-repeat-grid img{
+  display:block;
+  width:100%!important;
+  height:100%!important;
+  margin:0!important;
+  object-fit:cover;
+}
+.baji-account-repeat-grid h3{
+  margin:8px 1px 2px!important;
+  overflow:hidden;
+  color:#382b27!important;
+  font-size:10.5px!important;
+  line-height:1.7!important;
+  font-weight:800!important;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+}
+.baji-account-repeat-grid span{color:#7b1327;font-size:10px;font-weight:900}
+.baji-account-empty{
+  padding:48px 20px 52px;
+  text-align:center;
+}
+.baji-account-empty>i{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:54px;
+  height:54px;
+  margin:0 auto 12px;
+  border-radius:17px;
+  background:#fff2ef;
+  color:#973149;
+  font-size:18px;
+}
+.baji-account-empty h3{margin:0!important;font-size:14px!important;font-weight:900!important}
+.baji-account-empty p{margin:5px 0 13px!important;color:#998881!important;font-size:10px!important}
+.baji-account-empty a{
+  display:inline-flex;
+  align-items:center;
+  min-height:36px;
+  padding:0 15px;
+  border-radius:11px;
+  background:#7b1327;
+  color:#fff!important;
+  font-size:9.5px;
+  font-weight:900;
+}
+.baji-account-section{
+  padding:24px;
+  border:1px solid #eee2dd;
+  border-radius:22px;
+  background:#fff;
+  box-shadow:0 9px 28px rgba(66,44,36,.05);
+}
+.baji-account-section .woocommerce-MyAccount-content{float:none!important;width:100%!important}
+.baji-account-section table{
+  width:100%!important;
+  border-collapse:separate!important;
+  border-spacing:0!important;
+  border:1px solid #eee3de!important;
+  border-radius:15px!important;
+  overflow:hidden!important;
+  font-size:11px!important;
+}
+.baji-account-section table th{
+  padding:12px!important;
+  background:#fff8f6!important;
+  color:#74645e!important;
+  font-size:9px!important;
+}
+.baji-account-section table td{padding:13px 12px!important;border-top:1px solid #f2e8e4!important}
+.baji-account-section .button,
+.baji-account-section button.button{
+  min-height:38px!important;
+  padding:9px 14px!important;
+  border:0!important;
+  border-radius:11px!important;
+  background:#7b1327!important;
+  color:#fff!important;
+  font-family:inherit!important;
+  font-size:10px!important;
+  font-weight:900!important;
+}
+.baji-account-section input.input-text,
+.baji-account-section input[type="text"],
+.baji-account-section input[type="email"],
+.baji-account-section input[type="tel"],
+.baji-account-section input[type="password"],
+.baji-account-section select,
+.baji-account-section textarea{
+  width:100%!important;
+  min-height:47px!important;
+  padding:9px 12px!important;
+  border:1px solid #e4d8d2!important;
+  border-radius:12px!important;
+  background:#fffaf8!important;
+  box-shadow:none!important;
+  font-family:inherit!important;
+  font-size:11px!important;
+  outline:none!important;
+}
+.baji-account-section textarea{min-height:100px!important}
+.baji-account-section input:focus,
+.baji-account-section select:focus,
+.baji-account-section textarea:focus{
+  border-color:#9d354b!important;
+  box-shadow:0 0 0 3px rgba(123,19,39,.07)!important;
+}
+.baji-account-section fieldset{
+  margin-top:20px!important;
+  padding:18px!important;
+  border:1px solid #eee2dd!important;
+  border-radius:15px!important;
+}
+.baji-account-section legend{
+  padding:0 8px!important;
+  color:#513e37!important;
+  font-size:11px!important;
+  font-weight:900!important;
+}
+.baji-account-guest{
+  max-width:480px;
+  margin:50px auto;
+  padding:38px 28px;
+  border:1px solid #eee2dd;
+  border-radius:24px;
+  background:#fff;
+  box-shadow:0 18px 50px rgba(66,44,36,.08);
+  text-align:center;
+}
+.baji-account-guest__mark{font:700 38px/1 Georgia,serif;letter-spacing:.14em}
+.baji-account-guest h2{margin:18px 0 7px!important;font-size:18px!important;font-weight:900!important}
+.baji-account-guest p{margin:0 0 16px!important;color:#8e7d76!important;font-size:10px!important}
+.baji-account-guest a{display:inline-flex;align-items:center;min-height:40px;padding:0 18px;border-radius:12px;background:#7b1327;color:#fff!important;font-size:10px;font-weight:900}
+
+@media(max-width:900px){
+  .baji-account-grid{grid-template-columns:1fr}
+  .baji-account-side{grid-template-columns:1fr 1fr}
+  .baji-account-repeat-grid{grid-template-columns:repeat(4,1fr)}
+}
+@media(max-width:767px){
+  body.woocommerce-account .baji-page-wrapper{padding-left:12px!important;padding-right:12px!important}
+  .baji-account-shell{padding:18px 0 92px}
+  .baji-account-hero{
+    align-items:flex-start;
+    padding:20px 17px;
+    border-radius:21px;
+  }
+  .baji-account-avatar{width:54px;height:54px;flex-basis:54px;border-radius:17px;font-size:22px}
+  .baji-account-identity{gap:11px}
+  .baji-account-identity h1{font-size:18px!important}
+  .baji-account-eyebrow{font-size:7px}
+  .baji-account-logout{min-height:34px;padding:0 10px;border-radius:10px}
+  .baji-account-logout span{display:none}
+  .baji-account-tabs{
+    display:flex;
+    gap:6px;
+    margin:12px 0 15px;
+    padding:6px;
+    overflow-x:auto;
+    border-radius:16px;
+    scrollbar-width:none;
+    -webkit-overflow-scrolling:touch;
+  }
+  .baji-account-tabs::-webkit-scrollbar{display:none}
+  .baji-account-tabs a{
+    flex:0 0 auto;
+    min-width:92px;
+    min-height:44px;
+    padding:7px 10px;
+    border-radius:11px;
+    font-size:9.5px;
+  }
+  .baji-account-stats{grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+  .baji-account-stats>a{
+    grid-template-columns:39px 1fr;
+    min-height:85px;
+    padding:13px;
+    border-radius:16px;
+  }
+  .baji-account-stat-icon{width:39px;height:39px;border-radius:12px;font-size:14px}
+  .baji-account-stats strong{font-size:19px}
+  .baji-account-stats small{font-size:9px}
+  .baji-account-grid{gap:12px}
+  .baji-account-card{border-radius:18px}
+  .baji-account-card-head{padding:16px 15px 12px}
+  .baji-account-card-head h2{font-size:15px!important}
+  .baji-account-order-list{padding:0 8px 8px}
+  .baji-account-order{
+    grid-template-columns:58px minmax(0,1fr) 28px;
+    gap:9px;
+    padding:10px 6px;
+  }
+  .baji-account-order-thumb{width:58px;height:70px;border-radius:11px}
+  .baji-account-order h3{font-size:10.5px!important;margin-bottom:5px!important}
+  .baji-account-order-top{gap:5px;margin-bottom:3px}
+  .baji-order-status{min-height:20px;padding:0 6px;font-size:7.5px}
+  .baji-account-order-meta{gap:8px}
+  .baji-account-order-meta span,.baji-account-order-meta strong{font-size:8.5px}
+  .baji-account-order-link{width:27px;height:27px;border-radius:9px;font-size:8px}
+  .baji-account-side{grid-template-columns:1fr;gap:12px}
+  .baji-account-support{border-radius:18px}
+  .baji-account-repeat{margin-top:12px;border-radius:18px}
+  .baji-account-repeat-grid{
+    display:flex;
+    gap:9px;
+    overflow-x:auto;
+    padding:0 14px 3px;
+    scrollbar-width:none;
+  }
+  .baji-account-repeat-grid::-webkit-scrollbar{display:none}
+  .baji-account-repeat-grid>a{flex:0 0 38%;min-width:0}
+  .baji-account-repeat-grid h3{font-size:9.5px!important}
+  .baji-account-section{padding:15px;border-radius:18px;overflow:hidden}
+  .baji-account-section table,
+  .baji-account-section tbody,
+  .baji-account-section tr,
+  .baji-account-section td{display:block!important;width:100%!important}
+  .baji-account-section thead{display:none!important}
+  .baji-account-section tr{
+    margin-bottom:10px!important;
+    border:1px solid #eee3de!important;
+    border-radius:13px!important;
+    overflow:hidden!important;
+  }
+  .baji-account-section td{
+    display:flex!important;
+    align-items:center!important;
+    justify-content:space-between!important;
+    gap:10px!important;
+    padding:10px 11px!important;
+    font-size:10px!important;
+  }
+  .baji-account-section td:before{
+    content:attr(data-title);
+    color:#9a8982;
+    font-size:8.5px;
+    font-weight:800;
+  }
+}
