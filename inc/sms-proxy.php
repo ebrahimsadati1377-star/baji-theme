@@ -312,6 +312,48 @@ function baji_sms_proxy_send( WP_REST_Request $request ) {
 
 
 
+
+function baji_sms_proxy_create_pattern( WP_REST_Request $request ) {
+    $auth = baji_sms_proxy_authenticate( $request );
+    if ( is_wp_error( $auth ) ) {
+        return $auth;
+    }
+
+    $data        = $request->get_json_params();
+    $title       = trim( (string) ( $data['title'] ?? '' ) );
+    $description = trim( (string) ( $data['description'] ?? '' ) );
+    $message     = trim( (string) ( $data['message'] ?? '' ) );
+    $website     = trim( (string) ( $data['website'] ?? 'https://bajistyle.ir' ) );
+    $variables   = isset( $data['variable'] ) && is_array( $data['variable'] ) ? $data['variable'] : array();
+
+    if ( '' === $description || '' === $message ) {
+        return new WP_Error( 'baji_sms_pattern_fields', 'Pattern description and message are required.', array( 'status' => 400 ) );
+    }
+
+    $payload = array(
+        'title'       => $title,
+        'description' => $description,
+        'is_share'    => false,
+        'message'     => $message,
+        'website'     => $website,
+        'variable'    => $variables,
+    );
+
+    $provider = baji_sms_proxy_provider_request( 'POST', '/api/patterns/normal', $payload );
+    if ( is_wp_error( $provider ) ) {
+        return $provider;
+    }
+
+    return rest_ensure_response(
+        array(
+            'success'       => true,
+            'route'         => 'wordpress-relay',
+            'provider_http' => $provider['provider_http'],
+            'response'      => $provider['response'],
+        )
+    );
+}
+
 function baji_sms_proxy_patterns( WP_REST_Request $request ) {
     $auth = baji_sms_proxy_authenticate( $request );
     if ( is_wp_error( $auth ) ) {
@@ -430,6 +472,15 @@ add_action(
             array(
                 'methods'             => 'POST',
                 'callback'            => 'baji_sms_proxy_message_status',
+                'permission_callback' => '__return_true',
+            )
+        );
+        register_rest_route(
+            'baji/v1',
+            '/sms-proxy/create-pattern',
+            array(
+                'methods'             => 'POST',
+                'callback'            => 'baji_sms_proxy_create_pattern',
                 'permission_callback' => '__return_true',
             )
         );
