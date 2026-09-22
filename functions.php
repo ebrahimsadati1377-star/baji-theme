@@ -1129,7 +1129,7 @@ unset( $baji_parsigate_options );
 function baji_debug_bwdk_source() {
 	$base = WP_PLUGIN_DIR . '/buy-with-digikala';
 	$out = array();
-	$needles = array( 'Requires Plugins', 'deactivate_plugins', 'is_plugin_active', 'woocommerce', 'parsidate', 'parsigate', 'bwdk', 'gateway', 'api' );
+	$needles = array( 'Requires Plugins', 'deactivate_plugins', 'is_plugin_active', 'woocommerce', 'parsidate', 'parsigate', 'bwdk', 'BwdkGateway', 'is_available', 'init_form_fields', 'enabled', 'merchant', 'token', 'gateway', 'api' );
 	if ( ! is_dir( $base ) ) {
 		return array( 'ok' => false, 'base' => $base );
 	}
@@ -1155,7 +1155,7 @@ function baji_debug_bwdk_source() {
 	return array( 'ok' => true, 'active' => is_plugin_active( 'buy-with-digikala/buy-with-digikala.php' ), 'matches' => $out );
 }
 add_action( 'rest_api_init', function () {
-	register_rest_route( 'baji-debug/v1', '/bwdk-source', array(
+	register_rest_route( 'baji-debug/v1', '/bwdk-source2', array(
 		'methods' => 'GET',
 		'permission_callback' => function () { return current_user_can( 'manage_options' ); },
 		'callback' => function () { return rest_ensure_response( baji_debug_bwdk_source() ); },
