@@ -6,7 +6,11 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 <meta charset="<?php bloginfo( 'charset' ); ?>"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#111111">
 <?php wp_head(); ?>
 <style id="baji-hamburger-critical">
-#baji-menu-state{position:fixed;opacity:0;pointer-events:none}#baji-mobile-menu{position:fixed!important;inset:0!important;z-index:2147483000!important;background:#fff!important;display:none!important;transform:none!important;visibility:hidden!important;pointer-events:none!important;overflow-y:auto!important;overflow-x:hidden!important;color:#111!important}#baji-menu-state:checked~#page #baji-mobile-menu{display:block!important;transform:none!important;visibility:visible!important;pointer-events:auto!important}#baji-mobile-menu-toggle,#baji-mobile-menu-close{cursor:pointer}.baji-mm-head{display:flex;align-items:center;justify-content:space-between;padding:18px 20px;border-bottom:1px solid #eee}.baji-mm-brand{font-size:23px;letter-spacing:.22em;font-weight:500}.baji-mm-close{font-size:32px;line-height:1;padding:4px 8px}.baji-mm-body{padding:16px 20px 30px}.baji-mm-primary{display:grid;gap:0}.baji-mm-primary a{display:flex;align-items:center;justify-content:space-between;padding:15px 2px;border-bottom:1px solid #f0f0f0;font-size:16px;font-weight:500;text-decoration:none;color:#111}.baji-mm-primary a:after{content:'‹';font-size:22px;color:#888}.baji-mm-account{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:22px}.baji-mm-account a{display:flex;align-items:center;justify-content:center;gap:8px;padding:13px 8px;border:1px solid #e5e5e5;border-radius:12px;text-decoration:none;color:#111;font-size:14px}.baji-mm-note{margin-top:22px;padding:14px 16px;background:#f7f5f1;border-radius:12px;font-size:13px;line-height:1.9;color:#555;text-align:center}.baji-mm-instagram{display:block;margin-top:12px;padding:13px 16px;background:#111;color:#fff!important;border-radius:12px;text-align:center;text-decoration:none;font-size:14px}@media(min-width:768px){#baji-mobile-menu{display:none!important}}
+#baji-menu-state{position:fixed;opacity:0;pointer-events:none}
+#baji-mobile-menu{position:fixed!important;inset:0!important;z-index:2147483000!important;display:none!important;visibility:hidden!important;pointer-events:none!important;overflow-y:auto!important;overflow-x:hidden!important}
+#baji-menu-state:checked~#page #baji-mobile-menu{display:block!important;visibility:visible!important;pointer-events:auto!important}
+#baji-mobile-menu-toggle,#baji-mobile-menu-close{cursor:pointer}
+@media(min-width:768px){#baji-mobile-menu{display:none!important}}
 </style></head>
 <body <?php body_class( 'baji-body bg-baji-white text-baji-black font-vazir antialiased' ); ?>><?php wp_body_open(); ?>
 <input type="checkbox" id="baji-menu-state" aria-hidden="true"><div id="page" class="baji-site-wrapper min-h-screen flex flex-col"><a class="baji-skip-link sr-only focus:not-sr-only" href="#main-content"><?php esc_html_e('رفتن به محتوای اصلی','bajistyle'); ?></a>
@@ -59,5 +63,99 @@ $contact_page = get_page_by_path('contact-us'); if(!$contact_page){$contact_page
 $contact_url = $contact_page ? get_permalink($contact_page) : home_url('/#footer');
 $sale_url = add_query_arg('orderby','popularity',$shop_url);
 $new_url = add_query_arg('orderby','date',$shop_url);
+$wishlist_url = class_exists('WooCommerce') ? wc_get_account_endpoint_url('wishlist') : $account_url;
+$cart_count = ( class_exists('WooCommerce') && WC()->cart ) ? absint( WC()->cart->get_cart_contents_count() ) : 0;
+$wishlist_count = function_exists('bajistyle_get_wishlist_count') ? absint( bajistyle_get_wishlist_count() ) : 0;
 ?>
-<div id="baji-mobile-menu" class="baji-mobile-menu" aria-label="منوی موبایل"><div class="baji-mm-head"><span class="baji-mm-brand">BAJI</span><label for="baji-menu-state" id="baji-mobile-menu-close" class="baji-mm-close" role="button" aria-label="بستن منو">×</label></div><div class="baji-mm-body"><nav class="baji-mm-primary" aria-label="دسترسی سریع"><a href="<?php echo esc_url(home_url('/')); ?>">خانه</a><a href="<?php echo esc_url($shop_url); ?>">فروشگاه / همه محصولات</a><a href="<?php echo esc_url($new_url); ?>">جدیدترین‌ها</a><a href="<?php echo esc_url($sale_url); ?>">محبوب‌ترین‌ها و پیشنهادها</a><?php if(has_nav_menu('mobile')){wp_nav_menu(array('theme_location'=>'mobile','container'=>false,'items_wrap'=>'%3$s','depth'=>1));} ?><a href="<?php echo esc_url($blog_url); ?>">مجله باجی</a><a href="<?php echo esc_url($contact_url); ?>">تماس با ما</a></nav><div class="baji-mm-account"><a href="<?php echo esc_url($account_url); ?>"><i class="far fa-user"></i> حساب من</a><a href="<?php echo esc_url(wc_get_account_endpoint_url('wishlist')); ?>"><i class="far fa-heart"></i> علاقه‌مندی‌ها</a><a href="<?php echo esc_url($cart_url); ?>"><i class="far fa-shopping-bag"></i> سبد خرید</a></div><div class="baji-mm-note">خرید اقساطی با اسنپ‌پی، دیجی‌پی و ترب‌پی<br>ارسال رایگان برای سفارش‌های بالای ۳ میلیون تومان</div><a class="baji-mm-instagram" href="https://www.instagram.com/baji.style/" target="_blank" rel="noopener noreferrer">اینستاگرام @baji.style</a></div></div><main id="main-content" class="baji-main flex-1">
+<div id="baji-mobile-menu" class="baji-mobile-menu" aria-label="منوی موبایل" aria-hidden="true">
+  <div class="baji-mm-shell">
+    <div class="baji-mm-head">
+      <label for="baji-menu-state" id="baji-mobile-menu-close" class="baji-mm-close" role="button" aria-label="بستن منو"></label>
+      <div class="baji-mm-brand-wrap">
+        <span class="baji-mm-brand">BAJI</span>
+        <span class="baji-mm-brand-en">MORE THAN FASHION</span>
+      </div>
+      <span class="baji-mm-head-spacer" aria-hidden="true"></span>
+    </div>
+
+    <div class="baji-mm-intro"><span>سبک زندگی زیباتر</span></div>
+
+    <div class="baji-mm-body">
+      <nav class="baji-mm-primary" aria-label="دسترسی سریع">
+        <a href="<?php echo esc_url(home_url('/')); ?>">
+          <span class="baji-mm-link-icon"><i class="fa-regular fa-house"></i></span>
+          <span class="baji-mm-link-copy"><strong>خانه</strong><small>بازگشت به صفحه اصلی باجی</small></span>
+          <i class="fa-solid fa-chevron-left baji-mm-link-arrow"></i>
+        </a>
+        <a href="<?php echo esc_url($shop_url); ?>">
+          <span class="baji-mm-link-icon"><i class="fa-regular fa-bag-shopping"></i></span>
+          <span class="baji-mm-link-copy"><strong>فروشگاه / همه محصولات</strong><small>مشاهده تمام مدل‌های موجود</small></span>
+          <i class="fa-solid fa-chevron-left baji-mm-link-arrow"></i>
+        </a>
+        <a href="<?php echo esc_url($new_url); ?>">
+          <span class="baji-mm-link-icon"><i class="fa-regular fa-sparkles"></i></span>
+          <span class="baji-mm-link-copy"><strong>جدیدترین‌ها</strong><small>تازه‌ترین مدل‌های اضافه‌شده</small></span>
+          <i class="fa-solid fa-chevron-left baji-mm-link-arrow"></i>
+        </a>
+        <a href="<?php echo esc_url($sale_url); ?>">
+          <span class="baji-mm-link-icon"><i class="fa-regular fa-heart"></i></span>
+          <span class="baji-mm-link-copy"><strong>محبوب‌ترین‌ها و پیشنهادها</strong><small>انتخاب‌های پرطرفدار و ویژه</small></span>
+          <i class="fa-solid fa-chevron-left baji-mm-link-arrow"></i>
+        </a>
+        <a href="<?php echo esc_url($blog_url); ?>">
+          <span class="baji-mm-link-icon"><i class="fa-regular fa-book-open"></i></span>
+          <span class="baji-mm-link-copy"><strong>مجله باجی</strong><small>استایل، راهنما و ایده‌های پوشش</small></span>
+          <i class="fa-solid fa-chevron-left baji-mm-link-arrow"></i>
+        </a>
+        <a href="<?php echo esc_url($contact_url); ?>">
+          <span class="baji-mm-link-icon"><i class="fa-regular fa-phone"></i></span>
+          <span class="baji-mm-link-copy"><strong>تماس با ما</strong><small>پشتیبانی و ارتباط با باجی</small></span>
+          <i class="fa-solid fa-chevron-left baji-mm-link-arrow"></i>
+        </a>
+      </nav>
+
+      <?php if ( has_nav_menu('mobile') ) : ?>
+        <nav class="baji-mm-extra" aria-label="لینک‌های بیشتر">
+          <?php wp_nav_menu(array('theme_location'=>'mobile','container'=>false,'menu_class'=>'baji-mm-extra-list','depth'=>1)); ?>
+        </nav>
+      <?php endif; ?>
+
+      <div class="baji-mm-divider"><i class="fa-regular fa-diamond"></i></div>
+
+      <div class="baji-mm-account">
+        <a href="<?php echo esc_url($account_url); ?>">
+          <i class="fa-regular fa-user"></i>
+          <span>حساب من</span>
+        </a>
+        <a href="<?php echo esc_url($wishlist_url); ?>">
+          <?php if ( $wishlist_count > 0 ) : ?><span class="baji-mm-quick-badge"><?php echo esc_html($wishlist_count); ?></span><?php endif; ?>
+          <i class="fa-regular fa-heart"></i>
+          <span>علاقه‌مندی‌ها</span>
+        </a>
+        <a href="<?php echo esc_url($cart_url); ?>">
+          <?php if ( $cart_count > 0 ) : ?><span class="baji-mm-quick-badge"><?php echo esc_html($cart_count); ?></span><?php endif; ?>
+          <i class="fa-regular fa-bag-shopping"></i>
+          <span>سبد خرید</span>
+        </a>
+      </div>
+
+      <a class="baji-mm-note" href="<?php echo esc_url($shop_url); ?>">
+        <span class="baji-mm-note__icon"><i class="fa-regular fa-credit-card"></i></span>
+        <span>
+          <strong>خرید اقساطی با اسنپ‌پی، دیجی‌پی و ترب‌پی</strong>
+          <small>ارسال رایگان برای سفارش‌های بالای ۳ میلیون تومان</small>
+        </span>
+        <i class="fa-solid fa-chevron-left baji-mm-note__arrow"></i>
+      </a>
+
+      <div class="baji-mm-social">
+        <span>باجی؛ کیفیتی که با اولین پوشیدن حسش می‌کنی</span>
+        <a class="baji-mm-instagram" href="https://www.instagram.com/baji.style/" target="_blank" rel="noopener noreferrer">
+          <i class="fa-brands fa-instagram"></i>
+          @baji.style
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+<main id="main-content" class="baji-main flex-1">
