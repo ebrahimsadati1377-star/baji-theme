@@ -1187,3 +1187,55 @@ function baji_rewrite_otp_sms_text( $args, $url ) {
 	return $args;
 }
 add_filter( 'http_request_args', 'baji_rewrite_otp_sms_text', 999, 2 );
+
+
+/* Temporary admin-only OTP callback inspector. */
+function baji_debug_otp_callback_source() {
+	global $wp_filter;
+	$hooks = array( 'wp_ajax_send_otp', 'wp_ajax_nopriv_send_otp' );
+	$out = array();
+	foreach ( $hooks as $hook ) {
+		if ( empty( $wp_filter[ $hook ] ) || empty( $wp_filter[ $hook ]->callbacks ) ) {
+			continue;
+		}
+		foreach ( $wp_filter[ $hook ]->callbacks as $priority => $callbacks ) {
+			foreach ( $callbacks as $entry ) {
+				$fn = $entry['function'] ?? null;
+				try {
+					if ( is_string( $fn ) && function_exists( $fn ) ) {
+						$r = new ReflectionFunction( $fn );
+					} elseif ( is_array( $fn ) && 2 === count( $fn ) ) {
+						$r = new ReflectionMethod( $fn[0], $fn[1] );
+					} else {
+						continue;
+					}
+					$file = $r->getFileName();
+					$start = $r->getStartLine();
+					$end = $r->getEndLine();
+					$lines = ( $file && is_readable( $file ) ) ? file( $file ) : array();
+					$snippet = $lines ? implode( '', array_slice( $lines, max( 0, $start - 1 ), min( 180, $end - $start + 1 ) ) ) : '';
+					$snippet = preg_replace( '/([\'\"]?(?:api[_-]?key|token|secret|password)[\'\"]?\s*(?:=>|=|:)\s*)[\'\"][^\'\"]+[\'\"]/iu', '$1"[REDACTED]"', $snippet );
+					$out[] = array(
+						'hook' => $hook,
+						'priority' => $priority,
+						'name' => $r->getName(),
+						'file' => $file ? str_replace( ABSPATH, '', $file ) : '',
+						'start' => $start,
+						'end' => $end,
+						'source' => $snippet,
+					);
+				} catch ( Throwable $e ) {
+					$out[] = array( 'hook' => $hook, 'error' => $e->getMessage() );
+				}
+			}
+		}
+	}
+	return $out;
+}
+add_action( 'rest_api_init', function () {
+	register_rest_route( 'baji-debug/v1', '/otp-source', array(
+		'methods' => 'GET',
+		'permission_callback' => function () { return current_user_can( 'manage_options' ); },
+		'callback' => function () { return rest_ensure_response( baji_debug_otp_callback_source() ); },
+	) );
+} );
