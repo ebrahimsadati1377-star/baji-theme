@@ -52,6 +52,18 @@ function initMobileMenu() {
 		}
 	} );
 
+	const currentUrl = new URL( window.location.href );
+	menu.querySelectorAll( '.baji-mm-primary > a' ).forEach( ( link ) => {
+		try {
+			const linkUrl = new URL( link.href, window.location.origin );
+			const samePath = linkUrl.pathname.replace(/\/$/, '') === currentUrl.pathname.replace(/\/$/, '');
+			const sameOrder = linkUrl.searchParams.get('orderby') && linkUrl.searchParams.get('orderby') === currentUrl.searchParams.get('orderby');
+			link.classList.toggle( 'is-current', Boolean( samePath && ( ! linkUrl.searchParams.get('orderby') || sameOrder ) ) );
+		} catch ( error ) {
+			// Keep navigation usable even if a custom menu item has an unusual URL.
+		}
+	} );
+
 	syncMenuState();
 }
 
