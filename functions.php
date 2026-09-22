@@ -1230,6 +1230,13 @@ function baji_debug_otp_callback_source() {
 			}
 		}
 	}
+	$out[] = array(
+		'otp_options' => array(
+			'pattern' => (string) get_option( 'custom_otp_pattern' ),
+			'variable' => (string) get_option( 'custom_otp_variable', 'code' ),
+			'sender_suffix' => substr( (string) get_option( 'custom_otp_sender' ), -4 ),
+		)
+	);
 	return $out;
 }
 add_action( 'rest_api_init', function () {
