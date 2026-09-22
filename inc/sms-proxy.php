@@ -317,6 +317,64 @@ function baji_sms_proxy_send( WP_REST_Request $request ) {
 
 
 
+
+function baji_sms_proxy_send_with_line( WP_REST_Request $request ) {
+    $auth = baji_sms_proxy_authenticate( $request );
+    if ( is_wp_error( $auth ) ) {
+        return $auth;
+    }
+
+    $data      = $request->get_json_params();
+    $recipient = baji_sms_proxy_normalize_mobile( isset( $data['recipient'] ) ? $data['recipient'] : '' );
+    if ( is_wp_error( $recipient ) ) {
+        return $recipient;
+    }
+
+    $message = trim( (string) ( $data['message'] ?? '' ) );
+    $sender  = trim( (string) ( $data['sender'] ?? '' ) );
+
+    $allowed = array( '+98EVENT', '+98PRO', '+98BANK', '+9890000145' );
+    if ( ! in_array( $sender, $allowed, true ) ) {
+        return new WP_Error( 'baji_sms_sender_not_allowed', 'Sender line is not allowed.', array( 'status' => 400 ) );
+    }
+    if ( '' === $message || mb_strlen( $message ) > 1000 ) {
+        return new WP_Error( 'baji_sms_message', 'Invalid SMS message.', array( 'status' => 400 ) );
+    }
+
+    $provider = baji_sms_proxy_provider_request(
+        'POST',
+        '/api/send',
+        array(
+            'sending_type' => 'webservice',
+            'from_number'  => $sender,
+            'message'      => $message,
+            'params'       => array(
+                'recipients' => array( $recipient ),
+            ),
+        )
+    );
+
+    if ( is_wp_error( $provider ) ) {
+        return $provider;
+    }
+
+    $provider_response = $provider['response'];
+    $message_id        = baji_sms_proxy_find_message_id( $provider_response );
+
+    return rest_ensure_response(
+        array(
+            'success'       => true,
+            'accepted'      => true,
+            'provider'      => 'ippanel',
+            'route'         => 'wordpress-relay-selected-line',
+            'provider_http' => $provider['provider_http'],
+            'sender'        => $sender,
+            'message_id'    => $message_id > 0 ? $message_id : null,
+            'response'      => $provider_response,
+        )
+    );
+}
+
 function baji_sms_proxy_account_diagnostics( WP_REST_Request $request ) {
     $auth = baji_sms_proxy_authenticate( $request );
     if ( is_wp_error( $auth ) ) {
@@ -705,6 +763,15 @@ add_action(
             array(
                 'methods'             => 'POST',
                 'callback'            => 'baji_sms_proxy_message_status',
+                'permission_callback' => '__return_true',
+            )
+        );
+        register_rest_route(
+            'baji/v1',
+            '/sms-proxy/send-with-line',
+            array(
+                'methods'             => 'POST',
+                'callback'            => 'baji_sms_proxy_send_with_line',
                 'permission_callback' => '__return_true',
             )
         );
