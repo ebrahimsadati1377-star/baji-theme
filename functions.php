@@ -1326,3 +1326,22 @@ function baji_purge_litespeed_ui_1044() {
 	}
 }
 add_action( 'init', 'baji_purge_litespeed_ui_1044', 99 );
+
+
+/**
+ * One-time LiteSpeed full cache purge requested 2026-09-24.
+ */
+function baji_manual_litespeed_purge_20260924() {
+	$key = 'baji_lscache_manual_purge_20260924';
+	if ( 'done' === get_option( $key ) ) {
+		return;
+	}
+	if ( has_action( 'litespeed_purge_all' ) || defined( 'LSCWP_V' ) ) {
+		do_action( 'litespeed_purge_all' );
+		update_option( $key, 'done', false );
+		if ( ! headers_sent() ) {
+			header( 'X-BAJI-LS-Purge: done' );
+		}
+	}
+}
+add_action( 'init', 'baji_manual_litespeed_purge_20260924', 99 );
