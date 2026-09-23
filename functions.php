@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /* -------------------------------------------------------------------------
  * ثابت‌های قالب
  * ---------------------------------------------------------------------- */
-define( 'BAJISTYLE_VERSION', '1.0.51' );
+define( 'BAJISTYLE_VERSION', '1.0.52' );
 define( 'BAJISTYLE_DIR', get_template_directory() );
 define( 'BAJISTYLE_URI', get_template_directory_uri() );
 
@@ -360,16 +360,6 @@ function bajistyle_enqueue_assets() {
 				BAJISTYLE_VERSION
 			);
 
-			wp_enqueue_script(
-				'bajistyle-hero-slider',
-				BAJISTYLE_URI . '/assets/js/hero-slider.js',
-				array(),
-				BAJISTYLE_VERSION,
-				array(
-					'in_footer' => true,
-					'strategy'  => 'defer',
-				)
-			);
 		}
 
 		wp_enqueue_script(
