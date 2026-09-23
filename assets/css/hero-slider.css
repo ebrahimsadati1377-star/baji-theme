@@ -91,3 +91,45 @@ body.home .baji-front-page .baji-hero-swiper.baji-hero-manual .baji-hero-manual-
     transition:none!important;
   }
 }
+
+/* BAJI hero CSS-only autoplay fallback — cannot be stopped by JS/hover */
+body.home .baji-front-page .baji-hero-swiper.baji-hero-css-rotator .swiper-wrapper > .swiper-slide{
+  opacity:0!important;
+  visibility:visible!important;
+  z-index:1!important;
+  pointer-events:none!important;
+  animation:bajiHeroCssCycle 16.8s linear infinite!important;
+}
+body.home .baji-front-page .baji-hero-swiper.baji-hero-css-rotator .swiper-wrapper > .swiper-slide:nth-child(1){animation-delay:0s!important}
+body.home .baji-front-page .baji-hero-swiper.baji-hero-css-rotator .swiper-wrapper > .swiper-slide:nth-child(2){animation-delay:4.2s!important}
+body.home .baji-front-page .baji-hero-swiper.baji-hero-css-rotator .swiper-wrapper > .swiper-slide:nth-child(3){animation-delay:8.4s!important}
+body.home .baji-front-page .baji-hero-swiper.baji-hero-css-rotator .swiper-wrapper > .swiper-slide:nth-child(4){animation-delay:12.6s!important}
+
+body.home .baji-front-page .baji-hero-swiper.baji-hero-css-rotator .baji-hero-manual-bullet{
+  animation:bajiHeroBulletCycle 16.8s linear infinite!important;
+}
+body.home .baji-front-page .baji-hero-swiper.baji-hero-css-rotator .baji-hero-manual-bullet:nth-child(1){animation-delay:0s!important}
+body.home .baji-front-page .baji-hero-swiper.baji-hero-css-rotator .baji-hero-manual-bullet:nth-child(2){animation-delay:4.2s!important}
+body.home .baji-front-page .baji-hero-swiper.baji-hero-css-rotator .baji-hero-manual-bullet:nth-child(3){animation-delay:8.4s!important}
+body.home .baji-front-page .baji-hero-swiper.baji-hero-css-rotator .baji-hero-manual-bullet:nth-child(4){animation-delay:12.6s!important}
+
+@keyframes bajiHeroCssCycle{
+  0%,23.5%{opacity:1}
+  25%,100%{opacity:0}
+}
+@keyframes bajiHeroBulletCycle{
+  0%,23.5%{width:30px;background:#fff}
+  25%,100%{width:8px;background:rgba(255,255,255,.62)}
+}
+@media(max-width:767px){
+  @keyframes bajiHeroBulletCycle{
+    0%,23.5%{width:26px;background:#fff}
+    25%,100%{width:7px;background:rgba(255,255,255,.62)}
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  body.home .baji-front-page .baji-hero-swiper.baji-hero-css-rotator .swiper-wrapper > .swiper-slide,
+  body.home .baji-front-page .baji-hero-swiper.baji-hero-css-rotator .baji-hero-manual-bullet{
+    animation-play-state:running!important;
+  }
+}
