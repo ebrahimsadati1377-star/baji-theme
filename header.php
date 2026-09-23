@@ -1,6 +1,10 @@
 <?php
 /** Mobile-safe header for BajiStyle. */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( isset( $_GET['baji_hero_purge'] ) ) {
+	header( 'X-LiteSpeed-Purge: *' );
+	if ( has_action( 'litespeed_purge_all' ) || defined( 'LSCWP_V' ) ) { do_action( 'litespeed_purge_all' ); }
+}
 ?>
 <!DOCTYPE html><html <?php language_attributes(); ?> dir="rtl"><head>
 <meta charset="<?php bloginfo( 'charset' ); ?>"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#111111">
