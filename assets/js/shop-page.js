@@ -9,7 +9,7 @@
 
     document.body.classList.add('baji-shop-premium-v2');
 
-    const header = main.querySelector(':scope > .baji-shop-header');
+    const header = main.querySelector(':scope > .baji-shop-header, :scope > .baji-shop-hero');
     const result = main.querySelector('.woocommerce-result-count');
     const toolbar = main.querySelector('.baji-shop-toolbar');
     const layout = main.querySelector('.baji-shop-layout');
@@ -24,7 +24,7 @@
       const title = header.querySelector('.baji-shop-title');
       if (kicker) kicker.textContent = 'BAJI COLLECTION';
 
-      if (title && !header.querySelector('.baji-shop-live-subtitle')) {
+      if (title && !header.querySelector('.baji-shop-live-subtitle') && !header.querySelector('.baji-shop-hero__subtitle')) {
         const sub = document.createElement('p');
         sub.className = 'baji-shop-live-subtitle';
         sub.textContent = 'انتخاب‌های تازه باجی برای استایل روزمره و خاص تو';
