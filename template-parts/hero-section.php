@@ -17,7 +17,7 @@ $autumn_banner_url = 'https://bajistyle.ir/wp-content/uploads/2026/09/baji-autum
 </style>
 <section class="baji-hero relative w-full max-w-[1400px] mx-auto my-4" aria-label="<?php esc_attr_e('بخش معرفی اصلی','bajistyle'); ?>">
 <?php if($has_slides): ?>
-<div class="swiper baji-hero-swiper baji-hero-frame w-full rounded-2xl overflow-hidden relative" dir="rtl">
+<div class="swiper baji-hero-swiper baji-hero-manual baji-hero-css-rotator baji-hero-frame w-full rounded-2xl overflow-hidden relative" dir="rtl">
 <div class="swiper-wrapper">
 <?php
 $slide_index=0;
@@ -50,7 +50,11 @@ while($slider_query->have_posts()):
 </div>
 <?php ++$slide_index; endwhile; if($slide_index<=3){$render_autumn_slide();} wp_reset_postdata(); $total_slides=$slide_index+1; ?>
 </div>
-<div class="swiper-pagination baji-hero-pagination !bottom-3 z-30"></div>
+<div class="swiper-pagination baji-hero-pagination !bottom-3 z-30">
+<?php for ( $baji_dot = 0; $baji_dot < $total_slides; $baji_dot++ ) : ?>
+	<span class="baji-hero-manual-bullet" aria-hidden="true"></span>
+<?php endfor; ?>
+</div>
 </div>
 <?php endif; ?>
 </section>
