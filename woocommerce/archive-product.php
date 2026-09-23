@@ -22,35 +22,40 @@ get_header();
 do_action( 'woocommerce_before_main_content' );
 ?>
 
-<div class="baji-shop-header text-center mb-12">
-	<?php if ( apply_filters( 'woocommerce_show_page_title', true ) ) : ?>
-		<span class="text-baji-gold text-xs tracking-[0.3em] uppercase">
-			<?php esc_html_e( 'فروشگاه', 'bajistyle' ); ?>
-		</span>
-		<h1 class="baji-shop-title text-3xl md:text-4xl font-light mt-3">
-			<?php woocommerce_page_title(); ?>
-		</h1>
-	<?php endif; ?>
-
-	<?php
-	/**
-	 * هوک woocommerce_archive_description.
-	 */
-	do_action( 'woocommerce_archive_description' );
-	?>
-</div>
-
-<?php do_action( 'bajistyle_before_shop_breadcrumb' ); ?>
-<?php woocommerce_breadcrumb(); ?>
+<?php
+$baji_shop_title = woocommerce_page_title( false );
+$baji_shop_total = isset( $GLOBALS['wp_query']->found_posts ) ? absint( $GLOBALS['wp_query']->found_posts ) : 0;
+?>
+<section class="baji-shop-hero" aria-labelledby="baji-shop-page-title">
+	<div class="baji-shop-hero__inner">
+		<div class="baji-shop-hero__copy">
+			<span class="baji-shop-hero__kicker">BAJI COLLECTION</span>
+			<?php do_action( 'bajistyle_before_shop_breadcrumb' ); ?>
+			<?php woocommerce_breadcrumb(); ?>
+			<?php if ( apply_filters( 'woocommerce_show_page_title', true ) ) : ?>
+				<h1 id="baji-shop-page-title" class="baji-shop-title"><?php echo esc_html( $baji_shop_title ); ?></h1>
+			<?php endif; ?>
+			<p class="baji-shop-hero__subtitle"><?php esc_html_e( 'استایل‌های تازه باجی؛ انتخاب‌های کاربردی برای هر روز تو', 'bajistyle' ); ?></p>
+			<?php if ( $baji_shop_total > 0 ) : ?>
+				<div class="baji-shop-hero__count"><i class="fa-regular fa-bag-shopping" aria-hidden="true"></i><span><?php echo esc_html( number_format_i18n( $baji_shop_total ) ); ?> <?php esc_html_e( 'محصول برای انتخاب', 'bajistyle' ); ?></span></div>
+			<?php endif; ?>
+		</div>
+		<div class="baji-shop-hero__mark" aria-hidden="true">
+			<span>BAJI</span>
+			<small>BE YOUR BEST</small>
+		</div>
+	</div>
+	<div class="baji-shop-hero__description"><?php do_action( 'woocommerce_archive_description' ); ?></div>
+</section>
 
 <div class="baji-shop-layout flex flex-col lg:flex-row gap-12">
 
 	<!-- سایدبار فیلتر پیشرفته -->
 	<aside id="baji-shop-filters" class="baji-shop-filters w-full lg:w-72 shrink-0" aria-label="<?php esc_attr_e( 'فیلتر محصولات', 'bajistyle' ); ?>">
 
-		<button type="button" class="baji-filters-mobile-toggle lg:hidden w-full flex items-center justify-between px-4 py-3 border border-gray-300 mb-4" aria-expanded="false" aria-controls="baji-filters-content">
-			<span class="text-sm tracking-wide"><?php esc_html_e( 'فیلترها', 'bajistyle' ); ?></span>
-			<span aria-hidden="true">+</span>
+		<button type="button" class="baji-filters-mobile-toggle lg:hidden" aria-expanded="false" aria-controls="baji-filters-content">
+			<span class="baji-filters-mobile-toggle__label"><i class="fa-regular fa-sliders" aria-hidden="true"></i><span><?php esc_html_e( 'فیلتر محصولات', 'bajistyle' ); ?></span></span>
+			<span class="baji-filters-mobile-toggle__action"><?php esc_html_e( 'انتخاب', 'bajistyle' ); ?> <i class="fa-regular fa-plus" aria-hidden="true"></i></span>
 		</button>
 
 		<div id="baji-filters-content" class="baji-filters-content space-y-10 lg:sticky lg:top-32">
@@ -135,11 +140,13 @@ do_action( 'woocommerce_before_main_content' );
 	<div class="baji-shop-content flex-1 min-w-0">
 
 		<!-- نوار نتایج و مرتب‌سازی -->
-		<div class="baji-shop-toolbar flex flex-wrap items-center justify-between gap-4 mb-8 pb-4 border-b border-gray-100">
-			<div class="baji-result-count text-sm text-gray-500">
-				<?php woocommerce_result_count(); ?>
+		<div class="baji-shop-toolbar">
+			<div class="baji-shop-toolbar__meta">
+				<span class="baji-shop-toolbar__eyebrow"><?php esc_html_e( 'محصولات باجی', 'bajistyle' ); ?></span>
+				<div class="baji-result-count"><?php woocommerce_result_count(); ?></div>
 			</div>
 			<div class="baji-catalog-ordering">
+				<span class="baji-catalog-ordering__label"><i class="fa-regular fa-arrow-down-wide-short" aria-hidden="true"></i><?php esc_html_e( 'مرتب‌سازی', 'bajistyle' ); ?></span>
 				<?php woocommerce_catalog_ordering(); ?>
 			</div>
 		</div>
