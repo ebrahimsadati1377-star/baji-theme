@@ -459,40 +459,10 @@ if ( document.readyState === 'loading' ) {
 
 
 document.addEventListener('DOMContentLoaded', function () {
-    const productsSlider = new Swiper('.baji-products-slider', {
-        // تنظیمات پیش‌فرض (برای موبایل)
-        slidesPerView: 1.6,      
-        spaceBetween: 12,      // فاصله بین محصولات در موبایل (کمی کمتر کردم تا جا بشوند)
-        
-        // تنظیمات ریسپانسیو برای تبلت و دسکتاپ
-        breakpoints: {
-            768: { // معادل md در تیلوند
-                slidesPerView: 4,
-                spaceBetween: 20,
-            },
-            1024: { // معادل lg در تیلوند
-                slidesPerView: 6,
-                spaceBetween: 24,
-            }
-        },
+    const sliderElements = Array.from(document.querySelectorAll('.baji-products-slider'));
+    if (!sliderElements.length || typeof window.Swiper === 'undefined') return;
 
-        // فعال‌سازی نقاط پایین
-        pagination: {
-            el: '.swiper-pagination',
-            clickable: true,
-        },
-
-        // فعال‌سازی دکمه‌های ناوبری
-        navigation: {
-            nextEl: '.swiper-button-next',
-            prevEl: '.swiper-button-prev',
-        },
-    });
-
-    function equalizeBajiProductSliderCards() {
-        const slider = document.querySelector('.baji-products-slider');
-        if (!slider) return;
-
+    const equalizeSliderCards = (slider) => {
         const slides = Array.from(slider.querySelectorAll('.swiper-slide'));
         if (!slides.length) return;
 
@@ -510,77 +480,52 @@ document.addEventListener('DOMContentLoaded', function () {
                 slide.style.height = maxHeight + 'px';
             });
         }
-    }
+    };
 
-    requestAnimationFrame(equalizeBajiProductSliderCards);
-    window.addEventListener('load', equalizeBajiProductSliderCards, { once: true });
-    window.addEventListener('resize', equalizeBajiProductSliderCards);
-    productsSlider.on('resize', equalizeBajiProductSliderCards);
-    productsSlider.on('slideChangeTransitionEnd', equalizeBajiProductSliderCards);
+    sliderElements.forEach((slider) => {
+        if (slider.swiper && !slider.swiper.destroyed) return;
+
+        const paginationEl = slider.querySelector('.swiper-pagination');
+        const nextEl = slider.querySelector('.swiper-button-next');
+        const prevEl = slider.querySelector('.swiper-button-prev');
+
+        const swiper = new window.Swiper(slider, {
+            slidesPerView: 1.6,
+            spaceBetween: 12,
+            breakpoints: {
+                768: {
+                    slidesPerView: 4,
+                    spaceBetween: 20,
+                },
+                1024: {
+                    slidesPerView: 6,
+                    spaceBetween: 24,
+                }
+            },
+            pagination: paginationEl ? {
+                el: paginationEl,
+                clickable: true,
+            } : undefined,
+            navigation: (nextEl && prevEl) ? {
+                nextEl,
+                prevEl,
+            } : undefined,
+        });
+
+        const equalize = () => equalizeSliderCards(slider);
+        requestAnimationFrame(equalize);
+        swiper.on('resize', equalize);
+        swiper.on('slideChangeTransitionEnd', equalize);
+    });
+
+    window.addEventListener('load', () => {
+        sliderElements.forEach(equalizeSliderCards);
+    }, { once: true });
+
+    window.addEventListener('resize', () => {
+        sliderElements.forEach(equalizeSliderCards);
+    });
 });
-
-
-
-
-/**
- * اسلایدر هیرو BAJI — یک نمونه واحد و پایدار Swiper.
- * جلوگیری از مقداردهی چندباره و توقف autoplay بعد از لمس موبایل.
- */
-function initBajiHeroSwiper() {
-    const heroElement = document.querySelector('.baji-hero-swiper');
-    if (!heroElement || typeof window.Swiper === 'undefined') return;
-
-    if (heroElement.swiper && !heroElement.swiper.destroyed) {
-        heroElement.swiper.destroy(true, true);
-    }
-
-    const paginationEl = heroElement.querySelector('.baji-hero-pagination');
-
-    const heroSwiper = new window.Swiper(heroElement, {
-        slidesPerView: 1,
-        spaceBetween: 0,
-        loop: true,
-        effect: 'fade',
-        fadeEffect: { crossFade: true },
-        speed: 800,
-        grabCursor: true,
-        observer: true,
-        observeParents: true,
-        autoplay: {
-            delay: 4500,
-            disableOnInteraction: false,
-            pauseOnMouseEnter: false,
-            waitForTransition: true,
-        },
-        pagination: {
-            el: paginationEl,
-            clickable: true,
-        },
-        on: {
-            init(swiper) {
-                swiper.autoplay.start();
-            },
-            touchEnd(swiper) {
-                if (!swiper.autoplay.running) swiper.autoplay.start();
-            },
-        },
-    });
-
-    document.addEventListener('visibilitychange', () => {
-        if (!heroSwiper || heroSwiper.destroyed) return;
-        if (document.hidden) {
-            heroSwiper.autoplay.stop();
-        } else {
-            heroSwiper.autoplay.start();
-        }
-    });
-}
-
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initBajiHeroSwiper, { once: true });
-} else {
-    initBajiHeroSwiper();
-}
 
 
 /* BAJI login OTP UX polish */
