@@ -227,3 +227,209 @@ body.tax-product_tag .woocommerce ul.products li.product:hover{
   body.tax-product_tag .woocommerce ul.products li.product,
   .baji-product-buy-cta{transition:none!important}
 }
+
+/* Compatibility layer for currently cached archive markup */
+body.woocommerce-shop .baji-shop-main>.baji-shop-header,
+body.tax-product_cat .baji-shop-main>.baji-shop-header,
+body.tax-product_tag .baji-shop-main>.baji-shop-header{
+  position:relative;
+  overflow:hidden;
+  min-height:190px;
+  margin:0 0 18px!important;
+  padding:30px 34px!important;
+  text-align:right!important;
+  border:1px solid rgba(93,72,61,.09);
+  border-radius:24px;
+  background:
+    radial-gradient(circle at 7% 8%,rgba(199,162,74,.14),transparent 31%),
+    radial-gradient(circle at 88% 80%,rgba(141,32,57,.07),transparent 32%),
+    linear-gradient(125deg,#fffdf9 0%,#f7f1eb 55%,#efe5de 100%);
+  box-shadow:0 16px 44px rgba(58,44,37,.065);
+}
+body.woocommerce-shop .baji-shop-main>.baji-shop-header:before,
+body.tax-product_cat .baji-shop-main>.baji-shop-header:before,
+body.tax-product_tag .baji-shop-main>.baji-shop-header:before{
+  content:'BAJI';
+  position:absolute;
+  left:34px;
+  top:50%;
+  transform:translateY(-58%);
+  color:#342d29;
+  font-family:Georgia,'Times New Roman',serif;
+  font-size:58px;
+  line-height:1;
+  letter-spacing:.1em;
+  opacity:.92;
+}
+body.woocommerce-shop .baji-shop-main>.baji-shop-header:after,
+body.tax-product_cat .baji-shop-main>.baji-shop-header:after,
+body.tax-product_tag .baji-shop-main>.baji-shop-header:after{
+  content:'BE YOUR BEST';
+  position:absolute;
+  left:42px;
+  top:calc(50% + 28px);
+  color:#9f8250;
+  font:700 8px/1 Arial,sans-serif;
+  letter-spacing:.28em;
+}
+body.woocommerce-shop .baji-shop-main>.baji-shop-header>span,
+body.tax-product_cat .baji-shop-main>.baji-shop-header>span,
+body.tax-product_tag .baji-shop-main>.baji-shop-header>span{
+  display:inline-flex!important;
+  align-items:center;
+  gap:8px;
+  margin:0 0 9px!important;
+  color:var(--baji-shop-gold)!important;
+  font-size:9px!important;
+  font-weight:900!important;
+  letter-spacing:.14em!important;
+}
+body.woocommerce-shop .baji-shop-main>.baji-shop-header>span:before,
+body.tax-product_cat .baji-shop-main>.baji-shop-header>span:before,
+body.tax-product_tag .baji-shop-main>.baji-shop-header>span:before{
+  content:'';
+  width:20px;
+  height:1px;
+  background:currentColor;
+}
+body.woocommerce-shop .baji-shop-main>.baji-shop-header .baji-shop-title,
+body.tax-product_cat .baji-shop-main>.baji-shop-header .baji-shop-title,
+body.tax-product_tag .baji-shop-main>.baji-shop-header .baji-shop-title{
+  position:relative;
+  z-index:2;
+  max-width:64%;
+  margin:0!important;
+  font-size:42px!important;
+  font-weight:900!important;
+  line-height:1.2!important;
+  letter-spacing:-.04em!important;
+}
+body.woocommerce-shop .baji-shop-main>.baji-shop-header .baji-shop-title:after,
+body.tax-product_cat .baji-shop-main>.baji-shop-header .baji-shop-title:after,
+body.tax-product_tag .baji-shop-main>.baji-shop-header .baji-shop-title:after{
+  content:'استایل‌های تازه باجی؛ انتخاب‌های کاربردی برای هر روز تو';
+  display:block;
+  max-width:460px;
+  margin-top:10px;
+  color:#655c56;
+  font-size:12px;
+  font-weight:550;
+  line-height:1.8;
+  letter-spacing:0;
+}
+body.woocommerce-shop .baji-shop-main>.baji-shop-header .term-description,
+body.tax-product_cat .baji-shop-main>.baji-shop-header .term-description,
+body.tax-product_tag .baji-shop-main>.baji-shop-header .term-description{
+  position:relative;
+  z-index:2;
+  max-width:60%;
+  margin-top:12px;
+  color:#786f69;
+  font-size:11px;
+  line-height:1.8;
+}
+body.woocommerce-shop .baji-shop-main>.baji-breadcrumb,
+body.tax-product_cat .baji-shop-main>.baji-breadcrumb,
+body.tax-product_tag .baji-shop-main>.baji-breadcrumb{
+  display:none!important;
+}
+.baji-filters-mobile-toggle>span:first-child{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  font-size:13px!important;
+  font-weight:900!important;
+  letter-spacing:0!important;
+}
+.baji-filters-mobile-toggle>span:first-child:before{
+  content:'☷';
+  display:inline-grid;
+  place-items:center;
+  width:26px;
+  height:26px;
+  border-radius:8px;
+  background:#f8f3ea;
+  color:var(--baji-shop-gold);
+  font-size:14px;
+}
+.baji-filters-mobile-toggle>span:last-child{
+  display:inline-grid;
+  place-items:center;
+  width:28px;
+  height:28px;
+  border-radius:9px;
+  background:#f7f4f1;
+  color:#6e655f;
+  font-size:16px;
+  transition:transform .2s ease;
+}
+.baji-filters-mobile-toggle[aria-expanded='true']>span:last-child{transform:rotate(45deg)}
+body.woocommerce-shop .baji-shop-toolbar.flex,
+body.tax-product_cat .baji-shop-toolbar.flex,
+body.tax-product_tag .baji-shop-toolbar.flex{
+  display:flex!important;
+  padding-bottom:13px!important;
+  border-bottom:1px solid var(--baji-shop-line)!important;
+}
+
+@media(max-width:767px){
+  body.woocommerce-shop .baji-shop-main>.baji-shop-header,
+  body.tax-product_cat .baji-shop-main>.baji-shop-header,
+  body.tax-product_tag .baji-shop-main>.baji-shop-header{
+    min-height:154px;
+    margin-bottom:13px!important;
+    padding:20px 16px!important;
+    border-radius:18px;
+  }
+  body.woocommerce-shop .baji-shop-main>.baji-shop-header:before,
+  body.tax-product_cat .baji-shop-main>.baji-shop-header:before,
+  body.tax-product_tag .baji-shop-main>.baji-shop-header:before{
+    left:15px;
+    font-size:28px;
+    opacity:.72;
+  }
+  body.woocommerce-shop .baji-shop-main>.baji-shop-header:after,
+  body.tax-product_cat .baji-shop-main>.baji-shop-header:after,
+  body.tax-product_tag .baji-shop-main>.baji-shop-header:after{
+    left:17px;
+    top:calc(50% + 17px);
+    font-size:5.5px;
+    letter-spacing:.16em;
+  }
+  body.woocommerce-shop .baji-shop-main>.baji-shop-header .baji-shop-title,
+  body.tax-product_cat .baji-shop-main>.baji-shop-header .baji-shop-title,
+  body.tax-product_tag .baji-shop-main>.baji-shop-header .baji-shop-title{
+    max-width:70%;
+    font-size:29px!important;
+  }
+  body.woocommerce-shop .baji-shop-main>.baji-shop-header .baji-shop-title:after,
+  body.tax-product_cat .baji-shop-main>.baji-shop-header .baji-shop-title:after,
+  body.tax-product_tag .baji-shop-main>.baji-shop-header .baji-shop-title:after{
+    margin-top:7px;
+    font-size:10px;
+    line-height:1.7;
+  }
+  body.woocommerce-shop .baji-shop-main>.baji-shop-header .term-description,
+  body.tax-product_cat .baji-shop-main>.baji-shop-header .term-description,
+  body.tax-product_tag .baji-shop-main>.baji-shop-header .term-description{
+    display:none;
+  }
+  body.woocommerce-shop .baji-shop-toolbar.flex,
+  body.tax-product_cat .baji-shop-toolbar.flex,
+  body.tax-product_tag .baji-shop-toolbar.flex{
+    display:grid!important;
+    grid-template-columns:1fr!important;
+    gap:9px!important;
+    margin-bottom:14px!important;
+    padding:11px!important;
+    border:1px solid var(--baji-shop-line)!important;
+  }
+  .baji-shop-toolbar.flex .baji-result-count{
+    order:1;
+    display:flex;
+    align-items:center;
+    min-height:28px;
+    font-size:10px!important;
+  }
+  .baji-shop-toolbar.flex .baji-catalog-ordering{order:2;width:100%;min-width:0}
+}
