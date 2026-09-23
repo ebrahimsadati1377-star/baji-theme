@@ -1,0 +1,200 @@
+/* BAJI x SnappPay Top Banner — 2026-09-23 */
+.baji-snapppay-banner{
+  position:relative;
+  z-index:60;
+  overflow:hidden;
+  min-height:72px;
+  border-bottom:1px solid rgba(0,209,134,.16);
+  background:
+    radial-gradient(circle at 8% 40%,rgba(0,209,134,.12),transparent 22%),
+    linear-gradient(105deg,#f8fffc 0%,#ffffff 48%,#f2fff9 100%)!important;
+  color:#202824;
+}
+.baji-snapppay-banner:before{
+  content:'';
+  position:absolute;
+  right:-55px;
+  top:-88px;
+  width:190px;
+  height:190px;
+  border:1px solid rgba(0,209,134,.10);
+  border-radius:50%;
+  pointer-events:none;
+}
+.baji-snapppay-banner:after{
+  content:'';
+  position:absolute;
+  left:25%;
+  bottom:-80px;
+  width:160px;
+  height:160px;
+  border:1px solid rgba(0,209,134,.075);
+  border-radius:50%;
+  pointer-events:none;
+}
+.baji-snapppay-banner__inner{
+  position:relative;
+  z-index:1;
+  display:grid;
+  grid-template-columns:auto minmax(260px,1fr) auto auto;
+  align-items:center;
+  gap:22px;
+  width:min(100% - 32px,1320px);
+  min-height:72px;
+  margin:0 auto;
+}
+.baji-snapppay-banner__brand{
+  direction:ltr;
+  display:flex;
+  align-items:baseline;
+  gap:3px;
+  min-width:max-content;
+  color:#00b879;
+  font-family:Arial,sans-serif;
+}
+.baji-snapppay-banner__logo{
+  font-size:19px;
+  line-height:1;
+  font-weight:900;
+  letter-spacing:-.04em;
+}
+.baji-snapppay-banner__brand strong{
+  color:#243129;
+  font-size:14px;
+  line-height:1;
+  font-weight:800;
+}
+.baji-snapppay-banner__copy{
+  display:grid;
+  gap:2px;
+  min-width:0;
+  text-align:right;
+}
+.baji-snapppay-banner__eyebrow{
+  color:#00a96f;
+  font-size:9px;
+  line-height:1.4;
+  font-weight:900;
+}
+.baji-snapppay-banner__copy>strong{
+  color:#202824;
+  font-size:15px;
+  line-height:1.5;
+  font-weight:950;
+}
+.baji-snapppay-banner__copy>small{
+  color:#748078;
+  font-size:9px;
+  line-height:1.5;
+  font-weight:700;
+}
+.baji-snapppay-banner__benefits{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.baji-snapppay-banner__benefits>span{
+  display:flex;
+  align-items:center;
+  gap:5px;
+  min-height:34px;
+  padding:0 9px;
+  border:1px solid #dcece4;
+  border-radius:11px;
+  background:rgba(255,255,255,.84);
+  color:#536159;
+  white-space:nowrap;
+}
+.baji-snapppay-banner__benefits i{
+  color:#00b879;
+  font-size:9px;
+}
+.baji-snapppay-banner__benefits small{
+  font-size:8px;
+  font-weight:850;
+}
+.baji-snapppay-banner__cta{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  min-width:92px;
+  min-height:40px;
+  padding:0 15px;
+  border-radius:12px;
+  background:#00c781;
+  color:#fff!important;
+  box-shadow:0 8px 20px rgba(0,199,129,.20);
+  text-decoration:none!important;
+  font-size:10px;
+  font-weight:950;
+  transition:transform .15s ease,background .15s ease,box-shadow .15s ease;
+}
+.baji-snapppay-banner__cta:hover{
+  transform:translateY(-1px);
+  background:#00b777;
+  box-shadow:0 11px 24px rgba(0,199,129,.25);
+}
+.baji-snapppay-banner__cta i{font-size:9px}
+
+@media(max-width:900px){
+  .baji-snapppay-banner__inner{
+    grid-template-columns:auto minmax(0,1fr) auto;
+    gap:13px;
+  }
+  .baji-snapppay-banner__benefits{display:none}
+}
+@media(max-width:767px){
+  .baji-snapppay-banner{
+    min-height:82px;
+  }
+  .baji-snapppay-banner__inner{
+    grid-template-columns:auto minmax(0,1fr) auto;
+    gap:9px;
+    width:min(100% - 20px,620px);
+    min-height:82px;
+  }
+  .baji-snapppay-banner__brand{
+    align-self:center;
+  }
+  .baji-snapppay-banner__logo{font-size:15px}
+  .baji-snapppay-banner__brand strong{font-size:11px}
+  .baji-snapppay-banner__copy{
+    gap:1px;
+  }
+  .baji-snapppay-banner__eyebrow{
+    font-size:8px;
+  }
+  .baji-snapppay-banner__copy>strong{
+    font-size:12px;
+    line-height:1.55;
+  }
+  .baji-snapppay-banner__copy>small{
+    font-size:8px;
+  }
+  .baji-snapppay-banner__cta{
+    min-width:68px;
+    min-height:38px;
+    padding:0 10px;
+    border-radius:11px;
+    font-size:9px;
+  }
+}
+@media(max-width:390px){
+  .baji-snapppay-banner__inner{
+    grid-template-columns:minmax(0,1fr) auto;
+    gap:8px;
+  }
+  .baji-snapppay-banner__brand{
+    position:absolute;
+    top:8px;
+    right:0;
+    opacity:.92;
+  }
+  .baji-snapppay-banner__copy{
+    padding-top:18px;
+  }
+  .baji-snapppay-banner__copy>strong{font-size:11.5px}
+  .baji-snapppay-banner__copy>small{font-size:7.6px}
+  .baji-snapppay-banner__cta{margin-top:12px}
+}
