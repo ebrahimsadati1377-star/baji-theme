@@ -369,6 +369,15 @@ function bajistyle_enqueue_assets() {
 			)
 		);
 
+		if ( is_cart() ) {
+			wp_enqueue_style(
+				'bajistyle-cart-page',
+				BAJISTYLE_URI . '/assets/css/cart-page.css',
+				array( 'bajistyle-custom' ),
+				BAJISTYLE_VERSION
+			);
+		}
+
 		if ( is_checkout() ) {
 			wp_enqueue_style(
 				'bajistyle-checkout-style',
