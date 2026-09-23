@@ -1,91 +1,138 @@
 (function () {
-    'use strict';
+  'use strict';
 
-    let hero = null;
-    let retryTimer = null;
-    let watchdogTimer = null;
-    let attempts = 0;
+  const SELECTOR = '.baji-hero-swiper';
+  const INTERVAL = 4200;
+  let timer = null;
+  let index = 0;
+  let slides = [];
+  let bullets = [];
+  let startX = 0;
 
-    function startAutoplay() {
-        if (!hero || hero.destroyed || !hero.autoplay) return;
-        if (!hero.autoplay.running) {
-            hero.autoplay.start();
-        }
+  function clearTimer() {
+    if (timer) {
+      window.clearInterval(timer);
+      timer = null;
     }
+  }
 
-    function initHero() {
-        const el = document.querySelector('.baji-hero-swiper');
+  function show(next, userAction) {
+    if (!slides.length) return;
 
-        if (!el || typeof window.Swiper === 'undefined') {
-            attempts += 1;
-            if (attempts < 50) {
-                retryTimer = window.setTimeout(initHero, 120);
-            }
-            return;
-        }
+    index = (next + slides.length) % slides.length;
 
-        if (el.swiper && !el.swiper.destroyed) {
-            el.swiper.destroy(true, true);
-        }
-
-        hero = new window.Swiper(el, {
-            slidesPerView: 1,
-            spaceBetween: 0,
-            loop: true,
-            effect: 'fade',
-            fadeEffect: { crossFade: true },
-            speed: 750,
-            observer: true,
-            observeParents: true,
-            watchSlidesProgress: true,
-            autoplay: {
-                delay: 4200,
-                disableOnInteraction: false,
-                pauseOnMouseEnter: false,
-                waitForTransition: true
-            },
-            pagination: {
-                el: el.querySelector('.baji-hero-pagination'),
-                clickable: true
-            },
-            on: {
-                init(swiper) {
-                    swiper.autoplay.start();
-                },
-                touchEnd(swiper) {
-                    window.setTimeout(() => {
-                        if (!swiper.destroyed && swiper.autoplay && !swiper.autoplay.running) {
-                            swiper.autoplay.start();
-                        }
-                    }, 100);
-                }
-            }
-        });
-
-        window.clearInterval(watchdogTimer);
-        watchdogTimer = window.setInterval(() => {
-            if (!document.hidden) startAutoplay();
-        }, 1500);
-    }
-
-    document.addEventListener('visibilitychange', () => {
-        if (!hero || hero.destroyed || !hero.autoplay) return;
-
-        if (document.hidden) {
-            hero.autoplay.stop();
-        } else {
-            hero.autoplay.start();
-        }
+    slides.forEach((slide, i) => {
+      const active = i === index;
+      slide.classList.toggle('baji-hero-is-active', active);
+      slide.setAttribute('aria-hidden', active ? 'false' : 'true');
     });
 
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initHero, { once: true });
-    } else {
-        initHero();
+    bullets.forEach((bullet, i) => {
+      const active = i === index;
+      bullet.classList.toggle('is-active', active);
+      bullet.setAttribute('aria-current', active ? 'true' : 'false');
+    });
+
+    if (userAction) restart();
+  }
+
+  function restart() {
+    clearTimer();
+    if (slides.length > 1 && !document.hidden) {
+      timer = window.setInterval(() => show(index + 1, false), INTERVAL);
+    }
+  }
+
+  function buildPagination(container) {
+    let pagination = container.querySelector('.baji-hero-pagination');
+
+    if (!pagination) {
+      pagination = document.createElement('div');
+      pagination.className = 'baji-hero-pagination';
+      container.appendChild(pagination);
     }
 
-    window.addEventListener('load', () => {
-        if (!hero || hero.destroyed) initHero();
-        else startAutoplay();
-    }, { once: true });
+    pagination.innerHTML = '';
+    bullets = slides.map((slide, i) => {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'baji-hero-manual-bullet';
+      button.setAttribute('aria-label', 'اسلاید ' + (i + 1));
+      button.addEventListener('click', () => show(i, true));
+      pagination.appendChild(button);
+      return button;
+    });
+  }
+
+  function init() {
+    const container = document.querySelector(SELECTOR);
+    if (!container) return;
+
+    /* Destroy a previous Swiper instance if another script initialized it. */
+    if (container.swiper && typeof container.swiper.destroy === 'function') {
+      try {
+        container.swiper.destroy(true, true);
+      } catch (e) {}
+    }
+
+    container.classList.remove('swiper-initialized', 'swiper-horizontal', 'swiper-rtl', 'swiper-fade');
+    container.classList.add('baji-hero-manual');
+
+    const wrapper = container.querySelector('.swiper-wrapper');
+    if (!wrapper) return;
+
+    wrapper.removeAttribute('style');
+    slides = Array.from(wrapper.children).filter((node) => node.classList.contains('swiper-slide'));
+
+    if (!slides.length) return;
+
+    slides.forEach((slide) => {
+      slide.removeAttribute('style');
+      slide.classList.remove(
+        'swiper-slide-active',
+        'swiper-slide-next',
+        'swiper-slide-prev',
+        'swiper-slide-visible',
+        'swiper-slide-fully-visible'
+      );
+    });
+
+    buildPagination(container);
+    show(0, false);
+    restart();
+
+    container.addEventListener('touchstart', (event) => {
+      if (!event.touches || !event.touches[0]) return;
+      startX = event.touches[0].clientX;
+      clearTimer();
+    }, { passive: true });
+
+    container.addEventListener('touchend', (event) => {
+      const touch = event.changedTouches && event.changedTouches[0];
+      if (!touch) {
+        restart();
+        return;
+      }
+
+      const delta = touch.clientX - startX;
+      if (Math.abs(delta) > 45) {
+        show(index + (delta < 0 ? 1 : -1), false);
+      }
+      restart();
+    }, { passive: true });
+
+    container.addEventListener('mouseenter', clearTimer);
+    container.addEventListener('mouseleave', restart);
+
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) clearTimer();
+      else restart();
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init, { once: true });
+  } else {
+    init();
+  }
 })();
