@@ -281,6 +281,13 @@ function bajistyle_enqueue_assets() {
 		array( 'bajistyle-custom' ),
 		BAJISTYLE_VERSION
 	);
+
+	wp_enqueue_style(
+		'bajistyle-snapp-banner',
+		BAJISTYLE_URI . '/assets/css/snapp-banner.css',
+		array( 'bajistyle-custom' ),
+		BAJISTYLE_VERSION
+	);
 	
 	// لود فونت‌اوسام پرو (نسخه مینیفای شده و سبک) - وابستگی‌های اشتباه حذف شدند
 	wp_enqueue_style(
@@ -1275,3 +1282,19 @@ function baji_purge_litespeed_mobile_menu_1044() {
 	}
 }
 add_action( 'init', 'baji_purge_litespeed_mobile_menu_1044', 99 );
+
+
+/**
+ * One-time LiteSpeed purge after BAJI UI 1.0.44 changes.
+ */
+function baji_purge_litespeed_ui_1044() {
+	$key = 'baji_lscache_purge_ui_1044';
+	if ( 'done' === get_option( $key ) ) {
+		return;
+	}
+	if ( has_action( 'litespeed_purge_all' ) || defined( 'LSCWP_V' ) ) {
+		do_action( 'litespeed_purge_all' );
+		update_option( $key, 'done', false );
+	}
+}
+add_action( 'init', 'baji_purge_litespeed_ui_1044', 99 );
