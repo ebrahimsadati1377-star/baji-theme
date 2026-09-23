@@ -1,0 +1,93 @@
+/* BAJI homepage hero — independent manual rotator */
+body.home .baji-front-page .baji-hero-swiper.baji-hero-manual{
+  position:relative!important;
+  overflow:hidden!important;
+}
+body.home .baji-front-page .baji-hero-swiper.baji-hero-manual .swiper-wrapper{
+  position:relative!important;
+  width:100%!important;
+  height:100%!important;
+  transform:none!important;
+  transition:none!important;
+}
+body.home .baji-front-page .baji-hero-swiper.baji-hero-manual .swiper-wrapper > .swiper-slide{
+  position:absolute!important;
+  inset:0!important;
+  width:100%!important;
+  height:100%!important;
+  margin:0!important;
+  opacity:0!important;
+  visibility:hidden!important;
+  transform:none!important;
+  transition:opacity .7s ease,visibility .7s ease!important;
+  z-index:1!important;
+  pointer-events:none!important;
+  background-image:none!important;
+}
+body.home .baji-front-page .baji-hero-swiper.baji-hero-manual .swiper-wrapper > .swiper-slide.baji-hero-is-active{
+  opacity:1!important;
+  visibility:visible!important;
+  z-index:2!important;
+  pointer-events:auto!important;
+}
+body.home .baji-front-page .baji-hero-swiper.baji-hero-manual .swiper-wrapper > .swiper-slide picture{
+  display:block!important;
+  position:absolute!important;
+  inset:0!important;
+  width:100%!important;
+  height:100%!important;
+}
+body.home .baji-front-page .baji-hero-swiper.baji-hero-manual .swiper-wrapper > .swiper-slide picture img{
+  display:block!important;
+  width:100%!important;
+  height:100%!important;
+}
+body.home .baji-front-page .baji-hero-swiper.baji-hero-manual .baji-hero-pagination{
+  position:absolute!important;
+  left:50%!important;
+  right:auto!important;
+  bottom:12px!important;
+  transform:translateX(-50%)!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:7px!important;
+  width:auto!important;
+  z-index:30!important;
+}
+body.home .baji-front-page .baji-hero-swiper.baji-hero-manual .baji-hero-pagination .swiper-pagination-bullet{
+  display:none!important;
+}
+body.home .baji-front-page .baji-hero-swiper.baji-hero-manual .baji-hero-manual-bullet{
+  width:8px!important;
+  height:8px!important;
+  padding:0!important;
+  border:0!important;
+  border-radius:999px!important;
+  background:rgba(255,255,255,.62)!important;
+  box-shadow:0 1px 5px rgba(0,0,0,.18)!important;
+  opacity:1!important;
+  transition:width .25s ease,background .25s ease!important;
+}
+body.home .baji-front-page .baji-hero-swiper.baji-hero-manual .baji-hero-manual-bullet.is-active{
+  width:30px!important;
+  background:#fff!important;
+}
+@media(max-width:767px){
+  body.home .baji-front-page .baji-hero-swiper.baji-hero-manual .baji-hero-pagination{
+    bottom:10px!important;
+    gap:6px!important;
+  }
+  body.home .baji-front-page .baji-hero-swiper.baji-hero-manual .baji-hero-manual-bullet{
+    width:7px!important;
+    height:7px!important;
+  }
+  body.home .baji-front-page .baji-hero-swiper.baji-hero-manual .baji-hero-manual-bullet.is-active{
+    width:26px!important;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  body.home .baji-front-page .baji-hero-swiper.baji-hero-manual .swiper-wrapper > .swiper-slide{
+    transition:none!important;
+  }
+}
