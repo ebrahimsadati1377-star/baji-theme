@@ -21,10 +21,10 @@ body.home .baji-front-page .baji-hero-swiper.baji-hero-css-rotator .swiper-wrapp
   z-index:1!important;
   pointer-events:none!important;
 
-  /* Important: opacity must NOT be !important; keyframes need to control it. */
-  opacity:0;
+  /* Old live CSS forces opacity:1!important, so rotation intentionally uses transform instead. */
+  opacity:1;
   visibility:visible!important;
-  transform:none!important;
+  transform:translateX(110%);
   transition:none!important;
 
   /* Neutralize old first/second-slide background overrides. */
@@ -66,11 +66,8 @@ body.home .baji-front-page .baji-hero-swiper.baji-hero-css-rotator .swiper-wrapp
 }
 
 @keyframes bajiHeroCssCycle{
-  0%{opacity:0}
-  1.5%{opacity:1}
-  23.5%{opacity:1}
-  25%{opacity:0}
-  100%{opacity:0}
+  0%,23.5%{transform:translateX(0)}
+  25%,100%{transform:translateX(-110%)}
 }
 
 /* Manual-style visual dots; they animate with the same timing as the images. */
