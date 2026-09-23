@@ -22,22 +22,6 @@ define( 'BAJISTYLE_VERSION', '1.0.55' );
 define( 'BAJISTYLE_DIR', get_template_directory() );
 define( 'BAJISTYLE_URI', get_template_directory_uri() );
 
-// Temporary BAJI cache purge endpoint for homepage product-slider deployment.
-add_action( 'init', function() {
-	if ( ! isset( $_GET['baji_slider_cache_flush'] ) ) {
-		return;
-	}
-
-	$home = home_url( '/' );
-	do_action( 'litespeed_purge_url', $home );
-	do_action( 'litespeed_purge_all' );
-
-	if ( class_exists( '\\LiteSpeed\\Purge' ) && method_exists( '\\LiteSpeed\\Purge', 'purge_all' ) ) {
-		\LiteSpeed\Purge::purge_all();
-	}
-
-	nocache_headers();
-} );
 
 /* -------------------------------------------------------------------------
  * راه‌اندازی اولیه قالب
