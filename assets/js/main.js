@@ -458,7 +458,7 @@ if ( document.readyState === 'loading' ) {
 }
 
 
-document.addEventListener('DOMContentLoaded', function () {
+function initBajiProductSliders() {
     const sliderElements = Array.from(document.querySelectorAll('.baji-products-slider'));
     if (!sliderElements.length || typeof window.Swiper === 'undefined') return;
 
@@ -490,9 +490,16 @@ document.addEventListener('DOMContentLoaded', function () {
         const prevEl = slider.querySelector('.swiper-button-prev');
 
         const swiper = new window.Swiper(slider, {
-            slidesPerView: 1.6,
-            spaceBetween: 12,
+            slidesPerView: 2.08,
+            spaceBetween: 10,
+            watchOverflow: true,
+            observer: true,
+            observeParents: true,
             breakpoints: {
+                480: {
+                    slidesPerView: 2.35,
+                    spaceBetween: 12,
+                },
                 768: {
                     slidesPerView: 4,
                     spaceBetween: 20,
@@ -512,20 +519,42 @@ document.addEventListener('DOMContentLoaded', function () {
             } : undefined,
         });
 
+        slider.classList.add('baji-products-slider--ready');
+
         const equalize = () => equalizeSliderCards(slider);
         requestAnimationFrame(equalize);
         swiper.on('resize', equalize);
         swiper.on('slideChangeTransitionEnd', equalize);
     });
+}
 
-    window.addEventListener('load', () => {
-        sliderElements.forEach(equalizeSliderCards);
-    }, { once: true });
+function bootBajiProductSliders() {
+    if (typeof window.Swiper === 'undefined') {
+        let tries = 0;
+        const waitForSwiper = window.setInterval(() => {
+            tries += 1;
+            if (typeof window.Swiper !== 'undefined') {
+                window.clearInterval(waitForSwiper);
+                initBajiProductSliders();
+            } else if (tries >= 40) {
+                window.clearInterval(waitForSwiper);
+            }
+        }, 100);
+        return;
+    }
 
-    window.addEventListener('resize', () => {
-        sliderElements.forEach(equalizeSliderCards);
-    });
-});
+    initBajiProductSliders();
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', bootBajiProductSliders, { once: true });
+} else {
+    bootBajiProductSliders();
+}
+
+window.addEventListener('load', () => {
+    initBajiProductSliders();
+}, { once: true });
 
 
 /* BAJI login OTP UX polish */
