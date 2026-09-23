@@ -523,33 +523,64 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 /**
- * اسکریپت اسلایدر هیرو به همراه انیمیشن محتوا
+ * اسلایدر هیرو BAJI — یک نمونه واحد و پایدار Swiper.
+ * جلوگیری از مقداردهی چندباره و توقف autoplay بعد از لمس موبایل.
  */
-// راه‌اندازی اسلایدر هیرو با Swiper
-document.addEventListener('DOMContentLoaded', function () {
+function initBajiHeroSwiper() {
     const heroElement = document.querySelector('.baji-hero-swiper');
-    if (!heroElement) return;
+    if (!heroElement || typeof window.Swiper === 'undefined') return;
 
-    const heroSwiper = new Swiper('.baji-hero-swiper', {
+    if (heroElement.swiper && !heroElement.swiper.destroyed) {
+        heroElement.swiper.destroy(true, true);
+    }
+
+    const paginationEl = heroElement.querySelector('.baji-hero-pagination');
+
+    const heroSwiper = new window.Swiper(heroElement, {
         slidesPerView: 1,
         spaceBetween: 0,
         loop: true,
+        effect: 'fade',
+        fadeEffect: { crossFade: true },
+        speed: 800,
         grabCursor: true,
+        observer: true,
+        observeParents: true,
         autoplay: {
-            delay: 5000,
+            delay: 4500,
             disableOnInteraction: false,
-            pauseOnMouseEnter: true,
-        },
-        navigation: {
-            nextEl: '.baji-hero-next',
-            prevEl: '.baji-hero-prev',
+            pauseOnMouseEnter: false,
+            waitForTransition: true,
         },
         pagination: {
-            el: '.baji-hero-pagination',
+            el: paginationEl,
             clickable: true,
         },
+        on: {
+            init(swiper) {
+                swiper.autoplay.start();
+            },
+            touchEnd(swiper) {
+                if (!swiper.autoplay.running) swiper.autoplay.start();
+            },
+        },
     });
-});
+
+    document.addEventListener('visibilitychange', () => {
+        if (!heroSwiper || heroSwiper.destroyed) return;
+        if (document.hidden) {
+            heroSwiper.autoplay.stop();
+        } else {
+            heroSwiper.autoplay.start();
+        }
+    });
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initBajiHeroSwiper, { once: true });
+} else {
+    initBajiHeroSwiper();
+}
 
 
 /* BAJI login OTP UX polish */
