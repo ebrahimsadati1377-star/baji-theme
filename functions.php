@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /* -------------------------------------------------------------------------
  * ثابت‌های قالب
  * ---------------------------------------------------------------------- */
-define( 'BAJISTYLE_VERSION', '1.0.48' );
+define( 'BAJISTYLE_VERSION', '1.0.49' );
 define( 'BAJISTYLE_DIR', get_template_directory() );
 define( 'BAJISTYLE_URI', get_template_directory_uri() );
 
@@ -331,7 +331,7 @@ function bajistyle_enqueue_assets() {
 	wp_enqueue_script(
 		'bajistyle-main',
 		BAJISTYLE_URI . '/assets/js/main.js',
-		array( 'bajistyle-navigation', 'bajistyle-animations' ),
+		array( 'swiper-js', 'bajistyle-navigation', 'bajistyle-animations' ),
 		BAJISTYLE_VERSION,
 		array(
 			'in_footer' => true,
