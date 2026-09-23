@@ -1,53 +1,200 @@
-/* BAJI SnappPay rotating top strip — 2026-09-23 */
-.baji-snapp-strip{
-  position:relative;z-index:70;overflow:hidden;width:100%;height:56px;min-height:56px;
-  background:#151673!important;color:#fff;box-shadow:none;border:0;
+/* BAJI x SnappPay Top Banner — 2026-09-23 */
+.baji-snapppay-banner{
+  position:relative;
+  z-index:60;
+  overflow:hidden;
+  min-height:72px;
+  border-bottom:1px solid rgba(0,209,134,.16);
+  background:
+    radial-gradient(circle at 8% 40%,rgba(0,209,134,.12),transparent 22%),
+    linear-gradient(105deg,#f8fffc 0%,#ffffff 48%,#f2fff9 100%)!important;
+  color:#202824;
 }
-.baji-snapp-strip__viewport{position:relative;width:100%;height:56px;overflow:hidden}
-.baji-snapp-strip__slide{
-  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:24px;
-  padding:0 18px;color:#fff!important;text-decoration:none!important;direction:rtl;
-  opacity:0;visibility:hidden;transform:translateY(105%);
-  transition:opacity .46s ease,transform .46s cubic-bezier(.22,.72,.28,1),visibility .46s;
+.baji-snapppay-banner:before{
+  content:'';
+  position:absolute;
+  right:-55px;
+  top:-88px;
+  width:190px;
+  height:190px;
+  border:1px solid rgba(0,209,134,.10);
+  border-radius:50%;
   pointer-events:none;
 }
-.baji-snapp-strip__slide.is-active{opacity:1;visibility:visible;transform:translateY(0);pointer-events:auto;z-index:2}
-.baji-snapp-strip__slide.is-leaving{opacity:0;visibility:visible;transform:translateY(-105%);z-index:1}
-.baji-snapp-strip__message{
-  min-width:230px;text-align:center;white-space:nowrap;font-size:16px;line-height:1.25;font-weight:900;
-  letter-spacing:-.02em;color:#fff;
+.baji-snapppay-banner:after{
+  content:'';
+  position:absolute;
+  left:25%;
+  bottom:-80px;
+  width:160px;
+  height:160px;
+  border:1px solid rgba(0,209,134,.075);
+  border-radius:50%;
+  pointer-events:none;
 }
-.baji-snapp-strip__brand{
-  direction:ltr;display:inline-flex;flex-direction:column;align-items:flex-start;justify-content:center;
-  min-width:74px;color:#fff;font-family:Arial,Helvetica,sans-serif;font-style:normal;line-height:.82;
+.baji-snapppay-banner__inner{
+  position:relative;
+  z-index:1;
+  display:grid;
+  grid-template-columns:auto minmax(260px,1fr) auto auto;
+  align-items:center;
+  gap:22px;
+  width:min(100% - 32px,1320px);
+  min-height:72px;
+  margin:0 auto;
 }
-.baji-snapp-strip__brand b{font-size:18px;font-weight:900;letter-spacing:-.06em}
-.baji-snapp-strip__brand i{font-size:17px;font-weight:900;font-style:normal;letter-spacing:-.04em}
-.baji-snapp-strip__buy{
-  display:inline-flex;align-items:center;justify-content:center;min-width:62px;height:31px;padding:0 14px;
-  border-radius:5px;background:#fff;color:#151673;font-size:12px;font-weight:950;box-shadow:0 1px 0 rgba(0,0,0,.06);
+.baji-snapppay-banner__brand{
+  direction:ltr;
+  display:flex;
+  align-items:baseline;
+  gap:3px;
+  min-width:max-content;
+  color:#00b879;
+  font-family:Arial,sans-serif;
 }
-.baji-snapp-strip__slide.is-active .baji-snapp-strip__brand{animation:bajiSnappBrandIn .7s cubic-bezier(.2,.75,.25,1) both}
-.baji-snapp-strip__slide.is-active .baji-snapp-strip__message{animation:bajiSnappMessageIn .72s .06s cubic-bezier(.2,.75,.25,1) both}
-@keyframes bajiSnappBrandIn{from{opacity:0;transform:translateX(16px)}to{opacity:1;transform:translateX(0)}}
-@keyframes bajiSnappMessageIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.baji-snapppay-banner__logo{
+  font-size:19px;
+  line-height:1;
+  font-weight:900;
+  letter-spacing:-.04em;
+}
+.baji-snapppay-banner__brand strong{
+  color:#243129;
+  font-size:14px;
+  line-height:1;
+  font-weight:800;
+}
+.baji-snapppay-banner__copy{
+  display:grid;
+  gap:2px;
+  min-width:0;
+  text-align:right;
+}
+.baji-snapppay-banner__eyebrow{
+  color:#00a96f;
+  font-size:9px;
+  line-height:1.4;
+  font-weight:900;
+}
+.baji-snapppay-banner__copy>strong{
+  color:#202824;
+  font-size:15px;
+  line-height:1.5;
+  font-weight:950;
+}
+.baji-snapppay-banner__copy>small{
+  color:#748078;
+  font-size:9px;
+  line-height:1.5;
+  font-weight:700;
+}
+.baji-snapppay-banner__benefits{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.baji-snapppay-banner__benefits>span{
+  display:flex;
+  align-items:center;
+  gap:5px;
+  min-height:34px;
+  padding:0 9px;
+  border:1px solid #dcece4;
+  border-radius:11px;
+  background:rgba(255,255,255,.84);
+  color:#536159;
+  white-space:nowrap;
+}
+.baji-snapppay-banner__benefits i{
+  color:#00b879;
+  font-size:9px;
+}
+.baji-snapppay-banner__benefits small{
+  font-size:8px;
+  font-weight:850;
+}
+.baji-snapppay-banner__cta{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  min-width:92px;
+  min-height:40px;
+  padding:0 15px;
+  border-radius:12px;
+  background:#00c781;
+  color:#fff!important;
+  box-shadow:0 8px 20px rgba(0,199,129,.20);
+  text-decoration:none!important;
+  font-size:10px;
+  font-weight:950;
+  transition:transform .15s ease,background .15s ease,box-shadow .15s ease;
+}
+.baji-snapppay-banner__cta:hover{
+  transform:translateY(-1px);
+  background:#00b777;
+  box-shadow:0 11px 24px rgba(0,199,129,.25);
+}
+.baji-snapppay-banner__cta i{font-size:9px}
+
+@media(max-width:900px){
+  .baji-snapppay-banner__inner{
+    grid-template-columns:auto minmax(0,1fr) auto;
+    gap:13px;
+  }
+  .baji-snapppay-banner__benefits{display:none}
+}
 @media(max-width:767px){
-  .baji-snapp-strip,.baji-snapp-strip__viewport{height:54px;min-height:54px}
-  .baji-snapp-strip__slide{gap:17px;padding:0 12px}
-  .baji-snapp-strip__message{min-width:0;font-size:13.5px;line-height:1.3}
-  .baji-snapp-strip__brand{min-width:58px}
-  .baji-snapp-strip__brand b{font-size:15px}
-  .baji-snapp-strip__brand i{font-size:14px}
-  .baji-snapp-strip__buy{min-width:51px;height:28px;padding:0 10px;font-size:10.5px}
+  .baji-snapppay-banner{
+    min-height:82px;
+  }
+  .baji-snapppay-banner__inner{
+    grid-template-columns:auto minmax(0,1fr) auto;
+    gap:9px;
+    width:min(100% - 20px,620px);
+    min-height:82px;
+  }
+  .baji-snapppay-banner__brand{
+    align-self:center;
+  }
+  .baji-snapppay-banner__logo{font-size:15px}
+  .baji-snapppay-banner__brand strong{font-size:11px}
+  .baji-snapppay-banner__copy{
+    gap:1px;
+  }
+  .baji-snapppay-banner__eyebrow{
+    font-size:8px;
+  }
+  .baji-snapppay-banner__copy>strong{
+    font-size:12px;
+    line-height:1.55;
+  }
+  .baji-snapppay-banner__copy>small{
+    font-size:8px;
+  }
+  .baji-snapppay-banner__cta{
+    min-width:68px;
+    min-height:38px;
+    padding:0 10px;
+    border-radius:11px;
+    font-size:9px;
+  }
 }
 @media(max-width:390px){
-  .baji-snapp-strip__slide{gap:11px;padding:0 8px}
-  .baji-snapp-strip__message{font-size:12px}
-  .baji-snapp-strip__brand{min-width:52px}
-  .baji-snapp-strip__brand b{font-size:13.5px}
-  .baji-snapp-strip__brand i{font-size:12.5px}
-  .baji-snapp-strip__buy{min-width:46px;height:26px;padding:0 8px;font-size:9.5px}
-}
-@media(prefers-reduced-motion:reduce){
-  .baji-snapp-strip__slide,.baji-snapp-strip__slide *{animation:none!important;transition:none!important}
+  .baji-snapppay-banner__inner{
+    grid-template-columns:minmax(0,1fr) auto;
+    gap:8px;
+  }
+  .baji-snapppay-banner__brand{
+    position:absolute;
+    top:8px;
+    right:0;
+    opacity:.92;
+  }
+  .baji-snapppay-banner__copy{
+    padding-top:18px;
+  }
+  .baji-snapppay-banner__copy>strong{font-size:11.5px}
+  .baji-snapppay-banner__copy>small{font-size:7.6px}
+  .baji-snapppay-banner__cta{margin-top:12px}
 }
