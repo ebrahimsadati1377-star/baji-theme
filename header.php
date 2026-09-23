@@ -1,9 +1,6 @@
 <?php
 /** Mobile-safe header for BajiStyle. */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
-if ( isset( $_GET['baji_product_slider_purge'] ) ) {
-	header( 'X-LiteSpeed-Purge: *' );
-	if ( has_action( 'litespeed_purge_all' ) || defined( 'LSCWP_V' ) ) { do_action( 'litespeed_purge_all' ); }
 }
 ?>
 <!DOCTYPE html><html <?php language_attributes(); ?> dir="rtl"><head>
