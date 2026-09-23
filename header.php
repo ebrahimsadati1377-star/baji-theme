@@ -2,6 +2,7 @@
 /** Mobile-safe header for BajiStyle. */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 if ( isset( $_GET['baji_restore_promo_purge'] ) ) {
+	header( 'X-LiteSpeed-Purge: *' );
 	if ( has_action( 'litespeed_purge_all' ) || defined( 'LSCWP_V' ) ) { do_action( 'litespeed_purge_all' ); }
 }
 ?>
