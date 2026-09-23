@@ -1,48 +1,80 @@
-/* BAJI homepage hero — independent manual rotator */
-body.home .baji-front-page .baji-hero-swiper.baji-hero-manual{
+/* BAJI homepage hero — CSS-only reliable autoplay */
+body.home .baji-front-page .baji-hero-swiper.baji-hero-css-rotator{
   position:relative!important;
   overflow:hidden!important;
 }
-body.home .baji-front-page .baji-hero-swiper.baji-hero-manual .swiper-wrapper{
+
+body.home .baji-front-page .baji-hero-swiper.baji-hero-css-rotator .swiper-wrapper{
   position:relative!important;
   width:100%!important;
   height:100%!important;
   transform:none!important;
   transition:none!important;
 }
-body.home .baji-front-page .baji-hero-swiper.baji-hero-manual .swiper-wrapper > .swiper-slide{
+
+body.home .baji-front-page .baji-hero-swiper.baji-hero-css-rotator .swiper-wrapper > .swiper-slide{
   position:absolute!important;
   inset:0!important;
   width:100%!important;
   height:100%!important;
   margin:0!important;
-  opacity:0!important;
-  visibility:hidden!important;
-  transform:none!important;
-  transition:opacity .7s ease,visibility .7s ease!important;
   z-index:1!important;
   pointer-events:none!important;
-  background-image:none!important;
-}
-body.home .baji-front-page .baji-hero-swiper.baji-hero-manual .swiper-wrapper > .swiper-slide.baji-hero-is-active{
-  opacity:1!important;
+
+  /* Important: opacity must NOT be !important; keyframes need to control it. */
+  opacity:0;
   visibility:visible!important;
-  z-index:2!important;
-  pointer-events:auto!important;
+  transform:none!important;
+  transition:none!important;
+
+  /* Neutralize old first/second-slide background overrides. */
+  background-image:none!important;
+
+  animation-name:bajiHeroCssCycle;
+  animation-duration:16.8s;
+  animation-timing-function:linear;
+  animation-iteration-count:infinite;
+  animation-fill-mode:both;
+  animation-play-state:running;
 }
-body.home .baji-front-page .baji-hero-swiper.baji-hero-manual .swiper-wrapper > .swiper-slide picture{
+
+body.home .baji-front-page .baji-hero-swiper.baji-hero-css-rotator .swiper-wrapper > .swiper-slide:nth-child(1){
+  animation-delay:0s;
+}
+body.home .baji-front-page .baji-hero-swiper.baji-hero-css-rotator .swiper-wrapper > .swiper-slide:nth-child(2){
+  animation-delay:4.2s;
+}
+body.home .baji-front-page .baji-hero-swiper.baji-hero-css-rotator .swiper-wrapper > .swiper-slide:nth-child(3){
+  animation-delay:8.4s;
+}
+body.home .baji-front-page .baji-hero-swiper.baji-hero-css-rotator .swiper-wrapper > .swiper-slide:nth-child(4){
+  animation-delay:12.6s;
+}
+
+body.home .baji-front-page .baji-hero-swiper.baji-hero-css-rotator .swiper-wrapper > .swiper-slide picture{
   display:block!important;
   position:absolute!important;
   inset:0!important;
   width:100%!important;
   height:100%!important;
 }
-body.home .baji-front-page .baji-hero-swiper.baji-hero-manual .swiper-wrapper > .swiper-slide picture img{
+
+body.home .baji-front-page .baji-hero-swiper.baji-hero-css-rotator .swiper-wrapper > .swiper-slide picture img{
   display:block!important;
   width:100%!important;
   height:100%!important;
 }
-body.home .baji-front-page .baji-hero-swiper.baji-hero-manual .baji-hero-pagination{
+
+@keyframes bajiHeroCssCycle{
+  0%{opacity:0}
+  1.5%{opacity:1}
+  23.5%{opacity:1}
+  25%{opacity:0}
+  100%{opacity:0}
+}
+
+/* Manual-style visual dots; they animate with the same timing as the images. */
+body.home .baji-front-page .baji-hero-swiper.baji-hero-css-rotator .baji-hero-pagination{
   position:absolute!important;
   left:50%!important;
   right:auto!important;
@@ -55,81 +87,77 @@ body.home .baji-front-page .baji-hero-swiper.baji-hero-manual .baji-hero-paginat
   width:auto!important;
   z-index:30!important;
 }
-body.home .baji-front-page .baji-hero-swiper.baji-hero-manual .baji-hero-pagination .swiper-pagination-bullet{
+
+body.home .baji-front-page .baji-hero-swiper.baji-hero-css-rotator .baji-hero-pagination .swiper-pagination-bullet{
   display:none!important;
 }
-body.home .baji-front-page .baji-hero-swiper.baji-hero-manual .baji-hero-manual-bullet{
-  width:8px!important;
+
+body.home .baji-front-page .baji-hero-swiper.baji-hero-css-rotator .baji-hero-manual-bullet{
+  display:block!important;
+  flex:0 0 auto!important;
+  width:8px;
   height:8px!important;
   padding:0!important;
   border:0!important;
   border-radius:999px!important;
-  background:rgba(255,255,255,.62)!important;
+  background:rgba(255,255,255,.62);
   box-shadow:0 1px 5px rgba(0,0,0,.18)!important;
   opacity:1!important;
-  transition:width .25s ease,background .25s ease!important;
+
+  animation-name:bajiHeroBulletCycle;
+  animation-duration:16.8s;
+  animation-timing-function:linear;
+  animation-iteration-count:infinite;
+  animation-fill-mode:both;
+  animation-play-state:running;
 }
-body.home .baji-front-page .baji-hero-swiper.baji-hero-manual .baji-hero-manual-bullet.is-active{
-  width:30px!important;
-  background:#fff!important;
+
+body.home .baji-front-page .baji-hero-swiper.baji-hero-css-rotator .baji-hero-manual-bullet:nth-child(1){
+  animation-delay:0s;
 }
+body.home .baji-front-page .baji-hero-swiper.baji-hero-css-rotator .baji-hero-manual-bullet:nth-child(2){
+  animation-delay:4.2s;
+}
+body.home .baji-front-page .baji-hero-swiper.baji-hero-css-rotator .baji-hero-manual-bullet:nth-child(3){
+  animation-delay:8.4s;
+}
+body.home .baji-front-page .baji-hero-swiper.baji-hero-css-rotator .baji-hero-manual-bullet:nth-child(4){
+  animation-delay:12.6s;
+}
+
+@keyframes bajiHeroBulletCycle{
+  0%{width:8px;background:rgba(255,255,255,.62)}
+  1.5%{width:30px;background:#fff}
+  23.5%{width:30px;background:#fff}
+  25%{width:8px;background:rgba(255,255,255,.62)}
+  100%{width:8px;background:rgba(255,255,255,.62)}
+}
+
 @media(max-width:767px){
-  body.home .baji-front-page .baji-hero-swiper.baji-hero-manual .baji-hero-pagination{
+  body.home .baji-front-page .baji-hero-swiper.baji-hero-css-rotator .baji-hero-pagination{
     bottom:10px!important;
     gap:6px!important;
   }
-  body.home .baji-front-page .baji-hero-swiper.baji-hero-manual .baji-hero-manual-bullet{
-    width:7px!important;
+
+  body.home .baji-front-page .baji-hero-swiper.baji-hero-css-rotator .baji-hero-manual-bullet{
+    width:7px;
     height:7px!important;
   }
-  body.home .baji-front-page .baji-hero-swiper.baji-hero-manual .baji-hero-manual-bullet.is-active{
-    width:26px!important;
-  }
-}
-@media(prefers-reduced-motion:reduce){
-  body.home .baji-front-page .baji-hero-swiper.baji-hero-manual .swiper-wrapper > .swiper-slide{
-    transition:none!important;
-  }
-}
 
-/* BAJI hero CSS-only autoplay fallback — cannot be stopped by JS/hover */
-body.home .baji-front-page .baji-hero-swiper.baji-hero-css-rotator .swiper-wrapper > .swiper-slide{
-  opacity:0!important;
-  visibility:visible!important;
-  z-index:1!important;
-  pointer-events:none!important;
-  animation:bajiHeroCssCycle 16.8s linear infinite!important;
-}
-body.home .baji-front-page .baji-hero-swiper.baji-hero-css-rotator .swiper-wrapper > .swiper-slide:nth-child(1){animation-delay:0s!important}
-body.home .baji-front-page .baji-hero-swiper.baji-hero-css-rotator .swiper-wrapper > .swiper-slide:nth-child(2){animation-delay:4.2s!important}
-body.home .baji-front-page .baji-hero-swiper.baji-hero-css-rotator .swiper-wrapper > .swiper-slide:nth-child(3){animation-delay:8.4s!important}
-body.home .baji-front-page .baji-hero-swiper.baji-hero-css-rotator .swiper-wrapper > .swiper-slide:nth-child(4){animation-delay:12.6s!important}
-
-body.home .baji-front-page .baji-hero-swiper.baji-hero-css-rotator .baji-hero-manual-bullet{
-  animation:bajiHeroBulletCycle 16.8s linear infinite!important;
-}
-body.home .baji-front-page .baji-hero-swiper.baji-hero-css-rotator .baji-hero-manual-bullet:nth-child(1){animation-delay:0s!important}
-body.home .baji-front-page .baji-hero-swiper.baji-hero-css-rotator .baji-hero-manual-bullet:nth-child(2){animation-delay:4.2s!important}
-body.home .baji-front-page .baji-hero-swiper.baji-hero-css-rotator .baji-hero-manual-bullet:nth-child(3){animation-delay:8.4s!important}
-body.home .baji-front-page .baji-hero-swiper.baji-hero-css-rotator .baji-hero-manual-bullet:nth-child(4){animation-delay:12.6s!important}
-
-@keyframes bajiHeroCssCycle{
-  0%,23.5%{opacity:1}
-  25%,100%{opacity:0}
-}
-@keyframes bajiHeroBulletCycle{
-  0%,23.5%{width:30px;background:#fff}
-  25%,100%{width:8px;background:rgba(255,255,255,.62)}
-}
-@media(max-width:767px){
   @keyframes bajiHeroBulletCycle{
-    0%,23.5%{width:26px;background:#fff}
-    25%,100%{width:7px;background:rgba(255,255,255,.62)}
+    0%{width:7px;background:rgba(255,255,255,.62)}
+    1.5%{width:26px;background:#fff}
+    23.5%{width:26px;background:#fff}
+    25%{width:7px;background:rgba(255,255,255,.62)}
+    100%{width:7px;background:rgba(255,255,255,.62)}
   }
 }
+
+/* Keep autoplay running even when the OS asks for reduced motion;
+   this banner is functional content rotation requested by the site owner. */
 @media(prefers-reduced-motion:reduce){
   body.home .baji-front-page .baji-hero-swiper.baji-hero-css-rotator .swiper-wrapper > .swiper-slide,
   body.home .baji-front-page .baji-hero-swiper.baji-hero-css-rotator .baji-hero-manual-bullet{
-    animation-play-state:running!important;
+    animation-play-state:running;
   }
 }
