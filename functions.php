@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /* -------------------------------------------------------------------------
  * ثابت‌های قالب
  * ---------------------------------------------------------------------- */
-define( 'BAJISTYLE_VERSION', '1.0.44' );
+define( 'BAJISTYLE_VERSION', '1.0.46' );
 define( 'BAJISTYLE_DIR', get_template_directory() );
 define( 'BAJISTYLE_URI', get_template_directory_uri() );
 
@@ -375,6 +375,15 @@ function bajistyle_enqueue_assets() {
 				'strategy'  => 'defer',
 			)
 		);
+
+		if ( is_shop() || is_product_category() || is_product_tag() ) {
+			wp_enqueue_style(
+				'bajistyle-shop-page',
+				BAJISTYLE_URI . '/assets/css/shop-page.css',
+				array( 'bajistyle-custom' ),
+				BAJISTYLE_VERSION
+			);
+		}
 
 		if ( is_cart() ) {
 			wp_enqueue_style(
