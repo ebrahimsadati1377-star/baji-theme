@@ -832,20 +832,33 @@ function baji_fix_and_customize_checkout_fields( $fields ) {
     $fields['billing']['billing_state']['priority']      = 40; // استان
     $fields['billing']['billing_city']['priority']       = 50; // شهر
     $fields['billing']['billing_address_1']['priority']  = 60; // آدرس کامل
+    $fields['billing']['billing_postcode']['priority']   = 70; // کد پستی
 
-    // اجباری کردن شماره تماس و تغییر لیبل آدرس
-    $fields['billing']['billing_phone']['required']     = true;
-    $fields['billing']['billing_address_1']['label']    = 'آدرس کامل';
+    // اجباری کردن شماره تماس، آدرس و کد پستی
+    $fields['billing']['billing_phone']['required']      = true;
+    $fields['billing']['billing_address_1']['required']  = true;
+    $fields['billing']['billing_address_1']['label']     = 'آدرس کامل';
 
-    // غیرفعال کردن الزام (Required) برای فیلدهایی که قرار است مخفی شوند
-    $fields['billing']['billing_country']['required']  = false;
-    $fields['billing']['billing_postcode']['required'] = false;
-    $fields['billing']['billing_email']['required']    = false;
+    // کد پستی برای ارسال سفارش ضروری است.
+    $fields['billing']['billing_postcode']['required']    = true;
+    $fields['billing']['billing_postcode']['label']       = 'کد پستی';
+    $fields['billing']['billing_postcode']['placeholder'] = 'کد پستی ۱۰ رقمی';
+    $fields['billing']['billing_postcode']['class']       = array( 'form-row-wide' );
+    $fields['billing']['billing_postcode']['autocomplete']= 'postal-code';
+    $fields['billing']['billing_postcode']['custom_attributes'] = array(
+        'inputmode' => 'numeric',
+        'maxlength' => '10',
+        'minlength' => '10',
+        'pattern'   => '[0-9۰-۹٠-٩]{10}',
+    );
+
+    // کشور و ایمیل در فرم نمایش داده نمی‌شوند.
+    $fields['billing']['billing_country']['required'] = false;
+    $fields['billing']['billing_email']['required']   = false;
 
     // مخفی کردن فیلدهای اضافه با کلاس CSS
-    $fields['billing']['billing_country']['class'][]  = 'hidden';
-    $fields['billing']['billing_postcode']['class'][] = 'hidden';
-    $fields['billing']['billing_email']['class'][]    = 'hidden';
+    $fields['billing']['billing_country']['class'][] = 'hidden';
+    $fields['billing']['billing_email']['class'][]   = 'hidden';
 
     // حذف کامل فیلدهای شرکتی و آدرس دوم
     unset( $fields['billing']['billing_company'] );
@@ -857,6 +870,30 @@ function baji_fix_and_customize_checkout_fields( $fields ) {
 /**
  * ۲. تنظیم کشور پیش‌فرض روی ایران (IR) برای جلوگیری از ارور کشور
  */
+/**
+ * نرمال‌سازی و اعتبارسنجی کد پستی ایران.
+ * ارقام فارسی/عربی را به انگلیسی تبدیل می‌کند و فقط کد ۱۰ رقمی را می‌پذیرد.
+ */
+add_filter( 'woocommerce_checkout_posted_data', 'baji_normalize_billing_postcode', 20 );
+function baji_normalize_billing_postcode( $data ) {
+    if ( isset( $data['billing_postcode'] ) ) {
+        $postcode = strtr( (string) $data['billing_postcode'], array(
+            '۰'=>'0','۱'=>'1','۲'=>'2','۳'=>'3','۴'=>'4','۵'=>'5','۶'=>'6','۷'=>'7','۸'=>'8','۹'=>'9',
+            '٠'=>'0','١'=>'1','٢'=>'2','٣'=>'3','٤'=>'4','٥'=>'5','٦'=>'6','٧'=>'7','٨'=>'8','٩'=>'9',
+        ) );
+        $data['billing_postcode'] = preg_replace( '/\D+/', '', $postcode );
+    }
+    return $data;
+}
+
+add_action( 'woocommerce_after_checkout_validation', 'baji_validate_billing_postcode', 20, 2 );
+function baji_validate_billing_postcode( $data, $errors ) {
+    $postcode = isset( $data['billing_postcode'] ) ? (string) $data['billing_postcode'] : '';
+    if ( ! preg_match( '/^\d{10}$/', $postcode ) ) {
+        $errors->add( 'billing_postcode', 'لطفاً کد پستی ۱۰ رقمی معتبر را وارد کنید.' );
+    }
+}
+
 add_filter( 'default_checkout_billing_country', 'baji_set_default_country' );
 function baji_set_default_country() {
     return 'IR'; // کد دو حرفی کشور ایران
