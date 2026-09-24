@@ -98,6 +98,49 @@ get_header();
 					</div>
 
 					<?php
+					$current_price = (float) $product->get_price();
+					$snapp_installment = $current_price > 0 ? $current_price / 4 : 0;
+					?>
+					<div class="baji-snapp-product-box" data-price="<?php echo esc_attr( $current_price ); ?>" aria-label="خرید اقساطی با اسنپ‌پی">
+						<div class="baji-snapp-product-box__brand">
+							<img src="<?php echo esc_url( content_url( 'plugins/snapppay-woocommerce-gateway/assets/images/pay_logo.png' ) ); ?>" alt="اسنپ‌پی" loading="lazy">
+						</div>
+						<div class="baji-snapp-product-box__copy">
+							<strong>خرید اقساطی با اسنپ‌پی</strong>
+							<span>۴ قسط بدون کارمزد؛ هر قسط <b class="baji-snapp-installment"><?php echo esc_html( number_format_i18n( $snapp_installment ) ); ?></b> تومان</span>
+						</div>
+						<div class="baji-snapp-product-box__badge">۴ قسط</div>
+					</div>
+					<script>
+					(function($){
+						const $box = $('.baji-snapp-product-box').first();
+						if (!$box.length) return;
+						const $amount = $box.find('.baji-snapp-installment');
+						const formatFa = (value) => {
+							try { return new Intl.NumberFormat('fa-IR', {maximumFractionDigits:0}).format(value); }
+							catch(e) { return Math.round(value).toLocaleString(); }
+						};
+						const update = (price) => {
+							price = Number(price || 0);
+							if (price > 0) {
+								$amount.text(formatFa(price / 4));
+								$box.removeClass('is-unavailable');
+							} else {
+								$amount.text('—');
+								$box.addClass('is-unavailable');
+							}
+						};
+						update($box.data('price'));
+						$(document).on('found_variation', 'form.variations_form', function(e, variation){
+							update(variation && (variation.display_price || variation.display_regular_price));
+						});
+						$(document).on('hide_variation reset_data', 'form.variations_form', function(){
+							update($box.data('price'));
+						});
+					})(jQuery);
+					</script>
+
+					<?php
 					remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_price', 10 );
 					remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_title', 5 );
 					do_action( 'woocommerce_single_product_summary' );
@@ -181,6 +224,38 @@ get_header();
      🎨 استایل‌های اختصاصی و بهینه‌سازی‌شده
      ========================================================================= -->
 <style>
+/* ─── باکس اقساط اسنپ‌پی در صفحه محصول ─── */
+.baji-snapp-product-box{
+    display:grid!important;
+    grid-template-columns:52px minmax(0,1fr) auto!important;
+    align-items:center!important;
+    gap:12px!important;
+    width:100%!important;
+    margin:8px 0 4px!important;
+    padding:12px 14px!important;
+    border:1px solid rgba(0,200,121,.22)!important;
+    border-radius:16px!important;
+    background:linear-gradient(135deg,#f7fffb 0%,#ffffff 72%)!important;
+    box-shadow:0 6px 20px rgba(15,23,42,.045)!important;
+    direction:rtl!important;
+}
+.baji-snapp-product-box__brand{width:52px;height:52px;border-radius:13px;background:#fff;display:grid;place-items:center;border:1px solid #edf1f3;overflow:hidden}
+.baji-snapp-product-box__brand img{max-width:43px!important;max-height:43px!important;width:auto!important;height:auto!important;object-fit:contain!important;margin:0!important}
+.baji-snapp-product-box__copy{min-width:0;display:flex;flex-direction:column;gap:3px;line-height:1.7}
+.baji-snapp-product-box__copy strong{font-size:13px!important;font-weight:900!important;color:#111827!important}
+.baji-snapp-product-box__copy span{font-size:11.5px!important;font-weight:650!important;color:#5f6b7a!important}
+.baji-snapp-product-box__copy b{color:#009f65!important;font-weight:950!important;white-space:nowrap}
+.baji-snapp-product-box__badge{white-space:nowrap;border-radius:999px;background:#00c879;color:#fff;font-size:10px;font-weight:950;padding:6px 9px}
+.baji-snapp-product-box.is-unavailable{opacity:.65}
+@media(max-width:520px){
+    .baji-snapp-product-box{grid-template-columns:44px minmax(0,1fr) auto!important;gap:9px!important;padding:10px 11px!important;border-radius:14px!important}
+    .baji-snapp-product-box__brand{width:44px;height:44px;border-radius:11px}
+    .baji-snapp-product-box__brand img{max-width:37px!important;max-height:37px!important}
+    .baji-snapp-product-box__copy strong{font-size:12.5px!important}
+    .baji-snapp-product-box__copy span{font-size:10.5px!important}
+    .baji-snapp-product-box__badge{font-size:9px;padding:5px 7px}
+}
+
 /* ─── فونت‌های پایه ─── */
 .baji-swatches-enabled, 
 .baji-swatch-item, 
