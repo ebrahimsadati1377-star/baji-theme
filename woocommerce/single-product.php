@@ -98,44 +98,75 @@ get_header();
 					</div>
 
 					<?php
-					$current_price = (float) $product->get_price();
-					$snapp_installment = $current_price > 0 ? $current_price / 4 : 0;
+					$current_price     = (float) $product->get_price();
+					$four_installment  = $current_price > 0 ? $current_price / 4 : 0;
 					?>
-					<div class="baji-snapp-product-box" data-price="<?php echo esc_attr( $current_price ); ?>" aria-label="خرید اقساطی با اسنپ‌پی">
-						<div class="baji-snapp-product-box__brand">
-							<img src="<?php echo esc_url( content_url( 'plugins/snapppay-woocommerce-gateway/assets/images/pay_logo.png' ) ); ?>" alt="اسنپ‌پی" loading="lazy">
+					<div class="baji-installment-options" data-price="<?php echo esc_attr( $current_price ); ?>" aria-label="روش‌های خرید اقساطی">
+						<div class="baji-installment-options__title">
+							<i class="fa-regular fa-credit-card" aria-hidden="true"></i>
+							<span>خرید اقساطی</span>
 						</div>
-						<div class="baji-snapp-product-box__copy">
-							<strong>خرید اقساطی با اسنپ‌پی</strong>
-							<span>۴ قسط بدون کارمزد؛ هر قسط <b class="baji-snapp-installment"><?php echo esc_html( number_format_i18n( $snapp_installment ) ); ?></b> تومان</span>
+
+						<div class="baji-pay-option baji-pay-option--snapp" data-installments="4">
+							<div class="baji-pay-option__brand">
+								<img src="<?php echo esc_url( content_url( 'plugins/snapppay-woocommerce-gateway/assets/images/pay_logo.png' ) ); ?>" alt="اسنپ‌پی" loading="lazy">
+							</div>
+							<div class="baji-pay-option__copy">
+								<strong>اسنپ‌پی</strong>
+								<span>۴ قسط بدون کارمزد؛ هر قسط <b class="baji-pay-installment"><?php echo esc_html( number_format_i18n( $four_installment ) ); ?></b> تومان</span>
+							</div>
+							<span class="baji-pay-option__badge">۴ قسط</span>
 						</div>
-						<div class="baji-snapp-product-box__badge">۴ قسط</div>
+
+						<div class="baji-pay-option baji-pay-option--torob" data-installments="4">
+							<div class="baji-pay-option__brand">
+								<img src="<?php echo esc_url( content_url( 'plugins/torobpay-woocommerce-gateway/assets/images/logo_favicon.svg' ) ); ?>" alt="ترب‌پی" loading="lazy">
+							</div>
+							<div class="baji-pay-option__copy">
+								<strong>ترب‌پی</strong>
+								<span>خرید در ۴ قسط؛ هر قسط <b class="baji-pay-installment"><?php echo esc_html( number_format_i18n( $four_installment ) ); ?></b> تومان</span>
+							</div>
+							<span class="baji-pay-option__badge">۴ قسط</span>
+						</div>
+
+						<div class="baji-pay-option baji-pay-option--digi">
+							<div class="baji-pay-option__brand baji-pay-option__brand--text" aria-hidden="true">دیجی</div>
+							<div class="baji-pay-option__copy">
+								<strong>دیجی‌پی</strong>
+								<span>امکان خرید اعتباری و اقساطی با اعتبار دیجی‌پی</span>
+							</div>
+							<span class="baji-pay-option__badge">اعتباری</span>
+						</div>
 					</div>
 					<script>
 					(function($){
-						const $box = $('.baji-snapp-product-box').first();
-						if (!$box.length) return;
-						const $amount = $box.find('.baji-snapp-installment');
+						const $wrap = $('.baji-installment-options').first();
+						if (!$wrap.length) return;
 						const formatFa = (value) => {
 							try { return new Intl.NumberFormat('fa-IR', {maximumFractionDigits:0}).format(value); }
 							catch(e) { return Math.round(value).toLocaleString(); }
 						};
 						const update = (price) => {
 							price = Number(price || 0);
-							if (price > 0) {
-								$amount.text(formatFa(price / 4));
-								$box.removeClass('is-unavailable');
-							} else {
-								$amount.text('—');
-								$box.addClass('is-unavailable');
-							}
+							$wrap.find('.baji-pay-option[data-installments]').each(function(){
+								const $option = $(this);
+								const count = Number($option.data('installments') || 4);
+								const $amount = $option.find('.baji-pay-installment');
+								if (price > 0 && count > 0) {
+									$amount.text(formatFa(price / count));
+									$option.removeClass('is-unavailable');
+								} else {
+									$amount.text('—');
+									$option.addClass('is-unavailable');
+								}
+							});
 						};
-						update($box.data('price'));
+						update($wrap.data('price'));
 						$(document).on('found_variation', 'form.variations_form', function(e, variation){
 							update(variation && (variation.display_price || variation.display_regular_price));
 						});
 						$(document).on('hide_variation reset_data', 'form.variations_form', function(){
-							update($box.data('price'));
+							update($wrap.data('price'));
 						});
 					})(jQuery);
 					</script>
@@ -224,36 +255,98 @@ get_header();
      🎨 استایل‌های اختصاصی و بهینه‌سازی‌شده
      ========================================================================= -->
 <style>
-/* ─── باکس اقساط اسنپ‌پی در صفحه محصول ─── */
-.baji-snapp-product-box{
-    display:grid!important;
-    grid-template-columns:52px minmax(0,1fr) auto!important;
-    align-items:center!important;
-    gap:12px!important;
+/* ─── روش‌های خرید اقساطی در صفحه محصول ─── */
+.baji-installment-options{
     width:100%!important;
     margin:8px 0 4px!important;
-    padding:12px 14px!important;
-    border:1px solid rgba(0,200,121,.22)!important;
-    border-radius:16px!important;
-    background:linear-gradient(135deg,#f7fffb 0%,#ffffff 72%)!important;
-    box-shadow:0 6px 20px rgba(15,23,42,.045)!important;
+    padding:10px!important;
+    border:1px solid #e8edf2!important;
+    border-radius:18px!important;
+    background:#fff!important;
+    box-shadow:0 7px 24px rgba(15,23,42,.045)!important;
     direction:rtl!important;
 }
-.baji-snapp-product-box__brand{width:52px;height:52px;border-radius:13px;background:#fff;display:grid;place-items:center;border:1px solid #edf1f3;overflow:hidden}
-.baji-snapp-product-box__brand img{max-width:43px!important;max-height:43px!important;width:auto!important;height:auto!important;object-fit:contain!important;margin:0!important}
-.baji-snapp-product-box__copy{min-width:0;display:flex;flex-direction:column;gap:3px;line-height:1.7}
-.baji-snapp-product-box__copy strong{font-size:13px!important;font-weight:900!important;color:#111827!important}
-.baji-snapp-product-box__copy span{font-size:11.5px!important;font-weight:650!important;color:#5f6b7a!important}
-.baji-snapp-product-box__copy b{color:#009f65!important;font-weight:950!important;white-space:nowrap}
-.baji-snapp-product-box__badge{white-space:nowrap;border-radius:999px;background:#00c879;color:#fff;font-size:10px;font-weight:950;padding:6px 9px}
-.baji-snapp-product-box.is-unavailable{opacity:.65}
+.baji-installment-options__title{
+    display:flex!important;
+    align-items:center!important;
+    gap:7px!important;
+    padding:1px 3px 9px!important;
+    color:#374151!important;
+    font-size:12px!important;
+    font-weight:900!important;
+}
+.baji-installment-options__title i{color:#6b7280!important;font-size:13px!important}
+.baji-pay-option{
+    display:grid!important;
+    grid-template-columns:48px minmax(0,1fr) auto!important;
+    align-items:center!important;
+    gap:11px!important;
+    padding:10px 11px!important;
+    border:1px solid #edf0f3!important;
+    border-radius:14px!important;
+    background:#fcfcfd!important;
+}
+.baji-pay-option + .baji-pay-option{margin-top:7px!important}
+.baji-pay-option--snapp{background:linear-gradient(135deg,#f6fffb 0%,#fff 78%)!important;border-color:rgba(0,200,121,.2)!important}
+.baji-pay-option--torob{background:linear-gradient(135deg,#f8f7ff 0%,#fff 78%)!important;border-color:rgba(87,74,226,.18)!important}
+.baji-pay-option--digi{background:linear-gradient(135deg,#fff7f8 0%,#fff 78%)!important;border-color:rgba(230,47,89,.17)!important}
+.baji-pay-option__brand{
+    width:48px!important;
+    height:48px!important;
+    border-radius:12px!important;
+    display:grid!important;
+    place-items:center!important;
+    background:#fff!important;
+    border:1px solid #edf1f3!important;
+    overflow:hidden!important;
+}
+.baji-pay-option__brand img{
+    max-width:39px!important;
+    max-height:39px!important;
+    width:auto!important;
+    height:auto!important;
+    object-fit:contain!important;
+    margin:0!important;
+}
+.baji-pay-option__brand--text{
+    color:#e62f59!important;
+    font-size:11px!important;
+    font-weight:950!important;
+    letter-spacing:-.04em!important;
+}
+.baji-pay-option__copy{
+    min-width:0!important;
+    display:flex!important;
+    flex-direction:column!important;
+    gap:2px!important;
+    line-height:1.7!important;
+}
+.baji-pay-option__copy strong{font-size:12.5px!important;font-weight:950!important;color:#111827!important}
+.baji-pay-option__copy span{font-size:10.8px!important;font-weight:650!important;color:#667085!important}
+.baji-pay-option__copy b{font-weight:950!important;white-space:nowrap!important}
+.baji-pay-option--snapp .baji-pay-option__copy b{color:#009f65!important}
+.baji-pay-option--torob .baji-pay-option__copy b{color:#5145cd!important}
+.baji-pay-option__badge{
+    white-space:nowrap!important;
+    border-radius:999px!important;
+    padding:5px 8px!important;
+    font-size:9px!important;
+    font-weight:950!important;
+    background:#f2f4f7!important;
+    color:#475467!important;
+}
+.baji-pay-option--snapp .baji-pay-option__badge{background:#00c879!important;color:#fff!important}
+.baji-pay-option--torob .baji-pay-option__badge{background:#5b4ee4!important;color:#fff!important}
+.baji-pay-option--digi .baji-pay-option__badge{background:#e62f59!important;color:#fff!important}
+.baji-pay-option.is-unavailable{opacity:.62!important}
 @media(max-width:520px){
-    .baji-snapp-product-box{grid-template-columns:44px minmax(0,1fr) auto!important;gap:9px!important;padding:10px 11px!important;border-radius:14px!important}
-    .baji-snapp-product-box__brand{width:44px;height:44px;border-radius:11px}
-    .baji-snapp-product-box__brand img{max-width:37px!important;max-height:37px!important}
-    .baji-snapp-product-box__copy strong{font-size:12.5px!important}
-    .baji-snapp-product-box__copy span{font-size:10.5px!important}
-    .baji-snapp-product-box__badge{font-size:9px;padding:5px 7px}
+    .baji-installment-options{padding:8px!important;border-radius:15px!important}
+    .baji-pay-option{grid-template-columns:42px minmax(0,1fr) auto!important;gap:8px!important;padding:9px!important;border-radius:12px!important}
+    .baji-pay-option__brand{width:42px!important;height:42px!important;border-radius:10px!important}
+    .baji-pay-option__brand img{max-width:34px!important;max-height:34px!important}
+    .baji-pay-option__copy strong{font-size:12px!important}
+    .baji-pay-option__copy span{font-size:10px!important;line-height:1.65!important}
+    .baji-pay-option__badge{font-size:8.5px!important;padding:5px 6px!important}
 }
 
 /* ─── فونت‌های پایه ─── */
