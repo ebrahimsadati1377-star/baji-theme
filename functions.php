@@ -1365,3 +1365,17 @@ function baji_purge_litespeed_ui_1044() {
 }
 add_action( 'init', 'baji_purge_litespeed_ui_1044', 99 );
 
+
+// Temporary LiteSpeed cache flush for product installment boxes.
+add_action( 'init', function() {
+    if ( ! isset( $_GET['baji_installment_boxes_flush'] ) ) {
+        return;
+    }
+    $target = 'https://bajistyle.ir/product/lime-green-felt-women-jacket-55/';
+    do_action( 'litespeed_purge_url', $target );
+    do_action( 'litespeed_purge_all' );
+    if ( class_exists( '\\LiteSpeed\\Purge' ) && method_exists( '\\LiteSpeed\\Purge', 'purge_all' ) ) {
+        \\LiteSpeed\\Purge::purge_all();
+    }
+    nocache_headers();
+} );
