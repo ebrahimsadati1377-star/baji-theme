@@ -302,3 +302,118 @@ add_action(
 		);
 	}
 );
+
+
+/**
+ * Authenticated daily traffic-source summary for BAJI managers.
+ */
+add_action(
+    'rest_api_init',
+    function () {
+        register_rest_route(
+            'baji/v1',
+            '/traffic-sources',
+            array(
+                'methods'             => 'GET',
+                'permission_callback' => function () {
+                    return current_user_can( 'manage_woocommerce' ) || current_user_can( 'manage_options' );
+                },
+                'callback'            => function () {
+                    if ( ! class_exists( '\\WP_Statistics\\Models\\VisitorsModel' ) ) {
+                        return new WP_Error( 'wp_statistics_unavailable', 'WP Statistics visitors model is unavailable.', array( 'status' => 503 ) );
+                    }
+
+                    $today = current_time( 'Y-m-d' );
+                    $model = new \WP_Statistics\Models\VisitorsModel();
+                    $rows  = $model->getVisitorsData(
+                        array(
+                            'date'     => array( 'from' => $today, 'to' => $today ),
+                            'page'     => 1,
+                            'per_page' => 5000,
+                            'order_by' => 'visitor.last_view',
+                            'order'    => 'DESC',
+                            'decorate' => true,
+                        )
+                    );
+
+                    $groups  = array();
+                    $details = array();
+                    foreach ( $rows as $visitor ) {
+                        $referral       = method_exists( $visitor, 'getReferral' ) ? $visitor->getReferral() : null;
+                        $raw_referrer   = $referral && method_exists( $referral, 'getRawReferrer' ) ? (string) $referral->getRawReferrer() : '';
+                        $source_channel = $referral && method_exists( $referral, 'getSourceChannel' ) ? (string) $referral->getSourceChannel() : '';
+                        $source_name    = $referral && method_exists( $referral, 'getSourceName' ) ? (string) $referral->getSourceName() : '';
+                        $first_page     = method_exists( $visitor, 'getFirstPage' ) ? $visitor->getFirstPage() : array();
+                        $query          = is_array( $first_page ) ? (string) ( $first_page['query'] ?? '' ) : '';
+                        $params         = array();
+                        parse_str( html_entity_decode( $query, ENT_QUOTES | ENT_HTML5, 'UTF-8' ), $params );
+                        $utm_source = strtolower( trim( (string) ( $params['utm_source'] ?? '' ) ) );
+                        $utm_medium = strtolower( trim( (string) ( $params['utm_medium'] ?? '' ) ) );
+                        $haystack   = strtolower( implode( ' ', array( $utm_source, $utm_medium, $raw_referrer, $source_name ) ) );
+
+                        if ( false !== strpos( $haystack, 'torobpay' ) ) {
+                            $label = 'ترب‌پی';
+                        } elseif ( false !== strpos( $haystack, 'torob' ) ) {
+                            $label = 'ترب';
+                        } elseif ( false !== strpos( $haystack, 'bazaar' ) ) {
+                            $label = 'بازار';
+                        } elseif ( false !== strpos( $haystack, 'instagram' ) ) {
+                            $label = 'اینستاگرام';
+                        } elseif ( false !== strpos( $haystack, 'snapp' ) ) {
+                            $label = 'اسنپ';
+                        } elseif ( false !== strpos( $haystack, 'digipay' ) || false !== strpos( $haystack, 'digikala' ) ) {
+                            $label = 'دیجی‌پی / دیجی‌کالا';
+                        } elseif ( false !== strpos( $haystack, 'telegram' ) || false !== strpos( $haystack, 't.me' ) ) {
+                            $label = 'تلگرام';
+                        } elseif ( false !== strpos( $haystack, 'ble.ir' ) || false !== strpos( $haystack, 'bale' ) ) {
+                            $label = 'بله';
+                        } elseif ( false !== strpos( $haystack, 'rubika' ) ) {
+                            $label = 'روبیکا';
+                        } elseif ( false !== strpos( $haystack, 'google' ) ) {
+                            $label = 'گوگل';
+                        } elseif ( 'search' === $source_channel || 'paid_search' === $source_channel ) {
+                            $label = $source_name !== '' ? $source_name : 'موتور جستجو';
+                        } elseif ( 'social' === $source_channel || 'paid_social' === $source_channel ) {
+                            $label = $source_name !== '' ? $source_name : 'شبکه اجتماعی';
+                        } elseif ( 'direct' === $source_channel || ( '' === $raw_referrer && '' === $utm_source && '' === $source_name ) ) {
+                            $label = 'مستقیم';
+                        } elseif ( '' !== $source_name ) {
+                            $label = $source_name;
+                        } elseif ( '' !== $raw_referrer ) {
+                            $label = $raw_referrer;
+                        } else {
+                            $label = 'نامشخص';
+                        }
+
+                        if ( ! isset( $groups[ $label ] ) ) {
+                            $groups[ $label ] = 0;
+                        }
+                        $groups[ $label ]++;
+                        $details[] = array(
+                            'id'             => method_exists( $visitor, 'getId' ) ? (int) $visitor->getId() : 0,
+                            'source'         => $label,
+                            'utm_source'     => $utm_source ?: null,
+                            'utm_medium'     => $utm_medium ?: null,
+                            'referrer'       => $raw_referrer ?: null,
+                            'source_channel' => $source_channel ?: null,
+                            'source_name'    => $source_name ?: null,
+                            'first_page'     => is_array( $first_page ) ? ( $first_page['title'] ?? null ) : null,
+                            'last_view'      => method_exists( $visitor, 'getLastView' ) ? $visitor->getLastView( true ) : null,
+                        );
+                    }
+                    arsort( $groups );
+
+                    return rest_ensure_response(
+                        array(
+                            'generated_at'   => current_time( 'mysql' ),
+                            'date'           => $today,
+                            'visitors_total' => count( $rows ),
+                            'sources'        => $groups,
+                            'visitors'       => $details,
+                        )
+                    );
+                },
+            )
+        );
+    }
+);
