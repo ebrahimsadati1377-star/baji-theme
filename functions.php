@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /* -------------------------------------------------------------------------
  * ثابت‌های قالب
  * ---------------------------------------------------------------------- */
-define( 'BAJISTYLE_VERSION', '1.0.56' );
+define( 'BAJISTYLE_VERSION', '1.0.57' );
 define( 'BAJISTYLE_DIR', get_template_directory() );
 define( 'BAJISTYLE_URI', get_template_directory_uri() );
 
@@ -1395,3 +1395,19 @@ function baji_purge_litespeed_related_cards_1056() {
     }
 }
 add_action( 'init', 'baji_purge_litespeed_related_cards_1056', 99 );
+
+
+/**
+ * One-time LiteSpeed purge after related-product regular-price styling update.
+ */
+function baji_purge_litespeed_related_price_1057() {
+    $key = 'baji_lscache_purge_related_price_1057';
+    if ( 'done' === get_option( $key ) ) {
+        return;
+    }
+    if ( has_action( 'litespeed_purge_all' ) || defined( 'LSCWP_V' ) ) {
+        do_action( 'litespeed_purge_all' );
+        update_option( $key, 'done', false );
+    }
+}
+add_action( 'init', 'baji_purge_litespeed_related_price_1057', 99 );
