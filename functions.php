@@ -1411,3 +1411,60 @@ function baji_purge_litespeed_related_price_1057() {
     }
 }
 add_action( 'init', 'baji_purge_litespeed_related_price_1057', 99 );
+
+
+/**
+ * BAJI short product links for Bale channel attribution.
+ *
+ * Example: /b/3642 -> product permalink with Bale UTM parameters.
+ */
+function baji_register_bale_short_product_link() {
+	add_rewrite_rule( '^b/([0-9]+)/?$', 'index.php?baji_bale_product=$matches[1]', 'top' );
+}
+add_action( 'init', 'baji_register_bale_short_product_link', 5 );
+
+function baji_bale_short_link_query_vars( $vars ) {
+	$vars[] = 'baji_bale_product';
+	return $vars;
+}
+add_filter( 'query_vars', 'baji_bale_short_link_query_vars' );
+
+function baji_handle_bale_short_product_link() {
+	$product_id = absint( get_query_var( 'baji_bale_product' ) );
+	if ( ! $product_id ) {
+		return;
+	}
+
+	$product = get_post( $product_id );
+	if ( ! $product || 'product' !== $product->post_type || 'publish' !== $product->post_status ) {
+		status_header( 404 );
+		nocache_headers();
+		exit;
+	}
+
+	$target = add_query_arg(
+		array(
+			'utm_source'   => 'bale',
+			'utm_medium'   => 'social',
+			'utm_campaign' => 'product_' . $product_id,
+			'utm_content'  => 'bajistyle_channel',
+		),
+		get_permalink( $product_id )
+	);
+
+	wp_safe_redirect( $target, 302, 'BAJI Bale' );
+	exit;
+}
+add_action( 'template_redirect', 'baji_handle_bale_short_product_link', 1 );
+
+function baji_flush_bale_short_link_rewrite_once() {
+	$key = 'baji_bale_short_link_rewrite_v1';
+	if ( 'done' === get_option( $key ) ) {
+		return;
+	}
+
+	baji_register_bale_short_product_link();
+	flush_rewrite_rules( false );
+	update_option( $key, 'done', false );
+}
+add_action( 'init', 'baji_flush_bale_short_link_rewrite_once', 99 );
