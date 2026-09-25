@@ -2922,3 +2922,21 @@ body.woocommerce-account .baji-page-content{
         max-height:42px !important;
     }
 }
+
+
+/* BAJI related products — clearer crossed-out regular price */
+.single-product .baji-related-products .baji-products-slider .baji-product-price del,
+.single-product .baji-related-products .baji-products-slider .baji-product-price del .amount{
+    color:#8a6f6f !important;
+    font-size:12px !important;
+    font-weight:700 !important;
+    opacity:1 !important;
+    text-decoration-thickness:1.5px !important;
+    text-decoration-color:#8a6f6f !important;
+}
+@media(max-width:767px){
+    .single-product .baji-related-products .baji-products-slider .baji-product-price del,
+    .single-product .baji-related-products .baji-products-slider .baji-product-price del .amount{
+        font-size:11.5px !important;
+    }
+}
