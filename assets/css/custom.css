@@ -2848,3 +2848,77 @@ body.woocommerce-account .baji-page-content{
     object-fit:cover!important;
   }
 }
+
+
+/* BAJI related products — equal cards and perfectly aligned CTAs */
+.single-product .baji-related-products .baji-products-slider .swiper-wrapper{
+    align-items:stretch !important;
+}
+.single-product .baji-related-products .baji-products-slider .swiper-slide{
+    height:auto !important;
+    display:flex !important;
+    flex-direction:column !important;
+    box-sizing:border-box !important;
+}
+.single-product .baji-related-products .baji-products-slider .swiper-slide > div.mt-3{
+    display:flex !important;
+    flex-direction:column !important;
+    flex:1 1 auto !important;
+    min-height:136px !important;
+    box-sizing:border-box !important;
+}
+.single-product .baji-related-products .baji-products-slider .swiper-slide > div.mt-3 > a:first-child{
+    display:flex !important;
+    flex-direction:column !important;
+    flex:1 1 auto !important;
+}
+.single-product .baji-related-products .baji-products-slider .swiper-slide h3{
+    height:48px !important;
+    min-height:48px !important;
+    max-height:48px !important;
+    margin:0 !important;
+    overflow:hidden !important;
+    display:-webkit-box !important;
+    -webkit-box-orient:vertical !important;
+    -webkit-line-clamp:2 !important;
+    line-height:24px !important;
+}
+.single-product .baji-related-products .baji-products-slider .baji-product-price{
+    height:44px !important;
+    min-height:44px !important;
+    max-height:44px !important;
+    margin-top:4px !important;
+    overflow:hidden !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    flex-wrap:wrap !important;
+}
+.single-product .baji-related-products .baji-products-slider .baji-product-buy-cta{
+    height:44px !important;
+    min-height:44px !important;
+    max-height:44px !important;
+    margin-top:auto !important;
+    flex:0 0 auto !important;
+}
+@media(max-width:767px){
+    .single-product .baji-related-products .baji-products-slider .swiper-slide > div.mt-3{
+        min-height:130px !important;
+    }
+    .single-product .baji-related-products .baji-products-slider .swiper-slide h3{
+        height:46px !important;
+        min-height:46px !important;
+        max-height:46px !important;
+        line-height:23px !important;
+    }
+    .single-product .baji-related-products .baji-products-slider .baji-product-price{
+        height:42px !important;
+        min-height:42px !important;
+        max-height:42px !important;
+    }
+    .single-product .baji-related-products .baji-products-slider .baji-product-buy-cta{
+        height:42px !important;
+        min-height:42px !important;
+        max-height:42px !important;
+    }
+}
