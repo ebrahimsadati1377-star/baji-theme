@@ -207,3 +207,15 @@ body.woocommerce-checkout .baji-mobile-bottom-nav{display:none!important}
   .baji-review-product__info strong{max-width:150px}
   .baji-digikala-express{margin:12px 0!important}
 }
+
+/* BAJI birthday details and independent SMS opt-in */
+.baji-checkout-fields #billing_baji_birth_year_field{grid-column:1/-1}
+.baji-checkout-fields #billing_baji_birth_month_field,
+.baji-checkout-fields #billing_baji_birth_day_field{grid-column:auto}
+.baji-checkout-fields #billing_baji_birthday_optin_field{grid-column:1/-1;margin-top:1px!important;padding:13px!important;border:1px solid #eed7dc;border-radius:13px;background:#fff9fa}
+.baji-checkout-fields #billing_baji_birthday_optin_field label.checkbox{display:flex!important;gap:10px;align-items:flex-start;font-size:12px!important;line-height:1.9!important;cursor:pointer}
+.baji-checkout-fields #billing_baji_birthday_optin_field input[type=checkbox]{width:19px!important;height:19px!important;min-height:19px!important;flex:0 0 19px;margin:3px 0 0!important;accent-color:#8c1730}
+.baji-checkout-fields #billing_baji_birth_year_field{position:relative;margin-top:11px!important;padding-top:11px!important;border-top:1px solid #f1e5e5}
+.baji-checkout-fields #billing_baji_birth_year_field label:before{content:'🎁 ';font-size:14px}
+.baji-checkout-fields #billing_baji_birth_year_field:after{content:'اختیاری • تاریخ تولد به شمسی؛ برای دریافت هدیه، تیک پیامک تولد را فعال کن.';display:block;margin:8px 0 0;color:#80706b;font-size:11px;line-height:1.85}
+@media(max-width:600px){.baji-checkout-fields #billing_baji_birth_year_field,.baji-checkout-fields #billing_baji_birth_month_field,.baji-checkout-fields #billing_baji_birth_day_field,.baji-checkout-fields #billing_baji_birthday_optin_field{min-width:0}.baji-checkout-fields #billing_baji_birthday_optin_field label.checkbox{font-size:12px!important}}
