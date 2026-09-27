@@ -1474,3 +1474,6 @@ require_once BAJISTYLE_DIR . '/inc/checkout-lead-capture.php';
 
 // Optional Jalali birthday and consent-gated birthday SMS data.
 require_once BAJISTYLE_DIR . '/inc/birthday-fields.php';
+
+// Optional, explicit marketing SMS preference.
+require_once BAJISTYLE_DIR . '/inc/sms-marketing-optin.php';
