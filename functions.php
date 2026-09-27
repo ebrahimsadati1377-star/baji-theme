@@ -1468,3 +1468,6 @@ function baji_flush_bale_short_link_rewrite_once() {
 	update_option( $key, 'done', false );
 }
 add_action( 'init', 'baji_flush_bale_short_link_rewrite_once', 99 );
+
+// BAJI pre-order checkout contact capture, distinct from Woo order SMS.
+require_once BAJISTYLE_DIR . '/inc/checkout-lead-capture.php';
