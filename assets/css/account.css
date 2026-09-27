@@ -1622,3 +1622,6 @@ body.woocommerce-account .baji-mobile-bottom-nav .baji-mobile-wishlist.is-active
 .baji-birthday-account-consent input[type=checkbox]{width:19px;height:19px;flex:0 0 19px;margin:3px 0 0!important;accent-color:#8c1730}
 .baji-birthday-account>small{display:block;color:#756568;font-size:11px;line-height:1.8}
 @media(max-width:600px){.baji-birthday-account{padding:14px;border-radius:15px}.baji-birthday-account-fields{grid-template-columns:1fr 1fr}.baji-birthday-account-fields label:first-child{grid-column:1/-1}.baji-birthday-account h3{font-size:17px!important}}
+
+.baji-birthday-account-remove{display:flex;align-items:center;gap:8px;margin:12px 0 0!important;color:#785f5e;font-size:12px;cursor:pointer}
+.baji-birthday-account-remove input[type=checkbox]{width:17px;height:17px;accent-color:#8c1730}
