@@ -112,6 +112,56 @@ unset( $actions['view'] );
 $billing_address  = $order->get_formatted_billing_address();
 $shipping_address = $order->get_formatted_shipping_address();
 $customer_note    = $order->get_customer_note();
+
+// Shipment details are stored by WC Manager as WooCommerce order metadata.
+// Only the owner of the order (checked above) can see these fields.
+$shipment_carrier = sanitize_key( (string) $order->get_meta( '_baji_ship_carrier', true ) );
+$shipment_other   = trim( (string) $order->get_meta( '_baji_ship_other', true ) );
+$shipment_code    = trim( (string) $order->get_meta( '_baji_ship_tracking', true ) );
+$shipment_at      = trim( (string) $order->get_meta( '_baji_ship_sent_at', true ) );
+$shipment_labels  = array(
+	'post_pishtaz'  => 'پست پیشتاز',
+	'post_sefareshi'=> 'پست سفارشی',
+	'post_vizhe'    => 'پست ویژه',
+	'tipax'         => 'تیپاکس',
+	'decapost'      => 'دکاپست',
+	'mahax'         => 'ماهکس',
+	'chapar'        => 'چاپار',
+	'postex'        => 'پستکس',
+	'snappbox'      => 'اسنپ‌باکس',
+	'alopeyk'       => 'الوپیک',
+	'courier'       => 'پیک فروشگاه',
+	'freight'       => 'باربری',
+	'other'         => 'سایر',
+);
+$shipment_name = $shipment_carrier === 'other' && $shipment_other !== ''
+	? $shipment_other
+	: ( $shipment_labels[ $shipment_carrier ] ?? 'شرکت حمل‌ونقل' );
+
+// Tracking URLs come from the order metadata, never from query strings. Only
+// the known carrier domains are linked; all other carriers display the code.
+$shipment_url = trim( (string) $order->get_meta( '_baji_ship_track_url', true ) );
+if ( $shipment_url === '' && str_starts_with( $shipment_carrier, 'post_' ) ) {
+	$shipment_url = 'https://tracking.post.ir/';
+} elseif ( $shipment_url === '' && $shipment_carrier === 'tipax' ) {
+	$shipment_url = 'https://tipaxco.com/';
+} elseif ( $shipment_url === '' && $shipment_carrier === 'chapar' && $shipment_code !== '' ) {
+	$shipment_url = 'https://chaparnet.com/track/' . rawurlencode( $shipment_code );
+}
+$shipment_host = strtolower( (string) wp_parse_url( $shipment_url, PHP_URL_HOST ) );
+$shipment_scheme = strtolower( (string) wp_parse_url( $shipment_url, PHP_URL_SCHEME ) );
+$shipment_hosts = array(
+	'post_pishtaz'   => array( 'tracking.post.ir' ),
+	'post_sefareshi' => array( 'tracking.post.ir' ),
+	'post_vizhe'     => array( 'tracking.post.ir' ),
+	'tipax'          => array( 'tipaxco.com', 'www.tipaxco.com' ),
+	'chapar'         => array( 'chaparnet.com', 'www.chaparnet.com' ),
+);
+if ( $shipment_scheme !== 'https' || ! in_array( $shipment_host, $shipment_hosts[ $shipment_carrier ] ?? array(), true ) ) {
+	$shipment_url = '';
+}
+$shipment_has_code = $shipment_code !== '' && (bool) preg_match( '/^[A-Za-z0-9][A-Za-z0-9\\/._-]{3,63}$/D', $shipment_code );
+$shipment_timestamp = $shipment_at !== '' ? strtotime( $shipment_at ) : false;
 ?>
 <div class="baji-view-order">
 	<section class="baji-view-order-head">
@@ -182,6 +232,38 @@ $customer_note    = $order->get_customer_note();
 			<?php endforeach; ?>
 		</div>
 	</section>
+
+
+	<?php if ( $shipment_has_code || in_array( $status, array( 'processing', 'completed' ), true ) ) : ?>
+		<section class="baji-view-order-card baji-shipment-card" aria-labelledby="baji-shipment-heading">
+			<div class="baji-view-order-title">
+				<span><i class="fa-solid fa-truck-fast" aria-hidden="true"></i></span>
+				<div><small>ارسال خرید شما</small><h3 id="baji-shipment-heading">پیگیری مرسوله</h3></div>
+			</div>
+			<?php if ( $shipment_has_code ) : ?>
+				<div class="baji-shipment-status is-shipped"><i class="fa-solid fa-circle-check" aria-hidden="true"></i> مرسوله به شرکت حمل تحویل شده است.</div>
+				<div class="baji-shipment-grid">
+					<div class="baji-shipment-detail"><span>شرکت حمل‌ونقل</span><strong><?php echo esc_html( $shipment_name ); ?></strong></div>
+					<div class="baji-shipment-detail"><span>کد رهگیری</span><strong class="baji-shipment-code" dir="ltr"><?php echo esc_html( $shipment_code ); ?></strong></div>
+					<?php if ( $shipment_timestamp ) : ?>
+						<div class="baji-shipment-detail"><span>تاریخ ثبت ارسال</span><strong><?php echo esc_html( wp_date( 'Y/m/d - H:i', $shipment_timestamp ) ); ?></strong></div>
+					<?php endif; ?>
+				</div>
+				<?php if ( $shipment_url !== '' ) : ?>
+					<a class="baji-shipment-track-button" href="<?php echo esc_url( $shipment_url ); ?>" target="_blank" rel="noopener noreferrer" aria-label="پیگیری مرسوله در وب‌سایت شرکت حمل‌ونقل (در پنجره جدید)">
+						<i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i>
+						<span>پیگیری مرسوله در سایت شرکت حمل‌ونقل</span>
+					</a>
+				<?php else : ?>
+					<p class="baji-shipment-help">برای پیگیری، کد بالا را در سامانه شرکت حمل‌ونقل وارد کنید.</p>
+				<?php endif; ?>
+				<p class="baji-shipment-help">وضعیت لحظه‌ای جابه‌جایی مرسوله در سامانه شرکت حمل‌ونقل نمایش داده می‌شود.</p>
+			<?php else : ?>
+				<div class="baji-shipment-status is-preparing"><i class="fa-regular fa-clock" aria-hidden="true"></i> اطلاعات ارسال هنوز ثبت نشده است.</div>
+				<p class="baji-shipment-help">پس از تحویل سفارش به شرکت حمل‌ونقل، کد رهگیری و لینک پیگیری همین‌جا نمایش داده می‌شود و پیامک اطلاع‌رسانی ارسال نیز دریافت می‌کنید.</p>
+			<?php endif; ?>
+		</section>
+	<?php endif; ?>
 
 	<div class="baji-view-order-info-grid">
 		<section class="baji-view-order-mini">
