@@ -1484,3 +1484,110 @@ body.woocommerce-account .baji-mobile-bottom-nav .baji-mobile-wishlist.is-active
   margin-top:2px;
   color:var(--ba-brand);
 }
+
+
+/* BAJI ORDER SHIPMENT TRACKING 2026-09-27 */
+.baji-view-order .baji-shipment-card{
+  border:1px solid #ead3da;
+  background:linear-gradient(145deg,#fff 0%,#fffbfb 100%);
+}
+.baji-view-order .baji-shipment-card .baji-view-order-title h3{
+  font-size:17px!important;
+}
+.baji-shipment-status{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  padding:12px 14px;
+  border-radius:12px;
+  font-size:13px;
+  font-weight:850;
+  line-height:1.8;
+}
+.baji-shipment-status.is-shipped{
+  background:#ecf8f0;
+  color:#236844;
+}
+.baji-shipment-status.is-preparing{
+  background:#fff6e9;
+  color:#926520;
+}
+.baji-shipment-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:11px;
+  margin-top:15px;
+}
+.baji-shipment-detail{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  min-width:0;
+  gap:5px;
+  padding:12px 14px;
+  border:1px solid #f0e4e2;
+  border-radius:12px;
+  background:#fff;
+}
+.baji-shipment-detail>span{
+  color:#82716d;
+  font-size:11px;
+  font-weight:750;
+}
+.baji-shipment-detail>strong{
+  display:block;
+  color:#302729;
+  font-size:15px;
+  font-weight:900;
+  line-height:1.65;
+  overflow-wrap:anywhere;
+}
+.baji-shipment-detail .baji-shipment-code{
+  direction:ltr;
+  unicode-bidi:isolate;
+  text-align:right;
+  font-size:17px;
+  font-weight:900;
+  letter-spacing:.035em;
+  font-variant-numeric:tabular-nums;
+}
+.baji-shipment-track-button{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:9px;
+  width:fit-content;
+  max-width:100%;
+  min-height:46px;
+  margin-top:15px;
+  padding:11px 17px;
+  border-radius:12px;
+  background:#8c1730;
+  color:#fff!important;
+  font-size:13px;
+  font-weight:900;
+  text-align:center;
+  line-height:1.7;
+  text-decoration:none!important;
+}
+.baji-shipment-track-button:hover,
+.baji-shipment-track-button:focus-visible{
+  background:#711228;
+  color:#fff!important;
+}
+.baji-shipment-track-button:focus-visible{
+  outline:3px solid #cf91a1;
+  outline-offset:3px;
+}
+.baji-shipment-help{
+  margin:12px 0 0!important;
+  color:#71615d!important;
+  font-size:12px!important;
+  line-height:1.9!important;
+}
+@media(max-width:600px){
+  .baji-shipment-grid{grid-template-columns:1fr;gap:9px}
+  .baji-shipment-detail{padding:11px 12px}
+  .baji-shipment-track-button{width:100%;font-size:12px}
+  .baji-shipment-status{font-size:12px}
+}
