@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /* -------------------------------------------------------------------------
  * ثابت‌های قالب
  * ---------------------------------------------------------------------- */
-define( 'BAJISTYLE_VERSION', '1.0.58' );
+define( 'BAJISTYLE_VERSION', '1.0.59' );
 define( 'BAJISTYLE_DIR', get_template_directory() );
 define( 'BAJISTYLE_URI', get_template_directory_uri() );
 
@@ -1471,3 +1471,6 @@ add_action( 'init', 'baji_flush_bale_short_link_rewrite_once', 99 );
 
 // BAJI pre-order checkout contact capture, distinct from Woo order SMS.
 require_once BAJISTYLE_DIR . '/inc/checkout-lead-capture.php';
+
+// Optional Jalali birthday and consent-gated birthday SMS data.
+require_once BAJISTYLE_DIR . '/inc/birthday-fields.php';
