@@ -160,7 +160,7 @@ $shipment_hosts = array(
 if ( $shipment_scheme !== 'https' || ! in_array( $shipment_host, $shipment_hosts[ $shipment_carrier ] ?? array(), true ) ) {
 	$shipment_url = '';
 }
-$shipment_has_code = $shipment_code !== '' && (bool) preg_match( '/^[A-Za-z0-9][A-Za-z0-9\\/._-]{3,63}$/D', $shipment_code );
+$shipment_has_code = $shipment_code !== '' && (bool) preg_match( '~^[A-Za-z0-9][A-Za-z0-9/._-]{3,63}$~D', $shipment_code );
 $shipment_timestamp = $shipment_at !== '' ? strtotime( $shipment_at ) : false;
 ?>
 <div class="baji-view-order">
