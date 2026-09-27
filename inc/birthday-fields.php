@@ -148,7 +148,9 @@ add_action( 'woocommerce_checkout_create_order', function($order,$data) {
 function baji_birthday_update_user_meta( $uid, $birth, $consent ) {
 	if ( !$uid ) return;
 	$customer=new WC_Customer($uid);
-	if ( $birth['filled'] && $birth['date']!=='' ) {
+	if ( !empty($birth['clear']) ) {
+		$customer->update_meta_data('baji_birthdate_jalali','');
+	} elseif ( $birth['filled'] && $birth['date']!=='' ) {
 		$customer->update_meta_data('baji_birthdate_jalali',$birth['date']);
 	}
 	$customer->update_meta_data('baji_birthday_sms_consent',$consent?'1':'0');
@@ -194,6 +196,7 @@ add_action('woocommerce_edit_account_form',function() {
 			</label>
 		<?php endforeach; ?>
 		</div>
+		<label class="baji-birthday-account-remove" for="account_baji_birthdate_remove"><input type="checkbox" id="account_baji_birthdate_remove" name="account_baji_birthdate_remove" value="1"><span>حذف تاریخ تولد ذخیره‌شده</span></label>
 		<label class="baji-birthday-account-consent" for="account_baji_birthday_optin">
 			<input type="checkbox" id="account_baji_birthday_optin" name="account_baji_birthday_optin" value="1" <?php checked($opt); ?>>
 			<span>مایلم روز تولدم پیامک تبریک و پیشنهاد هدیه تولد باجی را دریافت کنم.</span>
@@ -203,12 +206,17 @@ add_action('woocommerce_edit_account_form',function() {
 	<?php
 });
 add_action('woocommerce_save_account_details_errors',function($errors,$user){
+	if (baji_birthday_post_value('account_baji_birthdate_remove')==='1') return;
 	$data=baji_birthday_post_date('account_baji_birth_');
 	if ($data['filled'] && $data['date']==='') $errors->add('baji_birthday_invalid','تاریخ تولد شمسی معتبر نیست؛ سال، ماه و روز را بررسی کن.');
 	if (baji_birthday_post_value('account_baji_birthday_optin')==='1' && !$data['filled'] && !get_user_meta($user->ID,'baji_birthdate_jalali',true))
 		$errors->add('baji_birthday_missing','برای دریافت پیامک تولد، ابتدا تاریخ تولد را وارد کن.');
 },20,2);
 add_action('woocommerce_save_account_details',function($uid) {
+	if (baji_birthday_post_value('account_baji_birthdate_remove')==='1') {
+		baji_birthday_update_user_meta($uid,array('date'=>'','filled'=>true,'clear'=>true),false);
+		return;
+	}
 	$birth=baji_birthday_post_date('account_baji_birth_');
 	if (!$birth['filled']) {
 		$parts=baji_birthday_user_values($uid);
