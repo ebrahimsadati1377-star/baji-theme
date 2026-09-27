@@ -155,7 +155,7 @@ foreach ( $all_orders as $order ) {
 				<a href="<?php echo esc_url( add_query_arg( 'tab', 'orders', $account_url ) ); ?>">
 					<span class="baji-account-stat-icon"><i class="fa-solid fa-check"></i></span>
 					<strong><?php echo esc_html( $done_count ); ?></strong>
-					<small>تحویل‌شده</small>
+					<small>تکمیل‌شده</small>
 				</a>
 				<a href="<?php echo esc_url( add_query_arg( 'tab', 'wishlist', $account_url ) ); ?>">
 					<span class="baji-account-stat-icon"><i class="fa-regular fa-heart"></i></span>
