@@ -162,6 +162,16 @@ if ( $shipment_scheme !== 'https' || ! in_array( $shipment_host, $shipment_hosts
 }
 $shipment_has_code = $shipment_code !== '' && (bool) preg_match( '~^[A-Za-z0-9][A-Za-z0-9/._-]{3,63}$~D', $shipment_code );
 $shipment_timestamp = $shipment_at !== '' ? strtotime( $shipment_at ) : false;
+// WooCommerce completion marks the shipment handover in BAJI; it does not
+// confirm delivery to the customer's home.
+if ( $shipment_has_code && $status === 'completed' ) {
+	$status_text = 'سفارش شما ارسال شده است. برای پیگیری، کد مرسوله را در همین صفحه مشاهده کنید.';
+	if ( $timeline ) {
+		$last_event = count( $timeline ) - 1;
+		$timeline[ $last_event ]['title'] = 'سفارش ارسال شد';
+		$timeline[ $last_event ]['text'] = 'مرسوله به شرکت حمل‌ونقل تحویل داده شده است.';
+	}
+}
 ?>
 <div class="baji-view-order">
 	<section class="baji-view-order-head">
