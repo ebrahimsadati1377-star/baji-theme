@@ -4,12 +4,12 @@
     function mobile(value) {
         var s = String(value || '').replace(/[۰-۹]/g, function (c) { return String('۰۱۲۳۴۵۶۷۸۹'.indexOf(c)); })
             .replace(/[٠-٩]/g, function (c) { return String('٠١٢٣٤٥٦٧٨٩'.indexOf(c)); })
-            .replace(/[\\s().-]+/g, '');
-        if (/^\\+989\\d{9}$/.test(s)) s = '0' + s.slice(3);
-        else if (/^00989\\d{9}$/.test(s)) s = '0' + s.slice(4);
-        else if (/^989\\d{9}$/.test(s)) s = '0' + s.slice(2);
-        else if (/^9\\d{9}$/.test(s)) s = '0' + s;
-        return /^09\\d{9}$/.test(s) ? s : '';
+            .replace(/[\s().-]+/g, '');
+        if (/^\+989\d{9}$/.test(s)) s = '0' + s.slice(3);
+        else if (/^00989\d{9}$/.test(s)) s = '0' + s.slice(4);
+        else if (/^989\d{9}$/.test(s)) s = '0' + s.slice(2);
+        else if (/^9\d{9}$/.test(s)) s = '0' + s;
+        return /^09\d{9}$/.test(s) ? s : '';
     }
     var originalFetch = window.fetch;
     if (typeof originalFetch === 'function' && !window.__bajiBwdkPhoneFetchGuard) {
