@@ -836,6 +836,14 @@ function baji_fix_and_customize_checkout_fields( $fields ) {
 
     // اجباری کردن شماره تماس، آدرس و کد پستی
     $fields['billing']['billing_phone']['required']      = true;
+    $fields['billing']['billing_phone']['label']         = 'شماره موبایل';
+    $fields['billing']['billing_phone']['placeholder']   = 'مثلاً 09123456789';
+    $fields['billing']['billing_phone']['type']          = 'tel';
+    $fields['billing']['billing_phone']['autocomplete']  = 'tel';
+    $fields['billing']['billing_phone']['custom_attributes'] = array(
+        'inputmode' => 'tel',
+        'maxlength' => '18',
+    );
     $fields['billing']['billing_address_1']['required']  = true;
     $fields['billing']['billing_address_1']['label']     = 'آدرس کامل';
 
@@ -874,6 +882,56 @@ function baji_fix_and_customize_checkout_fields( $fields ) {
  * نرمال‌سازی و اعتبارسنجی کد پستی ایران.
  * ارقام فارسی/عربی را به انگلیسی تبدیل می‌کند و فقط کد ۱۰ رقمی را می‌پذیرد.
  */
+/**
+ * Normalize Iranian mobile numbers before WooCommerce validates or saves the checkout.
+ * This supports Latin, Persian and Arabic digits and the +98/0098/98 prefixes.
+ */
+function baji_checkout_normalize_mobile( $input ) {
+    $phone = strtr( trim( (string) $input ), array(
+        '۰'=>'0','۱'=>'1','۲'=>'2','۳'=>'3','۴'=>'4','۵'=>'5','۶'=>'6','۷'=>'7','۸'=>'8','۹'=>'9',
+        '٠'=>'0','١'=>'1','٢'=>'2','٣'=>'3','٤'=>'4','٥'=>'5','٦'=>'6','٧'=>'7','٨'=>'8','٩'=>'9',
+    ) );
+    $phone = preg_replace( '/[\\s().-]+/u', '', $phone );
+    if ( str_starts_with( $phone, '+98' ) ) {
+        $phone = '0' . substr( $phone, 3 );
+    } elseif ( str_starts_with( $phone, '0098' ) ) {
+        $phone = '0' . substr( $phone, 4 );
+    } elseif ( str_starts_with( $phone, '98' ) && strlen( $phone ) === 12 ) {
+        $phone = '0' . substr( $phone, 2 );
+    } elseif ( strlen( $phone ) === 10 && str_starts_with( $phone, '9' ) ) {
+        $phone = '0' . $phone;
+    }
+    return preg_match( '/^09[0-9]{9}$/D', $phone ) ? $phone : '';
+}
+
+add_filter( 'woocommerce_checkout_posted_data', 'baji_checkout_normalize_posted_mobile', 19 );
+function baji_checkout_normalize_posted_mobile( $data ) {
+    if ( isset( $data['billing_phone'] ) ) {
+        $valid = baji_checkout_normalize_mobile( $data['billing_phone'] );
+        if ( $valid !== '' ) {
+            $data['billing_phone'] = $valid;
+        }
+    }
+    return $data;
+}
+
+add_action( 'woocommerce_after_checkout_validation', 'baji_checkout_validate_mobile', 20, 2 );
+function baji_checkout_validate_mobile( $data, $errors ) {
+    if ( baji_checkout_normalize_mobile( $data['billing_phone'] ?? '' ) === '' ) {
+        $errors->add( 'billing_phone', 'برای ثبت سفارش، شماره موبایل معتبر ۱۱ رقمی (مانند 09123456789) را وارد کنید.' );
+    }
+}
+
+/** Last safeguard before WooCommerce saves an order or redirects to the gateway. */
+add_action( 'woocommerce_checkout_create_order', 'baji_checkout_enforce_order_mobile', 8, 2 );
+function baji_checkout_enforce_order_mobile( $order, $data ) {
+    $phone = baji_checkout_normalize_mobile( $data['billing_phone'] ?? '' );
+    if ( $phone === '' ) {
+        throw new Exception( 'برای ادامه خرید، شماره موبایل معتبر وارد کنید.' );
+    }
+    $order->set_billing_phone( $phone );
+}
+
 add_filter( 'woocommerce_checkout_posted_data', 'baji_normalize_billing_postcode', 20 );
 function baji_normalize_billing_postcode( $data ) {
     if ( isset( $data['billing_postcode'] ) ) {

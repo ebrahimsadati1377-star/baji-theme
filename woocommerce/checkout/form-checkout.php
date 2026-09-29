@@ -44,11 +44,7 @@ if ( ! is_user_logged_in() && 'no' === get_option( 'woocommerce_enable_guest_che
 		<?php do_action( 'woocommerce_before_checkout_form', $checkout ); ?>
 	</div>
 
-	<?php if ( shortcode_exists( 'bwdk_comp1' ) ) : ?>
-		<div class="baji-checkout-digikala-top">
-			<?php echo do_shortcode( '[bwdk_comp1]' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-		</div>
-	<?php endif; ?>
+	<?php // Digikala remains available as the enabled bwdk method within WooCommerce's validated checkout. ?>
 
 	<?php if ( ! $checkout->is_registration_enabled() && $checkout->is_registration_required() && ! is_user_logged_in() ) : ?>
 		<div class="baji-checkout-login-required">
