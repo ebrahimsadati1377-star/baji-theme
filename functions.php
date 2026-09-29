@@ -1535,3 +1535,6 @@ require_once BAJISTYLE_DIR . '/inc/birthday-fields.php';
 
 // Optional, explicit marketing SMS preference.
 require_once BAJISTYLE_DIR . '/inc/sms-marketing-optin.php';
+
+// Validate and persist phone in Digikala's separate AJAX quick-checkout path.
+require_once BAJISTYLE_DIR . '/inc/bwdk-mobile-guard.php';
