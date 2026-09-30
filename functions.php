@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /* -------------------------------------------------------------------------
  * ثابت‌های قالب
  * ---------------------------------------------------------------------- */
-define( 'BAJISTYLE_VERSION', '1.0.65' );
+define( 'BAJISTYLE_VERSION', '1.0.66' );
 define( 'BAJISTYLE_DIR', get_template_directory() );
 define( 'BAJISTYLE_URI', get_template_directory_uri() );
 
@@ -1585,3 +1585,15 @@ function baji_purge_sale_card_alignment_1065() {
 	}
 }
 add_action( 'init', 'baji_purge_sale_card_alignment_1065', 100 );
+
+
+/** Final cache-bust after all sale-card alignment files are fully deployed. */
+function baji_purge_sale_card_alignment_1066() {
+	$key = 'baji_lscache_purge_sale_cta_1066';
+	if ( 'done' === get_option( $key ) ) return;
+	if ( has_action( 'litespeed_purge_all' ) || defined( 'LSCWP_V' ) ) {
+		do_action( 'litespeed_purge_all' );
+		update_option( $key, 'done', false );
+	}
+}
+add_action( 'init', 'baji_purge_sale_card_alignment_1066', 101 );
