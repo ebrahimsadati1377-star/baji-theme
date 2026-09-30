@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /* -------------------------------------------------------------------------
  * ثابت‌های قالب
  * ---------------------------------------------------------------------- */
-define( 'BAJISTYLE_VERSION', '1.0.70' );
+define( 'BAJISTYLE_VERSION', '1.0.71' );
 define( 'BAJISTYLE_DIR', get_template_directory() );
 define( 'BAJISTYLE_URI', get_template_directory_uri() );
 
@@ -488,7 +488,7 @@ function bajistyle_enqueue_assets() {
 					'strategy'  => 'defer',
 				)
 			);
-		} elseif ( is_product_category() ) {
+		} elseif ( is_product_category() || is_page( 'size-guide' ) ) {
 			wp_enqueue_style(
 				'bajistyle-size-guide',
 				BAJISTYLE_URI . '/assets/css/size-guide.css',
@@ -1682,3 +1682,19 @@ function baji_lscache_purge_audit_fixes_1070() {
 	}
 }
 add_action( 'init', 'baji_lscache_purge_audit_fixes_1070', 999 );
+
+
+/**
+ * One-time LiteSpeed purge after fixing public support/size-guide routes.
+ */
+function baji_lscache_purge_audit_links_1071() {
+	$key = 'baji_lscache_purge_audit_links_1071';
+	if ( 'done' === get_option( $key ) ) {
+		return;
+	}
+	if ( has_action( 'litespeed_purge_all' ) || defined( 'LSCWP_V' ) ) {
+		do_action( 'litespeed_purge_all' );
+		update_option( $key, 'done', false );
+	}
+}
+add_action( 'init', 'baji_lscache_purge_audit_links_1071', 999 );
