@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /* -------------------------------------------------------------------------
  * ثابت‌های قالب
  * ---------------------------------------------------------------------- */
-define( 'BAJISTYLE_VERSION', '1.0.71' );
+define( 'BAJISTYLE_VERSION', '1.0.72' );
 define( 'BAJISTYLE_DIR', get_template_directory() );
 define( 'BAJISTYLE_URI', get_template_directory_uri() );
 
@@ -1723,3 +1723,19 @@ function baji_lscache_purge_route_repair_1071() {
 	}
 }
 add_action( 'init', 'baji_lscache_purge_route_repair_1071', 1001 );
+
+
+/**
+ * One-time full cache purge after the mobile navigation/site repair audit.
+ */
+function baji_purge_litespeed_site_repair_1072() {
+	$key = 'baji_lscache_purge_site_repair_1072';
+	if ( 'done' === get_option( $key ) ) {
+		return;
+	}
+	if ( has_action( 'litespeed_purge_all' ) || defined( 'LSCWP_V' ) ) {
+		do_action( 'litespeed_purge_all' );
+		update_option( $key, 'done', false );
+	}
+}
+add_action( 'init', 'baji_purge_litespeed_site_repair_1072', 100 );
