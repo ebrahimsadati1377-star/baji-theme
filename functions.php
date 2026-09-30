@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /* -------------------------------------------------------------------------
  * ثابت‌های قالب
  * ---------------------------------------------------------------------- */
-define( 'BAJISTYLE_VERSION', '1.0.62' );
+define( 'BAJISTYLE_VERSION', '1.0.63' );
 define( 'BAJISTYLE_DIR', get_template_directory() );
 define( 'BAJISTYLE_URI', get_template_directory_uri() );
 
@@ -1540,3 +1540,20 @@ require_once BAJISTYLE_DIR . '/inc/sms-marketing-optin.php';
 
 // Validate and persist phone in Digikala's separate AJAX quick-checkout path.
 require_once BAJISTYLE_DIR . '/inc/bwdk-mobile-guard.php';
+
+
+/**
+ * One-time LiteSpeed purge to release the cached homepage asset reference
+ * after fixing the category product cards' purchase-button alignment.
+ */
+function baji_purge_category_product_card_alignment_1063() {
+	$key = 'baji_lscache_purge_category_cta_1063';
+	if ( 'done' === get_option( $key ) ) {
+		return;
+	}
+	if ( has_action( 'litespeed_purge_all' ) || defined( 'LSCWP_V' ) ) {
+		do_action( 'litespeed_purge_all' );
+		update_option( $key, 'done', false );
+	}
+}
+add_action( 'init', 'baji_purge_category_product_card_alignment_1063', 99 );
