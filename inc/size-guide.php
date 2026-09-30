@@ -479,3 +479,18 @@ function bajistyle_category_size_guide() {
 	<?php
 }
 add_action( 'woocommerce_archive_description', 'bajistyle_category_size_guide', 25 );
+
+
+/**
+ * Standalone size-guide page shortcode.
+ *
+ * Usage: [baji_size_guide]
+ *
+ * @return string
+ */
+function bajistyle_size_guide_shortcode() {
+	ob_start();
+	bajistyle_render_size_guide( null, false );
+	return (string) ob_get_clean();
+}
+add_shortcode( 'baji_size_guide', 'bajistyle_size_guide_shortcode' );
