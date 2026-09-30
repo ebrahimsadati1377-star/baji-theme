@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /* -------------------------------------------------------------------------
  * ثابت‌های قالب
  * ---------------------------------------------------------------------- */
-define( 'BAJISTYLE_VERSION', '1.0.59' );
+define( 'BAJISTYLE_VERSION', '1.0.61' );
 define( 'BAJISTYLE_DIR', get_template_directory() );
 define( 'BAJISTYLE_URI', get_template_directory_uri() );
 
@@ -1532,6 +1532,8 @@ require_once BAJISTYLE_DIR . '/inc/checkout-lead-capture.php';
 
 // Optional Jalali birthday and consent-gated birthday SMS data.
 require_once BAJISTYLE_DIR . '/inc/birthday-fields.php';
+// Restrict birthday coupons to the original customer's checkout mobile.
+require_once BAJISTYLE_DIR . '/inc/birthday-coupon.php';
 
 // Optional, explicit marketing SMS preference.
 require_once BAJISTYLE_DIR . '/inc/sms-marketing-optin.php';
