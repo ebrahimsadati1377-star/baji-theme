@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /* -------------------------------------------------------------------------
  * ثابت‌های قالب
  * ---------------------------------------------------------------------- */
-define( 'BAJISTYLE_VERSION', '1.0.70' );
+define( 'BAJISTYLE_VERSION', '1.0.71' );
 define( 'BAJISTYLE_DIR', get_template_directory() );
 define( 'BAJISTYLE_URI', get_template_directory_uri() );
 
@@ -1682,3 +1682,44 @@ function baji_lscache_purge_audit_fixes_1070() {
 	}
 }
 add_action( 'init', 'baji_lscache_purge_audit_fixes_1070', 999 );
+
+
+/**
+ * Keep old/public BAJI links from landing on a 404 page.
+ */
+function baji_fix_known_legacy_routes_1071() {
+	if ( is_admin() ) {
+		return;
+	}
+
+	$request_uri = isset( $_SERVER['REQUEST_URI'] ) ? wp_unslash( $_SERVER['REQUEST_URI'] ) : '';
+	$path = trailingslashit( (string) wp_parse_url( $request_uri, PHP_URL_PATH ) );
+
+	if ( '/contact-us/' === $path ) {
+		wp_safe_redirect( home_url( '/contact/' ), 301, 'BAJI Contact Canonical' );
+		exit;
+	}
+
+	if ( '/my-account/address/' === $path && function_exists( 'wc_get_page_permalink' ) ) {
+		$target = add_query_arg( 'tab', 'address', wc_get_page_permalink( 'myaccount' ) );
+		wp_safe_redirect( $target, 301, 'BAJI Account Address Canonical' );
+		exit;
+	}
+}
+add_action( 'template_redirect', 'baji_fix_known_legacy_routes_1071', 0 );
+
+/**
+ * One-time cache purge after route repair and mobile-menu readability update.
+ */
+function baji_lscache_purge_route_repair_1071() {
+	$key = 'baji_lscache_purge_route_repair_1071';
+	if ( 'done' === get_option( $key ) ) {
+		return;
+	}
+
+	if ( has_action( 'litespeed_purge_all' ) || defined( 'LSCWP_V' ) ) {
+		do_action( 'litespeed_purge_all' );
+		update_option( $key, 'done', false );
+	}
+}
+add_action( 'init', 'baji_lscache_purge_route_repair_1071', 1001 );
