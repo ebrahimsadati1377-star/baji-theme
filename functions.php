@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /* -------------------------------------------------------------------------
  * ثابت‌های قالب
  * ---------------------------------------------------------------------- */
-define( 'BAJISTYLE_VERSION', '1.0.66' );
+define( 'BAJISTYLE_VERSION', '1.0.67' );
 define( 'BAJISTYLE_DIR', get_template_directory() );
 define( 'BAJISTYLE_URI', get_template_directory_uri() );
 
@@ -1597,3 +1597,19 @@ function baji_purge_sale_card_alignment_1066() {
 	}
 }
 add_action( 'init', 'baji_purge_sale_card_alignment_1066', 101 );
+
+
+/**
+ * Force-refresh homepage product-card CSS after sale CTA alignment.
+ */
+function baji_lscache_purge_sale_cta_1067() {
+	$key = 'baji_lscache_purge_sale_cta_1067';
+	if ( 'done' === get_option( $key ) ) {
+		return;
+	}
+	if ( has_action( 'litespeed_purge_all' ) || defined( 'LSCWP_V' ) ) {
+		do_action( 'litespeed_purge_all' );
+		update_option( $key, 'done', false );
+	}
+}
+add_action( 'init', 'baji_lscache_purge_sale_cta_1067', 999 );
