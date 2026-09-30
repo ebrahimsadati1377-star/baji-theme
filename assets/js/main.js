@@ -347,7 +347,7 @@ function initWishlistShortcut() {
 	const bottomNav = document.querySelector('.baji-mobile-bottom-nav');
 	if ( bottomNav && ! bottomNav.querySelector('.baji-mobile-wishlist') ) {
 		const link = document.createElement('a');
-		link.href = '/my-account/wishlist/';
+		link.href = '/my-account/?tab=wishlist';
 		link.className = 'baji-mobile-wishlist flex flex-col items-center justify-center gap-1 text-gray-500 flex-1';
 		link.setAttribute('aria-label','علاقه‌مندی‌ها');
 		link.innerHTML = '<i class="far fa-heart text-xl"></i><span class="text-[10px]">علاقه‌مندی‌ها</span>';
@@ -362,7 +362,7 @@ function initWishlistShortcut() {
 	const actions = document.querySelector('.baji-header-actions');
 	if ( actions && ! actions.querySelector('.baji-header-wishlist') ) {
 		const link = document.createElement('a');
-		link.href = '/my-account/wishlist/';
+		link.href = '/my-account/?tab=wishlist';
 		link.className = 'baji-header-wishlist relative flex items-center justify-center';
 		link.setAttribute('aria-label','علاقه‌مندی‌ها');
 		link.title = 'علاقه‌مندی‌ها';
