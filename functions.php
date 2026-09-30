@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /* -------------------------------------------------------------------------
  * ثابت‌های قالب
  * ---------------------------------------------------------------------- */
-define( 'BAJISTYLE_VERSION', '1.0.63' );
+define( 'BAJISTYLE_VERSION', '1.0.64' );
 define( 'BAJISTYLE_DIR', get_template_directory() );
 define( 'BAJISTYLE_URI', get_template_directory_uri() );
 
@@ -1557,3 +1557,19 @@ function baji_purge_category_product_card_alignment_1063() {
 	}
 }
 add_action( 'init', 'baji_purge_category_product_card_alignment_1063', 99 );
+
+
+/**
+ * One-time LiteSpeed purge after BAJI sale-slider card alignment update.
+ */
+function baji_purge_sale_card_alignment_1064() {
+	$key = 'baji_lscache_purge_sale_cta_1064';
+	if ( 'done' === get_option( $key ) ) {
+		return;
+	}
+	if ( has_action( 'litespeed_purge_all' ) || defined( 'LSCWP_V' ) ) {
+		do_action( 'litespeed_purge_all' );
+		update_option( $key, 'done', false );
+	}
+}
+add_action( 'init', 'baji_purge_sale_card_alignment_1064', 99 );
