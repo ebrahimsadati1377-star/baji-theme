@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /* -------------------------------------------------------------------------
  * ثابت‌های قالب
  * ---------------------------------------------------------------------- */
-define( 'BAJISTYLE_VERSION', '1.0.67' );
+define( 'BAJISTYLE_VERSION', '1.0.68' );
 define( 'BAJISTYLE_DIR', get_template_directory() );
 define( 'BAJISTYLE_URI', get_template_directory_uri() );
 
@@ -1613,3 +1613,39 @@ function baji_lscache_purge_sale_cta_1067() {
 	}
 }
 add_action( 'init', 'baji_lscache_purge_sale_cta_1067', 999 );
+
+
+/**
+ * Canonicalize the obsolete WooCommerce-style wishlist endpoint to the
+ * custom BAJI account tab. This also repairs old cached/bookmarked links.
+ */
+function baji_redirect_legacy_wishlist_account_url() {
+	if ( is_admin() ) {
+		return;
+	}
+	$request_uri = isset( $_SERVER['REQUEST_URI'] ) ? wp_unslash( $_SERVER['REQUEST_URI'] ) : '';
+	$path = wp_parse_url( $request_uri, PHP_URL_PATH );
+	if ( '/my-account/wishlist/' !== trailingslashit( (string) $path ) ) {
+		return;
+	}
+	$target = add_query_arg( 'tab', 'wishlist', wc_get_page_permalink( 'myaccount' ) );
+	wp_safe_redirect( $target, 301, 'BAJI Wishlist Canonical' );
+	exit;
+}
+add_action( 'template_redirect', 'baji_redirect_legacy_wishlist_account_url', 0 );
+
+/**
+ * One-time LiteSpeed purge after fixing cached wishlist URLs in the header
+ * and mobile bottom navigation.
+ */
+function baji_lscache_purge_wishlist_route_1068() {
+	$key = 'baji_lscache_purge_wishlist_route_1068';
+	if ( 'done' === get_option( $key ) ) {
+		return;
+	}
+	if ( has_action( 'litespeed_purge_all' ) || defined( 'LSCWP_V' ) ) {
+		do_action( 'litespeed_purge_all' );
+		update_option( $key, 'done', false );
+	}
+}
+add_action( 'init', 'baji_lscache_purge_wishlist_route_1068', 999 );
