@@ -3098,3 +3098,81 @@ body.home .baji-sale-products .baji-products-slider .baji-product-buy-cta{
         max-height:44px !important;
     }
 }
+
+
+/* BAJI best-sellers slider — aligned purchase buttons (2026-09-30) */
+body.home .baji-best-sellers .baji-products-slider .swiper-wrapper{
+    align-items:stretch !important;
+}
+body.home .baji-best-sellers .baji-products-slider .swiper-slide{
+    box-sizing:border-box !important;
+    height:auto !important;
+    display:flex !important;
+    flex-direction:column !important;
+    min-width:0 !important;
+}
+body.home .baji-best-sellers .baji-products-slider .swiper-slide > div.relative{
+    flex:0 0 auto !important;
+}
+body.home .baji-best-sellers .baji-products-slider .swiper-slide > div.mt-3{
+    display:flex !important;
+    flex-direction:column !important;
+    flex:1 1 auto !important;
+    min-width:0 !important;
+}
+body.home .baji-best-sellers .baji-products-slider .swiper-slide > div.mt-3 > a:first-child{
+    display:flex !important;
+    flex-direction:column !important;
+    flex:1 1 auto !important;
+    min-width:0 !important;
+}
+body.home .baji-best-sellers .baji-products-slider .swiper-slide h3{
+    box-sizing:border-box !important;
+    display:-webkit-box !important;
+    -webkit-box-orient:vertical !important;
+    -webkit-line-clamp:2 !important;
+    height:46px !important;
+    min-height:46px !important;
+    max-height:46px !important;
+    line-height:23px !important;
+    overflow:hidden !important;
+    margin:0 !important;
+}
+body.home .baji-best-sellers .baji-products-slider .baji-product-price{
+    box-sizing:border-box !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    flex-wrap:wrap !important;
+    height:44px !important;
+    min-height:44px !important;
+    max-height:44px !important;
+    overflow:hidden !important;
+    margin-top:auto !important;
+}
+body.home .baji-best-sellers .baji-products-slider .baji-product-buy-cta{
+    box-sizing:border-box !important;
+    flex:0 0 auto !important;
+    height:42px !important;
+    min-height:42px !important;
+    max-height:42px !important;
+    margin-top:8px !important;
+}
+@media(min-width:768px){
+    body.home .baji-best-sellers .baji-products-slider .swiper-slide h3{
+        height:48px !important;
+        min-height:48px !important;
+        max-height:48px !important;
+        line-height:24px !important;
+    }
+    body.home .baji-best-sellers .baji-products-slider .baji-product-price{
+        height:46px !important;
+        min-height:46px !important;
+        max-height:46px !important;
+    }
+    body.home .baji-best-sellers .baji-products-slider .baji-product-buy-cta{
+        height:44px !important;
+        min-height:44px !important;
+        max-height:44px !important;
+    }
+}
