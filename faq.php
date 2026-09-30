@@ -109,7 +109,7 @@ get_header(); ?>
     <div class="mt-16 text-center bg-stone-50 p-8 rounded-3xl border border-stone-100">
         <h3 class="text-xl font-bold text-stone-800 mb-2">جواب سوالتان را پیدا نکردید؟</h3>
         <p class="text-stone-600 mb-6">تیم پشتیبانی ما آماده پاسخگویی به شماست.</p>
-        <a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>" class="inline-block px-8 py-3 bg-rose-600 text-white rounded-xl font-medium hover:bg-rose-700 transition shadow-md">
+        <a href="/contact-us" class="inline-block px-8 py-3 bg-rose-600 text-white rounded-xl font-medium hover:bg-rose-700 transition shadow-md">
             تماس با پشتیبانی
         </a>
     </div>
