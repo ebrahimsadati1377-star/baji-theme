@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /* -------------------------------------------------------------------------
  * ثابت‌های قالب
  * ---------------------------------------------------------------------- */
-define( 'BAJISTYLE_VERSION', '1.0.69' );
+define( 'BAJISTYLE_VERSION', '1.0.70' );
 define( 'BAJISTYLE_DIR', get_template_directory() );
 define( 'BAJISTYLE_URI', get_template_directory_uri() );
 
@@ -1665,3 +1665,20 @@ function baji_lscache_purge_best_sellers_cta_1069() {
 	}
 }
 add_action( 'init', 'baji_lscache_purge_best_sellers_cta_1069', 999 );
+
+
+/**
+ * One-time LiteSpeed purge after fixing remaining homepage card alignment
+ * and JavaScript fallback wishlist routes.
+ */
+function baji_lscache_purge_audit_fixes_1070() {
+	$key = 'baji_lscache_purge_audit_fixes_1070';
+	if ( 'done' === get_option( $key ) ) {
+		return;
+	}
+	if ( has_action( 'litespeed_purge_all' ) || defined( 'LSCWP_V' ) ) {
+		do_action( 'litespeed_purge_all' );
+		update_option( $key, 'done', false );
+	}
+}
+add_action( 'init', 'baji_lscache_purge_audit_fixes_1070', 999 );
