@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /* -------------------------------------------------------------------------
  * ثابت‌های قالب
  * ---------------------------------------------------------------------- */
-define( 'BAJISTYLE_VERSION', '1.0.72' );
+define( 'BAJISTYLE_VERSION', '1.0.70' );
 define( 'BAJISTYLE_DIR', get_template_directory() );
 define( 'BAJISTYLE_URI', get_template_directory_uri() );
 
@@ -488,7 +488,7 @@ function bajistyle_enqueue_assets() {
 					'strategy'  => 'defer',
 				)
 			);
-		} elseif ( is_product_category() || is_page( 'size-guide' ) ) {
+		} elseif ( is_product_category() ) {
 			wp_enqueue_style(
 				'bajistyle-size-guide',
 				BAJISTYLE_URI . '/assets/css/size-guide.css',
@@ -1682,52 +1682,3 @@ function baji_lscache_purge_audit_fixes_1070() {
 	}
 }
 add_action( 'init', 'baji_lscache_purge_audit_fixes_1070', 999 );
-
-
-/**
- * One-time LiteSpeed purge after fixing public support/size-guide routes.
- */
-function baji_lscache_purge_audit_links_1071() {
-	$key = 'baji_lscache_purge_audit_links_1071';
-	if ( 'done' === get_option( $key ) ) {
-		return;
-	}
-	if ( has_action( 'litespeed_purge_all' ) || defined( 'LSCWP_V' ) ) {
-		do_action( 'litespeed_purge_all' );
-		update_option( $key, 'done', false );
-	}
-}
-add_action( 'init', 'baji_lscache_purge_audit_links_1071', 999 );
-
-
-/**
- * Redirect the obsolete support URL to BAJI's live contact page.
- */
-function baji_redirect_legacy_contact_url() {
-	if ( is_admin() ) {
-		return;
-	}
-	$request_uri = isset( $_SERVER['REQUEST_URI'] ) ? wp_unslash( $_SERVER['REQUEST_URI'] ) : '';
-	$path = wp_parse_url( $request_uri, PHP_URL_PATH );
-	if ( '/contact-us/' !== trailingslashit( (string) $path ) ) {
-		return;
-	}
-	wp_safe_redirect( home_url( '/contact/' ), 301, 'BAJI Contact Canonical' );
-	exit;
-}
-add_action( 'template_redirect', 'baji_redirect_legacy_contact_url', 0 );
-
-/**
- * One-time LiteSpeed purge after public-route audit fixes.
- */
-function baji_lscache_purge_route_audit_1072() {
-	$key = 'baji_lscache_purge_route_audit_1072';
-	if ( 'done' === get_option( $key ) ) {
-		return;
-	}
-	if ( has_action( 'litespeed_purge_all' ) || defined( 'LSCWP_V' ) ) {
-		do_action( 'litespeed_purge_all' );
-		update_option( $key, 'done', false );
-	}
-}
-add_action( 'init', 'baji_lscache_purge_route_audit_1072', 999 );
