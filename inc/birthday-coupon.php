@@ -49,7 +49,7 @@ add_filter( 'woocommerce_coupon_is_valid', function( $valid, $coupon ) {
 }, 25, 2 );
 
 add_filter( 'woocommerce_coupon_error', function( $error, $code, $coupon ) {
-    if ( $code !== WC_Coupon::E_WC_COUPON_INVALID_FILTERED || ! $coupon instanceof WC_Coupon ) return $error;
+    if ( ! defined( 'WC_Coupon::E_WC_COUPON_INVALID_FILTERED' ) || $code !== WC_Coupon::E_WC_COUPON_INVALID_FILTERED || ! $coupon instanceof WC_Coupon ) return $error;
     $owner_phone = baji_birthday_coupon_phone( $coupon->get_meta( '_baji_birthday_phone', true ) );
     if ( $owner_phone !== '' && baji_birthday_coupon_current_phone() !== '' && ! hash_equals( $owner_phone, baji_birthday_coupon_current_phone() ) ) {
         return 'کد هدیه تولد فقط با شماره موبایلی که برای آن صادر شده قابل استفاده است. شماره صورتحساب را بررسی کنید.';
