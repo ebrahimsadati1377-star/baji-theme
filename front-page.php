@@ -260,7 +260,6 @@ get_header();
 	</section>
 
 	<?php get_template_part( 'template-parts/home-category-products' ); ?>
-	<?php get_template_part( 'template-parts/brand-story' ); ?>
 	<?php get_template_part( 'template-parts/sale-products' ); ?>
 
 	<!-- =================== بنرهای شبکه اجتماعی (اینستاگرام و بله) =================== -->
