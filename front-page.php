@@ -72,6 +72,9 @@ get_header();
 
 	<?php get_template_part( 'template-parts/hero-section' ); ?>
 
+
+	<?php get_template_part( 'template-parts/category-showcase' ); ?>
+
 	<section class="baji-quick-products py-5 md:py-8 bg-[#fffaf8]">
 		<div class="max-w-[1400px] mx-auto px-4 md:px-8">
 			<div class="flex items-center justify-between gap-4 mb-4">
@@ -96,8 +99,6 @@ get_header();
 			</div>
 		</div>
 	</section>
-
-	<?php get_template_part( 'template-parts/category-showcase' ); ?>
 
 	<!-- =================== اعتمادسازی خرید =================== -->
 	<section class="baji-trust-strip py-5 md:py-7 bg-[#fffaf7]">
