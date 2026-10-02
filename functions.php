@@ -1744,3 +1744,19 @@ function baji_purge_litespeed_product_stories_removed_1073() {
 	}
 }
 add_action( 'init', 'baji_purge_litespeed_product_stories_removed_1073', 1002 );
+
+
+/**
+ * One-time manual LiteSpeed purge requested on 2026-10-03.
+ */
+function baji_manual_litespeed_purge_20261003_0232() {
+	$key = 'baji_manual_litespeed_purge_20261003_0232_done';
+	if ( 'done' === get_option( $key ) ) {
+		return;
+	}
+	if ( has_action( 'litespeed_purge_all' ) || defined( 'LSCWP_V' ) ) {
+		do_action( 'litespeed_purge_all' );
+		update_option( $key, 'done', false );
+	}
+}
+add_action( 'init', 'baji_manual_litespeed_purge_20261003_0232', 2000 );
