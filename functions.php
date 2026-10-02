@@ -343,17 +343,6 @@ function bajistyle_enqueue_assets() {
 	// اسکریپت‌های اختصاصی ووکامرس فقط در صفحات مرتبط
 	if ( class_exists( 'WooCommerce' ) ) {
 		if ( is_front_page() ) {
-			wp_enqueue_script(
-				'bajistyle-product-stories',
-				BAJISTYLE_URI . '/assets/js/product-stories.js',
-				array(),
-				BAJISTYLE_VERSION,
-				array(
-					'in_footer' => true,
-					'strategy'  => 'defer',
-				)
-			);
-
 			wp_enqueue_style(
 				'bajistyle-hero-slider',
 				BAJISTYLE_URI . '/assets/css/hero-slider.css',
@@ -1739,3 +1728,19 @@ function baji_purge_litespeed_site_repair_1072() {
 	}
 }
 add_action( 'init', 'baji_purge_litespeed_site_repair_1072', 100 );
+
+
+/**
+ * One-time LiteSpeed purge after removing product stories from the homepage.
+ */
+function baji_purge_litespeed_product_stories_removed_1073() {
+	$key = 'baji_lscache_purge_product_stories_removed_1073';
+	if ( 'done' === get_option( $key ) ) {
+		return;
+	}
+	if ( has_action( 'litespeed_purge_all' ) || defined( 'LSCWP_V' ) ) {
+		do_action( 'litespeed_purge_all' );
+		update_option( $key, 'done', false );
+	}
+}
+add_action( 'init', 'baji_purge_litespeed_product_stories_removed_1073', 1002 );
