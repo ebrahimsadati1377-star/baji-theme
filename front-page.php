@@ -282,40 +282,6 @@ get_header();
 		</div>
 	</section>
 
-	<!-- =================== بخش دوم: پرفروش‌ترین محصولات =================== -->
-	<section class="baji-best-sellers py-12 md:py-16 bg-baji-cream">
-		<div class="max-w-[1400px] mx-auto px-4 md:px-8">
-			<div class="flex flex-row items-center justify-between gap-4 mb-8 md:mb-12">
-				<div>
-					<div class="flex items-center gap-2 md:gap-3 mb-1 md:mb-3">
-						<span class="w-6 md:w-10 h-[2px] bg-baji-gold rounded-full"></span>
-						<span class="text-baji-gold text-[10px] md:text-sm font-bold tracking-[0.15em] md:tracking-[0.2em] uppercase"><?php esc_html_e( 'محبوب‌ترین‌ها', 'bajistyle' ); ?></span>
-					</div>
-					<h2 class="text-xl sm:text-2xl md:text-4xl lg:text-5xl font-black text-gray-900 tracking-tight"><?php esc_html_e( 'پرفروش‌ترین محصولات', 'bajistyle' ); ?></h2>
-				</div>
-				<a href="<?php echo esc_url( get_permalink( wc_get_page_id( 'shop' ) ) ); ?>" class="group flex items-center gap-1.5 md:gap-2 text-xs md:text-base font-medium text-gray-600 hover:text-gray-900 transition-colors duration-300 shrink-0">
-					<span><?php esc_html_e( 'همه', 'bajistyle' ); ?></span>
-					<i class="fa-solid fa-arrow-left text-xs md:text-sm transform group-hover:-translate-x-1.5 transition-transform duration-300"></i>
-				</a>
-			</div>
-
-			<div class="swiper baji-products-slider overflow-hidden relative pb-12">
-				<?php
-				get_template_part(
-					'template-parts/product-grid',
-					null,
-					array(
-						'query_type' => 'best_selling',
-						'limit'      => 12,
-						'is_slider'  => true,
-					)
-				);
-				?>
-				<div class="swiper-pagination !bottom-0"></div>
-			</div>
-		</div>
-	</section>
-
 	<!-- =================== استایل باجی — Editorial Shop the Look V2 =================== -->
 <section class="baji-style-shop baji-style-shop--v2" aria-labelledby="baji-style-shop-title">
   <div class="baji-style-shop__shell">
