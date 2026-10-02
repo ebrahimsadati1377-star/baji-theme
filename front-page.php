@@ -69,7 +69,6 @@ get_header();
 
 <div class="baji-front-page">
 
-	<?php get_template_part( 'template-parts/product-stories' ); ?>
 
 	<?php get_template_part( 'template-parts/hero-section' ); ?>
 
