@@ -21,6 +21,7 @@ jobs:
         run: |
           set -euo pipefail
           php -l inc/order-attribution-recovered.php >/dev/null
+          php -l inc/template-tags.php >/dev/null
           php -l functions.php >/dev/null
 
       - name: Free safe theme space and restore PHP
@@ -43,7 +44,7 @@ jobs:
           except ftplib.all_errors as exc:
               print(f"SKIP_DELETE {disposable}: {exc}")
 
-          for path in ("inc/order-attribution-recovered.php", "functions.php"):
+          for path in ("inc/order-attribution-recovered.php", "inc/template-tags.php", "functions.php"):
               with open(path, "rb") as fh:
                   ftp.storbinary("STOR " + path, fh, blocksize=65536)
               print("UPLOADED", path)
