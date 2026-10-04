@@ -1,9 +1,6 @@
-name: Deploy BajiStyle Theme
+name: Deploy BajiStyle Theme (manual fallback)
 
 on:
-  push:
-    branches:
-      - main
   workflow_dispatch:
 
 jobs:
