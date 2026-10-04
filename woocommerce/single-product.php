@@ -45,9 +45,33 @@ get_header();
 
 			<!-- 🌟 کانتینر گالری محصول -->
 			<div class="baji-product-gallery-wrapper relative group">
-				<?php
-				do_action( 'woocommerce_before_single_product_summary' );
+				<?php if ( (int) $product->get_id() === 4660 ) :
+					$baji_external_gallery = array_map(
+						static fn( $i ) => 'https://manage.bajistyle.ir/uploads/chatgpt/baji-gray-herringbone-jacket-0' . $i . '.jpg',
+						range( 1, 7 )
+					);
 				?>
+					<div class="baji-external-gallery" data-baji-external-gallery>
+						<a class="baji-external-gallery__main" href="<?php echo esc_url( $baji_external_gallery[0] ); ?>" target="_blank" rel="noopener">
+							<img src="<?php echo esc_url( $baji_external_gallery[0] ); ?>" alt="<?php echo esc_attr( get_the_title() ); ?>" loading="eager" decoding="async">
+						</a>
+						<div class="baji-external-gallery__thumbs" aria-label="گالری تصاویر محصول">
+							<?php foreach ( $baji_external_gallery as $index => $image_url ) : ?>
+								<button type="button" class="baji-external-gallery__thumb<?php echo $index === 0 ? ' is-active' : ''; ?>" data-src="<?php echo esc_url( $image_url ); ?>" aria-label="تصویر <?php echo esc_attr( $index + 1 ); ?>">
+									<img src="<?php echo esc_url( $image_url ); ?>" alt="" loading="lazy" decoding="async">
+								</button>
+							<?php endforeach; ?>
+						</div>
+					</div>
+					<style>
+					.baji-external-gallery{width:100%}.baji-external-gallery__main{display:block;width:100%;overflow:hidden;border-radius:24px;background:#f7f7f5}.baji-external-gallery__main img{display:block;width:100%;aspect-ratio:9/16;object-fit:cover}.baji-external-gallery__thumbs{display:flex;gap:10px;margin-top:12px;overflow-x:auto;padding:2px 1px 8px;scrollbar-width:thin}.baji-external-gallery__thumb{flex:0 0 74px;padding:0;border:2px solid transparent;border-radius:12px;overflow:hidden;background:#f7f7f5;cursor:pointer}.baji-external-gallery__thumb.is-active{border-color:#1f2937}.baji-external-gallery__thumb img{display:block;width:100%;aspect-ratio:9/16;object-fit:cover}@media(max-width:767px){.baji-external-gallery__main{border-radius:20px}.baji-external-gallery__thumb{flex-basis:64px}}
+					</style>
+					<script>
+					document.addEventListener('click',function(e){var b=e.target.closest('[data-baji-external-gallery] .baji-external-gallery__thumb');if(!b)return;var g=b.closest('[data-baji-external-gallery]'),u=b.getAttribute('data-src'),a=g.querySelector('.baji-external-gallery__main'),i=a.querySelector('img');if(!u)return;i.src=u;a.href=u;g.querySelectorAll('.baji-external-gallery__thumb').forEach(function(x){x.classList.toggle('is-active',x===b);});});
+					</script>
+				<?php else : ?>
+					<?php do_action( 'woocommerce_before_single_product_summary' ); ?>
+				<?php endif; ?>
 			</div>
 
 			<!-- اطلاعات و مشخصات محصول -->
