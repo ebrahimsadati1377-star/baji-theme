@@ -24,16 +24,29 @@ function baji_attribution_source_label( $raw_source, $referrer = '' ) {
 	$haystack = $raw . ' ' . $host;
 
 	$map = array(
+		'torobpay'    => 'TorobPay',
+		'torob'       => 'Torob',
+		'digipay'     => 'Digipay',
+		'mydigipay'   => 'Digipay',
+		'digikala'    => 'Digikala',
+		'snapp'       => 'Snapp',
+		'bazaar'      => 'Bazaar',
+		'cafebazaar'  => 'Bazaar',
 		'google'      => 'Google',
 		'instagram'   => 'Instagram',
 		'instagr.am'  => 'Instagram',
-		'torob'       => 'Torob',
-		'basalam'     => 'Basalam',
-		'digikala'    => 'Digikala',
-		'chatgpt'     => 'ChatGPT',
-		'openai'      => 'ChatGPT',
 		'telegram'    => 'Telegram',
 		't.me'        => 'Telegram',
+		'whatsapp'    => 'WhatsApp',
+		'wa.me'       => 'WhatsApp',
+		'ble.ir'      => 'Bale',
+		'bale'        => 'Bale',
+		'rubika'      => 'Rubika',
+		'eitaa'       => 'Eitaa',
+		'sms'         => 'SMS',
+		'basalam'     => 'Basalam',
+		'chatgpt'     => 'ChatGPT',
+		'openai'      => 'ChatGPT',
 		'facebook'    => 'Facebook',
 		'fb.com'      => 'Facebook',
 		'bing'        => 'Bing',
@@ -349,34 +362,65 @@ add_action(
                         parse_str( html_entity_decode( $query, ENT_QUOTES | ENT_HTML5, 'UTF-8' ), $params );
                         $utm_source = strtolower( trim( (string) ( $params['utm_source'] ?? '' ) ) );
                         $utm_medium = strtolower( trim( (string) ( $params['utm_medium'] ?? '' ) ) );
-                        $haystack   = strtolower( implode( ' ', array( $utm_source, $utm_medium, $raw_referrer, $source_name ) ) );
+                        $gclid      = strtolower( trim( (string) ( $params['gclid'] ?? '' ) ) );
+                        $fbclid     = strtolower( trim( (string) ( $params['fbclid'] ?? '' ) ) );
+                        $igshid     = strtolower( trim( (string) ( $params['igshid'] ?? '' ) ) );
+                        $ttclid     = strtolower( trim( (string) ( $params['ttclid'] ?? '' ) ) );
+                        $msclkid    = strtolower( trim( (string) ( $params['msclkid'] ?? '' ) ) );
+                        $first_title = is_array( $first_page ) ? strtolower( trim( (string) ( $first_page['title'] ?? '' ) ) ) : '';
+                        $first_link  = is_array( $first_page ) ? strtolower( trim( (string) ( $first_page['link'] ?? $first_page['sub_page'] ?? '' ) ) ) : '';
+                        $channel_key = strtolower( trim( $source_channel ) );
+                        $name_key    = strtolower( trim( $source_name ) );
+                        $haystack    = strtolower( implode( ' ', array(
+                            $utm_source, $utm_medium, $raw_referrer, $source_name, $source_channel,
+                            $gclid ? 'gclid' : '', $fbclid ? 'fbclid' : '', $igshid ? 'igshid' : '',
+                            $ttclid ? 'ttclid' : '', $msclkid ? 'msclkid' : ''
+                        ) ) );
+                        $is_direct = in_array( $channel_key, array( 'direct', 'ترافیک مستقیم' ), true ) || 'direct' === $name_key;
+                        $is_search = in_array( $channel_key, array( 'search', 'paid_search', 'جستجوی ارگانیک', 'جستجوی پولی' ), true );
+                        $is_social = in_array( $channel_key, array( 'social', 'paid_social', 'شبکه اجتماعی', 'شبکه اجتماعی پولی' ), true );
+                        $is_compare_noise = false !== strpos( $first_title, '404' ) && ( false !== strpos( $first_title, '/compare/' ) || false !== strpos( $first_link, '/compare/' ) );
 
-                        if ( false !== strpos( $haystack, 'torobpay' ) ) {
+                        if ( $is_compare_noise ) {
+                            $label = 'درخواست نامعتبر / ربات احتمالی';
+                        } elseif ( false !== strpos( $haystack, 'torobpay' ) ) {
                             $label = 'ترب‌پی';
                         } elseif ( false !== strpos( $haystack, 'torob' ) ) {
                             $label = 'ترب';
-                        } elseif ( false !== strpos( $haystack, 'bazaar' ) ) {
+                        } elseif ( false !== strpos( $haystack, 'bazaar' ) || false !== strpos( $haystack, 'cafebazaar' ) ) {
                             $label = 'بازار';
-                        } elseif ( false !== strpos( $haystack, 'instagram' ) ) {
-                            $label = 'اینستاگرام';
                         } elseif ( false !== strpos( $haystack, 'snapp' ) ) {
                             $label = 'اسنپ';
                         } elseif ( false !== strpos( $haystack, 'digipay' ) || false !== strpos( $haystack, 'digikala' ) ) {
                             $label = 'دیجی‌پی / دیجی‌کالا';
+                        } elseif ( false !== strpos( $haystack, 'sms' ) ) {
+                            $label = 'پیامک';
                         } elseif ( false !== strpos( $haystack, 'telegram' ) || false !== strpos( $haystack, 't.me' ) ) {
                             $label = 'تلگرام';
+                        } elseif ( false !== strpos( $haystack, 'whatsapp' ) || false !== strpos( $haystack, 'wa.me' ) ) {
+                            $label = 'واتساپ';
                         } elseif ( false !== strpos( $haystack, 'ble.ir' ) || false !== strpos( $haystack, 'bale' ) ) {
                             $label = 'بله';
                         } elseif ( false !== strpos( $haystack, 'rubika' ) ) {
                             $label = 'روبیکا';
-                        } elseif ( false !== strpos( $haystack, 'google' ) ) {
-                            $label = 'گوگل';
-                        } elseif ( 'search' === $source_channel || 'paid_search' === $source_channel ) {
-                            $label = $source_name !== '' ? $source_name : 'موتور جستجو';
-                        } elseif ( 'social' === $source_channel || 'paid_social' === $source_channel ) {
-                            $label = $source_name !== '' ? $source_name : 'شبکه اجتماعی';
-                        } elseif ( 'direct' === $source_channel || ( '' === $raw_referrer && '' === $utm_source && '' === $source_name ) ) {
-                            $label = 'مستقیم';
+                        } elseif ( false !== strpos( $haystack, 'eitaa' ) ) {
+                            $label = 'ایتا';
+                        } elseif ( false !== strpos( $haystack, 'instagram' ) || $igshid ) {
+                            $label = 'اینستاگرام';
+                        } elseif ( false !== strpos( $haystack, 'facebook' ) || false !== strpos( $haystack, 'fb.com' ) || $fbclid ) {
+                            $label = 'Facebook / Meta';
+                        } elseif ( false !== strpos( $haystack, 'google' ) || $gclid ) {
+                            $label = $gclid ? 'گوگل ادز' : 'گوگل';
+                        } elseif ( false !== strpos( $haystack, 'bing' ) || $msclkid ) {
+                            $label = $msclkid ? 'Bing Ads' : 'Bing';
+                        } elseif ( false !== strpos( $haystack, 'tiktok' ) || $ttclid ) {
+                            $label = 'TikTok';
+                        } elseif ( $is_search ) {
+                            $label = ( $source_name !== '' && 'direct' !== $name_key ) ? $source_name : 'موتور جستجو';
+                        } elseif ( $is_social ) {
+                            $label = ( $source_name !== '' && 'direct' !== $name_key ) ? $source_name : 'شبکه اجتماعی';
+                        } elseif ( $is_direct || ( '' === $raw_referrer && '' === $utm_source && '' === $source_name ) ) {
+                            $label = 'مستقیم / منبع نامشخص';
                         } elseif ( '' !== $source_name ) {
                             $label = $source_name;
                         } elseif ( '' !== $raw_referrer ) {
@@ -398,6 +442,8 @@ add_action(
                             'source_channel' => $source_channel ?: null,
                             'source_name'    => $source_name ?: null,
                             'first_page'     => is_array( $first_page ) ? ( $first_page['title'] ?? null ) : null,
+                            'landing_link'   => is_array( $first_page ) ? ( $first_page['link'] ?? $first_page['sub_page'] ?? null ) : null,
+                            'landing_query'  => $query ?: null,
                             'last_view'      => method_exists( $visitor, 'getLastView' ) ? $visitor->getLastView( true ) : null,
                         );
                     }
@@ -417,3 +463,5 @@ add_action(
         );
     }
 );
+
+[executed on device: vmebiiiaxxxl2ilmyyq32 (53412880-e168-4472-806f-cc7badaf9093)]
