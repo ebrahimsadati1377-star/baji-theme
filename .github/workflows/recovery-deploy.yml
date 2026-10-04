@@ -38,9 +38,8 @@ jobs:
 
           disposable = "assets/webfonts/fa-duotone-thin-100.woff2"
           try:
-              size = ftp.size(disposable) or 0
               ftp.delete(disposable)
-              print(f"FREED {disposable} bytes={size}")
+              print(f"FREED {disposable}")
           except ftplib.all_errors as exc:
               print(f"SKIP_DELETE {disposable}: {exc}")
 
