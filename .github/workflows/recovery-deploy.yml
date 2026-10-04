@@ -23,27 +23,34 @@ jobs:
           php -l inc/order-attribution-recovered.php >/dev/null
           php -l functions.php >/dev/null
 
-      - name: Bypass damaged FTP file
+      - name: Free safe theme space and restore PHP
         env:
           FTP_SERVER: ${{ secrets.FTP_SERVER }}
           FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
           FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
         run: |
-          set -euo pipefail
-          upload() {
-            file="$1"
-            echo "Uploading $file"
-            curl --fail --show-error --silent \
-              --ftp-create-dirs \
-              --retry 6 --retry-all-errors --retry-delay 2 \
-              --connect-timeout 20 --max-time 120 \
-              --user "$FTP_USERNAME:$FTP_PASSWORD" \
-              -T "$file" "ftp://$FTP_SERVER/$file"
-          }
+          python3 - <<'PY'
+          import ftplib, os
 
-          # Do not touch inc/order-attribution.php: the FTP server returns 451 for that path.
-          upload inc/order-attribution-recovered.php
-          upload functions.php
+          ftp = ftplib.FTP()
+          ftp.connect(os.environ["FTP_SERVER"], 21, timeout=30)
+          ftp.login(os.environ["FTP_USERNAME"], os.environ["FTP_PASSWORD"])
+
+          disposable = "assets/webfonts/fa-duotone-thin-100.woff2"
+          try:
+              size = ftp.size(disposable) or 0
+              ftp.delete(disposable)
+              print(f"FREED {disposable} bytes={size}")
+          except ftplib.all_errors as exc:
+              print(f"SKIP_DELETE {disposable}: {exc}")
+
+          for path in ("inc/order-attribution-recovered.php", "functions.php"):
+              with open(path, "rb") as fh:
+                  ftp.storbinary("STOR " + path, fh, blocksize=65536)
+              print("UPLOADED", path)
+
+          ftp.quit()
+          PY
 
       - name: Verify production
         run: |
