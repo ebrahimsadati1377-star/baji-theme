@@ -353,5 +353,3 @@ if ( ! function_exists( 'bajistyle_hero_overlay_style' ) ) {
 		return sprintf( 'opacity:%s', esc_attr( $opacity / 100 ) );
 	}
 }
-
-[executed on device: vmebiiiaxxxl2ilmyyq32 (53412880-e168-4472-806f-cc7badaf9093)]
