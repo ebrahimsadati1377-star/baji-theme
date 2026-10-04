@@ -163,19 +163,7 @@ if ( ! function_exists( 'bajistyle_social_share_links' ) ) {
 	 * @since 1.0.0
 	 */
 	function bajistyle_social_share_links() {
-		$permalink = get_permalink();
-		$telegram_url = add_query_arg( array(
-			'utm_source' => 'telegram_share',
-			'utm_medium' => 'social_share',
-			'utm_campaign' => 'site_share',
-		), $permalink );
-		$whatsapp_url = add_query_arg( array(
-			'utm_source' => 'whatsapp_share',
-			'utm_medium' => 'social_share',
-			'utm_campaign' => 'site_share',
-		), $permalink );
-		$url   = rawurlencode( $telegram_url );
-		$wa_url = rawurlencode( $whatsapp_url );
+		$url   = rawurlencode( get_permalink() );
 		$title = rawurlencode( get_the_title() );
 		?>
 		<div class="baji-social-share flex items-center gap-3">
@@ -183,7 +171,7 @@ if ( ! function_exists( 'bajistyle_social_share_links' ) ) {
 				target="_blank" rel="noopener noreferrer" aria-label="<?php esc_attr_e( 'اشتراک‌گذاری در تلگرام', 'bajistyle' ); ?>">
 				<?php esc_html_e( 'تلگرام', 'bajistyle' ); ?>
 			</a>
-			<a href="https://wa.me/?text=<?php echo esc_attr( $title . ' ' . $wa_url ); ?>"
+			<a href="https://wa.me/?text=<?php echo esc_attr( $title . ' ' . $url ); ?>"
 				target="_blank" rel="noopener noreferrer" aria-label="<?php esc_attr_e( 'اشتراک‌گذاری در واتساپ', 'bajistyle' ); ?>">
 				<?php esc_html_e( 'واتساپ', 'bajistyle' ); ?>
 			</a>
