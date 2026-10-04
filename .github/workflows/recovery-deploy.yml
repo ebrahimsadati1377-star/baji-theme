@@ -1,0 +1,66 @@
+name: Emergency PHP recovery deploy
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: baji-theme-recovery
+  cancel-in-progress: true
+
+jobs:
+  recover:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate PHP syntax
+        run: |
+          set -euo pipefail
+          while IFS= read -r -d '' f; do php -l "$f" >/dev/null; done < <(find . -type f -name '*.php' -not -path './.git/*' -print0)
+
+      - name: Restore critical theme PHP over FTP
+        env:
+          FTP_SERVER: ${{ secrets.FTP_SERVER }}
+          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+        run: |
+          set -euo pipefail
+          upload() {
+            file="$1"
+            echo "Uploading $file"
+            curl --fail --show-error --silent \
+              --ftp-create-dirs \
+              --retry 5 --retry-all-errors --retry-delay 2 \
+              --connect-timeout 20 --max-time 120 \
+              --user "$FTP_USERNAME:$FTP_PASSWORD" \
+              -T "$file" "ftp://$FTP_SERVER/$file"
+          }
+
+          # Files loaded during every WordPress request first.
+          while IFS= read -r -d '' file; do upload "$file"; done < <(find inc -maxdepth 1 -type f -name '*.php' -print0 | sort -z)
+          upload functions.php
+
+          # Restore remaining PHP templates after the bootstrap is healthy.
+          while IFS= read -r -d '' file; do
+            case "$file" in
+              ./functions.php|./inc/*) continue ;;
+            esac
+            upload "${file#./}"
+          done < <(find . -type f -name '*.php' -not -path './.git/*' -not -path './tests/*' -print0 | sort -z)
+
+      - name: Verify production
+        run: |
+          set -euo pipefail
+          for i in 1 2 3 4 5 6; do
+            code="$(curl -L -sS -o /tmp/home -w '%{http_code}' --max-time 25 https://bajistyle.ir/ || true)"
+            echo "homepage=$code"
+            if [ "$code" = "200" ]; then
+              exit 0
+            fi
+            sleep 5
+          done
+          exit 1
