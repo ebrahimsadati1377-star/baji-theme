@@ -1776,19 +1776,3 @@ function baji_purge_litespeed_brand_story_removed_1074() {
 	}
 }
 add_action( 'init', 'baji_purge_litespeed_brand_story_removed_1074', 2001 );
-
-
-/**
- * One-time LiteSpeed purge after rolling the homepage header/hero back.
- */
-function baji_rollback_litespeed_purge_20261007() {
-	$key = 'baji_rollback_litespeed_purge_20261007_done';
-	if ( 'done' === get_option( $key ) ) {
-		return;
-	}
-	if ( has_action( 'litespeed_purge_all' ) || defined( 'LSCWP_V' ) ) {
-		do_action( 'litespeed_purge_all' );
-		update_option( $key, 'done', false );
-	}
-}
-add_action( 'init', 'baji_rollback_litespeed_purge_20261007', 2300 );
