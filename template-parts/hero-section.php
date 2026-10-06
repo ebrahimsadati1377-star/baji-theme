@@ -1,74 +1,60 @@
 <?php
 /**
- * Premium editorial hero for the BAJI homepage.
- *
+ * تمپلیت‌پارت بخش هیرو صفحه اصلی (اسلایدر استاندارد Swiper)
  * @package BajiStyle
  */
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
-
-$shop_url = class_exists( 'WooCommerce' ) ? wc_get_page_permalink( 'shop' ) : home_url( '/' );
-$hero_image = 'https://bajistyle.ir/wp-content/uploads/2026/09/baji-installment-slider-reference-face.png?v=2766';
+if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'BAJISTYLE_HERO_MOBILE_BREAKPOINT' ) ) { define( 'BAJISTYLE_HERO_MOBILE_BREAKPOINT', '767px' ); }
+$slider_query = new WP_Query(array('post_type'=>'baji_slider','posts_per_page'=>6,'orderby'=>'menu_order','order'=>'ASC'));
+$has_slides = $slider_query->have_posts();
+$autumn_banner_url = 'https://bajistyle.ir/wp-content/uploads/2026/09/baji-autumn-slider-standing.png';
 ?>
-<style id="baji-editorial-hero-style">
-.baji-editorial-hero{max-width:1400px;margin:14px auto 20px;padding:0 16px}
-.baji-editorial-hero__frame{direction:ltr;display:grid;grid-template-columns:minmax(360px,44%) 1fr;grid-template-areas:"content media";min-height:500px;overflow:hidden;border:1px solid rgba(123,19,39,.06);border-radius:28px;background:linear-gradient(135deg,#fffaf6 0%,#f8eee7 100%);box-shadow:0 20px 60px rgba(64,43,35,.08)}
-.baji-editorial-hero__content{grid-area:content;direction:rtl;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;text-align:right;padding:58px 46px 58px 54px;position:relative;z-index:2}
-.baji-editorial-hero__content:after{content:"";position:absolute;left:-60px;top:-70px;width:230px;height:230px;border-radius:50%;background:rgba(193,145,91,.09);z-index:-1}
-.baji-editorial-hero__media{grid-area:media;position:relative;min-height:500px;overflow:hidden;background:#d8c7b9}
-.baji-editorial-hero__media:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(255,250,246,.12),transparent 28%)}
-.baji-editorial-hero__media img{position:absolute;inset:0;width:100%;height:100%;display:block;object-fit:cover;object-position:72% center;transform:scale(1.01)}
-.baji-editorial-hero__eyebrow{display:flex;align-items:center;gap:10px;color:#9a6a45;font-size:11px;font-weight:800;letter-spacing:.18em;margin-bottom:14px}
-.baji-editorial-hero__eyebrow:before{content:"";width:34px;height:1px;background:#b99168}
-.baji-editorial-hero__title{margin:0;color:#511625;font-size:clamp(34px,4vw,56px);font-weight:950;line-height:1.36;letter-spacing:-.035em}
-.baji-editorial-hero__subtitle{max-width:430px;margin:16px 0 0;color:#66564f;font-size:14px;line-height:2.05;font-weight:600}
-.baji-editorial-hero__actions{display:flex;align-items:center;gap:13px;margin-top:24px;flex-wrap:wrap}
-.baji-editorial-hero__cta{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:48px;padding:0 24px;border-radius:15px;background:#7b1327;color:#fff!important;text-decoration:none;font-size:13px;font-weight:900;box-shadow:0 12px 28px rgba(123,19,39,.19);transition:transform .2s ease,box-shadow .2s ease,background .2s ease}
-.baji-editorial-hero__cta:hover{background:#68101f;box-shadow:0 15px 34px rgba(123,19,39,.25);transform:translateY(-1px)}
-.baji-editorial-hero__note{display:flex;align-items:center;gap:7px;color:#6d5c55;font-size:11px;font-weight:750}
-.baji-editorial-hero__note i{color:#b58a5e}
-.baji-editorial-hero__mini{margin-top:20px;display:flex;align-items:center;gap:8px;color:#8b7469;font-size:10px;font-weight:750}
-.baji-editorial-hero__mini span{display:inline-flex;align-items:center;gap:5px}.baji-editorial-hero__mini i{color:#7b1327;font-size:9px}
-@media(max-width:767px){
-  .baji-editorial-hero{margin:10px auto 16px;padding:0 12px}
-  .baji-editorial-hero__frame{display:grid;grid-template-columns:1fr;grid-template-rows:305px auto;grid-template-areas:"media" "content";min-height:0;border-radius:24px}
-  .baji-editorial-hero__media{min-height:305px}
-  .baji-editorial-hero__media img{object-position:74% center;transform:scale(1.02)}
-  .baji-editorial-hero__media:after{background:linear-gradient(180deg,transparent 70%,rgba(255,250,246,.18) 100%)}
-  .baji-editorial-hero__content{padding:22px 22px 24px;align-items:flex-start;background:linear-gradient(180deg,#fffaf6 0%,#f9efe8 100%)}
-  .baji-editorial-hero__content:after{display:none}
-  .baji-editorial-hero__eyebrow{font-size:9px;margin-bottom:8px}.baji-editorial-hero__eyebrow:before{width:26px}
-  .baji-editorial-hero__title{font-size:31px;line-height:1.35}
-  .baji-editorial-hero__subtitle{font-size:12px;line-height:1.9;margin-top:8px;max-width:310px}
-  .baji-editorial-hero__actions{margin-top:15px;gap:10px}
-  .baji-editorial-hero__cta{min-height:44px;padding:0 18px;font-size:12px}
-  .baji-editorial-hero__note{font-size:10px}
-  .baji-editorial-hero__mini{margin-top:14px;font-size:9px;gap:7px}
-}
+<style>
+.baji-hero-frame{aspect-ratio:2/1;touch-action:pan-y}
+.baji-hero-swiper.swiper-fade .swiper-slide{pointer-events:none;transition-property:opacity!important}
+.baji-hero-swiper.swiper-fade .swiper-slide-active{pointer-events:auto}
+@media(min-width:768px){.baji-hero-frame{aspect-ratio:3488/921}}
 </style>
-
-<section class="baji-editorial-hero" aria-label="<?php esc_attr_e( 'معرفی باجی', 'bajistyle' ); ?>">
-	<div class="baji-editorial-hero__frame">
-		<div class="baji-editorial-hero__content">
-			<div class="baji-editorial-hero__eyebrow">BAJI · BE YOUR BEST</div>
-			<h1 class="baji-editorial-hero__title">سبک زندگی<br>با امضای تو</h1>
-			<p class="baji-editorial-hero__subtitle">لباس‌هایی برای نسخه بهترِ خودت؛ انتخاب‌شده با تمرکز روی کیفیت، فرم زیبا و جزئیاتی که تفاوت را می‌سازند.</p>
-			<div class="baji-editorial-hero__actions">
-				<a class="baji-editorial-hero__cta" href="<?php echo esc_url( $shop_url ); ?>">
-					<span>مشاهده محصولات</span>
-					<i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
-				</a>
-				<span class="baji-editorial-hero__note"><i class="fa-regular fa-gem" aria-hidden="true"></i> انتخاب‌های تازه BAJI</span>
-			</div>
-			<div class="baji-editorial-hero__mini" aria-label="مزیت‌های خرید">
-				<span><i class="fa-solid fa-circle-check"></i> خرید اقساطی</span>
-				<span>•</span>
-				<span><i class="fa-solid fa-circle-check"></i> ارسال سریع</span>
-			</div>
-		</div>
-		<div class="baji-editorial-hero__media">
-			<img src="<?php echo esc_url( $hero_image ); ?>" alt="استایل زنانه باجی" fetchpriority="high" loading="eager" decoding="async">
-		</div>
-	</div>
+<section class="baji-hero relative w-full max-w-[1400px] mx-auto my-4" aria-label="<?php esc_attr_e('بخش معرفی اصلی','bajistyle'); ?>">
+<?php if($has_slides): ?>
+<div class="swiper baji-hero-swiper baji-hero-manual baji-hero-css-rotator baji-hero-frame w-full rounded-2xl overflow-hidden relative" dir="rtl">
+<div class="swiper-wrapper">
+<?php
+$slide_index=0;
+$render_autumn_slide=function() use ($autumn_banner_url){ ?>
+<div class="swiper-slide relative w-full h-full overflow-hidden baji-autumn-added-slide"><picture class="absolute inset-0 block w-full h-full"><img src="<?php echo esc_url($autumn_banner_url); ?>" alt="استایل پاییزی با باجی و خرید اقساطی" class="w-full h-full object-fill object-center" loading="lazy" /></picture></div>
+<?php };
+while($slider_query->have_posts()):
+ $slider_query->the_post();
+ if(3===$slide_index){$render_autumn_slide();}
+ $slide_id=get_the_ID();
+ $button_text=get_post_meta($slide_id,'_bajistyle_button_text',true);
+ $button_url=get_post_meta($slide_id,'_bajistyle_button_url',true);
+ $mobile_image_id=get_post_meta($slide_id,'_bajistyle_mobile_image_id',true);
+ $overlay_opacity=get_post_meta($slide_id,'_bajistyle_overlay_opacity',true);
+ $text_position=get_post_meta($slide_id,'_bajistyle_text_position',true);
+ $text_theme=get_post_meta($slide_id,'_bajistyle_text_theme',true);
+ $overlay_opacity=(''===$overlay_opacity)?'30':$overlay_opacity;
+ $text_position=$text_position?$text_position:'center';
+ $text_theme=$text_theme?$text_theme:'light';
+ $position_classes=bajistyle_hero_position_classes($text_position);
+ $theme_classes=bajistyle_hero_theme_classes($text_theme);
+ $desktop_image_url=has_post_thumbnail($slide_id)?get_the_post_thumbnail_url($slide_id,'full'):'';
+ $mobile_image_url=$mobile_image_id?wp_get_attachment_image_url($mobile_image_id,'full'):'';
+ if(0===$slide_index){$desktop_image_url='https://bajistyle.ir/wp-content/uploads/2026/09/baji-installment-slider-reference-face.png?v=2766';$mobile_image_url=$desktop_image_url;$overlay_opacity='0';$button_text='';$button_url='';}
+?>
+<div class="swiper-slide relative w-full h-full overflow-hidden">
+<?php if($desktop_image_url): ?><picture class="absolute inset-0 block w-full h-full"><?php if($mobile_image_url): ?><source media="(max-width: <?php echo esc_attr(BAJISTYLE_HERO_MOBILE_BREAKPOINT); ?>)" srcset="<?php echo esc_url($mobile_image_url); ?>" /><?php endif; ?><img src="<?php echo esc_url($desktop_image_url); ?>" alt="<?php echo esc_attr(get_the_title($slide_id)); ?>" class="w-full h-full <?php echo 0===$slide_index?'object-fill':'object-cover'; ?> object-center" loading="<?php echo 0===$slide_index?'eager':'lazy'; ?>" /></picture><?php endif; ?>
+<?php if(absint($overlay_opacity)>0): ?><div class="absolute inset-0 bg-black" style="<?php echo esc_attr(bajistyle_hero_overlay_style($overlay_opacity)); ?>"></div><?php endif; ?>
+<div class="relative z-20 h-full flex flex-col justify-center px-6 md:px-16 pointer-events-none <?php echo esc_attr($position_classes.' '.$theme_classes['text']); ?>"><?php if(get_the_excerpt($slide_id)): ?><p class="text-xs md:text-sm opacity-90 mb-4 max-w-2xl drop-shadow pointer-events-auto"><?php echo esc_html(get_the_excerpt($slide_id)); ?></p><?php endif; ?><?php if($button_text&&$button_url): ?><div class="pointer-events-auto"><a href="<?php echo esc_url($button_url); ?>" class="baji-btn-primary inline-block px-5 py-2 md:px-6 md:py-2.5 rounded-xl font-bold text-xs md:text-sm transition-all duration-300 transform hover:scale-105 <?php echo esc_attr($theme_classes['button']); ?>"><?php echo esc_html($button_text); ?></a></div><?php endif; ?></div>
+</div>
+<?php ++$slide_index; endwhile; if($slide_index<=3){$render_autumn_slide();} wp_reset_postdata(); $total_slides=$slide_index+1; ?>
+</div>
+<div class="swiper-pagination baji-hero-pagination !bottom-3 z-30">
+<?php for ( $baji_dot = 0; $baji_dot < $total_slides; $baji_dot++ ) : ?>
+	<span class="baji-hero-manual-bullet" aria-hidden="true"></span>
+<?php endfor; ?>
+</div>
+</div>
+<?php endif; ?>
 </section>
