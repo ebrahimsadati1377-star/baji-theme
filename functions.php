@@ -342,6 +342,16 @@ function bajistyle_enqueue_assets() {
 
 	// اسکریپت‌های اختصاصی ووکامرس فقط در صفحات مرتبط
 	if ( class_exists( 'WooCommerce' ) ) {
+		if ( is_front_page() ) {
+			wp_enqueue_style(
+				'bajistyle-hero-slider',
+				BAJISTYLE_URI . '/assets/css/hero-slider.css',
+				array( 'bajistyle-custom' ),
+				BAJISTYLE_VERSION
+			);
+
+		}
+
 		wp_enqueue_script(
 			'bajistyle-woocommerce',
 			BAJISTYLE_URI . '/assets/js/woocommerce.js',
@@ -1766,35 +1776,3 @@ function baji_purge_litespeed_brand_story_removed_1074() {
 	}
 }
 add_action( 'init', 'baji_purge_litespeed_brand_story_removed_1074', 2001 );
-
-
-/**
- * One-time LiteSpeed purge after the premium homepage header/hero refresh.
- */
-function baji_purge_litespeed_header_hero_premium_1076() {
-	$key = 'baji_lscache_purge_header_hero_premium_1076';
-	if ( 'done' === get_option( $key ) ) {
-		return;
-	}
-	if ( has_action( 'litespeed_purge_all' ) || defined( 'LSCWP_V' ) ) {
-		do_action( 'litespeed_purge_all' );
-		update_option( $key, 'done', false );
-	}
-}
-add_action( 'init', 'baji_purge_litespeed_header_hero_premium_1076', 2100 );
-
-
-/**
- * One-time LiteSpeed purge after the final BAJI header/hero deployment.
- */
-function baji_purge_litespeed_final_header_hero_1077() {
-	$key = 'baji_lscache_purge_final_header_hero_1077';
-	if ( 'done' === get_option( $key ) ) {
-		return;
-	}
-	if ( has_action( 'litespeed_purge_all' ) || defined( 'LSCWP_V' ) ) {
-		do_action( 'litespeed_purge_all' );
-		update_option( $key, 'done', false );
-	}
-}
-add_action( 'init', 'baji_purge_litespeed_final_header_hero_1077', 2200 );
