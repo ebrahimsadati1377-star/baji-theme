@@ -1782,3 +1782,19 @@ function baji_purge_litespeed_header_hero_premium_1076() {
 	}
 }
 add_action( 'init', 'baji_purge_litespeed_header_hero_premium_1076', 2100 );
+
+
+/**
+ * One-time LiteSpeed purge after the final BAJI header/hero deployment.
+ */
+function baji_purge_litespeed_final_header_hero_1077() {
+	$key = 'baji_lscache_purge_final_header_hero_1077';
+	if ( 'done' === get_option( $key ) ) {
+		return;
+	}
+	if ( has_action( 'litespeed_purge_all' ) || defined( 'LSCWP_V' ) ) {
+		do_action( 'litespeed_purge_all' );
+		update_option( $key, 'done', false );
+	}
+}
+add_action( 'init', 'baji_purge_litespeed_final_header_hero_1077', 2200 );
