@@ -30,9 +30,9 @@ for ( $slot = 1; $slot <= 3; $slot++ ) :
 	$product_limit = min( 24, max( 4, $product_limit ) );
 	$term_link     = get_term_link( $term );
 	?>
-	<section class="baji-category-products py-12 md:py-16 bg-baji-cream" data-category="<?php echo esc_attr( $term->slug ); ?>">
+	<section class="baji-category-products py-5 md:py-12 bg-baji-cream" data-category="<?php echo esc_attr( $term->slug ); ?>">
 		<div class="max-w-[1400px] mx-auto px-4 md:px-8">
-			<div class="flex flex-row items-center justify-between gap-4 mb-8 md:mb-12">
+			<div class="flex flex-row items-center justify-between gap-4 mb-4 md:mb-8">
 				<div>
 					<h2 class="text-xl sm:text-2xl md:text-4xl lg:text-5xl font-black text-gray-900 tracking-tight">
 						<?php echo esc_html( $section_title ); ?>
@@ -47,7 +47,7 @@ for ( $slot = 1; $slot <= 3; $slot++ ) :
 				<?php endif; ?>
 			</div>
 
-			<div class="swiper baji-products-slider overflow-hidden relative pb-12">
+			<div class="swiper baji-products-slider overflow-hidden relative pb-5 md:pb-10">
 				<?php
 				get_template_part(
 					'template-parts/product-grid',
