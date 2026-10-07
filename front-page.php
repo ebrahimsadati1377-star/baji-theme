@@ -69,6 +69,137 @@ get_header();
 
 <div class="baji-front-page">
 
+<style id="baji-home-product-card-refresh">
+/* BAJI homepage product cards — unified premium treatment */
+body.home .baji-front-page :is(.baji-new-arrivals,.baji-category-products,.baji-sale-products) .baji-products-slider .swiper-slide,
+body.home .baji-front-page .baji-quick-products-grid li.product{
+  box-sizing:border-box!important;
+  background:#fff!important;
+  border:1px solid #eee4df!important;
+  border-radius:18px!important;
+  padding:8px 8px 10px!important;
+  box-shadow:0 7px 22px rgba(55,40,34,.055)!important;
+  overflow:hidden!important;
+  transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease!important;
+}
+body.home .baji-front-page :is(.baji-new-arrivals,.baji-category-products,.baji-sale-products) .baji-products-slider .swiper-slide:hover,
+body.home .baji-front-page .baji-quick-products-grid li.product:hover{
+  transform:translateY(-2px)!important;
+  border-color:#e3d3cc!important;
+  box-shadow:0 12px 30px rgba(55,40,34,.085)!important;
+}
+body.home .baji-front-page :is(.baji-new-arrivals,.baji-category-products,.baji-sale-products,.baji-quick-products) li.product>div.relative{
+  border-radius:14px!important;
+  overflow:hidden!important;
+  background:#f6f2ef!important;
+}
+body.home .baji-front-page :is(.baji-new-arrivals,.baji-category-products,.baji-sale-products,.baji-quick-products) li.product>div.relative img{
+  border:0!important;
+  border-radius:14px!important;
+}
+body.home .baji-front-page :is(.baji-new-arrivals,.baji-category-products,.baji-sale-products,.baji-quick-products) li.product>div.mt-3{
+  margin-top:9px!important;
+  padding:0 2px!important;
+}
+body.home .baji-front-page :is(.baji-new-arrivals,.baji-category-products,.baji-sale-products,.baji-quick-products) li.product h3{
+  color:#302825!important;
+  font-weight:800!important;
+  font-size:13px!important;
+  line-height:1.75!important;
+  letter-spacing:-.01em!important;
+}
+body.home .baji-front-page :is(.baji-new-arrivals,.baji-category-products,.baji-sale-products,.baji-quick-products) li.product .baji-product-price{
+  gap:3px 6px!important;
+}
+body.home .baji-front-page :is(.baji-new-arrivals,.baji-category-products,.baji-sale-products,.baji-quick-products) li.product .baji-product-price>.amount,
+body.home .baji-front-page :is(.baji-new-arrivals,.baji-category-products,.baji-sale-products,.baji-quick-products) li.product .baji-product-price ins .amount{
+  color:#2c2522!important;
+  font-weight:900!important;
+}
+body.home .baji-front-page :is(.baji-new-arrivals,.baji-category-products,.baji-sale-products,.baji-quick-products) li.product .baji-product-price del,
+body.home .baji-front-page :is(.baji-new-arrivals,.baji-category-products,.baji-sale-products,.baji-quick-products) li.product .baji-product-price del .amount{
+  color:#aaa19c!important;
+  font-weight:500!important;
+}
+body.home .baji-front-page :is(.baji-new-arrivals,.baji-category-products,.baji-sale-products,.baji-quick-products) li.product .baji-product-buy-cta{
+  position:static!important;
+  width:100%!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:7px!important;
+  min-height:41px!important;
+  height:41px!important;
+  margin-top:7px!important;
+  padding:8px 10px!important;
+  border-radius:12px!important;
+  background:#7b1327!important;
+  color:#fff!important;
+  font-size:11.5px!important;
+  font-weight:900!important;
+  text-decoration:none!important;
+  box-shadow:none!important;
+  transition:background .18s ease,transform .18s ease!important;
+}
+body.home .baji-front-page :is(.baji-new-arrivals,.baji-category-products,.baji-sale-products,.baji-quick-products) li.product .baji-product-buy-cta:hover{
+  background:#65101f!important;
+  color:#fff!important;
+}
+body.home .baji-front-page :is(.baji-new-arrivals,.baji-category-products,.baji-sale-products,.baji-quick-products) li.product .baji-product-buy-cta:active{
+  transform:scale(.985)!important;
+}
+body.home .baji-front-page :is(.baji-new-arrivals,.baji-category-products,.baji-sale-products,.baji-quick-products) li.product .baji-quick-wishlist{
+  top:9px!important;
+  right:9px!important;
+  width:36px!important;
+  height:36px!important;
+  background:rgba(255,255,255,.94)!important;
+  border:1px solid rgba(73,54,48,.08)!important;
+  box-shadow:0 5px 15px rgba(40,30,26,.08)!important;
+}
+body.home .baji-front-page :is(.baji-new-arrivals,.baji-category-products,.baji-sale-products,.baji-quick-products) li.product .baji-discount-ribbon{
+  top:10px!important;
+  left:0!important;
+  min-width:42px!important;
+  padding:5px 8px!important;
+  border-radius:0 12px 12px 0!important;
+  background:#7b1327!important;
+  color:#fff!important;
+  font-size:10px!important;
+  font-weight:900!important;
+  filter:none!important;
+  box-shadow:0 5px 14px rgba(123,19,39,.18)!important;
+}
+@media(max-width:767px){
+  body.home .baji-front-page :is(.baji-new-arrivals,.baji-category-products,.baji-sale-products) .baji-products-slider .swiper-slide,
+  body.home .baji-front-page .baji-quick-products-grid li.product{
+    padding:7px 7px 8px!important;
+    border-radius:16px!important;
+  }
+  body.home .baji-front-page :is(.baji-new-arrivals,.baji-category-products,.baji-sale-products,.baji-quick-products) li.product h3{
+    font-size:12px!important;
+    line-height:1.7!important;
+  }
+  body.home .baji-front-page :is(.baji-new-arrivals,.baji-category-products,.baji-sale-products,.baji-quick-products) li.product .baji-product-price .amount{
+    font-size:13px!important;
+  }
+  body.home .baji-front-page :is(.baji-new-arrivals,.baji-category-products,.baji-sale-products,.baji-quick-products) li.product .baji-product-price del .amount{
+    font-size:10px!important;
+  }
+  body.home .baji-front-page :is(.baji-new-arrivals,.baji-category-products,.baji-sale-products,.baji-quick-products) li.product .baji-product-buy-cta{
+    min-height:39px!important;
+    height:39px!important;
+    border-radius:11px!important;
+    font-size:10.5px!important;
+    margin-top:6px!important;
+  }
+  body.home .baji-front-page :is(.baji-new-arrivals,.baji-category-products,.baji-sale-products,.baji-quick-products) li.product .baji-quick-wishlist{
+    width:34px!important;
+    height:34px!important;
+  }
+}
+</style>
+
 
 	<?php get_template_part( 'template-parts/hero-section' ); ?>
 
