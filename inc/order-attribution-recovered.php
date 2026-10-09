@@ -337,12 +337,33 @@ add_action(
                     }
 
                     $today = current_time( 'Y-m-d' );
+                    $from  = isset( $_GET['from'] ) ? sanitize_text_field( wp_unslash( $_GET['from'] ) ) : $today;
+                    $to    = isset( $_GET['to'] ) ? sanitize_text_field( wp_unslash( $_GET['to'] ) ) : $from;
+                    $summary_only = ! empty( $_GET['summary_only'] );
+
+                    if ( ! preg_match( '/^\\d{4}-\\d{2}-\\d{2}$/', $from ) ) {
+                        $from = $today;
+                    }
+                    if ( ! preg_match( '/^\\d{4}-\\d{2}-\\d{2}$/', $to ) ) {
+                        $to = $from;
+                    }
+                    if ( $from > $to ) {
+                        $tmp  = $from;
+                        $from = $to;
+                        $to   = $tmp;
+                    }
+
+                    $max_from = gmdate( 'Y-m-d', strtotime( $to . ' -89 days' ) );
+                    if ( $from < $max_from ) {
+                        $from = $max_from;
+                    }
+
                     $model = new \WP_Statistics\Models\VisitorsModel();
                     $rows  = $model->getVisitorsData(
                         array(
-                            'date'     => array( 'from' => $today, 'to' => $today ),
+                            'date'     => array( 'from' => $from, 'to' => $to ),
                             'page'     => 1,
-                            'per_page' => 5000,
+                            'per_page' => 20000,
                             'order_by' => 'visitor.last_view',
                             'order'    => 'DESC',
                             'decorate' => true,
@@ -433,26 +454,30 @@ add_action(
                             $groups[ $label ] = 0;
                         }
                         $groups[ $label ]++;
-                        $details[] = array(
-                            'id'             => method_exists( $visitor, 'getId' ) ? (int) $visitor->getId() : 0,
-                            'source'         => $label,
-                            'utm_source'     => $utm_source ?: null,
-                            'utm_medium'     => $utm_medium ?: null,
-                            'referrer'       => $raw_referrer ?: null,
-                            'source_channel' => $source_channel ?: null,
-                            'source_name'    => $source_name ?: null,
-                            'first_page'     => is_array( $first_page ) ? ( $first_page['title'] ?? null ) : null,
-                            'landing_link'   => is_array( $first_page ) ? ( $first_page['link'] ?? $first_page['sub_page'] ?? null ) : null,
-                            'landing_query'  => $query ?: null,
-                            'last_view'      => method_exists( $visitor, 'getLastView' ) ? $visitor->getLastView( true ) : null,
-                        );
+                        if ( ! $summary_only ) {
+                            $details[] = array(
+                                'id'             => method_exists( $visitor, 'getId' ) ? (int) $visitor->getId() : 0,
+                                'source'         => $label,
+                                'utm_source'     => $utm_source ?: null,
+                                'utm_medium'     => $utm_medium ?: null,
+                                'referrer'       => $raw_referrer ?: null,
+                                'source_channel' => $source_channel ?: null,
+                                'source_name'    => $source_name ?: null,
+                                'first_page'     => is_array( $first_page ) ? ( $first_page['title'] ?? null ) : null,
+                                'landing_link'   => is_array( $first_page ) ? ( $first_page['link'] ?? $first_page['sub_page'] ?? null ) : null,
+                                'landing_query'  => $query ?: null,
+                                'last_view'      => method_exists( $visitor, 'getLastView' ) ? $visitor->getLastView( true ) : null,
+                            );
+                        }
                     }
                     arsort( $groups );
 
                     return rest_ensure_response(
                         array(
                             'generated_at'   => current_time( 'mysql' ),
-                            'date'           => $today,
+                            'date'           => ( $from === $to ? $from : null ),
+                            'from'           => $from,
+                            'to'             => $to,
                             'visitors_total' => count( $rows ),
                             'sources'        => $groups,
                             'visitors'       => $details,
