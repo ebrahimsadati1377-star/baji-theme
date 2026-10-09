@@ -340,6 +340,7 @@ add_action(
                     $from  = isset( $_GET['from'] ) ? sanitize_text_field( wp_unslash( $_GET['from'] ) ) : $today;
                     $to    = isset( $_GET['to'] ) ? sanitize_text_field( wp_unslash( $_GET['to'] ) ) : $from;
                     $summary_only = ! empty( $_GET['summary_only'] );
+                    $counts_only  = ! empty( $_GET['counts_only'] );
 
                     if ( ! preg_match( '/^\\d{4}-\\d{2}-\\d{2}$/', $from ) ) {
                         $from = $today;
@@ -366,9 +367,48 @@ add_action(
                             'per_page' => 20000,
                             'order_by' => 'visitor.last_view',
                             'order'    => 'DESC',
-                            'decorate' => true,
+                            'decorate' => ! $counts_only,
                         )
                     );
+
+                    if ( $counts_only ) {
+                        $daily = array();
+                        foreach ( $rows as $row ) {
+                            $last_view = '';
+                            if ( is_object( $row ) ) {
+                                if ( isset( $row->last_view ) ) {
+                                    $last_view = (string) $row->last_view;
+                                } elseif ( isset( $row->last_counter ) ) {
+                                    $last_view = (string) $row->last_counter;
+                                } elseif ( method_exists( $row, 'getLastView' ) ) {
+                                    $last_view = (string) $row->getLastView( true );
+                                }
+                            } elseif ( is_array( $row ) ) {
+                                $last_view = (string) ( $row['last_view'] ?? $row['last_counter'] ?? '' );
+                            }
+                            $day = substr( $last_view, 0, 10 );
+                            if ( preg_match( '/^\\d{4}-\\d{2}-\\d{2}$/', $day ) ) {
+                                if ( ! isset( $daily[ $day ] ) ) {
+                                    $daily[ $day ] = 0;
+                                }
+                                $daily[ $day ]++;
+                            }
+                        }
+                        ksort( $daily );
+
+                        return rest_ensure_response(
+                            array(
+                                'generated_at'   => current_time( 'mysql' ),
+                                'date'           => ( $from === $to ? $from : null ),
+                                'from'           => $from,
+                                'to'             => $to,
+                                'visitors_total' => count( $rows ),
+                                'daily'          => $daily,
+                                'sources'        => array(),
+                                'visitors'       => array(),
+                            )
+                        );
+                    }
 
                     $groups  = array();
                     $details = array();
