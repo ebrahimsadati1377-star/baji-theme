@@ -34,15 +34,17 @@ if ( strlen( $phone ) >= 8 ) {
 	$masked_phone = substr( $phone, 0, 4 ) . ' ••• ' . substr( $phone, -4 );
 }
 
-$all_orders = wc_get_orders(
-	array(
-		'customer' => $user_id,
-		'limit'    => -1,
-		'orderby'  => 'date',
-		'order'    => 'DESC',
-		'return'   => 'objects',
-	)
-);
+$all_orders = function_exists( 'baji_get_customer_visible_orders' )
+	? baji_get_customer_visible_orders( $user_id, -1 )
+	: wc_get_orders(
+		array(
+			'customer_id' => $user_id,
+			'limit'       => -1,
+			'orderby'     => 'date',
+			'order'       => 'DESC',
+			'return'      => 'objects',
+		)
+	);
 
 $recent_orders = array_slice( $all_orders, 0, 3 );
 $ongoing_count = 0;
@@ -261,8 +263,58 @@ foreach ( $all_orders as $order ) {
 				if ( 'view-order' === $current_tab ) {
 					do_action( 'woocommerce_account_view-order_endpoint', absint( get_query_var( 'view-order' ) ) );
 				} elseif ( 'orders' === $current_tab ) {
-					$page = absint( get_query_var( 'orders' ) );
-					do_action( 'woocommerce_account_orders_endpoint', $page ?: 1 );
+					?>
+					<div class="baji-account-card baji-account-card--orders">
+						<div class="baji-account-card-head">
+							<div>
+								<span>تاریخچه خرید</span>
+								<h2>سفارش‌های من</h2>
+							</div>
+							<small><?php echo esc_html( count( $all_orders ) ); ?> سفارش</small>
+						</div>
+
+						<?php if ( $all_orders ) : ?>
+							<div class="baji-account-order-list">
+								<?php foreach ( $all_orders as $order ) : ?>
+									<?php
+									$items       = $order->get_items( 'line_item' );
+									$first_item  = $items ? reset( $items ) : false;
+									$product     = $first_item ? $first_item->get_product() : false;
+									$image_html  = $product ? $product->get_image( array( 88, 110 ), array( 'loading' => 'lazy' ) ) : wc_placeholder_img( array( 88, 110 ) );
+									$item_label  = $first_item ? $first_item->get_name() : 'سفارش باجی';
+									$more_count  = max( 0, count( $items ) - 1 );
+									$status_name = wc_get_order_status_name( $order->get_status() );
+									?>
+									<article class="baji-account-order">
+										<div class="baji-account-order-thumb"><?php echo wp_kses_post( $image_html ); ?></div>
+										<div class="baji-account-order-info">
+											<div class="baji-account-order-top">
+												<b>#<?php echo esc_html( $order->get_order_number() ); ?></b>
+												<span class="baji-order-status baji-order-status--<?php echo esc_attr( $order->get_status() ); ?>"><?php echo esc_html( $status_name ); ?></span>
+											</div>
+											<h3><?php echo esc_html( $item_label ); ?><?php echo $more_count ? ' +' . esc_html( $more_count ) . ' کالا' : ''; ?></h3>
+											<div class="baji-account-order-meta">
+												<span><?php echo esc_html( wc_format_datetime( $order->get_date_created(), 'Y/m/d' ) ); ?></span>
+												<strong><?php echo wp_kses_post( $order->get_formatted_order_total() ); ?></strong>
+											</div>
+										</div>
+										<a class="baji-account-order-link" href="<?php echo esc_url( $order->get_view_order_url() ); ?>" aria-label="مشاهده سفارش <?php echo esc_attr( $order->get_order_number() ); ?>">
+											<span>جزئیات</span>
+											<i class="fa-solid fa-chevron-left"></i>
+										</a>
+									</article>
+								<?php endforeach; ?>
+							</div>
+						<?php else : ?>
+							<div class="baji-account-empty">
+								<i class="fa-solid fa-bag-shopping"></i>
+								<h3>سفارشی پیدا نشد</h3>
+								<p>اگر قبلاً با همین شماره موبایل خرید کرده‌ای، سفارش‌ها بعد از ورود با همین شماره اینجا نمایش داده می‌شوند.</p>
+								<a href="<?php echo esc_url( wc_get_page_permalink( 'shop' ) ); ?>">مشاهده محصولات</a>
+							</div>
+						<?php endif; ?>
+					</div>
+					<?php
 				} elseif ( 'edit-account' === $current_tab ) {
 					do_action( 'woocommerce_account_edit-account_endpoint' );
 				} elseif ( 'address' === $current_tab ) {
