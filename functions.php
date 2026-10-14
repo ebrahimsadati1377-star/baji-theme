@@ -1776,3 +1776,121 @@ function baji_purge_litespeed_brand_story_removed_1074() {
 	}
 }
 add_action( 'init', 'baji_purge_litespeed_brand_story_removed_1074', 2001 );
+
+
+/**
+ * Return the verified mobile number attached to a BAJI customer account.
+ *
+ * BAJI uses mobile OTP login, so matching a guest order by billing phone lets
+ * the same customer see orders placed before/without an attached WP user ID.
+ */
+function baji_get_account_mobile( $user_id = 0 ) {
+	$user_id = $user_id ? absint( $user_id ) : get_current_user_id();
+	if ( ! $user_id ) {
+		return '';
+	}
+
+	$user  = get_userdata( $user_id );
+	$phone = (string) get_user_meta( $user_id, 'billing_phone', true );
+
+	if ( function_exists( 'baji_checkout_normalize_mobile' ) ) {
+		$phone = baji_checkout_normalize_mobile( $phone );
+	}
+
+	if ( '' === $phone && $user && preg_match( '/^09\\d{9}$/', (string) $user->user_login ) ) {
+		$phone = (string) $user->user_login;
+	}
+
+	return $phone;
+}
+
+/**
+ * Get every order that belongs to the customer, including older guest orders
+ * made with the same verified mobile number.
+ */
+function baji_get_customer_visible_orders( $user_id = 0, $limit = -1 ) {
+	if ( ! function_exists( 'wc_get_orders' ) ) {
+		return array();
+	}
+
+	$user_id = $user_id ? absint( $user_id ) : get_current_user_id();
+	if ( ! $user_id ) {
+		return array();
+	}
+
+	$orders_by_id = array();
+
+	$owned_orders = wc_get_orders(
+		array(
+			'customer_id' => $user_id,
+			'limit'       => -1,
+			'orderby'     => 'date',
+			'order'       => 'DESC',
+			'return'      => 'objects',
+		)
+	);
+
+	foreach ( $owned_orders as $order ) {
+		$orders_by_id[ $order->get_id() ] = $order;
+	}
+
+	$phone = baji_get_account_mobile( $user_id );
+	if ( $phone ) {
+		$phone_orders = wc_get_orders(
+			array(
+				'billing_phone' => $phone,
+				'limit'         => -1,
+				'orderby'       => 'date',
+				'order'         => 'DESC',
+				'return'        => 'objects',
+			)
+		);
+
+		foreach ( $phone_orders as $order ) {
+			$orders_by_id[ $order->get_id() ] = $order;
+		}
+	}
+
+	$orders = array_values( $orders_by_id );
+	usort(
+		$orders,
+		static function( $a, $b ) {
+			$a_date = $a->get_date_created();
+			$b_date = $b->get_date_created();
+			$a_ts   = $a_date ? $a_date->getTimestamp() : 0;
+			$b_ts   = $b_date ? $b_date->getTimestamp() : 0;
+			return $b_ts <=> $a_ts;
+		}
+	);
+
+	if ( -1 !== (int) $limit ) {
+		$orders = array_slice( $orders, 0, max( 0, (int) $limit ) );
+	}
+
+	return $orders;
+}
+
+/** Check whether the signed-in BAJI customer can see an order. */
+function baji_customer_can_view_order( $order, $user_id = 0 ) {
+	if ( ! $order || ! is_a( $order, 'WC_Order' ) ) {
+		return false;
+	}
+
+	$user_id = $user_id ? absint( $user_id ) : get_current_user_id();
+	if ( ! $user_id ) {
+		return false;
+	}
+
+	if ( (int) $order->get_user_id() === $user_id ) {
+		return true;
+	}
+
+	$account_phone = baji_get_account_mobile( $user_id );
+	$order_phone   = (string) $order->get_billing_phone();
+
+	if ( function_exists( 'baji_checkout_normalize_mobile' ) ) {
+		$order_phone = baji_checkout_normalize_mobile( $order_phone );
+	}
+
+	return $account_phone && $order_phone && hash_equals( $account_phone, $order_phone );
+}
