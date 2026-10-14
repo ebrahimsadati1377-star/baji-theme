@@ -261,7 +261,8 @@ foreach ( $all_orders as $order ) {
 			<section class="baji-account-section baji-account-section--<?php echo esc_attr( $current_tab ); ?>">
 				<?php
 				if ( 'view-order' === $current_tab ) {
-					do_action( 'woocommerce_account_view-order_endpoint', absint( get_query_var( 'view-order' ) ) );
+					$order_id = absint( get_query_var( 'view-order' ) );
+					wc_get_template( 'myaccount/view-order.php', array( 'order_id' => $order_id ) );
 				} elseif ( 'orders' === $current_tab ) {
 					?>
 					<div class="baji-account-card baji-account-card--orders">
