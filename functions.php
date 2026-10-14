@@ -1836,18 +1836,31 @@ function baji_get_customer_visible_orders( $user_id = 0, $limit = -1 ) {
 
 	$phone = baji_get_account_mobile( $user_id );
 	if ( $phone ) {
-		$phone_orders = wc_get_orders(
+		$local = substr( $phone, 1 );
+		$phone_candidates = array_unique(
 			array(
-				'billing_phone' => $phone,
-				'limit'         => -1,
-				'orderby'       => 'date',
-				'order'         => 'DESC',
-				'return'        => 'objects',
+				$phone,
+				$local,
+				'+98' . $local,
+				'98' . $local,
+				'0098' . $local,
 			)
 		);
 
-		foreach ( $phone_orders as $order ) {
-			$orders_by_id[ $order->get_id() ] = $order;
+		foreach ( $phone_candidates as $candidate ) {
+			$phone_orders = wc_get_orders(
+				array(
+					'billing_phone' => $candidate,
+					'limit'         => -1,
+					'orderby'       => 'date',
+					'order'         => 'DESC',
+					'return'        => 'objects',
+				)
+			);
+
+			foreach ( $phone_orders as $order ) {
+				$orders_by_id[ $order->get_id() ] = $order;
+			}
 		}
 	}
 
