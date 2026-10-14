@@ -9,7 +9,11 @@ defined( 'ABSPATH' ) || exit;
 
 $order = wc_get_order( $order_id );
 
-if ( ! $order || ( (int) $order->get_user_id() !== get_current_user_id() && ! current_user_can( 'manage_woocommerce' ) ) ) {
+$can_view_order = current_user_can( 'manage_woocommerce' )
+	|| ( function_exists( 'baji_customer_can_view_order' ) && baji_customer_can_view_order( $order, get_current_user_id() ) )
+	|| ( $order && (int) $order->get_user_id() === get_current_user_id() );
+
+if ( ! $order || ! $can_view_order ) {
 	wc_print_notice( 'این سفارش در دسترس نیست.', 'error' );
 	return;
 }
