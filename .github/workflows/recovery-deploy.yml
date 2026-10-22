@@ -26,6 +26,8 @@ jobs:
           php -l front-page.php >/dev/null
           php -l woocommerce/myaccount/my-account.php >/dev/null
           php -l woocommerce/myaccount/view-order.php >/dev/null
+          php -l template-parts/home-category-products.php >/dev/null
+          php -l template-parts/sale-products.php >/dev/null
 
       - name: Free safe theme space and restore PHP
         env:
@@ -47,7 +49,7 @@ jobs:
           except ftplib.all_errors as exc:
               print(f"SKIP_DELETE {disposable}: {exc}")
 
-          for path in ("inc/order-attribution-recovered.php", "inc/template-tags.php", "functions.php", "front-page.php", "woocommerce/myaccount/my-account.php", "woocommerce/myaccount/view-order.php"):
+          for path in ("inc/order-attribution-recovered.php", "inc/template-tags.php", "functions.php", "front-page.php", "woocommerce/myaccount/my-account.php", "woocommerce/myaccount/view-order.php", "template-parts/home-category-products.php", "template-parts/sale-products.php"):
               with open(path, "rb") as fh:
                   ftp.storbinary("STOR " + path, fh, blocksize=65536)
               print("UPLOADED", path)
