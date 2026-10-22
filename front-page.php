@@ -201,6 +201,22 @@ body.home .baji-front-page :is(.baji-new-arrivals,.baji-category-products,.baji-
 </style>
 
 
+<style id="baji-section-heading-system">
+.baji-section-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:24px}
+.baji-section-head__copy{min-width:0}
+.baji-section-head__eyebrow{display:block;margin-bottom:4px;color:#7b1327;font-size:11px;font-weight:800;line-height:1.5;letter-spacing:.02em}
+.baji-section-head__title{margin:0;color:#241d1b;font-size:clamp(22px,3vw,36px);font-weight:900;line-height:1.25;letter-spacing:-.02em}
+.baji-section-head__link{display:inline-flex;align-items:center;gap:7px;flex:0 0 auto;color:#7b1327!important;font-size:13px;font-weight:850;text-decoration:none;white-space:nowrap}
+.baji-section-head__link i{font-size:11px;transition:transform .18s ease}
+.baji-section-head__link:hover i{transform:translateX(-3px)}
+@media(max-width:767px){
+ .baji-section-head{margin-bottom:14px;gap:10px}
+ .baji-section-head__eyebrow{font-size:10px;margin-bottom:2px}
+ .baji-section-head__title{font-size:22px}
+ .baji-section-head__link{font-size:11px;gap:5px}
+}
+</style>
+
 	<?php get_template_part( 'template-parts/hero-section' ); ?>
 
 
@@ -335,17 +351,14 @@ body.home .baji-front-page :is(.baji-new-arrivals,.baji-category-products,.baji-
 	<!-- =================== بخش اول: جدیدترین محصولات — BAJI refreshed =================== -->
 	<section class="baji-new-arrivals py-12 md:py-16 bg-baji-cream">
 		<div class="max-w-[1400px] mx-auto px-4 md:px-8">
-			<div class="flex flex-row items-center justify-between gap-4 mb-8 md:mb-12">
-				<div>
-					<div class="flex items-center gap-2 md:gap-3 mb-1 md:mb-3">
-						<span class="w-6 md:w-10 h-[2px] bg-baji-gold rounded-full"></span>
-						<span class="text-baji-gold text-[10px] md:text-sm font-bold tracking-[0.15em] md:tracking-[0.2em] uppercase"><?php esc_html_e( 'تازه‌های فروشگاه', 'bajistyle' ); ?></span>
-					</div>
-					<h2 class="text-xl sm:text-2xl md:text-4xl lg:text-5xl font-black text-gray-900 tracking-tight"><?php esc_html_e( 'جدید های باجی', 'bajistyle' ); ?></h2>
+			<div class="baji-section-head">
+				<div class="baji-section-head__copy">
+					<span class="baji-section-head__eyebrow"><?php esc_html_e( 'تازه‌های باجی', 'bajistyle' ); ?></span>
+					<h2 class="baji-section-head__title"><?php esc_html_e( 'جدیدهای باجی', 'bajistyle' ); ?></h2>
 				</div>
-				<a href="https://bajistyle.ir/new-products/" class="group flex items-center gap-1.5 md:gap-2 text-xs md:text-base font-medium text-gray-600 hover:text-gray-900 transition-colors duration-300 shrink-0">
-					<span><?php esc_html_e( 'همه', 'bajistyle' ); ?></span>
-					<i class="fa-solid fa-arrow-left text-xs md:text-sm transform group-hover:-translate-x-1.5 transition-transform duration-300"></i>
+				<a href="https://bajistyle.ir/new-products/" class="baji-section-head__link">
+					<span><?php esc_html_e( 'مشاهده همه', 'bajistyle' ); ?></span>
+					<i class="fa-solid fa-arrow-left"></i>
 				</a>
 			</div>
 
@@ -371,12 +384,14 @@ body.home .baji-front-page :is(.baji-new-arrivals,.baji-category-products,.baji-
 
 	<section class="baji-quick-products py-5 md:py-8 bg-[#fffaf8]">
 		<div class="max-w-[1400px] mx-auto px-4 md:px-8">
-			<div class="flex items-center justify-between gap-4 mb-4">
-				<div>
-					<div class="text-[10px] md:text-xs font-bold tracking-[.16em] text-[#b28a72] mb-1">BAJI PICKS</div>
-					<h2 class="text-lg md:text-2xl font-black text-[#2d211e]">پرفروش‌های باجی</h2>
+			<div class="baji-section-head">
+				<div class="baji-section-head__copy">
+					<span class="baji-section-head__eyebrow">محبوب‌ترین‌ها</span>
+					<h2 class="baji-section-head__title">پرفروش‌های باجی</h2>
 				</div>
-				<a href="<?php echo esc_url( add_query_arg( 'orderby', 'popularity', wc_get_page_permalink( 'shop' ) ) ); ?>" class="text-[11px] md:text-sm font-bold text-[#7b1327]">مشاهده همه ←</a>
+				<a href="<?php echo esc_url( add_query_arg( 'orderby', 'popularity', wc_get_page_permalink( 'shop' ) ) ); ?>" class="baji-section-head__link">
+					<span>مشاهده همه</span><i class="fa-solid fa-arrow-left"></i>
+				</a>
 			</div>
 			<div class="baji-quick-products-grid">
 				<?php
