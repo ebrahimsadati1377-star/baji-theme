@@ -1907,3 +1907,15 @@ function baji_customer_can_view_order( $order, $user_id = 0 ) {
 
 	return $account_phone && $order_phone && hash_equals( $account_phone, $order_phone );
 }
+
+
+/** One-time LiteSpeed purge after BAJI homepage section heading refresh. */
+function baji_purge_litespeed_section_headings_20261023() {
+	$key = 'baji_purge_litespeed_section_headings_20261023_done';
+	if ( 'done' === get_option( $key ) ) {
+		return;
+	}
+	do_action( 'litespeed_purge_all' );
+	update_option( $key, 'done', false );
+}
+add_action( 'init', 'baji_purge_litespeed_section_headings_20261023', 2500 );
