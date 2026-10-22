@@ -32,17 +32,16 @@ for ( $slot = 1; $slot <= 3; $slot++ ) :
 	?>
 	<section class="baji-category-products py-5 md:py-12 bg-baji-cream" data-category="<?php echo esc_attr( $term->slug ); ?>">
 		<div class="max-w-[1400px] mx-auto px-4 md:px-8">
-			<div class="flex flex-row items-center justify-between gap-4 mb-4 md:mb-8">
-				<div>
-					<h2 class="text-xl sm:text-2xl md:text-4xl lg:text-5xl font-black text-gray-900 tracking-tight">
-						<?php echo esc_html( $section_title ); ?>
-					</h2>
+			<div class="baji-section-head">
+				<div class="baji-section-head__copy">
+					<span class="baji-section-head__eyebrow"><?php esc_html_e( 'دسته‌بندی منتخب', 'bajistyle' ); ?></span>
+					<h2 class="baji-section-head__title"><?php echo esc_html( $section_title ); ?></h2>
 				</div>
 
 				<?php if ( ! is_wp_error( $term_link ) ) : ?>
-					<a href="<?php echo esc_url( $term_link ); ?>" class="group flex items-center gap-1.5 md:gap-2 text-xs md:text-base font-medium text-gray-600 hover:text-gray-900 transition-colors duration-300 shrink-0">
-						<span><?php esc_html_e( 'همه', 'bajistyle' ); ?></span>
-						<i class="fa-solid fa-arrow-left text-xs md:text-sm transform group-hover:-translate-x-1.5 transition-transform duration-300"></i>
+					<a href="<?php echo esc_url( $term_link ); ?>" class="baji-section-head__link">
+						<span><?php esc_html_e( 'مشاهده همه', 'bajistyle' ); ?></span>
+						<i class="fa-solid fa-arrow-left"></i>
 					</a>
 				<?php endif; ?>
 			</div>
