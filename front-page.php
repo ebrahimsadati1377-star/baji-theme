@@ -465,7 +465,42 @@ body.home .baji-front-page :is(.baji-new-arrivals,.baji-category-products,.baji-
 
       <div class="baji-style-shop__cards">
         <?php
-        $baji_style_product_ids = array( 3138, 1225, 2316 );
+        $baji_style_sale_ids = array_values(
+          array_filter(
+            wc_get_product_ids_on_sale(),
+            static function( $product_id ) {
+              $product = wc_get_product( $product_id );
+              return $product && 'publish' === get_post_status( $product_id ) && $product->is_in_stock();
+            }
+          )
+        );
+
+        shuffle( $baji_style_sale_ids );
+        $baji_style_product_ids = array_slice( $baji_style_sale_ids, 0, 9 );
+
+        if ( count( $baji_style_product_ids ) < 9 ) {
+          $baji_style_fallback = wc_get_products(
+            array(
+              'status'       => 'publish',
+              'stock_status' => 'instock',
+              'limit'        => 18,
+              'orderby'      => 'date',
+              'order'        => 'DESC',
+              'return'       => 'ids',
+              'exclude'      => $baji_style_product_ids,
+            )
+          );
+
+          foreach ( $baji_style_fallback as $baji_style_fallback_id ) {
+            if ( ! in_array( $baji_style_fallback_id, $baji_style_product_ids, true ) ) {
+              $baji_style_product_ids[] = $baji_style_fallback_id;
+            }
+            if ( count( $baji_style_product_ids ) >= 9 ) {
+              break;
+            }
+          }
+        }
+
         foreach ( $baji_style_product_ids as $baji_style_product_id ) :
           $baji_style_product = wc_get_product( $baji_style_product_id );
           if ( ! $baji_style_product || 'publish' !== get_post_status( $baji_style_product_id ) || ! $baji_style_product->is_in_stock() ) {
@@ -527,6 +562,27 @@ body.home .baji-front-page :is(.baji-new-arrivals,.baji-category-products,.baji-
   </div>
 </section>
 
+<script id="baji-style-shop-rotate">
+document.addEventListener('DOMContentLoaded', function () {
+  document.querySelectorAll('.baji-style-shop__cards').forEach(function (wrap) {
+    var cards = Array.prototype.slice.call(wrap.querySelectorAll('.baji-style-shop__card'));
+    if (cards.length <= 3) return;
+
+    for (var i = cards.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var tmp = cards[i];
+      cards[i] = cards[j];
+      cards[j] = tmp;
+    }
+
+    cards.forEach(function (card, index) {
+      card.style.display = index < 3 ? '' : 'none';
+      if (index < 3) wrap.appendChild(card);
+    });
+  });
+});
+</script>
+
 <style id="baji-style-shop-v2-style">
 .baji-style-shop--v2{
   --bss-ink:#2f2420;
@@ -538,6 +594,7 @@ body.home .baji-front-page :is(.baji-new-arrivals,.baji-category-products,.baji-
   padding:48px 0;
   direction:rtl;
 }
+.baji-style-shop--v2 .baji-style-shop__card:nth-child(n+4){display:none}
 .baji-style-shop--v2 .baji-style-shop__shell{
   width:min(calc(100% - 40px),1400px);
   margin:0 auto;
