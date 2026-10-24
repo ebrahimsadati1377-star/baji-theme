@@ -219,29 +219,6 @@ body.home .baji-front-page :is(.baji-new-arrivals,.baji-category-products,.baji-
 
 	<?php get_template_part( 'template-parts/hero-section' ); ?>
 
-	<section class="baji-torobpay-promo" aria-label="تخفیف خرید قسطی با ترب‌پی">
-		<div class="max-w-[1400px] mx-auto px-4 md:px-8 py-4 md:py-6">
-			<a href="<?php echo esc_url( wc_get_page_permalink( 'shop' ) ); ?>" class="baji-torobpay-promo__link">
-				<img
-					src="https://bajistyle.ir/wp-content/uploads/2026/10/torobpay-pay17-banner.jpg"
-					alt="خرید قسطی با ترب‌پی، چهار قسط بدون کارمزد، کد تخفیف PAY17"
-					loading="eager"
-					decoding="async"
-					width="220"
-					height="489"
-				>
-			</a>
-		</div>
-	</section>
-
-	<style id="baji-torobpay-promo-style">
-	.baji-torobpay-promo{background:#fffaf7}
-	.baji-torobpay-promo__link{display:block;width:min(100%,360px);margin:0 auto;border-radius:22px;overflow:hidden;box-shadow:0 12px 34px rgba(44,63,30,.10);border:1px solid rgba(32,91,22,.10);transition:transform .2s ease,box-shadow .2s ease}
-	.baji-torobpay-promo__link:hover{transform:translateY(-2px);box-shadow:0 16px 38px rgba(44,63,30,.14)}
-	.baji-torobpay-promo__link img{display:block;width:100%;height:auto}
-	@media(min-width:768px){.baji-torobpay-promo__link{width:390px}}
-	</style>
-
 
 	<?php get_template_part( 'template-parts/category-showcase' ); ?>
 
