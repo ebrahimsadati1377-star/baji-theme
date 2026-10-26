@@ -24,6 +24,7 @@ jobs:
           php -l inc/template-tags.php >/dev/null
           php -l functions.php >/dev/null
           php -l front-page.php >/dev/null
+          php -l template-parts/category-showcase.php >/dev/null
           php -l woocommerce/myaccount/my-account.php >/dev/null
           php -l woocommerce/myaccount/view-order.php >/dev/null
           php -l template-parts/home-category-products.php >/dev/null
@@ -49,7 +50,7 @@ jobs:
           except ftplib.all_errors as exc:
               print(f"SKIP_DELETE {disposable}: {exc}")
 
-          for path in ("inc/order-attribution-recovered.php", "inc/template-tags.php", "functions.php", "front-page.php", "woocommerce/myaccount/my-account.php", "woocommerce/myaccount/view-order.php", "template-parts/home-category-products.php", "template-parts/sale-products.php"):
+          for path in ("inc/order-attribution-recovered.php", "inc/template-tags.php", "functions.php", "front-page.php", "template-parts/category-showcase.php", "woocommerce/myaccount/my-account.php", "woocommerce/myaccount/view-order.php", "template-parts/home-category-products.php", "template-parts/sale-products.php"):
               with open(path, "rb") as fh:
                   ftp.storbinary("STOR " + path, fh, blocksize=65536)
               print("UPLOADED", path)
