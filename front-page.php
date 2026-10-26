@@ -304,14 +304,14 @@ body.home .baji-front-page :is(.baji-new-arrivals,.baji-category-products,.baji-
   .baji-front-page .baji-category-showcase .baji-category-card--blouse .baji-category-card__image {
     width: 100% !important;
     height: 100% !important;
-    object-fit: fill !important;
+    object-fit: cover !important;
     object-position: center !important;
     transform: none !important;
   }
   .baji-front-page .baji-category-showcase .baji-category-card--tshirt .baji-category-card__image {
     width: 100% !important;
     height: 100% !important;
-    object-fit: fill !important;
+    object-fit: cover !important;
     object-position: center !important;
     transform: none !important;
   }
@@ -333,7 +333,7 @@ body.home .baji-front-page :is(.baji-new-arrivals,.baji-category-products,.baji-
   .baji-front-page .baji-category-showcase .baji-category-card--skirt .baji-category-card__image {
     width: 100% !important;
     height: 100% !important;
-    object-fit: fill !important;
+    object-fit: cover !important;
     object-position: center !important;
     transform: none !important;
   }
