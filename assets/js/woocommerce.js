@@ -513,3 +513,74 @@ if (document.readyState === 'loading') {
 } else {
   initBajiNativeSwipe5117();
 }
+
+
+/**
+ * Product 5117: inject the 7 thumbnail strip under the native swipe slider.
+ * This intentionally lives in JS to bypass stale PHP/opcache on production.
+ */
+function ensureBajiThumbStrip5117() {
+  if (!document.body.classList.contains('postid-5117')) return;
+
+  var slider = document.querySelector('.baji-native-swipe-5117');
+  if (!slider) return;
+  if (document.querySelector('.baji-js-thumbs-5117')) return;
+
+  var images = [
+    'https://manage.bajistyle.ir/uploads/chatgpt/baji-bag-final-01-20261103-175137-4d212f.jpg',
+    'https://manage.bajistyle.ir/uploads/chatgpt/baji-bag-final-02-20261103-175423-fb329a.jpg',
+    'https://manage.bajistyle.ir/uploads/chatgpt/baji-bag-final-03-20261103-175456-2515e0.jpg',
+    'https://manage.bajistyle.ir/uploads/chatgpt/baji-bag-final-04-20261103-175459-eb08a8.jpg',
+    'https://manage.bajistyle.ir/uploads/chatgpt/baji-bag-final-05-20261103-175503-1bd0f3.jpg',
+    'https://manage.bajistyle.ir/uploads/chatgpt/baji-bag-final-06-20261103-175507-447377.jpg',
+    'https://manage.bajistyle.ir/uploads/chatgpt/baji-bag-final-07-20261103-175510-b09c58.jpg'
+  ];
+
+  var strip = document.createElement('div');
+  strip.className = 'baji-js-thumbs-5117';
+  strip.setAttribute('dir','ltr');
+  strip.style.cssText =
+    'display:flex;gap:8px;overflow-x:auto;margin-top:10px;padding:2px 0 6px;' +
+    'scrollbar-width:none;-webkit-overflow-scrolling:touch;';
+
+  images.forEach(function(src, idx) {
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.setAttribute('aria-label','تصویر ' + (idx + 1) + ' محصول');
+    btn.dataset.index = String(idx);
+    btn.style.cssText =
+      'flex:0 0 66px;width:66px;height:82px;padding:0;border:2px solid ' +
+      (idx === 0 ? '#c9a227' : 'transparent') +
+      ';border-radius:8px;overflow:hidden;background:#fff;opacity:' +
+      (idx === 0 ? '1' : '.72') + ';';
+
+    var img = document.createElement('img');
+    img.src = src;
+    img.alt = '';
+    img.loading = 'lazy';
+    img.style.cssText='width:100%;height:100%;object-fit:cover;display:block;';
+    btn.appendChild(img);
+
+    btn.addEventListener('click', function() {
+      slider.scrollTo({left: idx * slider.clientWidth, behavior:'smooth'});
+    });
+
+    strip.appendChild(btn);
+  });
+
+  slider.insertAdjacentElement('afterend', strip);
+
+  slider.addEventListener('scroll', function() {
+    var idx = Math.round(slider.scrollLeft / (slider.clientWidth || 1));
+    Array.from(strip.children).forEach(function(btn, i) {
+      btn.style.borderColor = i === idx ? '#c9a227' : 'transparent';
+      btn.style.opacity = i === idx ? '1' : '.72';
+    });
+  }, {passive:true});
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', ensureBajiThumbStrip5117);
+} else {
+  ensureBajiThumbStrip5117();
+}
