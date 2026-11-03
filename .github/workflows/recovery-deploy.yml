@@ -30,7 +30,7 @@ jobs:
           php -l template-parts/home-category-products.php >/dev/null
           php -l template-parts/sale-products.php >/dev/null
 
-      - name: Free safe theme space and deploy gallery fix
+      - name: Free unused icon-font space and restore product template
         env:
           FTP_SERVER: ${{ secrets.FTP_SERVER }}
           FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
@@ -43,37 +43,39 @@ jobs:
           ftp.connect(os.environ["FTP_SERVER"], 21, timeout=30)
           ftp.login(os.environ["FTP_USERNAME"], os.environ["FTP_PASSWORD"])
 
-          # Development/backup files; none are required by WordPress at runtime.
-          disposable = (
-              ".ftp-deploy-sync-state.json",
-              ".impeccable.md",
-              "CLAUDE.md",
-              "package.json",
-              "webpack.config.js",
-              "woocommerce/single-product_old.php",
-              "tests/wishlist-experience.test.php",
-              "tests/single-product-merchandising.test.php",
-              "tests/search-experience.test.php",
-              "tests/home-category-products.test.php",
-              "tests/product-video-template.test.php",
+          unused_fonts = (
+              "assets/webfonts/fa-duotone-light-300.woff2",
+              "assets/webfonts/fa-duotone-regular-400.woff2",
+              "assets/webfonts/fa-sharp-duotone-thin-100.woff2",
+              "assets/webfonts/fa-sharp-duotone-light-300.woff2",
+              "assets/webfonts/fa-sharp-duotone-regular-400.woff2",
+              "assets/webfonts/fa-thin-100.woff2",
+              "assets/webfonts/fa-light-300.woff2",
+              "assets/webfonts/fa-regular-400.woff2",
+              "assets/webfonts/fa-duotone-900.woff2",
+              "assets/webfonts/fa-sharp-thin-100.woff2",
+              "assets/webfonts/fa-sharp-light-300.woff2",
+              "assets/webfonts/fa-sharp-regular-400.woff2",
+              "assets/webfonts/fa-sharp-duotone-solid-900.woff2",
+              "assets/webfonts/fa-sharp-solid-900.woff2",
           )
-          for path in disposable:
+          for path in unused_fonts:
               try:
                   ftp.delete(path)
                   print("DELETED", path)
               except ftplib.all_errors as exc:
                   print("SKIP_DELETE", path, exc)
 
-          for path in ("woocommerce/single-product.php",):
-              try:
-                  ftp.delete(path)
-                  print("REMOVED_OLD", path)
-              except ftplib.all_errors as exc:
-                  print("DELETE_OLD", path, exc)
-              with open(path, "rb") as fh:
-                  ftp.storbinary("STOR " + path, fh, blocksize=8192)
-              print("DEPLOYED", path)
+          path = "woocommerce/single-product.php"
+          try:
+              ftp.delete(path)
+              print("REMOVED_OLD", path)
+          except ftplib.all_errors as exc:
+              print("DELETE_OLD", path, exc)
 
+          with open(path, "rb") as fh:
+              ftp.storbinary("STOR " + path, fh, blocksize=8192)
+          print("RESTORED", path)
           ftp.quit()
           PY
 
