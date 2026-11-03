@@ -42,19 +42,30 @@ jobs:
           ftp = ftplib.FTP()
           ftp.connect(os.environ["FTP_SERVER"], 21, timeout=30)
           ftp.login(os.environ["FTP_USERNAME"], os.environ["FTP_PASSWORD"])
-
-          disposable = "assets/webfonts/fa-duotone-thin-100.woff2"
-          try:
-              ftp.delete(disposable)
-              print(f"FREED {disposable}")
-          except ftplib.all_errors as exc:
-              print(f"SKIP_DELETE {disposable}: {exc}")
-
-          path = "assets/js/woocommerce.js"
-          with open(path, "rb") as fh:
-              ftp.storbinary("STOR " + path, fh, blocksize=16384)
-          print("UPLOADED", path)
-
+          print("PWD", ftp.pwd())
+          def walk(path=".", depth=0, max_depth=3):
+              if depth > max_depth:
+                  return
+              try:
+                  entries = []
+                  ftp.retrlines("MLSD " + path, entries.append)
+              except Exception as exc:
+                  print("MLSD_FAIL", path, exc)
+                  return
+              for line in entries:
+                  print("ENTRY", path, line)
+                  parts = line.split(";")
+                  facts = {}
+                  name = ""
+                  for part in parts:
+                      if "=" in part:
+                          k,v = part.split("=",1)
+                          facts[k.strip().lower()] = v.strip()
+                      elif part.strip():
+                          name = part.strip()
+                  if facts.get("type") == "dir" and name not in (".",".."):
+                      walk((path.rstrip("/") + "/" + name), depth+1, max_depth)
+          walk(".", 0, 2)
           ftp.quit()
           PY
 
