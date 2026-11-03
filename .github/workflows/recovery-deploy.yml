@@ -64,7 +64,7 @@ jobs:
               except ftplib.all_errors as exc:
                   print("SKIP_DELETE", path, exc)
 
-          for path in ("assets/js/woocommerce.js", "functions.php"):
+          for path in ("woocommerce/single-product.php",):
               try:
                   ftp.delete(path)
                   print("REMOVED_OLD", path)
