@@ -254,3 +254,68 @@ if ( document.readyState === 'loading' ) {
 } else {
 	initBajiStyleWooCommerce();
 }
+
+
+/**
+ * Enable touch swipe navigation for WooCommerce product galleries.
+ * Keeps the current gallery UI and adds left/right swipe on mobile.
+ */
+function initProductGallerySwipe() {
+  document.querySelectorAll('.woocommerce-product-gallery').forEach(function(gallery) {
+    if (gallery.dataset.bajiSwipeReady === '1') return;
+    gallery.dataset.bajiSwipeReady = '1';
+
+    var startX = 0;
+    var startY = 0;
+    var tracking = false;
+
+    function getThumbs() {
+      return Array.from(gallery.querySelectorAll('.flex-control-thumbs img'));
+    }
+
+    function getActiveIndex(thumbs) {
+      var idx = thumbs.findIndex(function(img) {
+        return img.classList.contains('flex-active');
+      });
+      return idx >= 0 ? idx : 0;
+    }
+
+    function go(delta) {
+      var thumbs = getThumbs();
+      if (thumbs.length < 2) return;
+
+      var current = getActiveIndex(thumbs);
+      var next = current + delta;
+      if (next < 0) next = thumbs.length - 1;
+      if (next >= thumbs.length) next = 0;
+
+      thumbs[next].dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }));
+    }
+
+    gallery.addEventListener('touchstart', function(e) {
+      if (!e.touches || e.touches.length !== 1) return;
+      startX = e.touches[0].clientX;
+      startY = e.touches[0].clientY;
+      tracking = true;
+    }, { passive: true });
+
+    gallery.addEventListener('touchend', function(e) {
+      if (!tracking || !e.changedTouches || !e.changedTouches.length) return;
+      tracking = false;
+
+      var dx = e.changedTouches[0].clientX - startX;
+      var dy = e.changedTouches[0].clientY - startY;
+
+      if (Math.abs(dx) < 45 || Math.abs(dx) <= Math.abs(dy)) return;
+
+      // RTL-friendly: swipe left => next, swipe right => previous.
+      go(dx < 0 ? 1 : -1);
+    }, { passive: true });
+  });
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initProductGallerySwipe);
+} else {
+  initProductGallerySwipe();
+}
