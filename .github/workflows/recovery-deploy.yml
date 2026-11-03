@@ -32,34 +32,23 @@ jobs:
           php -l template-parts/home-category-products.php >/dev/null
           php -l template-parts/sale-products.php >/dev/null
 
-      - name: Upload temporary LiteSpeed purge endpoint
+      - name: Remove temporary cache purge endpoint
         env:
           FTP_SERVER: ${{ secrets.FTP_SERVER }}
           FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
           FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
         run: |
-          cat > cache-purge.php <<'PHP'
-          <?php
-          if (!isset($_GET['k']) || $_GET['k'] !== 'baji5117purge') { http_response_code(403); exit('NO'); }
-          require_once __DIR__ . '/../../../wp-load.php';
-          $done = false;
-          if (class_exists('LiteSpeed_Cache_API') && method_exists('LiteSpeed_Cache_API','purge_all')) {
-              LiteSpeed_Cache_API::purge_all();
-              $done = true;
-          }
-          do_action('litespeed_purge_all');
-          clean_post_cache(5117);
-          echo $done ? 'LSCACHE_PURGED' : 'PURGE_ACTION_SENT';
-          PHP
           python3 - <<'PY'
           import ftplib, os
           ftp=ftplib.FTP()
           ftp.connect(os.environ["FTP_SERVER"],21,timeout=30)
           ftp.login(os.environ["FTP_USERNAME"],os.environ["FTP_PASSWORD"])
-          with open("cache-purge.php","rb") as fh:
-              ftp.storbinary("STOR cache-purge.php",fh,blocksize=4096)
+          try:
+              ftp.delete("cache-purge.php")
+              print("CACHE_PURGE_ENDPOINT_REMOVED")
+          except ftplib.all_errors as exc:
+              print("CACHE_PURGE_ENDPOINT_DELETE", exc)
           ftp.quit()
-          print("CACHE_PURGE_ENDPOINT_UPLOADED")
           PY
 
       - name: Verify production
