@@ -32,7 +32,7 @@ jobs:
           php -l template-parts/home-category-products.php >/dev/null
           php -l template-parts/sale-products.php >/dev/null
 
-      - name: Remove temporary cache purge endpoint
+      - name: Deploy product gallery template
         env:
           FTP_SERVER: ${{ secrets.FTP_SERVER }}
           FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
@@ -43,11 +43,22 @@ jobs:
           ftp=ftplib.FTP()
           ftp.connect(os.environ["FTP_SERVER"],21,timeout=30)
           ftp.login(os.environ["FTP_USERNAME"],os.environ["FTP_PASSWORD"])
+
+          for old in ("cache-purge.php","opcache-reset.php"):
+              try:
+                  ftp.delete(old)
+                  print("REMOVED_TEMP", old)
+              except ftplib.all_errors:
+                  pass
+
+          path="woocommerce/single-product.php"
           try:
-              ftp.delete("cache-purge.php")
-              print("CACHE_PURGE_ENDPOINT_REMOVED")
-          except ftplib.all_errors as exc:
-              print("CACHE_PURGE_ENDPOINT_DELETE", exc)
+              ftp.delete(path)
+          except ftplib.all_errors:
+              pass
+          with open(path,"rb") as fh:
+              ftp.storbinary("STOR "+path,fh,blocksize=8192)
+          print("DEPLOYED",path)
           ftp.quit()
           PY
 
