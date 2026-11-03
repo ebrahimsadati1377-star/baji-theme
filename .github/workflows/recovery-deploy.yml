@@ -30,7 +30,7 @@ jobs:
           php -l template-parts/home-category-products.php >/dev/null
           php -l template-parts/sale-products.php >/dev/null
 
-      - name: Recover truncated production PHP
+      - name: Free safe theme space and deploy gallery fix
         env:
           FTP_SERVER: ${{ secrets.FTP_SERVER }}
           FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
@@ -43,26 +43,36 @@ jobs:
           ftp.connect(os.environ["FTP_SERVER"], 21, timeout=30)
           ftp.login(os.environ["FTP_USERNAME"], os.environ["FTP_PASSWORD"])
 
-          # This generated deploy-state file is safe to remove and frees enough
-          # quota to restore the PHP file that was truncated by the previous
-          # failed FTP write.
-          for disposable in (".ftp-deploy-sync-state.json",):
+          # Development/backup files; none are required by WordPress at runtime.
+          disposable = (
+              ".ftp-deploy-sync-state.json",
+              ".impeccable.md",
+              "CLAUDE.md",
+              "package.json",
+              "webpack.config.js",
+              "woocommerce/single-product_old.php",
+              "tests/wishlist-experience.test.php",
+              "tests/single-product-merchandising.test.php",
+              "tests/search-experience.test.php",
+              "tests/home-category-products.test.php",
+              "tests/product-video-template.test.php",
+          )
+          for path in disposable:
               try:
-                  ftp.delete(disposable)
-                  print("DELETED", disposable)
+                  ftp.delete(path)
+                  print("DELETED", path)
               except ftplib.all_errors as exc:
-                  print("SKIP_DELETE", disposable, exc)
+                  print("SKIP_DELETE", path, exc)
 
-          path = "inc/order-attribution-recovered.php"
-          try:
-              ftp.delete(path)
-              print("REMOVED_TRUNCATED", path)
-          except ftplib.all_errors as exc:
-              print("DELETE_OLD", path, exc)
-
-          with open(path, "rb") as fh:
-              ftp.storbinary("STOR " + path, fh, blocksize=8192)
-          print("RESTORED", path)
+          for path in ("assets/js/woocommerce.js", "functions.php"):
+              try:
+                  ftp.delete(path)
+                  print("REMOVED_OLD", path)
+              except ftplib.all_errors as exc:
+                  print("DELETE_OLD", path, exc)
+              with open(path, "rb") as fh:
+                  ftp.storbinary("STOR " + path, fh, blocksize=8192)
+              print("DEPLOYED", path)
 
           ftp.quit()
           PY
