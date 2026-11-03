@@ -90,6 +90,11 @@ get_header();
 							user-select:none;
 							-webkit-user-drag:none;
 						}
+						.baji-native-thumbs-5117{display:flex;gap:8px;overflow-x:auto;margin-top:10px;padding:2px 0 6px;scrollbar-width:none;direction:ltr}
+						.baji-native-thumbs-5117::-webkit-scrollbar{display:none}
+						.baji-native-thumb-5117{flex:0 0 66px;width:66px;height:82px;padding:0;border:2px solid transparent;border-radius:8px;overflow:hidden;background:#fff;opacity:.7}
+						.baji-native-thumb-5117.is-active{border-color:#c9a227;opacity:1}
+						.baji-native-thumb-5117 img{width:100%;height:100%;object-fit:cover;display:block}
 						.baji-native-swipe-hint{
 							text-align:center;
 							font-size:12px;
@@ -97,16 +102,40 @@ get_header();
 							margin-top:7px;
 						}
 					</style>
-					<div class="baji-native-swipe-5117" dir="ltr" aria-label="گالری تصاویر محصول">
+					<div class="baji-native-swipe-5117" id="baji-native-swipe-5117" dir="ltr" aria-label="گالری تصاویر محصول">
 						<?php foreach ( $direct_gallery as $index => $url ) : ?>
-							<div class="baji-native-slide">
+							<div class="baji-native-slide" data-index="<?php echo esc_attr( $index ); ?>">
 								<img src="<?php echo esc_url( $url ); ?>"
 									alt="<?php echo esc_attr( sprintf( 'تصویر %d کیف دوشی زنانه قهوه‌ای باجی', $index + 1 ) ); ?>"
 									<?php echo 0 === $index ? 'loading="eager"' : 'loading="lazy"'; ?>>
 							</div>
 						<?php endforeach; ?>
 					</div>
+					<div class="baji-native-thumbs-5117" dir="ltr" aria-label="تصاویر کوچک محصول">
+						<?php foreach ( $direct_gallery as $index => $url ) : ?>
+							<button type="button" class="baji-native-thumb-5117<?php echo 0 === $index ? ' is-active' : ''; ?>" data-index="<?php echo esc_attr( $index ); ?>" aria-label="<?php echo esc_attr( sprintf( 'تصویر %d محصول', $index + 1 ) ); ?>">
+								<img src="<?php echo esc_url( $url ); ?>" alt="" loading="lazy">
+							</button>
+						<?php endforeach; ?>
+					</div>
 					<div class="baji-native-swipe-hint">برای دیدن تصاویر بعدی، روی عکس به چپ یا راست بکشید</div>
+					<script>
+					(function(){
+						var slider=document.getElementById('baji-native-swipe-5117');
+						if(!slider)return;
+						var thumbs=Array.from(document.querySelectorAll('.baji-native-thumb-5117'));
+						thumbs.forEach(function(btn){
+							btn.addEventListener('click',function(){
+								var i=parseInt(btn.getAttribute('data-index')||'0',10);
+								slider.scrollTo({left:i*slider.clientWidth,behavior:'smooth'});
+							});
+						});
+						slider.addEventListener('scroll',function(){
+							var i=Math.round(slider.scrollLeft/(slider.clientWidth||1));
+							thumbs.forEach(function(t,idx){t.classList.toggle('is-active',idx===i);});
+						},{passive:true});
+					})();
+					</script>
 				<?php endif; ?>
 			</div>
 
