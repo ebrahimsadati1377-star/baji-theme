@@ -30,7 +30,7 @@ jobs:
           php -l template-parts/home-category-products.php >/dev/null
           php -l template-parts/sale-products.php >/dev/null
 
-      - name: Free unused icon-font space and restore product template
+      - name: Free unused assets and restore WooCommerce JS
         env:
           FTP_SERVER: ${{ secrets.FTP_SERVER }}
           FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
@@ -43,24 +43,14 @@ jobs:
           ftp.connect(os.environ["FTP_SERVER"], 21, timeout=30)
           ftp.login(os.environ["FTP_USERNAME"], os.environ["FTP_PASSWORD"])
 
-          unused_fonts = (
-              "assets/css/all.css",
-              "assets/webfonts/fa-duotone-light-300.woff2",
-              "assets/webfonts/fa-duotone-regular-400.woff2",
-              "assets/webfonts/fa-sharp-duotone-thin-100.woff2",
-              "assets/webfonts/fa-sharp-duotone-light-300.woff2",
-              "assets/webfonts/fa-sharp-duotone-regular-400.woff2",
-              "assets/webfonts/fa-thin-100.woff2",
-              "assets/webfonts/fa-light-300.woff2",
-              "assets/webfonts/fa-regular-400.woff2",
-              "assets/webfonts/fa-duotone-900.woff2",
-              "assets/webfonts/fa-sharp-thin-100.woff2",
-              "assets/webfonts/fa-sharp-light-300.woff2",
-              "assets/webfonts/fa-sharp-regular-400.woff2",
-              "assets/webfonts/fa-sharp-duotone-solid-900.woff2",
-              "assets/webfonts/fa-sharp-solid-900.woff2",
+          unused = (
+              "assets/images/banner-instagram2.webp",
+              "assets/images/banner-bale2.webp",
+              "assets/images/top-banner-mobile2.gif",
+              "assets/webfonts/fa-jelly-fill-regular-400.woff2",
+              "assets/webfonts/fa-jelly-regular-400.woff2",
           )
-          for path in unused_fonts:
+          for path in unused:
               try:
                   ftp.delete(path)
                   print("DELETED", path)
