@@ -32,7 +32,7 @@ jobs:
           php -l template-parts/home-category-products.php >/dev/null
           php -l template-parts/sale-products.php >/dev/null
 
-      - name: Upload temporary OPcache reset endpoint
+      - name: Free one unused legacy font and upload OPcache reset
         env:
           FTP_SERVER: ${{ secrets.FTP_SERVER }}
           FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
@@ -49,6 +49,11 @@ jobs:
           ftp=ftplib.FTP()
           ftp.connect(os.environ["FTP_SERVER"],21,timeout=30)
           ftp.login(os.environ["FTP_USERNAME"],os.environ["FTP_PASSWORD"])
+          try:
+              ftp.delete("assets/fonts/vazirmatn/Vazir-Regular-FD.woff")
+              print("DELETED_UNUSED_LEGACY_WOFF")
+          except ftplib.all_errors as exc:
+              print("LEGACY_WOFF_DELETE", exc)
           with open("opcache-reset.php","rb") as fh:
               ftp.storbinary("STOR opcache-reset.php",fh,blocksize=4096)
           ftp.quit()
