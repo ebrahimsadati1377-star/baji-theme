@@ -30,7 +30,7 @@ jobs:
           php -l template-parts/home-category-products.php >/dev/null
           php -l template-parts/sale-products.php >/dev/null
 
-      - name: Free safe theme space and restore PHP
+      - name: Recover truncated production PHP
         env:
           FTP_SERVER: ${{ secrets.FTP_SERVER }}
           FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
@@ -42,30 +42,28 @@ jobs:
           ftp = ftplib.FTP()
           ftp.connect(os.environ["FTP_SERVER"], 21, timeout=30)
           ftp.login(os.environ["FTP_USERNAME"], os.environ["FTP_PASSWORD"])
-          print("PWD", ftp.pwd())
-          def walk(path=".", depth=0, max_depth=3):
-              if depth > max_depth:
-                  return
+
+          # This generated deploy-state file is safe to remove and frees enough
+          # quota to restore the PHP file that was truncated by the previous
+          # failed FTP write.
+          for disposable in (".ftp-deploy-sync-state.json",):
               try:
-                  entries = []
-                  ftp.retrlines("MLSD " + path, entries.append)
-              except Exception as exc:
-                  print("MLSD_FAIL", path, exc)
-                  return
-              for line in entries:
-                  print("ENTRY", path, line)
-                  parts = line.split(";")
-                  facts = {}
-                  name = ""
-                  for part in parts:
-                      if "=" in part:
-                          k,v = part.split("=",1)
-                          facts[k.strip().lower()] = v.strip()
-                      elif part.strip():
-                          name = part.strip()
-                  if facts.get("type") == "dir" and name not in (".",".."):
-                      walk((path.rstrip("/") + "/" + name), depth+1, max_depth)
-          walk(".", 0, 2)
+                  ftp.delete(disposable)
+                  print("DELETED", disposable)
+              except ftplib.all_errors as exc:
+                  print("SKIP_DELETE", disposable, exc)
+
+          path = "inc/order-attribution-recovered.php"
+          try:
+              ftp.delete(path)
+              print("REMOVED_TRUNCATED", path)
+          except ftplib.all_errors as exc:
+              print("DELETE_OLD", path, exc)
+
+          with open(path, "rb") as fh:
+              ftp.storbinary("STOR " + path, fh, blocksize=8192)
+          print("RESTORED", path)
+
           ftp.quit()
           PY
 
