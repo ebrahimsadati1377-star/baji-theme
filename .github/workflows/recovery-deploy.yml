@@ -44,6 +44,7 @@ jobs:
           ftp.login(os.environ["FTP_USERNAME"], os.environ["FTP_PASSWORD"])
 
           unused_fonts = (
+              "assets/css/all.css",
               "assets/webfonts/fa-duotone-light-300.woff2",
               "assets/webfonts/fa-duotone-regular-400.woff2",
               "assets/webfonts/fa-sharp-duotone-thin-100.woff2",
