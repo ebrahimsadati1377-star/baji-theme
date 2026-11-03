@@ -45,7 +45,9 @@ jobs:
           ftp.connect(os.environ["FTP_SERVER"], 21, timeout=30)
           ftp.login(os.environ["FTP_USERNAME"], os.environ["FTP_PASSWORD"])
 
-          unused = (\n              "languages/fa_IR.po",\n              "languages/bajistyle.pot",
+          unused = (
+              "languages/fa_IR.po",
+              "languages/bajistyle.pot",
               "assets/webfonts/fa-duotone-thin-100.woff2",
               "assets/images/banner-instagram2.webp",
               "assets/images/banner-bale2.webp",
