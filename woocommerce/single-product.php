@@ -47,7 +47,63 @@ get_header();
 			<div class="baji-product-gallery-wrapper relative group">
 				<?php
 				do_action( 'woocommerce_before_single_product_summary' );
-				?>
+
+				// Server-rendered gallery fallback: always expose gallery thumbnails
+				// even if WooCommerce FlexSlider fails to initialize because of cache/defer.
+				$gallery_ids = $product->get_gallery_image_ids();
+				if ( ! empty( $gallery_ids ) ) :
+					$featured_id = $product->get_image_id();
+					$all_image_ids = array_values( array_filter( array_unique( array_merge( array( $featured_id ), $gallery_ids ) ) ) );
+					?>
+					<div class="baji-server-gallery-fallback" data-product-gallery-fallback="<?php echo esc_attr( $product->get_id() ); ?>">
+						<div class="baji-server-gallery-thumbs" role="list" aria-label="<?php esc_attr_e( 'تصاویر محصول', 'bajistyle' ); ?>">
+							<?php foreach ( $all_image_ids as $index => $image_id ) :
+								$full = wp_get_attachment_image_url( $image_id, 'full' );
+								$thumb = wp_get_attachment_image_url( $image_id, 'woocommerce_gallery_thumbnail' );
+								$alt = get_post_meta( $image_id, '_wp_attachment_image_alt', true );
+								if ( ! $full ) { continue; }
+								?>
+								<button type="button"
+									class="baji-server-gallery-thumb<?php echo 0 === $index ? ' is-active' : ''; ?>"
+									data-full="<?php echo esc_url( $full ); ?>"
+									aria-label="<?php echo esc_attr( sprintf( 'تصویر %d محصول', $index + 1 ) ); ?>">
+									<img src="<?php echo esc_url( $thumb ?: $full ); ?>" alt="<?php echo esc_attr( $alt ); ?>" loading="lazy">
+								</button>
+							<?php endforeach; ?>
+						</div>
+					</div>
+					<style>
+						.baji-server-gallery-thumbs{display:flex;gap:10px;overflow-x:auto;margin-top:12px;padding:2px 0 8px;scrollbar-width:thin}
+						.baji-server-gallery-thumb{flex:0 0 72px;width:72px;height:90px;padding:0;border:1px solid #e5e7eb;background:#fff;border-radius:8px;overflow:hidden;cursor:pointer;opacity:.72}
+						.baji-server-gallery-thumb.is-active{opacity:1;border-color:#c9a227;box-shadow:0 0 0 1px #c9a227}
+						.baji-server-gallery-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+					</style>
+					<script>
+					(function(){
+						function initBajiServerGallery(){
+							document.querySelectorAll('.baji-server-gallery-fallback').forEach(function(fallback){
+								var gallery = fallback.closest('.baji-product-gallery-wrapper');
+								if(!gallery) return;
+								fallback.querySelectorAll('.baji-server-gallery-thumb').forEach(function(btn){
+									btn.addEventListener('click', function(){
+										var src = btn.getAttribute('data-full');
+										var main = gallery.querySelector('.woocommerce-product-gallery__image.flex-active-slide img, .woocommerce-product-gallery__image img, img.wp-post-image');
+										if(main && src){
+											main.src = src;
+											main.srcset = '';
+											var link = main.closest('a');
+											if(link) link.href = src;
+										}
+										fallback.querySelectorAll('.baji-server-gallery-thumb').forEach(function(x){x.classList.remove('is-active');});
+										btn.classList.add('is-active');
+									});
+								});
+							});
+						}
+						if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',initBajiServerGallery);}else{initBajiServerGallery();}
+					})();
+					</script>
+				<?php endif; ?>
 			</div>
 
 			<!-- اطلاعات و مشخصات محصول -->
