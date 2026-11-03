@@ -427,3 +427,89 @@ if (document.readyState === 'loading') {
 } else {
   initBajiDirectSwipe5117();
 }
+
+
+/**
+ * Product 5117: native mobile swipe gallery using horizontal scrolling.
+ * No touch-event detection is required; the browser handles finger swipes.
+ */
+function initBajiNativeSwipe5117() {
+  if (!document.body.classList.contains('postid-5117')) return;
+
+  var gallery = document.querySelector('.woocommerce-product-gallery');
+  if (!gallery || gallery.dataset.bajiNativeSwipeReady === '1') return;
+  gallery.dataset.bajiNativeSwipeReady = '1';
+
+  var images = [
+    'https://manage.bajistyle.ir/uploads/chatgpt/baji-bag-final-01-20261103-175137-4d212f.jpg',
+    'https://manage.bajistyle.ir/uploads/chatgpt/baji-bag-final-02-20261103-175423-fb329a.jpg',
+    'https://manage.bajistyle.ir/uploads/chatgpt/baji-bag-final-03-20261103-175456-2515e0.jpg',
+    'https://manage.bajistyle.ir/uploads/chatgpt/baji-bag-final-04-20261103-175459-eb08a8.jpg',
+    'https://manage.bajistyle.ir/uploads/chatgpt/baji-bag-final-05-20261103-175503-1bd0f3.jpg',
+    'https://manage.bajistyle.ir/uploads/chatgpt/baji-bag-final-06-20261103-175507-447377.jpg',
+    'https://manage.bajistyle.ir/uploads/chatgpt/baji-bag-final-07-20261103-175510-b09c58.jpg'
+  ];
+
+  // Hide WooCommerce's one-image wrapper for this product only.
+  var nativeWrapper = gallery.querySelector('.woocommerce-product-gallery__wrapper');
+  if (nativeWrapper) nativeWrapper.style.display = 'none';
+
+  var nativeThumbs = gallery.querySelector('.flex-control-thumbs');
+  if (nativeThumbs) nativeThumbs.style.display = 'none';
+
+  var slider = document.createElement('div');
+  slider.className = 'baji-native-swipe-5117';
+  slider.style.cssText =
+    'display:flex;overflow-x:auto;overflow-y:hidden;width:100%;' +
+    'scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;' +
+    'scrollbar-width:none;touch-action:pan-x pan-y;overscroll-behavior-x:contain;';
+
+  images.forEach(function(src, idx) {
+    var slide = document.createElement('div');
+    slide.style.cssText =
+      'flex:0 0 100%;width:100%;scroll-snap-align:start;scroll-snap-stop:always;';
+
+    var img = document.createElement('img');
+    img.src = src;
+    img.alt = 'تصویر ' + (idx + 1) + ' کیف دوشی زنانه قهوه‌ای باجی';
+    img.draggable = false;
+    img.loading = idx === 0 ? 'eager' : 'lazy';
+    img.style.cssText =
+      'display:block;width:100%;height:auto;object-fit:contain;user-select:none;-webkit-user-drag:none;';
+
+    slide.appendChild(img);
+    slider.appendChild(slide);
+  });
+
+  // Small dot indicator, no duplicate thumbnails.
+  var dots = document.createElement('div');
+  dots.className = 'baji-native-swipe-dots-5117';
+  dots.style.cssText =
+    'display:flex;justify-content:center;gap:6px;margin-top:8px;direction:ltr;';
+
+  images.forEach(function(_, idx) {
+    var dot = document.createElement('span');
+    dot.style.cssText =
+      'width:7px;height:7px;border-radius:50%;background:' +
+      (idx === 0 ? '#111' : '#d1d5db') + ';display:block;transition:.2s;';
+    dots.appendChild(dot);
+  });
+
+  slider.addEventListener('scroll', function() {
+    var width = slider.clientWidth || 1;
+    var idx = Math.round(slider.scrollLeft / width);
+    idx = Math.max(0, Math.min(images.length - 1, idx));
+    Array.from(dots.children).forEach(function(dot, i) {
+      dot.style.background = i === idx ? '#111' : '#d1d5db';
+    });
+  }, { passive: true });
+
+  gallery.appendChild(slider);
+  gallery.appendChild(dots);
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initBajiNativeSwipe5117);
+} else {
+  initBajiNativeSwipe5117();
+}
