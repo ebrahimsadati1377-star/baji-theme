@@ -73,6 +73,8 @@ get_header();
 						</div>
 					</div>
 					<style>
+						/* Use only the server-rendered 7-image strip to avoid duplicate native/FlexSlider thumbs. */
+						.baji-product-gallery-wrapper .flex-control-thumbs{display:none!important}
 						.baji-server-gallery-thumbs{display:flex;gap:10px;overflow-x:auto;margin-top:12px;padding:2px 0 8px;scrollbar-width:thin}
 						.baji-server-gallery-thumb{flex:0 0 72px;width:72px;height:90px;padding:0;border:1px solid #e5e7eb;background:#fff;border-radius:8px;overflow:hidden;cursor:pointer;opacity:.72}
 						.baji-server-gallery-thumb.is-active{opacity:1;border-color:#c9a227;box-shadow:0 0 0 1px #c9a227}
