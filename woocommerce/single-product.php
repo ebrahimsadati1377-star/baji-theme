@@ -48,32 +48,33 @@ get_header();
 				<?php
 				do_action( 'woocommerce_before_single_product_summary' );
 
-				// Server-rendered gallery fallback: always expose gallery thumbnails
-				// even if WooCommerce FlexSlider fails to initialize because of cache/defer.
-				$gallery_ids = $product->get_gallery_image_ids();
-				if ( ! empty( $gallery_ids ) ) :
-					$featured_id = $product->get_image_id();
-					$all_image_ids = array_values( array_filter( array_unique( array_merge( array( $featured_id ), $gallery_ids ) ) ) );
+				// Server-rendered gallery fallback.
+				// Product 5117 uses the final seven distinct BAJI images directly
+				// from WC Manager so stale/duplicate WordPress media IDs cannot interfere.
+				if ( 5117 === (int) $product->get_id() ) :
+					$direct_gallery = array(
+						array( 'url' => 'https://manage.bajistyle.ir/uploads/chatgpt/baji-bag-final-01-20261103-175137-4d212f.jpg', 'alt' => 'نمای اصلی کیف دوشی زنانه قهوه‌ای باجی' ),
+						array( 'url' => 'https://manage.bajistyle.ir/uploads/chatgpt/baji-bag-final-02-20261103-175423-fb329a.jpg', 'alt' => 'نمای سه رخ کیف دوشی زنانه قهوه‌ای باجی' ),
+						array( 'url' => 'https://manage.bajistyle.ir/uploads/chatgpt/baji-bag-final-03-20261103-175456-2515e0.jpg', 'alt' => 'نمای کناری کیف دوشی زنانه قهوه‌ای باجی' ),
+						array( 'url' => 'https://manage.bajistyle.ir/uploads/chatgpt/baji-bag-final-04-20261103-175459-eb08a8.jpg', 'alt' => 'نمای زاویه بالا و کف کیف دوشی زنانه قهوه‌ای باجی' ),
+						array( 'url' => 'https://manage.bajistyle.ir/uploads/chatgpt/baji-bag-final-05-20261103-175503-1bd0f3.jpg', 'alt' => 'جزئیات بند و یراق کیف دوشی زنانه قهوه‌ای باجی' ),
+						array( 'url' => 'https://manage.bajistyle.ir/uploads/chatgpt/baji-bag-final-06-20261103-175507-447377.jpg', 'alt' => 'فضای داخلی کیف دوشی زنانه قهوه‌ای باجی' ),
+						array( 'url' => 'https://manage.bajistyle.ir/uploads/chatgpt/baji-bag-final-07-20261103-175510-b09c58.jpg', 'alt' => 'استایل کیف دوشی زنانه قهوه‌ای باجی روی دوش' ),
+					);
 					?>
 					<div class="baji-server-gallery-fallback" data-product-gallery-fallback="<?php echo esc_attr( $product->get_id() ); ?>">
 						<div class="baji-server-gallery-thumbs" role="list" aria-label="<?php esc_attr_e( 'تصاویر محصول', 'bajistyle' ); ?>">
-							<?php foreach ( $all_image_ids as $index => $image_id ) :
-								$full = wp_get_attachment_image_url( $image_id, 'full' );
-								$thumb = wp_get_attachment_image_url( $image_id, 'woocommerce_gallery_thumbnail' );
-								$alt = get_post_meta( $image_id, '_wp_attachment_image_alt', true );
-								if ( ! $full ) { continue; }
-								?>
+							<?php foreach ( $direct_gallery as $index => $item ) : ?>
 								<button type="button"
 									class="baji-server-gallery-thumb<?php echo 0 === $index ? ' is-active' : ''; ?>"
-									data-full="<?php echo esc_url( $full ); ?>"
+									data-full="<?php echo esc_url( $item['url'] ); ?>"
 									aria-label="<?php echo esc_attr( sprintf( 'تصویر %d محصول', $index + 1 ) ); ?>">
-									<img src="<?php echo esc_url( $thumb ?: $full ); ?>" alt="<?php echo esc_attr( $alt ); ?>" loading="lazy">
+									<img src="<?php echo esc_url( $item['url'] ); ?>" alt="<?php echo esc_attr( $item['alt'] ); ?>" loading="lazy">
 								</button>
 							<?php endforeach; ?>
 						</div>
 					</div>
 					<style>
-						/* Use only the server-rendered 7-image strip to avoid duplicate native/FlexSlider thumbs. */
 						.baji-product-gallery-wrapper .flex-control-thumbs{display:none!important}
 						.baji-server-gallery-thumbs{display:flex;gap:10px;overflow-x:auto;margin-top:12px;padding:2px 0 8px;scrollbar-width:thin}
 						.baji-server-gallery-thumb{flex:0 0 72px;width:72px;height:90px;padding:0;border:1px solid #e5e7eb;background:#fff;border-radius:8px;overflow:hidden;cursor:pointer;opacity:.72}
@@ -82,27 +83,28 @@ get_header();
 					</style>
 					<script>
 					(function(){
-						function initBajiServerGallery(){
+						function initBajiDirectGallery(){
 							document.querySelectorAll('.baji-server-gallery-fallback').forEach(function(fallback){
 								var gallery = fallback.closest('.baji-product-gallery-wrapper');
 								if(!gallery) return;
-								fallback.querySelectorAll('.baji-server-gallery-thumb').forEach(function(btn){
-									btn.addEventListener('click', function(){
-										var src = btn.getAttribute('data-full');
-										var main = gallery.querySelector('.woocommerce-product-gallery__image.flex-active-slide img, .woocommerce-product-gallery__image img, img.wp-post-image');
-										if(main && src){
-											main.src = src;
-											main.srcset = '';
-											var link = main.closest('a');
-											if(link) link.href = src;
-										}
-										fallback.querySelectorAll('.baji-server-gallery-thumb').forEach(function(x){x.classList.remove('is-active');});
+								var buttons = fallback.querySelectorAll('.baji-server-gallery-thumb');
+								var main = gallery.querySelector('.woocommerce-product-gallery__image.flex-active-slide img, .woocommerce-product-gallery__image img, img.wp-post-image');
+								if(main && buttons.length){
+									var first = buttons[0].getAttribute('data-full');
+									if(first){ main.src=first; main.srcset=''; var a=main.closest('a'); if(a) a.href=first; }
+								}
+								buttons.forEach(function(btn){
+									btn.addEventListener('click',function(){
+										var src=btn.getAttribute('data-full');
+										var img=gallery.querySelector('.woocommerce-product-gallery__image.flex-active-slide img, .woocommerce-product-gallery__image img, img.wp-post-image');
+										if(img && src){ img.src=src; img.srcset=''; var link=img.closest('a'); if(link) link.href=src; }
+										buttons.forEach(function(x){x.classList.remove('is-active');});
 										btn.classList.add('is-active');
 									});
 								});
 							});
 						}
-						if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',initBajiServerGallery);}else{initBajiServerGallery();}
+						if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',initBajiDirectGallery);}else{initBajiDirectGallery();}
 					})();
 					</script>
 				<?php endif; ?>
