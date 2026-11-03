@@ -32,47 +32,27 @@ jobs:
           php -l template-parts/home-category-products.php >/dev/null
           php -l template-parts/sale-products.php >/dev/null
 
-      - name: Free unused assets and restore WooCommerce JS
+      - name: Upload temporary OPcache reset endpoint
         env:
           FTP_SERVER: ${{ secrets.FTP_SERVER }}
           FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
           FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
         run: |
+          cat > opcache-reset.php <<'PHP'
+          <?php
+          header('Content-Type: text/plain; charset=utf-8');
+          $ok = function_exists('opcache_reset') ? opcache_reset() : false;
+          echo $ok ? 'OPCACHE_RESET_OK' : 'OPCACHE_RESET_UNAVAILABLE';
+          PHP
           python3 - <<'PY'
           import ftplib, os
-
-          ftp = ftplib.FTP()
-          ftp.connect(os.environ["FTP_SERVER"], 21, timeout=30)
-          ftp.login(os.environ["FTP_USERNAME"], os.environ["FTP_PASSWORD"])
-
-          unused = (
-              "languages/fa_IR.po",
-              "languages/bajistyle.pot",
-              "assets/webfonts/fa-duotone-thin-100.woff2",
-              "assets/images/banner-instagram2.webp",
-              "assets/images/banner-bale2.webp",
-              "assets/images/top-banner-mobile2.gif",
-              "assets/webfonts/fa-jelly-fill-regular-400.woff2",
-              "assets/webfonts/fa-jelly-regular-400.woff2",
-          )
-          for path in unused:
-              try:
-                  ftp.delete(path)
-                  print("DELETED", path)
-              except ftplib.all_errors as exc:
-                  print("SKIP_DELETE", path, exc)
-
-          path = "functions.php"
-          try:
-              ftp.delete(path)
-              print("REMOVED_OLD", path)
-          except ftplib.all_errors as exc:
-              print("DELETE_OLD", path, exc)
-
-          with open(path, "rb") as fh:
-              ftp.storbinary("STOR " + path, fh, blocksize=8192)
-          print("RESTORED", path)
+          ftp=ftplib.FTP()
+          ftp.connect(os.environ["FTP_SERVER"],21,timeout=30)
+          ftp.login(os.environ["FTP_USERNAME"],os.environ["FTP_PASSWORD"])
+          with open("opcache-reset.php","rb") as fh:
+              ftp.storbinary("STOR opcache-reset.php",fh,blocksize=4096)
           ftp.quit()
+          print("RESET_ENDPOINT_UPLOADED")
           PY
 
       - name: Verify production
