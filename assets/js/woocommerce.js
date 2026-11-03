@@ -319,3 +319,86 @@ if (document.readyState === 'loading') {
 } else {
   initProductGallerySwipe();
 }
+
+
+/**
+ * Product 5117: direct swipe through the seven final distinct BAJI images.
+ * This bypasses stale/duplicate WordPress media records while keeping the
+ * visible product page clean and swipeable on mobile.
+ */
+function initBajiDirectSwipe5117() {
+  if (!document.body.classList.contains('postid-5117')) return;
+
+  var gallery = document.querySelector('.woocommerce-product-gallery');
+  if (!gallery || gallery.dataset.bajiDirectSwipeReady === '1') return;
+  gallery.dataset.bajiDirectSwipeReady = '1';
+
+  var images = [
+    'https://manage.bajistyle.ir/uploads/chatgpt/baji-bag-final-01-20261103-175137-4d212f.jpg',
+    'https://manage.bajistyle.ir/uploads/chatgpt/baji-bag-final-02-20261103-175423-fb329a.jpg',
+    'https://manage.bajistyle.ir/uploads/chatgpt/baji-bag-final-03-20261103-175456-2515e0.jpg',
+    'https://manage.bajistyle.ir/uploads/chatgpt/baji-bag-final-04-20261103-175459-eb08a8.jpg',
+    'https://manage.bajistyle.ir/uploads/chatgpt/baji-bag-final-05-20261103-175503-1bd0f3.jpg',
+    'https://manage.bajistyle.ir/uploads/chatgpt/baji-bag-final-06-20261103-175507-447377.jpg',
+    'https://manage.bajistyle.ir/uploads/chatgpt/baji-bag-final-07-20261103-175510-b09c58.jpg'
+  ];
+
+  var index = 0;
+  var startX = 0;
+  var startY = 0;
+  var tracking = false;
+
+  function getMainImage() {
+    return gallery.querySelector(
+      '.woocommerce-product-gallery__image.flex-active-slide img, ' +
+      '.woocommerce-product-gallery__image img, img.wp-post-image'
+    );
+  }
+
+  function render() {
+    var img = getMainImage();
+    if (!img) return;
+
+    var src = images[index];
+    img.src = src;
+    img.srcset = '';
+    img.removeAttribute('sizes');
+
+    var link = img.closest('a');
+    if (link) link.href = src;
+
+    gallery.dataset.bajiDirectSwipeIndex = String(index);
+  }
+
+  gallery.style.touchAction = 'pan-y';
+  render();
+
+  gallery.addEventListener('touchstart', function(e) {
+    if (!e.touches || e.touches.length !== 1) return;
+    startX = e.touches[0].clientX;
+    startY = e.touches[0].clientY;
+    tracking = true;
+  }, { passive: true });
+
+  gallery.addEventListener('touchend', function(e) {
+    if (!tracking || !e.changedTouches || !e.changedTouches.length) return;
+    tracking = false;
+
+    var dx = e.changedTouches[0].clientX - startX;
+    var dy = e.changedTouches[0].clientY - startY;
+
+    if (Math.abs(dx) < 45 || Math.abs(dx) <= Math.abs(dy)) return;
+
+    index += dx < 0 ? 1 : -1;
+    if (index < 0) index = images.length - 1;
+    if (index >= images.length) index = 0;
+
+    render();
+  }, { passive: true });
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initBajiDirectSwipe5117);
+} else {
+  initBajiDirectSwipe5117();
+}
