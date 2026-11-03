@@ -130,10 +130,123 @@ function showBajiToast( message ) {
  *
  * @since 1.0.0
  */
+
+/**
+ * اطمینان از راه‌اندازی گالری تصاویر محصول.
+ *
+ * در بعضی ترکیب‌های کش/دیفر، اسکریپت WooCommerce قبل از آماده‌شدن
+ * وابستگی‌ها اجرا نمی‌شود و فقط تصویر اول دیده می‌شود. این تابع ابتدا
+ * راه‌اندازی رسمی WooCommerce را دوباره امتحان می‌کند و اگر باز هم
+ * FlexSlider ساخته نشد، یک fallback سبک با thumbnail ایجاد می‌کند.
+ *
+ * @since 1.0.73
+ */
+function initProductGalleryFallback() {
+	const galleries = document.querySelectorAll( '.woocommerce-product-gallery' );
+
+	galleries.forEach( ( gallery ) => {
+		const images = Array.from( gallery.querySelectorAll( '.woocommerce-product-gallery__image' ) );
+		if ( images.length < 2 ) {
+			return;
+		}
+
+		const hasWooSlider = () =>
+			gallery.querySelector( '.flex-viewport' ) ||
+			gallery.querySelector( '.flex-control-thumbs' );
+
+		const retryWooGallery = () => {
+			if ( hasWooSlider() ) {
+				return true;
+			}
+
+			if (
+				typeof window.jQuery !== 'undefined' &&
+				window.jQuery.fn &&
+				typeof window.jQuery.fn.wc_product_gallery === 'function'
+			) {
+				try {
+					window.jQuery( gallery ).wc_product_gallery( window.wc_single_product_params || {} );
+				} catch ( error ) {
+					// fallback دستی پایین‌تر اجرا می‌شود.
+				}
+			}
+
+			return !! hasWooSlider();
+		};
+
+		// یک بار بعد از DOM ready و بار دیگر بعد از تکمیل load تلاش می‌کنیم.
+		window.setTimeout( () => {
+			if ( retryWooGallery() ) {
+				return;
+			}
+
+			window.setTimeout( () => {
+				if ( retryWooGallery() ) {
+					return;
+				}
+
+				// اگر هسته WooCommerce همچنان گالری را نسازد، fallback ساده و مستقل.
+				if ( gallery.classList.contains( 'baji-gallery-fallback-ready' ) ) {
+					return;
+				}
+
+				gallery.classList.add( 'baji-gallery-fallback-ready' );
+				let activeIndex = 0;
+
+				const wrapper = gallery.querySelector( '.woocommerce-product-gallery__wrapper' );
+				if ( ! wrapper ) {
+					return;
+				}
+
+				images.forEach( ( item, index ) => {
+					item.style.display = index === 0 ? 'block' : 'none';
+				} );
+
+				const thumbs = document.createElement( 'ol' );
+				thumbs.className = 'flex-control-thumbs baji-fallback-thumbs';
+
+				images.forEach( ( item, index ) => {
+					const img = item.querySelector( 'img' );
+					if ( ! img ) {
+						return;
+					}
+
+					const li = document.createElement( 'li' );
+					const thumb = document.createElement( 'img' );
+					thumb.src = item.dataset.thumb || img.currentSrc || img.src;
+					thumb.alt = item.dataset.thumbAlt || img.alt || '';
+					thumb.loading = 'lazy';
+					if ( index === 0 ) {
+						thumb.classList.add( 'flex-active' );
+					}
+
+					thumb.addEventListener( 'click', () => {
+						images[ activeIndex ].style.display = 'none';
+						const oldThumb = thumbs.querySelector( 'img.flex-active' );
+						if ( oldThumb ) {
+							oldThumb.classList.remove( 'flex-active' );
+						}
+
+						activeIndex = index;
+						images[ activeIndex ].style.display = 'block';
+						thumb.classList.add( 'flex-active' );
+					} );
+
+					li.appendChild( thumb );
+					thumbs.appendChild( li );
+				} );
+
+				wrapper.insertAdjacentElement( 'afterend', thumbs );
+			}, 900 );
+		}, 250 );
+	} );
+}
+
 function initBajiStyleWooCommerce() {
 	initVariationFeedback();
 	initAddToCartFeedback();
 	initCouponCopy();
+	initProductGalleryFallback();
 }
 
 if ( document.readyState === 'loading' ) {
