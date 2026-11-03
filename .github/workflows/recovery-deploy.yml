@@ -45,6 +45,7 @@ jobs:
           ftp.login(os.environ["FTP_USERNAME"], os.environ["FTP_PASSWORD"])
 
           unused = (
+              "assets/webfonts/fa-duotone-thin-100.woff2",
               "assets/images/banner-instagram2.webp",
               "assets/images/banner-bale2.webp",
               "assets/images/top-banner-mobile2.gif",
@@ -58,7 +59,7 @@ jobs:
               except ftplib.all_errors as exc:
                   print("SKIP_DELETE", path, exc)
 
-          path = "assets/js/woocommerce.js"
+          path = "woocommerce/single-product.php"
           try:
               ftp.delete(path)
               print("REMOVED_OLD", path)
