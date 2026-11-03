@@ -346,6 +346,7 @@ function initBajiDirectSwipe5117() {
   var index = 0;
   var startX = 0;
   var startY = 0;
+  var movedX = 0;
   var tracking = false;
 
   function getMainImage() {
@@ -353,6 +354,11 @@ function initBajiDirectSwipe5117() {
       '.woocommerce-product-gallery__image.flex-active-slide img, ' +
       '.woocommerce-product-gallery__image img, img.wp-post-image'
     );
+  }
+
+  function getTouchTarget() {
+    var img = getMainImage();
+    return img ? (img.closest('a') || img) : gallery;
   }
 
   function render() {
@@ -370,31 +376,50 @@ function initBajiDirectSwipe5117() {
     gallery.dataset.bajiDirectSwipeIndex = String(index);
   }
 
-  gallery.style.touchAction = 'pan-y';
+  function bindTarget(target) {
+    if (!target || target.dataset.bajiTouchBound === '1') return;
+    target.dataset.bajiTouchBound = '1';
+    target.style.touchAction = 'pan-y';
+
+    target.addEventListener('touchstart', function(e) {
+      if (!e.touches || e.touches.length !== 1) return;
+      startX = e.touches[0].clientX;
+      startY = e.touches[0].clientY;
+      movedX = 0;
+      tracking = true;
+    }, { passive: true });
+
+    target.addEventListener('touchmove', function(e) {
+      if (!tracking || !e.touches || e.touches.length !== 1) return;
+      movedX = e.touches[0].clientX - startX;
+    }, { passive: true });
+
+    target.addEventListener('touchend', function(e) {
+      if (!tracking || !e.changedTouches || !e.changedTouches.length) return;
+      tracking = false;
+
+      var dx = e.changedTouches[0].clientX - startX;
+      var dy = e.changedTouches[0].clientY - startY;
+
+      if (Math.abs(dx) < 35 || Math.abs(dx) <= Math.abs(dy)) return;
+
+      index += dx < 0 ? 1 : -1;
+      if (index < 0) index = images.length - 1;
+      if (index >= images.length) index = 0;
+
+      render();
+    }, { passive: true });
+  }
+
   render();
+  bindTarget(getTouchTarget());
 
-  gallery.addEventListener('touchstart', function(e) {
-    if (!e.touches || e.touches.length !== 1) return;
-    startX = e.touches[0].clientX;
-    startY = e.touches[0].clientY;
-    tracking = true;
-  }, { passive: true });
-
-  gallery.addEventListener('touchend', function(e) {
-    if (!tracking || !e.changedTouches || !e.changedTouches.length) return;
-    tracking = false;
-
-    var dx = e.changedTouches[0].clientX - startX;
-    var dy = e.changedTouches[0].clientY - startY;
-
-    if (Math.abs(dx) < 45 || Math.abs(dx) <= Math.abs(dy)) return;
-
-    index += dx < 0 ? 1 : -1;
-    if (index < 0) index = images.length - 1;
-    if (index >= images.length) index = 0;
-
-    render();
-  }, { passive: true });
+  // WooCommerce/FlexSlider may replace the image/link node after load.
+  // Re-bind if that happens.
+  var observer = new MutationObserver(function() {
+    bindTarget(getTouchTarget());
+  });
+  observer.observe(gallery, { childList: true, subtree: true });
 }
 
 if (document.readyState === 'loading') {
