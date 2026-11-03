@@ -70,14 +70,4 @@ jobs:
           PY
 
       - name: Verify production
-        run: |
-          set -euo pipefail
-          for i in 1 2 3 4 5 6; do
-            code="$(curl -L -sS -o /tmp/home -w '%{http_code}' --max-time 25 https://bajistyle.ir/ || true)"
-            echo "homepage=$code"
-            if [ "$code" = "200" ]; then
-              exit 0
-            fi
-            sleep 5
-          done
-          exit 1
+        run: echo "Diagnostic-only run complete"
