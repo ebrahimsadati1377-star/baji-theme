@@ -32,7 +32,7 @@ jobs:
           php -l template-parts/home-category-products.php >/dev/null
           php -l template-parts/sale-products.php >/dev/null
 
-      - name: Deploy product gallery template
+      - name: Free unused legacy WOFF files and deploy product gallery template
         env:
           FTP_SERVER: ${{ secrets.FTP_SERVER }}
           FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
@@ -44,12 +44,19 @@ jobs:
           ftp.connect(os.environ["FTP_SERVER"],21,timeout=30)
           ftp.login(os.environ["FTP_USERNAME"],os.environ["FTP_PASSWORD"])
 
-          for old in ("cache-purge.php","opcache-reset.php"):
+          unused=(
+              "assets/fonts/vazirmatn/Vazir-Light-FD.woff",
+              "assets/fonts/vazirmatn/Vazir-Black-FD.woff",
+              "assets/fonts/vazirmatn/Vazir-Bold-FD.woff",
+              "assets/fonts/vazirmatn/Vazir-Medium-FD.woff",
+              "assets/fonts/vazirmatn/Vazir-Thin-FD.woff",
+          )
+          for old in unused:
               try:
                   ftp.delete(old)
-                  print("REMOVED_TEMP", old)
-              except ftplib.all_errors:
-                  pass
+                  print("DELETED_UNUSED",old)
+              except ftplib.all_errors as exc:
+                  print("SKIP_UNUSED",old,exc)
 
           path="woocommerce/single-product.php"
           try:
