@@ -48,65 +48,65 @@ get_header();
 				<?php
 				do_action( 'woocommerce_before_single_product_summary' );
 
-				// Server-rendered gallery fallback.
-				// Product 5117 uses the final seven distinct BAJI images directly
-				// from WC Manager so stale/duplicate WordPress media IDs cannot interfere.
+				// Native mobile swipe gallery for product 5117.
+				// Uses pure horizontal scrolling + CSS scroll-snap; no JS touch handlers.
 				if ( 5117 === (int) $product->get_id() ) :
 					$direct_gallery = array(
-						array( 'url' => 'https://manage.bajistyle.ir/uploads/chatgpt/baji-bag-final-01-20261103-175137-4d212f.jpg', 'alt' => 'نمای اصلی کیف دوشی زنانه قهوه‌ای باجی' ),
-						array( 'url' => 'https://manage.bajistyle.ir/uploads/chatgpt/baji-bag-final-02-20261103-175423-fb329a.jpg', 'alt' => 'نمای سه رخ کیف دوشی زنانه قهوه‌ای باجی' ),
-						array( 'url' => 'https://manage.bajistyle.ir/uploads/chatgpt/baji-bag-final-03-20261103-175456-2515e0.jpg', 'alt' => 'نمای کناری کیف دوشی زنانه قهوه‌ای باجی' ),
-						array( 'url' => 'https://manage.bajistyle.ir/uploads/chatgpt/baji-bag-final-04-20261103-175459-eb08a8.jpg', 'alt' => 'نمای زاویه بالا و کف کیف دوشی زنانه قهوه‌ای باجی' ),
-						array( 'url' => 'https://manage.bajistyle.ir/uploads/chatgpt/baji-bag-final-05-20261103-175503-1bd0f3.jpg', 'alt' => 'جزئیات بند و یراق کیف دوشی زنانه قهوه‌ای باجی' ),
-						array( 'url' => 'https://manage.bajistyle.ir/uploads/chatgpt/baji-bag-final-06-20261103-175507-447377.jpg', 'alt' => 'فضای داخلی کیف دوشی زنانه قهوه‌ای باجی' ),
-						array( 'url' => 'https://manage.bajistyle.ir/uploads/chatgpt/baji-bag-final-07-20261103-175510-b09c58.jpg', 'alt' => 'استایل کیف دوشی زنانه قهوه‌ای باجی روی دوش' ),
+						'https://manage.bajistyle.ir/uploads/chatgpt/baji-bag-final-01-20261103-175137-4d212f.jpg',
+						'https://manage.bajistyle.ir/uploads/chatgpt/baji-bag-final-02-20261103-175423-fb329a.jpg',
+						'https://manage.bajistyle.ir/uploads/chatgpt/baji-bag-final-03-20261103-175456-2515e0.jpg',
+						'https://manage.bajistyle.ir/uploads/chatgpt/baji-bag-final-04-20261103-175459-eb08a8.jpg',
+						'https://manage.bajistyle.ir/uploads/chatgpt/baji-bag-final-05-20261103-175503-1bd0f3.jpg',
+						'https://manage.bajistyle.ir/uploads/chatgpt/baji-bag-final-06-20261103-175507-447377.jpg',
+						'https://manage.bajistyle.ir/uploads/chatgpt/baji-bag-final-07-20261103-175510-b09c58.jpg',
 					);
 					?>
-					<div class="baji-server-gallery-fallback" data-product-gallery-fallback="<?php echo esc_attr( $product->get_id() ); ?>">
-						<div class="baji-server-gallery-thumbs" role="list" aria-label="<?php esc_attr_e( 'تصاویر محصول', 'bajistyle' ); ?>">
-							<?php foreach ( $direct_gallery as $index => $item ) : ?>
-								<button type="button"
-									class="baji-server-gallery-thumb<?php echo 0 === $index ? ' is-active' : ''; ?>"
-									data-full="<?php echo esc_url( $item['url'] ); ?>"
-									aria-label="<?php echo esc_attr( sprintf( 'تصویر %d محصول', $index + 1 ) ); ?>">
-									<img src="<?php echo esc_url( $item['url'] ); ?>" alt="<?php echo esc_attr( $item['alt'] ); ?>" loading="lazy">
-								</button>
-							<?php endforeach; ?>
-						</div>
-					</div>
 					<style>
-						.baji-product-gallery-wrapper .flex-control-thumbs{display:none!important}
-						.baji-server-gallery-thumbs{display:flex;gap:10px;overflow-x:auto;margin-top:12px;padding:2px 0 8px;scrollbar-width:thin}
-						.baji-server-gallery-thumb{flex:0 0 72px;width:72px;height:90px;padding:0;border:1px solid #e5e7eb;background:#fff;border-radius:8px;overflow:hidden;cursor:pointer;opacity:.72}
-						.baji-server-gallery-thumb.is-active{opacity:1;border-color:#c9a227;box-shadow:0 0 0 1px #c9a227}
-						.baji-server-gallery-thumb img{width:100%;height:100%;object-fit:cover;display:block}
-					</style>
-					<script>
-					(function(){
-						function initBajiDirectGallery(){
-							document.querySelectorAll('.baji-server-gallery-fallback').forEach(function(fallback){
-								var gallery = fallback.closest('.baji-product-gallery-wrapper');
-								if(!gallery) return;
-								var buttons = fallback.querySelectorAll('.baji-server-gallery-thumb');
-								var main = gallery.querySelector('.woocommerce-product-gallery__image.flex-active-slide img, .woocommerce-product-gallery__image img, img.wp-post-image');
-								if(main && buttons.length){
-									var first = buttons[0].getAttribute('data-full');
-									if(first){ main.src=first; main.srcset=''; var a=main.closest('a'); if(a) a.href=first; }
-								}
-								buttons.forEach(function(btn){
-									btn.addEventListener('click',function(){
-										var src=btn.getAttribute('data-full');
-										var img=gallery.querySelector('.woocommerce-product-gallery__image.flex-active-slide img, .woocommerce-product-gallery__image img, img.wp-post-image');
-										if(img && src){ img.src=src; img.srcset=''; var link=img.closest('a'); if(link) link.href=src; }
-										buttons.forEach(function(x){x.classList.remove('is-active');});
-										btn.classList.add('is-active');
-									});
-								});
-							});
+						#product-<?php echo (int) $product->get_id(); ?> .woocommerce-product-gallery{display:none!important}
+						.baji-native-swipe-5117{
+							display:flex;
+							overflow-x:auto;
+							overflow-y:hidden;
+							width:100%;
+							scroll-snap-type:x mandatory;
+							-webkit-overflow-scrolling:touch;
+							scrollbar-width:none;
+							touch-action:pan-x pan-y;
+							overscroll-behavior-x:contain;
+							border-radius:14px;
 						}
-						if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',initBajiDirectGallery);}else{initBajiDirectGallery();}
-					})();
-					</script>
+						.baji-native-swipe-5117::-webkit-scrollbar{display:none}
+						.baji-native-swipe-5117 .baji-native-slide{
+							flex:0 0 100%;
+							width:100%;
+							scroll-snap-align:start;
+							scroll-snap-stop:always;
+						}
+						.baji-native-swipe-5117 img{
+							display:block;
+							width:100%;
+							height:auto;
+							object-fit:contain;
+							user-select:none;
+							-webkit-user-drag:none;
+						}
+						.baji-native-swipe-hint{
+							text-align:center;
+							font-size:12px;
+							color:#777;
+							margin-top:7px;
+						}
+					</style>
+					<div class="baji-native-swipe-5117" dir="ltr" aria-label="گالری تصاویر محصول">
+						<?php foreach ( $direct_gallery as $index => $url ) : ?>
+							<div class="baji-native-slide">
+								<img src="<?php echo esc_url( $url ); ?>"
+									alt="<?php echo esc_attr( sprintf( 'تصویر %d کیف دوشی زنانه قهوه‌ای باجی', $index + 1 ) ); ?>"
+									<?php echo 0 === $index ? 'loading="eager"' : 'loading="lazy"'; ?>>
+							</div>
+						<?php endforeach; ?>
+					</div>
+					<div class="baji-native-swipe-hint">برای دیدن تصاویر بعدی، روی عکس به چپ یا راست بکشید</div>
 				<?php endif; ?>
 			</div>
 
