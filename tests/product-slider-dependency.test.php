@@ -24,6 +24,7 @@ $checks = array(
     'Independent slider retry' => str_contains( $js, 'window.setTimeout(initBajiProductSliders, attempts * 600)' ),
     'Partial instance recovery' => str_contains( $js, 'slider.swiper.initialized' ),
     'Per-slider error containment' => str_contains( $js, 'BAJI product slider could not initialize' ),
+    'No undefined Swiper navigation' => ! str_contains( $js, '} : undefined,\n        });' ) && str_contains( $js, '...(nextEl && prevEl ? {' ),
 );
 $failures = 0;
 foreach ( $checks as $name => $ok ) {
