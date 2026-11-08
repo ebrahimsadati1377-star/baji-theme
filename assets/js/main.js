@@ -524,10 +524,14 @@ function initBajiProductSliders() {
                 el: paginationEl,
                 clickable: true,
             } : undefined,
-            navigation: (nextEl && prevEl) ? {
-                nextEl,
-                prevEl,
-            } : undefined,
+            // Swiper 11 throws during pagination initialization if an absent
+            // navigation module is passed explicitly as undefined.
+            ...(nextEl && prevEl ? {
+                navigation: {
+                    nextEl,
+                    prevEl,
+                }
+            } : {}),
             });
         } catch (error) {
             const attempts = Number(slider.dataset.bajiSwiperAttempts || 0) + 1;
