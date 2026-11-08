@@ -483,13 +483,24 @@ function initBajiProductSliders() {
     };
 
     sliderElements.forEach((slider) => {
-        if (slider.swiper && !slider.swiper.destroyed) return;
+        // A failed Swiper constructor may leave a partially attached instance.
+        // Only a fully initialized instance should prevent subsequent retries.
+        if (slider.swiper && slider.swiper.initialized && !slider.swiper.destroyed) return;
+        if (slider.swiper && !slider.swiper.destroyed) {
+            try {
+                slider.swiper.destroy(true, true);
+            } catch (error) {
+                // A partially constructed instance may not support cleanup.
+            }
+        }
 
         const paginationEl = slider.querySelector('.swiper-pagination');
         const nextEl = slider.querySelector('.swiper-button-next');
         const prevEl = slider.querySelector('.swiper-button-prev');
 
-        const swiper = new window.Swiper(slider, {
+        let swiper;
+        try {
+            swiper = new window.Swiper(slider, {
             slidesPerView: 2.08,
             spaceBetween: 10,
             watchOverflow: true,
@@ -513,12 +524,30 @@ function initBajiProductSliders() {
                 el: paginationEl,
                 clickable: true,
             } : undefined,
-            navigation: (nextEl && prevEl) ? {
-                nextEl,
-                prevEl,
-            } : undefined,
-        });
+            // Swiper 11 throws during pagination initialization if an absent
+            // navigation module is passed explicitly as undefined.
+            ...(nextEl && prevEl ? {
+                navigation: {
+                    nextEl,
+                    prevEl,
+                }
+            } : {}),
+            });
+        } catch (error) {
+            const attempts = Number(slider.dataset.bajiSwiperAttempts || 0) + 1;
+            slider.dataset.bajiSwiperAttempts = String(attempts);
+            slider.classList.remove('swiper-initialized', 'baji-products-slider--ready');
+            // Keep the other carousels initializing; retry any failed one after
+            // layout and assets have settled. CSS handles the no-JS state.
+            if (attempts < 4) {
+                window.setTimeout(initBajiProductSliders, attempts * 600);
+            } else {
+                console.warn('BAJI product slider could not initialize', error);
+            }
+            return;
+        }
 
+        slider.dataset.bajiSwiperAttempts = '0';
         slider.classList.add('baji-products-slider--ready');
 
         const equalize = () => equalizeSliderCards(slider);
