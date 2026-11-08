@@ -35,6 +35,7 @@ ftp = ftplib.FTP()
 ftp.connect(os.environ["FTP_SERVER"], 21, timeout=35)
 ftp.login(os.environ["FTP_USERNAME"], os.environ["FTP_PASSWORD"])
 ftp.set_pasv(True)
+ftp.voidcmd("TYPE I")
 
 # Verify the FTP root actually points at the installed theme.
 try:
