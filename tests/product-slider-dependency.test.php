@@ -21,6 +21,9 @@ $checks = array(
     'Desktop columns' => str_contains( $css, 'repeat(6, minmax(0, 1fr)) !important' ),
     'Fallback only before initialization' => str_contains( $css, ':not(.swiper-initialized) .swiper-wrapper' ),
     'Existing Swiper logic' => str_contains( $js, 'initBajiProductSliders()' ),
+    'Independent slider retry' => str_contains( $js, 'window.setTimeout(initBajiProductSliders, attempts * 600)' ),
+    'Partial instance recovery' => str_contains( $js, 'slider.swiper.initialized' ),
+    'Per-slider error containment' => str_contains( $js, 'BAJI product slider could not initialize' ),
 );
 $failures = 0;
 foreach ( $checks as $name => $ok ) {
