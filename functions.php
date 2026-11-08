@@ -752,8 +752,19 @@ function baji_hide_my_account_from_menu($items, $args) {
 
 
 function baji_enqueue_swiper() {
-    wp_enqueue_style('swiper-css', 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css', array(), '11.0.0');
-    wp_enqueue_script('swiper-js', 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js', array(), '11.0.0', true);
+    wp_enqueue_style(
+        'swiper-css',
+        BAJISTYLE_URI . '/assets/vendor/swiper/swiper-bundle.min.css',
+        array(),
+        '11.0.0'
+    );
+    wp_enqueue_script(
+        'swiper-js',
+        BAJISTYLE_URI . '/assets/vendor/swiper/swiper-bundle.min.js',
+        array(),
+        '11.0.0',
+        true
+    );
 }
 add_action('wp_enqueue_scripts', 'baji_enqueue_swiper');
 
