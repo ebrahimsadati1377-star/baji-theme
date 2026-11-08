@@ -1,0 +1,85 @@
+name: EMERGENCY restore BAJI functions.php only
+
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/baji-emergency-restore.yml']
+
+permissions:
+  contents: read
+
+jobs:
+  restore:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: 5edd3560862df90dc55886db285ef3b5184d80bd
+      - name: Restore previous known good functions.php
+        env:
+          FTP_SERVER: ${{ secrets.FTP_SERVER }}
+          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+        run: |
+          python3 - <<'PY'
+          import ftplib,os,pathlib,time,hashlib,sys
+          src=pathlib.Path("functions.php")
+          assert src.exists() and src.stat().st_size > 30000
+          print("SOURCE_SHA256",hashlib.sha256(src.read_bytes()).hexdigest())
+          ftp=ftplib.FTP()
+          ftp.connect(os.environ["FTP_SERVER"],21,timeout=30)
+          ftp.login(os.environ["FTP_USERNAME"],os.environ["FTP_PASSWORD"])
+          ftp.voidcmd("TYPE I")
+          try:
+              print("REMOTE_SIZE_BEFORE",ftp.size("functions.php"))
+          except Exception as e:
+              print("REMOTE_SIZE_UNAVAILABLE",repr(e))
+          ok=False
+          for attempt in range(1,4):
+              try:
+                  with src.open("rb") as h:
+                      ftp.storbinary("STOR functions.php",h,blocksize=4096)
+                  actual=ftp.size("functions.php")
+                  print("RESTORED_SIZE",actual)
+                  if actual == src.stat().st_size:
+                      ok=True
+                      break
+              except ftplib.all_errors as e:
+                  print("UPLOAD_ATTEMPT_FAILED",attempt,repr(e))
+                  try: ftp.voidcmd("NOOP")
+                  except ftplib.all_errors:
+                      try: ftp.close()
+                      except Exception: pass
+                      ftp=ftplib.FTP()
+                      ftp.connect(os.environ["FTP_SERVER"],21,timeout=30)
+                      ftp.login(os.environ["FTP_USERNAME"],os.environ["FTP_PASSWORD"])
+                      ftp.voidcmd("TYPE I")
+                  if attempt==1:
+                      # Original is already broken; removing its partial bytes may
+                      # recover the hosting account's disk allocation.
+                      try:
+                          ftp.delete("functions.php")
+                          print("REMOVED_TRUNCATED_FUNCTIONS")
+                      except ftplib.all_errors as delete_error:
+                          print("DELETE_UNAVAILABLE",repr(delete_error))
+                  time.sleep(2)
+          ftp.quit()
+          if not ok:
+              print("EMERGENCY_RESTORE_FAILED",file=sys.stderr)
+              sys.exit(1)
+          print("EMERGENCY_RESTORE_FINISHED")
+          PY
+      - name: Verify site homepage status
+        run: |
+          python3 - <<'PY'
+          import urllib.request,time
+          for i in range(6):
+              try:
+                  with urllib.request.urlopen("https://bajistyle.ir/?baji_emergency="+str(i),timeout=15) as r:
+                      print("HTTP",r.status)
+                      if r.status==200: quit(0)
+              except Exception as e: print("CHECK",str(e))
+              time.sleep(5)
+          quit(1)
+          PY
