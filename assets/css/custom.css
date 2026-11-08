@@ -3176,3 +3176,47 @@ body.home .baji-best-sellers .baji-products-slider .baji-product-buy-cta{
         max-height:44px !important;
     }
 }
+
+
+/*
+ * Product slider no-JS fallback (desktop/tablet).
+ * Without Swiper initialization the wrapper must not collapse to a single
+ * full-width product. Mobile has a separate horizontal-scroll fallback.
+ */
+@media (min-width: 768px) {
+  body.home .baji-front-page .baji-products-slider:not(.swiper-initialized) .swiper-wrapper {
+    display: grid !important;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: 20px !important;
+    width: 100% !important;
+    height: auto !important;
+    transform: none !important;
+  }
+
+  body.home .baji-front-page .baji-products-slider:not(.swiper-initialized) .swiper-slide {
+    display: block;
+    width: auto !important;
+    min-width: 0 !important;
+    margin-right: 0 !important;
+    height: auto !important;
+  }
+
+  body.home .baji-front-page .baji-products-slider:not(.swiper-initialized) .swiper-slide > div.relative {
+    aspect-ratio: 3 / 4;
+    height: auto !important;
+    overflow: hidden;
+  }
+
+  body.home .baji-front-page .baji-products-slider:not(.swiper-initialized) .swiper-slide > div.relative img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover;
+  }
+}
+
+@media (min-width: 1024px) {
+  body.home .baji-front-page .baji-products-slider:not(.swiper-initialized) .swiper-wrapper {
+    grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
+    gap: 24px !important;
+  }
+}
