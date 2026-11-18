@@ -2,10 +2,12 @@
 # native-swipe-deploy-5117
 name: Emergency PHP recovery deploy
 
-# Temporarily manual-only while the FTP account is over quota.
-# Auto-run would delete the active single-product template before uploading.
 on:
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'woocommerce/single-product.php'
 
 permissions:
   contents: read
