@@ -51,8 +51,18 @@ get_header();
 				// Native mobile swipe gallery for selected products.
 				// Uses pure horizontal scrolling + CSS scroll-snap; no JS touch handlers.
 				$product_id = (int) $product->get_id();
-				if ( in_array( $product_id, array( 5117, 5122 ), true ) ) :
-					if ( 5122 === $product_id ) {
+				if ( in_array( $product_id, array( 5117, 5122, 5144 ), true ) ) :
+					if ( 5144 === $product_id ) {
+						$direct_gallery = array(
+							'https://manage.bajistyle.ir/uploads/chatgpt/baji-olive-cotton-vest-01-20261118-092116-addba9.png',
+							'https://manage.bajistyle.ir/uploads/chatgpt/baji-olive-cotton-vest-02-20261118-092119-abb5f3.png',
+							'https://manage.bajistyle.ir/uploads/chatgpt/baji-olive-cotton-vest-03-20261118-092121-bf14ce.png',
+							'https://manage.bajistyle.ir/uploads/chatgpt/baji-olive-cotton-vest-04-20261118-092124-ac4d8a.png',
+							'https://manage.bajistyle.ir/uploads/chatgpt/baji-olive-cotton-vest-05-20261118-092126-e67a3a.png',
+							'https://manage.bajistyle.ir/uploads/chatgpt/baji-olive-cotton-vest-06-20261118-092128-63ea7d.jpg',
+							'https://manage.bajistyle.ir/uploads/chatgpt/baji-olive-cotton-vest-07-20261118-092131-db8abe.jpg',
+						);
+					} elseif ( 5122 === $product_id ) {
 						$direct_gallery = array(
 							'https://manage.bajistyle.ir/uploads/chatgpt/baji-motif-hat-final-01.jpg',
 							'https://manage.bajistyle.ir/uploads/chatgpt/baji-motif-hat-final-02.jpg',
