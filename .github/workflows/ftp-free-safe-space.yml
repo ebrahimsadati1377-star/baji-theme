@@ -44,7 +44,7 @@ jobs:
               try: ftp.rmd(path); print("RMD",path)
               except Exception as e: print("RMD_ERR",path,repr(e))
 
-          for p in ("functions_old.php","tailwind.config.js","readme.txt","assets/images/about-story.webp","assets/images/banner-instagram.webp","assets/images/banner-bale.webp","assets/images/top-banner-mobile.gif"):
+          for p in ("functions_old.php","tailwind.config.js","readme.txt","assets/images/about-story.webp","assets/images/banner-instagram.webp","assets/images/banner-bale.webp","assets/images/top-banner-mobile.gif","assets/webfonts/fa-duotone-thin-100.woff2","assets/webfonts/fa-duotone-light-300.woff2","assets/webfonts/fa-duotone-regular-400.woff2"):
               try:
                   s=ftp.size(p)
               except Exception:
