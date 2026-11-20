@@ -44,7 +44,7 @@ jobs:
               try: ftp.rmd(path); print("RMD",path)
               except Exception as e: print("RMD_ERR",path,repr(e))
 
-          for p in ("functions_old.php","tailwind.config.js","readme.txt"):
+          for p in ("functions_old.php","tailwind.config.js","readme.txt","assets/images/about-story.webp"):
               try:
                   s=ftp.size(p)
               except Exception:
@@ -57,7 +57,7 @@ jobs:
           for d in ("tests","documentation","memory"):
               rm_tree(d)
 
-          for size in (65536,262144,524288):
+          for size in (262144,524288,1048576):
               name=f".quota-probe-{size}.bin"
               try:
                   ftp.storbinary("STOR "+name, io.BytesIO(b"0"*size), blocksize=8192)
