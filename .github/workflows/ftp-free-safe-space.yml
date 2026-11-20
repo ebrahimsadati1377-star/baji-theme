@@ -1,0 +1,72 @@
+name: Free safe theme space
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/ftp-free-safe-space.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Delete development-only and backup files, then probe write
+        env:
+          FTP_SERVER: ${{ secrets.FTP_SERVER }}
+          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+        run: |
+          python3 - <<'PY'
+          import ftplib, os, io
+          ftp=ftplib.FTP()
+          ftp.connect(os.environ["FTP_SERVER"],21,timeout=30)
+          ftp.login(os.environ["FTP_USERNAME"],os.environ["FTP_PASSWORD"])
+
+          def rm_tree(path):
+              try:
+                  entries=list(ftp.mlsd(path))
+              except Exception as e:
+                  print("SKIP_DIR",path,repr(e)); return
+              for name,attrs in entries:
+                  if name in (".",".."): continue
+                  p=path.rstrip("/")+"/"+name
+                  if attrs.get("type")=="dir":
+                      rm_tree(p)
+                      try: ftp.rmd(p); print("RMD",p)
+                      except Exception as e: print("RMD_ERR",p,repr(e))
+                  else:
+                      try: ftp.delete(p); print("DEL",p,attrs.get("size"))
+                      except Exception as e: print("DEL_ERR",p,repr(e))
+              try: ftp.rmd(path); print("RMD",path)
+              except Exception as e: print("RMD_ERR",path,repr(e))
+
+          for p in ("functions_old.php","tailwind.config.js","readme.txt"):
+              try:
+                  s=ftp.size(p)
+              except Exception:
+                  s=None
+              try:
+                  ftp.delete(p); print("DEL",p,s)
+              except Exception as e:
+                  print("DEL_ERR",p,repr(e))
+
+          for d in ("tests","documentation","memory"):
+              rm_tree(d)
+
+          for size in (65536,262144,524288):
+              name=f".quota-probe-{size}.bin"
+              try:
+                  ftp.storbinary("STOR "+name, io.BytesIO(b"0"*size), blocksize=8192)
+                  print("PROBE_OK",size)
+                  ftp.delete(name)
+              except Exception as e:
+                  print("PROBE_FAIL",size,repr(e))
+                  try: ftp.delete(name)
+                  except Exception: pass
+                  break
+          ftp.quit()
+          PY
